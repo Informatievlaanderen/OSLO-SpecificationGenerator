@@ -99,4 +99,4 @@ All bugs, enhancements and issues are managed on [GitHub](https://github.com/Inf
 
 ## Contact (this branch only)
 
-* [Informatie Vlaanderen](mailto:info@kb.vlaanderen.be)
+* [Informatie Vlaanderen](mailto:oslo@kb.vlaanderen.be)
