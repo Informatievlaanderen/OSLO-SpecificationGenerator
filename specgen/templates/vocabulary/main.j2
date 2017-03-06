@@ -1,0 +1,472 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html lang="en" dir="ltr" typeof="bibo:Document " about="" property="dcterms:language" content="en" prefix="bibo: http://purl.org/ontology/bibo/ w3p: http://www.w3.org/2001/02pd/rec54#" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset='utf-8' />
+    <title>{{ record['metadata']['title'] }}</title>
+    <style>
+    /*****************************************************************
+     * ReSpec 3 CSS
+     * Robin Berjon - http://berjon.com/
+     *****************************************************************/
+    /* --- INLINES --- */
+    em.rfc2119 {
+        text-transform:     lowercase;
+        font-variant:       small-caps;
+        font-style:         normal;
+        color:              #900;
+    }
+    h1 acronym, h2 acronym, h3 acronym, h4 acronym, h5 acronym, h6 acronym, a acronym,
+    h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr, a abbr {
+        border: none;
+    }
+    dfn {
+        font-weight:    bold;
+    }
+    a.internalDFN {
+        color:  inherit;
+        border-bottom:  1px solid #99c;
+        text-decoration:    none;
+    }
+    a.externalDFN {
+        color:  inherit;
+        border-bottom:  1px dotted #ccc;
+        text-decoration:    none;
+    }
+    a.bibref {
+        text-decoration:    none;
+    }
+    cite .bibref {
+        font-style: normal;
+    }
+    code {
+        color:  #ff4500;
+    }
+    /* --- TOC --- */
+    .toc a, .tof a {
+        text-decoration:    none;
+    }
+    a .secno, a .figno {
+        color:  #000;
+    }
+    ul.tof, ol.tof {
+        list-style: none outside none;
+    }
+    .caption {
+        margin-top: 0.5em;
+        font-style:   italic;
+    }
+    /* --- TABLE --- */
+    table.simple {
+        border-spacing: 0;
+        border-collapse:    collapse;
+        border-bottom:  3px solid #005a9c;
+    }
+    .simple th {
+        background: #005a9c;
+        color:  #fff;
+        padding:    3px 5px;
+        text-align: left;
+    }
+    .simple th[scope="row"] {
+        background: inherit;
+        color:  inherit;
+        border-top: 1px solid #ddd;
+    }
+    .simple td {
+        padding:    3px 10px;
+        border-top: 1px solid #ddd;
+    }
+    .simple tr:nth-child(even) {
+        background: #f0f6ff;
+    }
+    /* --- DL --- */
+    .section dd > p:first-child {
+        margin-top: 0;
+    }
+    .section dd > p:last-child {
+        margin-bottom: 0;
+    }
+    .section dd {
+        margin-bottom:  1em;
+    }
+    .section dl.attrs dd, .section dl.eldef dd {
+        margin-bottom:  0;
+    }
+    </style>
+    <style>
+    /* Style for an Unofficial Draft Proposal */
+
+    /*
+       Copyright 1997-2003 W3C (MIT, ERCIM, Keio). All Rights Reserved.
+       The following software licensing rules apply:
+       http://www.w3.org/Consortium/Legal/copyright-software */
+
+
+    body {
+      padding: 2em 1em 2em 70px;
+      margin: 0;
+      font-family: sans-serif;
+      color: black;
+      background: white;
+      background-position: top left;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+    }
+    :link { color: #00C; background: transparent }
+    :visited { color: #609; background: transparent }
+    a:active { color: #C00; background: transparent }
+
+    a:link img, a:visited img { border-style: none } /* no border on img links */
+
+    a img { color: white; }        /* trick to hide the border in Netscape 4 */
+    @media all {                   /* hide the next rule from Netscape 4 */
+      a img { color: inherit; }    /* undo the color change above */
+    }
+
+    th, td { /* ns 4 */
+      font-family: sans-serif;
+    }
+
+    h1, h2, h3, h4, h5, h6 { text-align: left }
+    /* background should be transparent, but WebTV has a bug */
+    h1, h2, h3 { color: #005A9C; }
+    h1 { font: 170% sans-serif }
+    h2 { font: 140% sans-serif }
+    h3 { font: 120% sans-serif }
+    h4 { font: bold 100% sans-serif }
+    h5 { font: italic 100% sans-serif }
+    h6 { font: small-caps 100% sans-serif }
+
+    .hide { display: none }
+
+    div.head { margin-bottom: 1em }
+    div.head h1 { margin-top: 2em; clear: both }
+    div.head table { margin-left: 2em; margin-top: 2em }
+
+    p.copyright { font-size: small }
+    p.copyright small { font-size: small }
+
+    table {
+        font-family: verdana,arial,sans-serif;
+        font-size:11px;
+        color:#333333;
+        border-width: 1px;
+        border-color: #666666;
+        border-collapse: collapse;
+        margin-top: 2em;
+    }
+    table th {
+        border-width: 1px;
+        padding: 8px;
+        border-style: solid;
+        border-color: #666666;
+        background-color: #dedede;
+    }
+    table td {
+        border-width: 1px;
+        padding: 8px;
+        border-style: solid;
+        border-color: #666666;
+        background-color: #ffffff;
+    }
+
+    @media screen {  /* hide from IE3 */
+    a[href]:hover { background: #ffa }
+    }
+
+    pre { margin-left: 2em }
+    /*
+    p {
+      margin-top: 0.6em;
+      margin-bottom: 0.6em;
+    }
+    */
+    dt, dd { margin-top: 0; margin-bottom: 0 } /* opera 3.50 */
+    dt { font-weight: bold }
+
+    pre, code { font-family: monospace } /* navigator 4 requires this */
+
+    ul.toc, ol.toc {
+      list-style: disc;		/* Mac NS has problem with 'none' */
+      list-style: none;
+    }
+
+    @media aural {
+      h1, h2, h3 { stress: 20; richness: 90 }
+      .hide { speak: none }
+      p.copyright { volume: x-soft; speech-rate: x-fast }
+      dt { pause-before: 63ms }
+      pre { speak-punctuation: code }
+    }
+
+
+
+    body {
+      /*background-image: url(http://www.w3.org/StyleSheets/TR/logo-unofficial.png);*/
+    }
+
+
+    .content {
+      background-image: url(http://www.w3.org/StyleSheets/TR/watermark-unoffficial.png);
+      background-repeat: repeat;
+      background-attachment: fixed;
+    }
+
+    .disclaimer {
+      font-weight: bold;
+      font-style: italic;
+      color: red;
+    }
+
+    .diff-new {
+      background-color: yellow;
+    }
+    .diff-chg {
+      background-color: lime;
+    }
+    .diff-new:before,
+    .diff-new:after {
+      content: "\2191";
+    }
+    .diff-chg:before,
+    .diff-chg:after {
+      content: "\2195";
+    }
+    .diff-old {
+      text-decoration: line-through;
+      background-color: #FBB;
+    }
+    .diff-old:before,
+    .diff-old:after {
+      content: "\2193";
+    }
+    </style>
+    <!--[if lt IE 9]><script src='https://www.w3.org/2008/site/js/html5shiv.js'></script><![endif]-->
+  </head>
+    <body class="h-entry" role="document" id="respecDocument">
+    <div class="head" role="contentinfo" id="respecHeader">
+    <h1 property="dcterms:title" id="title" class="title p-name">{{ record['metadata']['title'] }}</h1>
+    <h2 id="subtitle" property="bibo:subtitle">Specification of {{ record['metadata']['prefix'] }}</h2>
+    <h2 content="{{ record['metadata']['issued'] }}" datatype="xsd:dateTime" property="dcterms:issued" id="draft-{{ record['metadata']['issued'] }}">Version released <time datetime="{{ record['metadata']['issued'] }}" class="dt-published">{{ record['metadata']['issued'] }}</time></h2>
+    <dl>
+        <dt>Latest Modification</dt>
+
+        <dd>{{ record['metadata']['modified'] }}
+        </dd>
+
+        <dt>Latest Version URI:</dt>
+
+        <dd><a href="{{ record['metadata']['uri'] }}">{{ record['metadata']['uri'] }}</a>
+        </dd>
+
+        {% if record['editors'] %}
+        <dt>Editors:</dt>
+        {% set editors = record['editors']['list'].split(",") %}
+        {% for editor in editors %}
+        <dd inlist="" rel="bibo:editor" class="p-author h-card vcard">
+            <span typeof="foaf:Person">
+            <span class="p-name fn" property="foaf:name">{{ record['editor:'+editor]['mname'] }}</span>
+            {% if record['editor:'+editor]['aname'] %}
+            , <a href="{{ record['editor:'+editor]['ahomepage'] }}" class="p-org org h-org h-card" rel="foaf:workplaceHomepage">{{ record['editor:'+editor]['aname'] }}</a>,
+            {% endif %}
+            {% if record['editor:'+editor]['mmbox'] %}
+            , <span class="ed_mailto"><a href="mailto:{{ record['editor:'+editor]['mmbox'] }}" rel="foaf:mbox" class="u-email email">{{ record['editor:'+editor]['mmbox'] }}</a></span>
+            {% endif %}
+            </span>
+        </dd>
+        {% endfor %}
+        {% endif %}
+
+        {% if record['makers'] %}
+        <dt>Authors:</dt>
+        {% set makers = record['makers']['list'].split(",") %}
+        {% for maker in makers %}
+        <dd inlist="" rel="bibo:editor" class="p-author h-card vcard">
+            <span typeof="foaf:Person">
+            <span class="p-name fn" property="foaf:name">{{ record['maker:'+maker]['mname'] }}</span>
+            {% if record['maker:'+maker]['aname'] %}
+            , <a href="{{ record['maker:'+maker]['ahomepage'] }}" class="p-org org h-org h-card" rel="foaf:workplaceHomepage">{{ record['maker:'+maker]['aname'] }}</a>
+            {% endif %}
+            {% if record['maker:'+maker]['mmbox'] %}
+            , <span class="ed_mailto"><a href="mailto:{{ record['maker:'+maker]['mmbox'] }}" rel="foaf:mbox" class="u-email email">{{ record['maker:'+maker]['mmbox'] }}</a></span>
+            {% endif %}
+            </span>
+        </dd>
+        {% endfor %}
+        {% endif %}
+    </dl>
+
+    <p class="copyright">{{ record['metadata']['rights'] }}</p>
+
+    <hr />
+    </div>
+
+    <section id="abstract" class="introductory" property="dcterms:abstract" datatype="" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter">
+    <h2 aria-level="1" role="heading" id="h2_abstract">Abstract</h2>
+    <p>
+    {{ record['metadata']['abstract'] }}
+    </p>
+    </section>
+
+    <section class="introductory" id="sotd" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter">
+
+    <h2 aria-level="1" role="heading" id="h2_sotd">Status of This Document</h2>
+
+    <p>
+      This document is an official Flemish vocabulary specification.
+    </p>
+
+    {% if record['metadata']['comment'] %}
+    <p>
+    {{ record['metadata']['comment'] }}
+    </p>
+    {% endif %}
+    {% if record['metadata']['mname'] %}
+    <p>
+    This is a new version by the <a href="{{ record['metadata']['mhomepage'] }}">{{ record['metadata']['mname'] }}</a>.
+    Comments and queries should be sent to that group via the <a href="{{ record['metadata']['mmbox'] }}">mailing list</a>.
+    Terms defined here may be deprecated by that or future groups but will not disappear or their definitions change other than to provide clarification of an existing definition.
+    </p>
+    {% endif %}
+
+    </section>
+
+    <hr />
+
+    <section typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter" id="license-and-liability">
+
+    <h2 id="licenseandliability" aria-level="1" role="heading"><span class="secno">1. </span>License and Liability</h2>
+
+    <p><a href="http://creativecommons.org/licenses/by/4.0/" rel="license"><img src="https://i.creativecommons.org/l/by/4.0/88x31.png" style="border-width:0" class="cc" alt="Creative Commons License" /></a><br /><span rel="dct:type" property="dct:title" href="http://purl.org/dc/dcmitype/Text" xmlns:dct="http://purl.org/dc/terms/">This vocabulary</span> by <a rel="cc:attributionURL" property="cc:attributionName" href="http://vlaanderen.be/informatievlaanderen" xmlns:cc="http://creativecommons.org/ns#">Infromatie Vlaanderen</a> is licensed under a <a href="http://creativecommons.org/licenses/by/4.0/" rel="license">Creative Commons Attribution 4.0 International License</a>.<br /></p>
+    </section>
+
+    <section typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter" id="conformance-statement">
+
+    <h2 id="licenseandliability" aria-level="1" role="heading"><span class="secno">2. </span>License and Liability</h2>
+
+    <p>A conformant implementation of this vocabulary <em class="rfc2119" title="MUST">MUST</em> understand all vocabulary terms defined in this document.</p>
+
+    </section>
+
+    <section typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter" id="overview">
+
+    <h2 id="overview" aria-level="1" role="heading"><span class="secno">3. </span>Overview</h2>
+
+    <dl>
+        {% set classes = record['glance']['classes'].split(",") %}
+        <dt>Classes</dt>
+        {% for class in classes %}
+        <dd><a href="#{{ class }}" rel="class">{{ class }}</a></dd>
+        {% endfor %}
+        {% set props = record['glance']['properties'].split(",") %}
+        <dt>Properties</dt>
+        {% for prop in props %}
+        <dd><a href="#{{ prop }}" rel="property">{{ prop }}</a></dd>
+        {% endfor %}
+    </dl>
+
+    </section>
+
+    <section typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter" id="classes">
+
+    <h2 id="classes" aria-level="1" role="heading"><span class="secno">4. </span>Classes</h2>
+
+    <p>This section provides the formal definition of each class in the vocabulary.</p>
+
+    <h3 id="ClassName">Class <em>ClassName</em></h3>
+
+    <table class="definition">
+        <tbody>
+          <tr>
+            <th>Type of Term</th>
+            <td>Class</td>
+          </tr>
+          <tr>
+            <th>QName</th>
+            <td><code>dcterms:Location</code></td>
+          </tr>
+          <tr>
+            <th>URI</th>
+            <td><code>http://purl.org/dc/terms/Location</code></td>
+          </tr>
+          <tr>
+            <th>Term status</th>
+            <td>testing</td>
+          </tr>
+          <tr>
+            <th>Definition</th>
+            <td>dcterms:Location class fully represents the ISA Programme Location Core Vocabulary class of Location.</td>
+          </tr>
+          <tr>
+            <th>
+              <p>Usage Note</p>
+            </th>
+            <td>This is the key class for the ISA Programme Location Core Vocabulary and represents any location, irrespective of size or other restriction.</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </section>
+
+    <section typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter" id="properties">
+
+    <h2 id="properties" aria-level="1" role="heading"><span class="secno">5. </span>Properties</h2>
+
+    <p>This section provides the formal definition of each property in the vocabulary.</p>
+
+    <h3 id="PropertyName">Property <em>PropertyName</em></h3>
+
+    <table class="definition">
+        <tbody>
+          <tr>
+            <th>Type of Term</th>
+            <td>Property</td>
+          </tr>
+          <tr>
+            <th>QName</th>
+            <td><code>locn:addressArea</code></td>
+          </tr>
+          <tr>
+            <th>URI</th>
+            <td><code>http://www.w3.org/ns/locn#addressArea</code></td>
+          </tr>
+          <tr>
+            <th>Domain</th>
+            <td><code>http://www.w3.org/ns/locn#Address</code></td>
+          </tr>
+          <tr>
+            <th>Range</th>
+            <td><code>http://www.w3.org/2000/01/rdf-schema#Literal</code></td>
+          </tr>
+          <tr>
+            <th>Definition</th>
+            <td>The name or names of a geographic area or locality that groups a number of addressable objects for addressing purposes, without being an administrative unit. This would typically be part of a city, a neighbourhood or village. The domain of locn:addressArea is <a href="#locn:Address">locn:Address</a>.</td>
+          </tr>
+          <tr>
+            <th>Usage Note</th>
+            <td>The name or names of a geographic area or locality that groups a number of addressable objects for addressing purposes, without being an administrative unit. This would typically be part of a city, a neighbourhood or village. The domain of locn:addressArea is <a href="#locn:Address">locn:Address</a>.</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </section>
+
+
+    <style>
+      table tr:first-child {
+          font-weight:bold;
+      }
+
+      tr:nth-child(even) td     { background-color:#eee; }
+
+      img {
+         width: 100%;
+      }
+      img.cc {
+         width: 88px;
+      }
+    </style>
+  </body>
+</html>
