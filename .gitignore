@@ -1,10 +1,7 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
-<<<<<<< HEAD
-=======
 *$py.class
->>>>>>> 5d881e41cc8d6a1b90aebd05ba58b39dfe669b21
 
 # C extensions
 *.so
@@ -12,7 +9,6 @@ __pycache__/
 # Distribution / packaging
 .Python
 env/
-bin/
 build/
 develop-eggs/
 dist/

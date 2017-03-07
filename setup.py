@@ -33,7 +33,7 @@ CONTACT = 'Informatie Vlaanderen'
 EMAIL = 'oslo@kb.vlaanderen.be'
 
 SCRIPTS = [
-    os.path.join('bin', 'generate_metadata.py')
+    os.path.join('bin', 'generate_vocabulary.py')
 ]
 
 URL = 'https://github.com/Informatievlaanderen/OSLO-SpecificationGenerator'
