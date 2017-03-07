@@ -1,6 +1,6 @@
-from specgen import (read_mcf, pretty_print, render_template, get_charstring, get_supported_schemas)
+from specgen import read_mcf, pretty_print, render_template, get_charstring, get_supported_schemas
 
-from specgen import (voc_to_spec)
+from specgen import voc_to_spec
 
 from specgen.extractvoc import convert
 
@@ -45,7 +45,7 @@ class SpecGenTest(unittest.TestCase):
             _, fp = tempfile.mkstemp()
 
             with codecs.open(fp, 'w', encoding='utf-8') as f:
-                f.write(u'%s' % result)
+                f.write(u'%s' % rgetgetesult)
             f.close()
 
             # {1}

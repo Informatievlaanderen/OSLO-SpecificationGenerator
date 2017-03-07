@@ -1,10 +1,11 @@
+#!/usr/bin/env python
+
 import click
 
 from lxml import etree as ET
 from specgen import get_supported_schemas, render_template, voc_to_spec, voc_to_ap
 
 SUPPORTED_SCHEMAS = get_supported_schemas()
-
 
 @click.command()
 @click.option('--rdf',
@@ -23,8 +24,9 @@ SUPPORTED_SCHEMAS = get_supported_schemas()
 
 
 def process_args(rdf, ap, schema, schema_local, output):
+    print(ap)
     if rdf is not None:
-        if ap is None:
+        if not ap:
             xml_output = voc_to_spec(rdf, schema=schema,
                                      schema_local=schema_local)
         else:
