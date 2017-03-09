@@ -11,6 +11,9 @@ SUPPORTED_SCHEMAS = get_supported_schemas()
 @click.option('--rdf',
               type=click.Path(exists=True, resolve_path=True),
               help='Path to Vocabulary RDF file (.ttl/.rdf/.json/.jsonld/.nt/.nq/.n3)')
+@click.option('--csv',
+              type=click.Path(exists=True, resolve_path=True),
+              help='Path to Application Profile CSV file (.csv)')
 @click.option('--output', type=click.File('wb'),
               help='Name of output file')
 @click.option('--ap', is_flag=True, help='Output full AP instead of vocabulary')
@@ -23,15 +26,17 @@ SUPPORTED_SCHEMAS = get_supported_schemas()
               help='Locally defined metadata schema')
 
 
-def process_args(rdf, ap, schema, schema_local, output):
-    print(ap)
+def process_args(rdf, csv, ap, schema, schema_local, output):
     if rdf is not None:
+
         if not ap:
             xml_output = voc_to_spec(rdf, schema=schema,
                                      schema_local=schema_local)
-        else:
-            xml_output = voc_to_ap(rdf, schema=schema,
+        elif ap and csv is not None:
+            xml_output = voc_to_ap(csv, schema=schema,
                                      schema_local=schema_local)
+        else:
+            raise click.UsageError('Missing input CSV argument --csv {path}')
 
         if output is None:
             click.echo_via_pager(ET.tostring(xml_output.getroot()))
@@ -39,7 +44,7 @@ def process_args(rdf, ap, schema, schema_local, output):
             xml_output.write(output)
 
     else:
-        raise click.UsageError('Missing arguments')
+        raise click.UsageError('Missing arguments input CSV --csv {path} or RDF --rdf {path}')
 
 
 if __name__ == '__main__':

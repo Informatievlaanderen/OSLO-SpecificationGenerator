@@ -89,8 +89,8 @@ Then modify `*.j2` files in the new `specgen/templates/new-schema` directory to 
 # via distutils
 python setup.py test
 # manually
-cd tests
-python run_tests.py
+cd samples
+python run_samples.py
 ```
 
 ### Bugs and Issues

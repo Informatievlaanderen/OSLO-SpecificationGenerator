@@ -4,252 +4,37 @@
 <html lang="en" dir="ltr" typeof="bibo:Document " about="" property="dcterms:language" content="en" prefix="bibo: http://purl.org/ontology/bibo/ w3p: http://www.w3.org/2001/02pd/rec54#" xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset='utf-8' />
-    <title>{{ record['metadata']['title'] }}</title>
-    <style>
-    /*****************************************************************
-     * ReSpec 3 CSS
-     * Robin Berjon - http://berjon.com/
-     *****************************************************************/
-    /* --- INLINES --- */
-    em.rfc2119 {
-        text-transform:     lowercase;
-        font-variant:       small-caps;
-        font-style:         normal;
-        color:              #900;
-    }
-    h1 acronym, h2 acronym, h3 acronym, h4 acronym, h5 acronym, h6 acronym, a acronym,
-    h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr, a abbr {
-        border: none;
-    }
-    dfn {
-        font-weight:    bold;
-    }
-    a.internalDFN {
-        color:  inherit;
-        border-bottom:  1px solid #99c;
-        text-decoration:    none;
-    }
-    a.externalDFN {
-        color:  inherit;
-        border-bottom:  1px dotted #ccc;
-        text-decoration:    none;
-    }
-    a.bibref {
-        text-decoration:    none;
-    }
-    cite .bibref {
-        font-style: normal;
-    }
-    code {
-        color:  #ff4500;
-    }
-    /* --- TOC --- */
-    .toc a, .tof a {
-        text-decoration:    none;
-    }
-    a .secno, a .figno {
-        color:  #000;
-    }
-    ul.tof, ol.tof {
-        list-style: none outside none;
-    }
-    .caption {
-        margin-top: 0.5em;
-        font-style:   italic;
-    }
-    /* --- TABLE --- */
-    table.simple {
-        border-spacing: 0;
-        border-collapse:    collapse;
-        border-bottom:  3px solid #005a9c;
-    }
-    .simple th {
-        background: #005a9c;
-        color:  #fff;
-        padding:    3px 5px;
-        text-align: left;
-    }
-    .simple th[scope="row"] {
-        background: inherit;
-        color:  inherit;
-        border-top: 1px solid #ddd;
-    }
-    .simple td {
-        padding:    3px 10px;
-        border-top: 1px solid #ddd;
-    }
-    .simple tr:nth-child(even) {
-        background: #f0f6ff;
-    }
-    /* --- DL --- */
-    .section dd > p:first-child {
-        margin-top: 0;
-    }
-    .section dd > p:last-child {
-        margin-bottom: 0;
-    }
-    .section dd {
-        margin-bottom:  1em;
-    }
-    .section dl.attrs dd, .section dl.eldef dd {
-        margin-bottom:  0;
-    }
-    </style>
-    <style>
-    /* Style for an Unofficial Draft Proposal */
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://dij151upo6vad.cloudfront.net/2.latest/css/vlaanderen-ui.css" />
+    <link rel="stylesheet" href="https://dij151upo6vad.cloudfront.net/2.latest/css/vlaanderen-ui-corporate.css" />
+    <link rel="stylesheet" href="https://dev.w3.org/2009/dap/ReSpec.js/css/respec.css" />
 
-    /*
-       Copyright 1997-2003 W3C (MIT, ERCIM, Keio). All Rights Reserved.
-       The following software licensing rules apply:
-       http://www.w3.org/Consortium/Legal/copyright-software */
+    <link rel="icon" sizes="192x192" href="https://dij151upo6vad.cloudfront.net/2.latest/icons/app-icon/icon-highres-precomposed.png" />
+    <link rel="apple-touch-icon" href="https://dij151upo6vad.cloudfront.net/2.latest/icons/app-icon/touch-icon-iphone-precomposed.png" />
+    <link rel="apple-touch-icon" sizes="76x76" href="https://dij151upo6vad.cloudfront.net/2.latest/icons/app-icon/touch-icon-ipad-precomposed.png" />
+    <link rel="apple-touch-icon" sizes="120x120" href="https://dij151upo6vad.cloudfront.net/2.latest/icons/app-icon/touch-icon-iphone-retina-precomposed.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="https://dij151upo6vad.cloudfront.net/2.latest/icons/app-icon/touch-icon-ipad-retina-precomposed.png" />
 
+    <meta name="msapplication-square70x70logo" content="https://dij151upo6vad.cloudfront.net/2.latest/icons/app-icon/tile-small.png" />
+    <meta name="msapplication-square150x150logo" content="https://dij151upo6vad.cloudfront.net/2.latest/icons/app-icon/tile-medium.png" />
+    <meta name="msapplication-wide310x150logo" content="https://dij151upo6vad.cloudfront.net/2.latest/icons/app-icon/tile-wide.png" />
+    <meta name="msapplication-square310x310logo" content="https://dij151upo6vad.cloudfront.net/2.latest/icons/app-icon/tile-large.png" />
+    <meta name="msapplication-TileColor" content="#FFE615" />
 
-    body {
-      padding: 2em 1em 2em 70px;
-      margin: 0;
-      font-family: sans-serif;
-      color: black;
-      background: white;
-      background-position: top left;
-      background-attachment: fixed;
-      background-repeat: no-repeat;
-    }
-    :link { color: #00C; background: transparent }
-    :visited { color: #609; background: transparent }
-    a:active { color: #C00; background: transparent }
-
-    a:link img, a:visited img { border-style: none } /* no border on img links */
-
-    a img { color: white; }        /* trick to hide the border in Netscape 4 */
-    @media all {                   /* hide the next rule from Netscape 4 */
-      a img { color: inherit; }    /* undo the color change above */
-    }
-
-    th, td { /* ns 4 */
-      font-family: sans-serif;
-    }
-
-    h1, h2, h3, h4, h5, h6 { text-align: left }
-    /* background should be transparent, but WebTV has a bug */
-    h1, h2, h3 { color: #005A9C; }
-    h1 { font: 170% sans-serif }
-    h2 { font: 140% sans-serif }
-    h3 { font: 120% sans-serif }
-    h4 { font: bold 100% sans-serif }
-    h5 { font: italic 100% sans-serif }
-    h6 { font: small-caps 100% sans-serif }
-
-    .hide { display: none }
-
-    div.head { margin-bottom: 1em }
-    div.head h1 { margin-top: 2em; clear: both }
-    div.head table { margin-left: 2em; margin-top: 2em }
-
-    p.copyright { font-size: small }
-    p.copyright small { font-size: small }
-
-    table {
-        font-family: verdana,arial,sans-serif;
-        font-size:11px;
-        color:#333333;
-        border-width: 1px;
-        border-color: #666666;
-        border-collapse: collapse;
-        margin-top: 2em;
-    }
-    table th {
-        border-width: 1px;
-        padding: 8px;
-        border-style: solid;
-        border-color: #666666;
-        background-color: #dedede;
-    }
-    table td {
-        border-width: 1px;
-        padding: 8px;
-        border-style: solid;
-        border-color: #666666;
-        background-color: #ffffff;
-    }
-
-    @media screen {  /* hide from IE3 */
-    a[href]:hover { background: #ffa }
-    }
-
-    pre { margin-left: 2em }
-    /*
-    p {
-      margin-top: 0.6em;
-      margin-bottom: 0.6em;
-    }
-    */
-    dt, dd { margin-top: 0; margin-bottom: 0 } /* opera 3.50 */
-    dt { font-weight: bold }
-
-    pre, code { font-family: monospace } /* navigator 4 requires this */
-
-    ul.toc, ol.toc {
-      list-style: disc;		/* Mac NS has problem with 'none' */
-      list-style: none;
-    }
-
-    @media aural {
-      h1, h2, h3 { stress: 20; richness: 90 }
-      .hide { speak: none }
-      p.copyright { volume: x-soft; speech-rate: x-fast }
-      dt { pause-before: 63ms }
-      pre { speak-punctuation: code }
-    }
-
-
-
-    body {
-      /*background-image: url(http://www.w3.org/StyleSheets/TR/logo-unofficial.png);*/
-    }
-
-
-    .content {
-      background-image: url(http://www.w3.org/StyleSheets/TR/watermark-unoffficial.png);
-      background-repeat: repeat;
-      background-attachment: fixed;
-    }
-
-    .disclaimer {
-      font-weight: bold;
-      font-style: italic;
-      color: red;
-    }
-
-    .diff-new {
-      background-color: yellow;
-    }
-    .diff-chg {
-      background-color: lime;
-    }
-    .diff-new:before,
-    .diff-new:after {
-      content: "\2191";
-    }
-    .diff-chg:before,
-    .diff-chg:after {
-      content: "\2195";
-    }
-    .diff-old {
-      text-decoration: line-through;
-      background-color: #FBB;
-    }
-    .diff-old:before,
-    .diff-old:after {
-      content: "\2193";
-    }
-    </style>
     <!--[if lt IE 9]><script src='https://www.w3.org/2008/site/js/html5shiv.js'></script><![endif]-->
   </head>
     <body class="h-entry" role="document" id="respecDocument">
+    <div style="min-height:44px;;" id="vlaanderen-header">
+    <!-- insert your global header here -->
+    <script type="text/javascript" src="//widgets.vlaanderen.be/widget/live/5ecf33a0a922428cb9d944c55362ed15"></script>
+    <!-- end global header-->
+    </div>
+    <div class="page">
     <div class="head" role="contentinfo" id="respecHeader">
     <h1 property="dcterms:title" id="title" class="title p-name">{{ record['metadata']['title'] }}</h1>
-    <h2 id="subtitle" property="bibo:subtitle">Specification of {{ record['metadata']['prefix'] }}</h2>
-    <h2 content="{{ record['metadata']['issued'] }}" datatype="xsd:dateTime" property="dcterms:issued" id="draft-{{ record['metadata']['issued'] }}">Version released <time datetime="{{ record['metadata']['issued'] }}" class="dt-published">{{ record['metadata']['issued'] }}</time></h2>
+    <h2 id="subtitle" property="bibo:subtitle">Specification of <em>{{ record['metadata']['prefix'] }}</em></h2>
+    <h2 content="{{ record['metadata']['issued'] }}" datatype="xsd:dateTime" property="dcterms:issued" id="draft-{{ record['metadata']['issued'] }}">Released <time datetime="{{ record['metadata']['issued'] }}" class="dt-published">{{ record['metadata']['issued'] }}</time></h2>
     <dl>
         <dt>Latest Modification</dt>
 
@@ -267,7 +52,12 @@
         {% for editor in editors %}
         <dd inlist="" rel="bibo:editor" class="p-author h-card vcard">
             <span typeof="foaf:Person">
+
+            {% if record['editor:'+editor]['mhomepage'] %}
+            <span class="p-name fn" property="foaf:name"><a href="{{ record['editor:'+editor]['mhomepage'] }}">{{ record['editor:'+editor]['mname'] }}</a></span>
+            {% else %}
             <span class="p-name fn" property="foaf:name">{{ record['editor:'+editor]['mname'] }}</span>
+            {% endif %}
             {% if record['editor:'+editor]['aname'] %}
             , <a href="{{ record['editor:'+editor]['ahomepage'] }}" class="p-org org h-org h-card" rel="foaf:workplaceHomepage">{{ record['editor:'+editor]['aname'] }}</a>,
             {% endif %}
@@ -285,7 +75,11 @@
         {% for maker in makers %}
         <dd inlist="" rel="bibo:editor" class="p-author h-card vcard">
             <span typeof="foaf:Person">
+            {% if record['maker:'+maker]['mhomepage'] %}
+            <span class="p-name fn" property="foaf:name"><a href="{{ record['maker:'+maker]['mhomepage'] }}">{{ record['maker:'+maker]['mname'] }}</a></span>
+            {% else %}
             <span class="p-name fn" property="foaf:name">{{ record['maker:'+maker]['mname'] }}</span>
+            {% endif %}
             {% if record['maker:'+maker]['aname'] %}
             , <a href="{{ record['maker:'+maker]['ahomepage'] }}" class="p-org org h-org h-card" rel="foaf:workplaceHomepage">{{ record['maker:'+maker]['aname'] }}</a>
             {% endif %}
@@ -303,6 +97,7 @@
     <hr />
     </div>
 
+    <div id="main" itemprop="mainContentOfPage" role="main" tabindex="-1" class="main-content">
     <section id="abstract" class="introductory" property="dcterms:abstract" datatype="" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter">
     <h2 aria-level="1" role="heading" id="h2_abstract">Abstract</h2>
     <p>
@@ -313,11 +108,9 @@
     <section class="introductory" id="sotd" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter">
 
     <h2 aria-level="1" role="heading" id="h2_sotd">Status of This Document</h2>
-
     <p>
-      This document is an official Flemish vocabulary specification.
+      This document is an official vocabulary specification.
     </p>
-
     {% if record['metadata']['comment'] %}
     <p>
     {{ record['metadata']['comment'] }}
@@ -327,7 +120,7 @@
     <p>
     This is a new version by the <a href="{{ record['metadata']['mhomepage'] }}">{{ record['metadata']['mname'] }}</a>.
     Comments and queries should be sent to that group via the <a href="{{ record['metadata']['mmbox'] }}">mailing list</a>.
-    Terms defined here may be deprecated by that or future groups but will not disappear or their definitions change other than to provide clarification of an existing definition.
+    Terms defined here may be deprecated by that or future groups; but will not disappear or their definitions change other than to provide clarification of an existing definition.
     </p>
     {% endif %}
 
@@ -339,7 +132,7 @@
 
     <h2 id="licenseandliability" aria-level="1" role="heading"><span class="secno">1. </span>License and Liability</h2>
 
-    <p><a href="http://creativecommons.org/licenses/by/4.0/" rel="license"><img src="https://i.creativecommons.org/l/by/4.0/88x31.png" style="border-width:0" class="cc" alt="Creative Commons License" /></a><br /><span rel="dct:type" property="dct:title" href="http://purl.org/dc/dcmitype/Text" xmlns:dct="http://purl.org/dc/terms/">This vocabulary</span> by <a rel="cc:attributionURL" property="cc:attributionName" href="http://vlaanderen.be/informatievlaanderen" xmlns:cc="http://creativecommons.org/ns#">Infromatie Vlaanderen</a> is licensed under a <a href="http://creativecommons.org/licenses/by/4.0/" rel="license">Creative Commons Attribution 4.0 International License</a>.<br /></p>
+    <p><a href="http://creativecommons.org/licenses/by/4.0/" rel="license"><img src="https://i.creativecommons.org/l/by/4.0/88x31.png" style="border-width:0" class="cc" alt="Creative Commons License" /></a><br /><span rel="dct:type" property="dct:title" href="http://purl.org/dc/dcmitype/Text" xmlns:dct="http://purl.org/dc/terms/">This vocabulary</span> by <a rel="cc:attributionURL" property="cc:attributionName" href="http://vlaanderen.be/informatievlaanderen" xmlns:cc="http://creativecommons.org/ns#">Informatie Vlaanderen</a> is licensed under a <a href="http://creativecommons.org/licenses/by/4.0/" rel="license">Creative Commons Attribution 4.0 International License</a>.<br /></p>
     </section>
 
     <section typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter" id="conformance-statement">
@@ -375,7 +168,10 @@
 
     <p>This section provides the formal definition of each class in the vocabulary.</p>
 
-    <h3 id="ClassName">Class <em>ClassName</em></h3>
+    {% set class_uris = record['glance']['class_uris'].split(",") %}
+    {% for class_uri in class_uris %}
+    {% set klasse = record['class:'+class_uri] %}
+    <h3 id="{{ klasse['label'] }}">Class <em>{{ klasse['label'] }}</em></h3>
 
     <table class="definition">
         <tbody>
@@ -383,30 +179,31 @@
             <th>Type of Term</th>
             <td>Class</td>
           </tr>
+          {% if klasse['identifier'] %}
           <tr>
             <th>QName</th>
-            <td><code>dcterms:Location</code></td>
+            <td><code>{{ klasse['identifier'] }}</code></td>
           </tr>
+          {% endif %}
           <tr>
             <th>URI</th>
-            <td><code>http://purl.org/dc/terms/Location</code></td>
-          </tr>
-          <tr>
-            <th>Term status</th>
-            <td>testing</td>
+            <td><code>{{ class_uri }}</code></td>
           </tr>
           <tr>
             <th>Definition</th>
-            <td>dcterms:Location class fully represents the ISA Programme Location Core Vocabulary class of Location.</td>
+            <td>{{ klasse['comment'] }}</td>
           </tr>
+          {% if klasse['usageNote'] %}
           <tr>
             <th>
               <p>Usage Note</p>
             </th>
-            <td>This is the key class for the ISA Programme Location Core Vocabulary and represents any location, irrespective of size or other restriction.</td>
+            <td>{{ klasse['usageNote'] }}</td>
           </tr>
+          {% endif %}
         </tbody>
       </table>
+      {% endfor %}
 
     </section>
 
@@ -416,7 +213,10 @@
 
     <p>This section provides the formal definition of each property in the vocabulary.</p>
 
-    <h3 id="PropertyName">Property <em>PropertyName</em></h3>
+    {% set prop_uris = record['glance']['prop_uris'].split(",") %}
+    {% for prop_uri in prop_uris %}
+    {% set eigenschap = record['property:'+prop_uri] %}
+    <h3 id="{{ eigenschap['label'] }}">Property <em>{{  eigenschap['label'] }}</em></h3>
 
     <table class="definition">
         <tbody>
@@ -424,36 +224,197 @@
             <th>Type of Term</th>
             <td>Property</td>
           </tr>
+          {% if eigenschap['identifier'] %}
           <tr>
             <th>QName</th>
-            <td><code>locn:addressArea</code></td>
+            <td><code>{{ eigenschap['identifier'] }}</code></td>
           </tr>
+          {% endif %}
           <tr>
             <th>URI</th>
-            <td><code>http://www.w3.org/ns/locn#addressArea</code></td>
+            <td><code>{{ prop_uri }}</code></td>
           </tr>
+          {% if eigenschap['domain'] %}
           <tr>
             <th>Domain</th>
-            <td><code>http://www.w3.org/ns/locn#Address</code></td>
+            <td><code>{{ eigenschap['domain'] }}</code></td>
           </tr>
+          {% endif %}
+          {% if eigenschap['range'] %}
           <tr>
             <th>Range</th>
-            <td><code>http://www.w3.org/2000/01/rdf-schema#Literal</code></td>
+            <td><code>{{ eigenschap['range'] }}</code></td>
           </tr>
+          {% endif %}
           <tr>
             <th>Definition</th>
-            <td>The name or names of a geographic area or locality that groups a number of addressable objects for addressing purposes, without being an administrative unit. This would typically be part of a city, a neighbourhood or village. The domain of locn:addressArea is <a href="#locn:Address">locn:Address</a>.</td>
+            <td>{{ eigenschap['comment'] }}</td>
           </tr>
+          {% if eigenschap['usageNote'] %}
           <tr>
             <th>Usage Note</th>
-            <td>The name or names of a geographic area or locality that groups a number of addressable objects for addressing purposes, without being an administrative unit. This would typically be part of a city, a neighbourhood or village. The domain of locn:addressArea is <a href="#locn:Address">locn:Address</a>.</td>
+            <td>{{ eigenschap['usageNote'] }}</td>
           </tr>
+          {% endif %}
         </tbody>
       </table>
+      {% endfor %}
 
     </section>
+    </div>
+    </div>
+
+    <div id="vlaanderen-footer">
+        <!-- insert your Vlaanderen-footer-code here -->
+        <script type="text/javascript" src="//widgets.vlaanderen.be/widget/live/d6d44414e7c242f396ab6da8f8da5198"></script>
+        <!-- End global footer-->
+    </div>
+
+    <script src="https://dij151upo6vad.cloudfront.net/2.latest/js/vlaanderen-ui.js" />
+
+    <style>
+        /* Style for an Unofficial Draft Proposal */
+
+        /*
+        Copyright 1997-2003 W3C (MIT, ERCIM, Keio). All Rights Reserved.
+        The following software licensing rules apply:
+        http://www.w3.org/Consortium/Legal/copyright-software */
 
 
+        body {
+        padding: 2em 1em 2em 70px;
+        margin: 0;
+        color: black;
+        background: white;
+        background-position: top left;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        }
+        :link { color: #00C; background: transparent }
+        :visited { color: #609; background: transparent }
+        a:active { color: #C00; background: transparent }
+
+        a:link img, a:visited img { border-style: none } /* no border on img links */
+
+        a img { color: white; }        /* trick to hide the border in Netscape 4 */
+        @media all {                   /* hide the next rule from Netscape 4 */
+        a img { color: inherit; }    /* undo the color change above */
+        }
+
+        th, td { /* ns 4 */
+
+        }
+
+        h1, h2, h3, h4, h5, h6 { text-align: left }
+        /* background should be transparent, but WebTV has a bug */
+        h1, h2, h3 { color: #005A9C; }
+        h1 { font-size: 170% }
+        h2 { font-size: 140% }
+        h3 { font-size: 120% }
+        h4 { font: bold 100% }
+        h5 { font: italic 100% }
+        h6 { font: small-caps 100% }
+
+        .hide { display: none }
+
+        div.head { margin-bottom: 1em }
+        div.head h1 { margin-top: 2em; clear: both }
+        div.head table { margin-left: 2em; margin-top: 2em }
+
+        p.copyright { font-size: small }
+        p.copyright small { font-size: small }
+
+        em {
+            font-style: italic;
+        }
+
+        table {
+        font-size:11px;
+        color:#333333;
+        border-width: 1px;
+        border-color: #666666;
+        border-collapse: collapse;
+        margin-top: 2em;
+        }
+        table th {
+        border-width: 1px;
+        padding: 8px;
+        border-style: solid;
+        border-color: #666666;
+        background-color: #dedede;
+        }
+        table td {
+        border-width: 1px;
+        padding: 8px;
+        border-style: solid;
+        border-color: #666666;
+        background-color: #ffffff;
+        }
+
+        @media screen {  /* hide from IE3 */
+        a[href]:hover { background: #ffa }
+        }
+
+        pre { margin-left: 2em }
+        /*
+        p {
+        margin-top: 0.6em;
+        margin-bottom: 0.6em;
+        }
+        */
+        dt, dd { margin-top: 0; margin-bottom: 0 } /* opera 3.50 */
+        dt { font-weight: bold }
+
+        pre, code { font-family: monospace } /* navigator 4 requires this */
+
+        ul.toc, ol.toc {
+        list-style: disc;		/* Mac NS has problem with 'none' */
+        list-style: none;
+        }
+
+        @media aural {
+        h1, h2, h3 { stress: 20; richness: 90 }
+        .hide { speak: none }
+        p.copyright { volume: x-soft; speech-rate: x-fast }
+        dt { pause-before: 63ms }
+        pre { speak-punctuation: code }
+        }
+
+        .content {
+        background-image: url(http://www.w3.org/StyleSheets/TR/watermark-unoffficial.png);
+        background-repeat: repeat;
+        background-attachment: fixed;
+        }
+
+        .disclaimer {
+        font-weight: bold;
+        font-style: italic;
+        color: red;
+        }
+
+        .diff-new {
+        background-color: yellow;
+        }
+        .diff-chg {
+        background-color: lime;
+        }
+        .diff-new:before,
+        .diff-new:after {
+        content: "\2191";
+        }
+        .diff-chg:before,
+        .diff-chg:after {
+        content: "\2195";
+        }
+        .diff-old {
+        text-decoration: line-through;
+        background-color: #FBB;
+        }
+        .diff-old:before,
+        .diff-old:after {
+        content: "\2193";
+        }
+    </style>
     <style>
       table tr:first-child {
           font-weight:bold;

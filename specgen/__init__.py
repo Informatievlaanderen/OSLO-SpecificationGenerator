@@ -6,6 +6,7 @@ from io import BytesIO
 from xml.dom import minidom
 import lxml.etree as ET
 from specgen.extractvoc import convert
+from specgen.extractap import convert_csv
 import tempfile
 
 from jinja2 import Environment, FileSystemLoader
@@ -192,8 +193,8 @@ def voc_to_spec(rdf, schema=None, schema_local=None):
     return render_template(fp, schema, schema_local)
 
 
-def voc_to_ap(rdf, schema=None, schema_local=None):
-    result = convert(rdf)
+def voc_to_ap(csv, schema=None, schema_local=None):
+    result = convert_csv(csv)
     _, fp = tempfile.mkstemp()
 
     with codecs.open(fp, 'w', encoding='utf-8') as f:

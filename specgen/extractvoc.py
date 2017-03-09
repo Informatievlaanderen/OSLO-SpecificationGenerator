@@ -143,6 +143,7 @@ def convert(rdf):
            }""")
 
     makers = []
+
     for row in qres:
         if row['m'] is not None:
             makers.append(row['m'])
@@ -169,16 +170,20 @@ def convert(rdf):
            WHERE {
               { ?class a owl:Class } UNION { ?class a rdfs:Class } .
               ?class rdfs:label ?label .
-              FILTER(LANG(?label) = "" || LANGMATCHES(LANG(?label), "en"))
+              FILTER(LANGMATCHES(LANG(?label), "en"))
            }""")
 
     classes = []
+    class_uris = []
 
     for row in qres:
         if row['class'] is not None:
             classes.append(row['label'])
+            class_uris.append(row['class'])
 
     result += "classes=%s\n" % ",".join(classes)
+
+    result += "class_uris=%s\n" % ",".join(class_uris)
 
     qres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
         PREFIXES +
@@ -190,12 +195,16 @@ def convert(rdf):
            }""")
 
     classes = []
+    class_uris = []
 
     for row in qres:
         if row['class'] is not None:
             classes.append(row['label'])
+            class_uris.append(row['class'])
 
     result += "classes_nl=%s\n" % ",".join(classes)
+
+    result += "class_uris_nl=%s\n" % ",".join(class_uris)
 
     qres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
         PREFIXES +
@@ -207,12 +216,16 @@ def convert(rdf):
            }""")
 
     properties = []
+    prop_uris = []
 
     for row in qres:
         if row['p'] is not None:
             properties.append(row['label'])
+            prop_uris.append(row['p'])
 
     result += "properties=%s\n" % ",".join(properties)
+
+    result += "prop_uris=%s\n" % ",".join(prop_uris)
 
     qres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
         PREFIXES +
@@ -224,12 +237,16 @@ def convert(rdf):
            }""")
 
     properties = []
+    prop_uris = []
 
     for row in qres:
         if row['p'] is not None:
             properties.append(row['label'])
+            prop_uris.append(row['p'])
 
     result += "properties_nl=%s\n" % ",".join(properties)
+
+    result += "prop_uris_nl=%s\n" % ",".join(prop_uris)
 
     qres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
         PREFIXES +

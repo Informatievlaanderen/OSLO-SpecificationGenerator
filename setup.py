@@ -53,7 +53,7 @@ class PyTest(Command):
 
     def run(self):
         import subprocess
-        errno = subprocess.call([sys.executable, 'tests/run_tests.py'])
+        errno = subprocess.call([sys.executable, 'samples/run_sample.py'])
         raise SystemExit(errno)
 
 
