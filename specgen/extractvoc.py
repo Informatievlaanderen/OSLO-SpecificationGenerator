@@ -386,5 +386,4 @@ def convert(rdf):
             if row['describedBy'] is not None:
                 result += "describedBy=%s\n" % row['describedBy']
 
-    print(result)
     return result

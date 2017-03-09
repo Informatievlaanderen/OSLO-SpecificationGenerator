@@ -24,87 +24,101 @@
 
     <!--[if lt IE 9]><script src='https://www.w3.org/2008/site/js/html5shiv.js'></script><![endif]-->
   </head>
-    <body class="h-entry" role="document" id="respecDocument">
+  <body class="h-entry" role="document" id="respecDocument">
     <div style="min-height:44px;;" id="vlaanderen-header">
     <!-- insert your global header here -->
     <script type="text/javascript" src="//widgets.vlaanderen.be/widget/live/5ecf33a0a922428cb9d944c55362ed15"></script>
     <!-- end global header-->
     </div>
     <div class="page">
-    <div class="head" role="contentinfo" id="respecHeader">
-    <h1 property="dcterms:title" id="title" class="title p-name">{{ record['metadata']['title'] }}</h1>
-    <h2 id="subtitle" property="bibo:subtitle">Specification of <em>{{ record['metadata']['prefix'] }}</em></h2>
-    <h2 content="{{ record['metadata']['issued'] }}" datatype="xsd:dateTime" property="dcterms:issued" id="draft-{{ record['metadata']['issued'] }}">Released <time datetime="{{ record['metadata']['issued'] }}" class="dt-published">{{ record['metadata']['issued'] }}</time></h2>
-    <dl>
-        <dt>Latest Modification</dt>
+    <div class="region">
+        <div class="layout layout--wide">
+            <div class="grid">
+                <div class="col--9-12 col--1-1--s">
+                    <div class="head" role="contentinfo" id="respecHeader">
+                    <h1 property="dcterms:title" id="title" class="title p-name">{{ record['metadata']['title'] }}</h1>
+                    <h2 id="subtitle" property="bibo:subtitle">Specification of <em>{{ record['metadata']['prefix'] }}</em></h2>
+                    <h2 content="{{ record['metadata']['issued'] }}" datatype="xsd:dateTime" property="dcterms:issued" id="draft-{{ record['metadata']['issued'] }}">Released <time datetime="{{ record['metadata']['issued'] }}" class="dt-published">{{ record['metadata']['issued'] }}</time></h2>
+                    <dl>
+                        <dt>Latest Modification</dt>
 
-        <dd>{{ record['metadata']['modified'] }}
-        </dd>
+                        <dd>{{ record['metadata']['modified'] }}
+                        </dd>
 
-        <dt>Latest Version URI:</dt>
+                        <dt>Latest Version URI:</dt>
 
-        <dd><a href="{{ record['metadata']['uri'] }}">{{ record['metadata']['uri'] }}</a>
-        </dd>
+                        <dd><a href="{{ record['metadata']['uri'] }}">{{ record['metadata']['uri'] }}</a>
+                        </dd>
 
-        {% if record['editors'] %}
-        <dt>Editors:</dt>
-        {% set editors = record['editors']['list'].split(",") %}
-        {% for editor in editors %}
-        <dd inlist="" rel="bibo:editor" class="p-author h-card vcard">
-            <span typeof="foaf:Person">
+                        {% if record['editors'] %}
+                        <dt>Editors:</dt>
+                        {% set editors = record['editors']['list'].split(",") %}
+                        {% for editor in editors %}
+                        <dd inlist="" rel="bibo:editor" class="p-author h-card vcard">
+                            <span typeof="foaf:Person">
 
-            {% if record['editor:'+editor]['mhomepage'] %}
-            <span class="p-name fn" property="foaf:name"><a href="{{ record['editor:'+editor]['mhomepage'] }}">{{ record['editor:'+editor]['mname'] }}</a></span>
-            {% else %}
-            <span class="p-name fn" property="foaf:name">{{ record['editor:'+editor]['mname'] }}</span>
-            {% endif %}
-            {% if record['editor:'+editor]['aname'] %}
-            , <a href="{{ record['editor:'+editor]['ahomepage'] }}" class="p-org org h-org h-card" rel="foaf:workplaceHomepage">{{ record['editor:'+editor]['aname'] }}</a>,
-            {% endif %}
-            {% if record['editor:'+editor]['mmbox'] %}
-            , <span class="ed_mailto"><a href="mailto:{{ record['editor:'+editor]['mmbox'] }}" rel="foaf:mbox" class="u-email email">{{ record['editor:'+editor]['mmbox'] }}</a></span>
-            {% endif %}
-            </span>
-        </dd>
-        {% endfor %}
-        {% endif %}
+                            {% if record['editor:'+editor]['mhomepage'] %}
+                            <span class="p-name fn" property="foaf:name"><a href="{{ record['editor:'+editor]['mhomepage'] }}">{{ record['editor:'+editor]['mname'] }}</a></span>
+                            {% else %}
+                            <span class="p-name fn" property="foaf:name">{{ record['editor:'+editor]['mname'] }}</span>
+                            {% endif %}
+                            {% if record['editor:'+editor]['aname'] %}
+                            , <a href="{{ record['editor:'+editor]['ahomepage'] }}" class="p-org org h-org h-card" rel="foaf:workplaceHomepage">{{ record['editor:'+editor]['aname'] }}</a>,
+                            {% endif %}
+                            {% if record['editor:'+editor]['mmbox'] %}
+                            , <span class="ed_mailto"><a href="mailto:{{ record['editor:'+editor]['mmbox'] }}" rel="foaf:mbox" class="u-email email">{{ record['editor:'+editor]['mmbox'] }}</a></span>
+                            {% endif %}
+                            </span>
+                        </dd>
+                        {% endfor %}
+                        {% endif %}
 
-        {% if record['makers'] %}
-        <dt>Authors:</dt>
-        {% set makers = record['makers']['list'].split(",") %}
-        {% for maker in makers %}
-        <dd inlist="" rel="bibo:editor" class="p-author h-card vcard">
-            <span typeof="foaf:Person">
-            {% if record['maker:'+maker]['mhomepage'] %}
-            <span class="p-name fn" property="foaf:name"><a href="{{ record['maker:'+maker]['mhomepage'] }}">{{ record['maker:'+maker]['mname'] }}</a></span>
-            {% else %}
-            <span class="p-name fn" property="foaf:name">{{ record['maker:'+maker]['mname'] }}</span>
-            {% endif %}
-            {% if record['maker:'+maker]['aname'] %}
-            , <a href="{{ record['maker:'+maker]['ahomepage'] }}" class="p-org org h-org h-card" rel="foaf:workplaceHomepage">{{ record['maker:'+maker]['aname'] }}</a>
-            {% endif %}
-            {% if record['maker:'+maker]['mmbox'] %}
-            , <span class="ed_mailto"><a href="mailto:{{ record['maker:'+maker]['mmbox'] }}" rel="foaf:mbox" class="u-email email">{{ record['maker:'+maker]['mmbox'] }}</a></span>
-            {% endif %}
-            </span>
-        </dd>
-        {% endfor %}
-        {% endif %}
-    </dl>
+                        {% if record['makers'] %}
+                        <dt>Authors:</dt>
+                        {% set makers = record['makers']['list'].split(",") %}
+                        {% for maker in makers %}
+                        <dd inlist="" rel="bibo:editor" class="p-author h-card vcard">
+                            <span typeof="foaf:Person">
+                            {% if record['maker:'+maker]['mhomepage'] %}
+                            <span class="p-name fn" property="foaf:name"><a href="{{ record['maker:'+maker]['mhomepage'] }}">{{ record['maker:'+maker]['mname'] }}</a></span>
+                            {% else %}
+                            <span class="p-name fn" property="foaf:name">{{ record['maker:'+maker]['mname'] }}</span>
+                            {% endif %}
+                            {% if record['maker:'+maker]['aname'] %}
+                            , <a href="{{ record['maker:'+maker]['ahomepage'] }}" class="p-org org h-org h-card" rel="foaf:workplaceHomepage">{{ record['maker:'+maker]['aname'] }}</a>
+                            {% endif %}
+                            {% if record['maker:'+maker]['mmbox'] %}
+                            , <span class="ed_mailto"><a href="mailto:{{ record['maker:'+maker]['mmbox'] }}" rel="foaf:mbox" class="u-email email">{{ record['maker:'+maker]['mmbox'] }}</a></span>
+                            {% endif %}
+                            </span>
+                        </dd>
+                        {% endfor %}
+                        {% endif %}
+                    </dl>
 
-    <p class="copyright">{{ record['metadata']['rights'] }}</p>
+                    <p class="copyright">{{ record['metadata']['rights'] }}</p>
 
-    <hr />
+                    <hr />
+                    </div>
+                </div>
+             </div>
+        </div>
     </div>
 
     <div id="main" itemprop="mainContentOfPage" role="main" tabindex="-1" class="main-content">
-    <section id="abstract" class="introductory" property="dcterms:abstract" datatype="" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter">
-    <h2 aria-level="1" role="heading" id="h2_abstract">Abstract</h2>
-    <p>
-    {{ record['metadata']['abstract'] }}
-    </p>
-    </section>
+    <div class="region region--no-space-top">
+      <div class="layout layout--wide">
+        <section id="abstract" class="introductory" property="dcterms:abstract" datatype="" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter">
+        <h2 aria-level="1" role="heading" id="h2_abstract">Abstract</h2>
+        <p>
+        {{ record['metadata']['abstract'] }}
+        </p>
+        </section>
+      </div>
+    </div>
 
+    <div class="region region--no-space-top">
+    <div class="layout layout--wide">
     <section class="introductory" id="sotd" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter">
 
     <h2 aria-level="1" role="heading" id="h2_sotd">Status of This Document</h2>
@@ -126,51 +140,92 @@
 
     </section>
 
-    <hr />
+    </div>
+    </div>
 
+    <div class="region region--no-space-top">
+    <div class="layout layout--wide">
     <section typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter" id="license-and-liability">
 
     <h2 id="licenseandliability" aria-level="1" role="heading"><span class="secno">1. </span>License and Liability</h2>
 
-    <p><a href="http://creativecommons.org/licenses/by/4.0/" rel="license"><img src="https://i.creativecommons.org/l/by/4.0/88x31.png" style="border-width:0" class="cc" alt="Creative Commons License" /></a><br /><span rel="dct:type" property="dct:title" href="http://purl.org/dc/dcmitype/Text" xmlns:dct="http://purl.org/dc/terms/">This vocabulary</span> by <a rel="cc:attributionURL" property="cc:attributionName" href="http://vlaanderen.be/informatievlaanderen" xmlns:cc="http://creativecommons.org/ns#">Informatie Vlaanderen</a> is licensed under a <a href="http://creativecommons.org/licenses/by/4.0/" rel="license">Creative Commons Attribution 4.0 International License</a>.<br /></p>
+    <p><span rel="dct:type" property="dct:title" href="http://purl.org/dc/dcmitype/Text" xmlns:dct="http://purl.org/dc/terms/">This vocabulary</span> by <a rel="cc:attributionURL" property="cc:attributionName" href="http://vlaanderen.be/informatievlaanderen" xmlns:cc="http://creativecommons.org/ns#">Informatie Vlaanderen</a> is licensed under a <a href="https://overheid.vlaanderen.be/sites/default/files/documenten/ict-egov/licenties/hergebruik/modellicentie_gratis_hergebruik_v1_0.html" rel="license">"Modellicentie Gratis Hergebruik - v1.0"</a>.<br /></p>
     </section>
+    </div>
+    </div>
 
+    <div class="region region--no-space-top">
+    <div class="layout layout--wide">
     <section typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter" id="conformance-statement">
 
-    <h2 id="licenseandliability" aria-level="1" role="heading"><span class="secno">2. </span>License and Liability</h2>
+    <h2 id="conformance" aria-level="1" role="heading"><span class="secno">2. </span>Conformance</h2>
 
     <p>A conformant implementation of this vocabulary <em class="rfc2119" title="MUST">MUST</em> understand all vocabulary terms defined in this document.</p>
 
     </section>
+    </div>
+    </div>
+
+    <div class="region region--no-space-top">
+    <div class="layout layout--wide">
+
 
     <section typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter" id="overview">
 
     <h2 id="overview" aria-level="1" role="heading"><span class="secno">3. </span>Overview</h2>
 
+    <div class="region region--no-space-top">
+    <p>This section lists all classes and properties in the vocabulary.</p>
+    </div>
+
+    <div class="region region--no-space-top">
+    <h3>Classes</h3>
+    {% set classes = record['glance']['classes'].split(",") %}
+    <div class="grid">
+    <div class="col--1-12 col--1-1--s" />
+    <div class="col--8-12 col--1-1--s">
     <dl>
-        {% set classes = record['glance']['classes'].split(",") %}
-        <dt>Classes</dt>
         {% for class in classes %}
         <dd><a href="#{{ class }}" rel="class">{{ class }}</a></dd>
         {% endfor %}
-        {% set props = record['glance']['properties'].split(",") %}
-        <dt>Properties</dt>
+    </dl>
+    </div>
+    </div>
+    </div>
+
+    <div class="region region--no-space-top">
+    <h3>Properties</h3>
+    {% set props = record['glance']['properties'].split(",") %}
+    <div class="grid">
+    <div class="col--1-12 col--1-1--s" />
+    <div class="col--8-12 col--1-1--s">
+    <dl>
         {% for prop in props %}
         <dd><a href="#{{ prop }}" rel="property">{{ prop }}</a></dd>
         {% endfor %}
     </dl>
+    </div>
+    </div>
+    </div>
 
     </section>
+
+    </div>
+    </div>
+
+    <div class="region region--no-space-top">
+    <div class="layout layout--wide">
 
     <section typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter" id="classes">
 
     <h2 id="classes" aria-level="1" role="heading"><span class="secno">4. </span>Classes</h2>
-
+    <div class="region region--no-space-top">
     <p>This section provides the formal definition of each class in the vocabulary.</p>
-
+    </div>
     {% set class_uris = record['glance']['class_uris'].split(",") %}
     {% for class_uri in class_uris %}
     {% set klasse = record['class:'+class_uri] %}
+    <div class="region region--no-space-top">
     <h3 id="{{ klasse['label'] }}">Class <em>{{ klasse['label'] }}</em></h3>
 
     <table class="definition">
@@ -203,19 +258,29 @@
           {% endif %}
         </tbody>
       </table>
+      </div>
       {% endfor %}
 
     </section>
+
+    </div>
+    </div>
+
+    <div class="region region--no-space-top">
+    <div class="layout layout--wide">
 
     <section typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter" id="properties">
 
     <h2 id="properties" aria-level="1" role="heading"><span class="secno">5. </span>Properties</h2>
 
+    <div class="region region--no-space-top">
     <p>This section provides the formal definition of each property in the vocabulary.</p>
+    </div>
 
     {% set prop_uris = record['glance']['prop_uris'].split(",") %}
     {% for prop_uri in prop_uris %}
     {% set eigenschap = record['property:'+prop_uri] %}
+    <div class="region region--no-space-top">
     <h3 id="{{ eigenschap['label'] }}">Property <em>{{  eigenschap['label'] }}</em></h3>
 
     <table class="definition">
@@ -258,9 +323,14 @@
           {% endif %}
         </tbody>
       </table>
+      </div>
       {% endfor %}
 
     </section>
+
+    </div>
+    </div>
+
     </div>
     </div>
 
@@ -329,26 +399,27 @@
         }
 
         table {
-        font-size:11px;
-        color:#333333;
-        border-width: 1px;
-        border-color: #666666;
-        border-collapse: collapse;
-        margin-top: 2em;
+            font-size:11px;
+            color:#333333;
+            border-width: 1px;
+            border-color: #666666;
+            border-collapse: collapse;
+            margin-top: 2em;
+            width: 62%;
         }
         table th {
-        border-width: 1px;
-        padding: 8px;
-        border-style: solid;
-        border-color: #666666;
-        background-color: #dedede;
+            border-width: 1px;
+            padding: 8px;
+            border-style: solid;
+            border-color: #666666;
+            background-color: #dedede;
         }
         table td {
-        border-width: 1px;
-        padding: 8px;
-        border-style: solid;
-        border-color: #666666;
-        background-color: #ffffff;
+            border-width: 1px;
+            padding: 8px;
+            border-style: solid;
+            border-color: #666666;
+            background-color: #ffffff;
         }
 
         @media screen {  /* hide from IE3 */

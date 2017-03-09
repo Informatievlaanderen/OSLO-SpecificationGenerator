@@ -4,3 +4,4 @@ six
 rdflib
 python-dateutil
 lxml
+pydash

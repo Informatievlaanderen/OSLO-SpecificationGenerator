@@ -39,14 +39,101 @@
       </div>
     </div>
 
-    <!-- header here -->
-    <!-- end header -->
     <div id="main" itemprop="mainContentOfPage" role="main" tabindex="-1" class="main-content">
       <div class="region">
         <div class="layout layout--wide">
+            <div class="grid">
+                <div class="col--9-12 col--1-1--s">
+                <h1 class="h1">{{ record['overview']['package'] }} AP</h1>
+                <div class="introduction typography">
+                            <p>Dit document beschrijft het <strong>applicatie-profiel</strong> voor <strong>{{ record['overview']['package'] }}</strong>.
+                            Een applicatie-profiel is een specificatie die bestaande termen hergebruikt van verschillende basis-standaarden
+                            en daar meer specificiteit aan toevoegt.
+                            Daarbij wordt het gebruik van de termen toegelicht voor de uitwisseling van Vlaamse overheidsinformatie.
+                            </p>
 
+                </div>
+                </div>
+            </div>
         </div>
       </div>
+      <div class="region region--no-space-top">
+          <div class="layout layout--wide">
+            <h2 class="h2">Licentie en aanpsrakelijkheid</h2>
+            <div class="grid">
+              <div class="col--9-12 col--1-1--s typography">
+                    <div><p><span rel="dct:type" property="dct:title" href="http://purl.org/dc/dcmitype/Text" xmlns:dct="http://purl.org/dc/terms/">Deze specificatie</span> van <a rel="cc:attributionURL" property="cc:attributionName" href="http://vlaanderen.be/informatievlaanderen" xmlns:cc="http://creativecommons.org/ns#">Informatie Vlaanderen</a> is gepubliceerd onder de <a href="https://overheid.vlaanderen.be/sites/default/files/documenten/ict-egov/licenties/hergebruik/modellicentie_gratis_hergebruik_v1_0.html" rel="license">"Modellicentie Gratis Hergebruik - v1.0"</a>.<br /></p>
+                    </div>
+              </div>
+            </div>
+          </div>
+      </div>
+      <div class="region region--no-space-top">
+          <div class="layout layout--wide">
+            <h2 class="h2">Overzicht</h2>
+            <div class="grid">
+              <div class="col--9-12 col--1-1--s typography">
+                    <div><p> In dit document wordt correct gebruik van de volgende entiteiten toegelicht in de context van de uitwisseling van een {{ record['overview']['package'] }} in Vlaanderen:
+                            <ul class="ul">
+                            {% set entities = record['overview']['entities'].split(",") %}
+                            {% for entity in entities %}
+                            <li class="li"><a href="#{{ entity }}">{{ entity }}</a></li>
+                            {% endfor %}
+                            </ul>
+                            </p>
+                    </div>
+              </div>
+            </div>
+          </div>
+      </div>
+      {% for entity in entities %}
+      <div class="region region--no-space-top">
+          <div class="layout layout--wide">
+            <h2 class="h2" id="{{ entity }}">{{ entity }}</h2>
+            <div class="grid">
+              <div class="col--9-12 col--1-1--s typography">
+                    <div class="region region--no-space-top">
+                    <div><p>{{ record[entity]['ap-definition-nl'] }}</p></div>
+                    <div><p>{{ record[entity]['ap-usageNote-nl'] }}</p></div>
+                    {% set attributes = record[entity]['attributes'].split(",") %}
+                    {% set attributelist = record[entity]['attributes'].replace(",", ", ") %}
+                    <div><p>Voor deze entiteit zijn de volgende attributen gedefinieerd: {{ attributelist }}.</p></div>
+                    </div>
+                    <div class="u-table-overflow">
+                        <table class="data-table">
+                          <thead>
+                          <tr class="data-table__header">
+                            <th class="data-table__header-title--sortable data-table__header-title--sortable-active">Eigenschap</th>
+                            <th class="data-table__header-title--sortable">Verwacht Type</th>
+                            <th class="data-table__header-title--sortable">Kardinaliteit</th>
+                            <th class="data-table__header-title--sortable">Beschrijving</th>
+                            <th class="data-table__header-title--sortable">Gebruik</th>
+                            <th class="data-table__header-title--sortable">Codelijst</th>
+                          </tr>
+                          </thead>
+
+                          <tbody class="supertype">
+                          {% for attribute in attributes %}
+                          {% set attribute_detail = record[entity + ':' + attribute] %}
+                          {% if attribute_detail  %}
+                          <tr typeof="rdfs:Property" resource="{{ attribute_detail["namespace"] }}{{ attribute_detail["localname"] }}">
+                            <td><code property="rdfs:label"><a href="{{ attribute_detail["namespace"] }}{{ attribute_detail["localname"] }}">{{ attribute_detail["label-nl"] }}</a></code></td>
+                            <td><a href="{{ attribute_detail["range"] }}">{{ attribute_detail["ea-range"] }}</a></td>
+                            <td>{{ attribute_detail["min card"] }} ... {{ attribute_detail["max card"] }}</td>
+                            <td property="rdfs:comment">{{ attribute_detail["ap-definition-nl"] }}</td>
+                            <td property="vann:usageNote">{{ attribute_detail["ap-usagenote-nl"] }}</td>
+                            <td>{{ attribute_detail["ap-codelist"] }}</td>
+                          </tr>
+                          {% endif %}
+                          {% endfor %}
+                          </tbody>
+                        </table>
+                    </div>
+              </div>
+            </div>
+          </div>
+      </div>
+      {% endfor %}
     </div>
   </div>
   <!-- End page content -->

@@ -65,7 +65,7 @@ class SpecGenTest(unittest.TestCase):
         """Test CSV2AP_HTML"""
 
         test_files = [
-            './export_ap.tsv'
+            './export_org.csv'
         ]
 
         for t in test_files:
