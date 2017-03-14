@@ -53,12 +53,13 @@ def convert(rdf):
               OPTIONAL { ?v vann:preferredNamespaceUri ?pUri } .
               OPTIONAL { ?v rdfs:label ?label . FILTER(LANG(?label) = "" || LANGMATCHES(LANG(?label), "en")) } .
               OPTIONAL { ?v dcterms:abstract ?abstract . FILTER(LANG(?abstract) = "" || LANGMATCHES(LANG(?abstract), "en")) } .
+              OPTIONAL { ?v rdfs:comment ?comment . FILTER(LANG(?comment) = "" || LANGMATCHES(LANG(?comment), "en")) } .
               OPTIONAL { ?v cc:attributionName ?attribution } .
               OPTIONAL { ?v cc:attributionUrl ?attributionUrl } .
               OPTIONAL { ?v dcterms:issued ?issued } .
               OPTIONAL { ?v dcterms:modified ?modified } .
               OPTIONAL { ?v dcterms:rights ?rights } .
-              OPTIONAL { ?v dcterms:title ?title } .
+              OPTIONAL { ?v dcterms:title ?title . FILTER(LANG(?title) = "" || LANGMATCHES(LANG(?title), "en"))} .
               OPTIONAL {
                 ?v dcterms:mediator ?m .
                 ?m foaf:homepage ?mhomepage .
@@ -95,6 +96,32 @@ def convert(rdf):
                 result += "mhomepage=%s\n" % row['mhomepage']
             if row['mmbox'] is not None:
                 result += "mmbox=%s\n" % row['mmbox']
+
+    qres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
+        PREFIXES +
+        """SELECT DISTINCT *
+           WHERE {
+              ?v a owl:Ontology .
+              OPTIONAL { ?v rdfs:label ?label . FILTER(LANGMATCHES(LANG(?label), "nl")) } .
+              OPTIONAL { ?v dcterms:abstract ?abstract . FILTER(LANGMATCHES(LANG(?abstract), "nl")) } .
+              OPTIONAL { ?v dcterms:title ?title . FILTER(LANGMATCHES(LANG(?title), "nl")) } .
+              OPTIONAL { ?v rdfs:comment ?comment . FILTER(LANGMATCHES(LANG(?comment), "nl")) } .
+              OPTIONAL { ?v dcterms:rights ?rights } .
+           } LIMIT 1""")
+
+    result += "[metadata_nl]\n"
+
+    for row in qres:
+        if row['v'] is not None:
+            result += "uri=%s\n" % row['v']
+        if row['label'] is not None:
+            result += "label=%s\n" % row['label']
+        if row['title'] is not None:
+            result += "title=%s\n" % row['title']
+        if row['abstract'] is not None:
+            result += "abstract=%s\n" % re.sub(r'\n', ' ', row['abstract'])
+        if row['rights'] is not None:
+            result += "rights=%s\n" % row['rights']
 
     qres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
         PREFIXES +

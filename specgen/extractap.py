@@ -60,5 +60,4 @@ def convert_csv(path):
                 for key in attr:
                     result += '%s=%s\n' % (key, attr[key])
 
-    print(result)
     return result

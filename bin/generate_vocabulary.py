@@ -27,24 +27,25 @@ SUPPORTED_SCHEMAS = get_supported_schemas()
 
 
 def process_args(rdf, csv, ap, schema, schema_local, output):
-    if rdf is not None:
-
-        if not ap:
+    if not ap:
+        if rdf is not None:
             xml_output = voc_to_spec(rdf, schema=schema,
-                                     schema_local=schema_local)
-        elif ap and csv is not None:
-            xml_output = voc_to_ap(csv, schema=schema,
-                                     schema_local=schema_local)
+                                 schema_local=schema_local)
         else:
-            raise click.UsageError('Missing input CSV argument --csv {path}')
+            raise click.UsageError(
+                'Missing arguments input RDF --rdf {path}')
 
-        if output is None:
-            click.echo_via_pager(ET.tostring(xml_output.getroot()))
-        else:
-            xml_output.write(output)
-
+    elif ap and csv is not None:
+        xml_output = voc_to_ap(csv, schema=schema,
+                                 schema_local=schema_local)
     else:
-        raise click.UsageError('Missing arguments input CSV --csv {path} or RDF --rdf {path}')
+        raise click.UsageError(
+            'Missing arguments input CSV --csv {path} or RDF --rdf {path}')
+
+    if output is None:
+        click.echo_via_pager(ET.tostring(xml_output.getroot()))
+    else:
+        xml_output.write(output)
 
 
 if __name__ == '__main__':

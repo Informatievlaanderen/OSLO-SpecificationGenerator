@@ -61,6 +61,35 @@ class SpecGenTest(unittest.TestCase):
             print(os.path.realpath(xp))
 
 
+    def test_rdf_lossless_nl(self):
+        """Test RDF2VOC_HTML_NL"""
+
+        test_files = [
+            './persoon.ttl'
+        ]
+
+        for t in test_files:
+            # RDF -{1}> XML
+            rdf = get_abspath(t)
+            result = convert(rdf)
+            _, fp = tempfile.mkstemp()
+
+            with codecs.open(fp, 'w', encoding='utf-8') as f:
+                f.write(u'%s' % result)
+            f.close()
+
+            # {1}
+            xml = render_template(fp, schema='vocabularynl')
+
+            _, xp = tempfile.mkstemp()
+            f = open(xp, 'wb')
+            xml.write(f)
+            f.close()
+            dom = ET.parse(os.path.realpath(xp))
+            print(ET.tostring(dom, pretty_print=True))
+            print(os.path.realpath(xp))
+
+
     def test_csv_lossless(self):
         """Test CSV2AP_HTML"""
 
