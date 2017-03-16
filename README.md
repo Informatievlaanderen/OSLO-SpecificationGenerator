@@ -2,7 +2,7 @@
 
 # OSLO-SpecificationGenerator
 
-OSLO-SpecificationGenerator is a Python package to generate specifications from RDF vocabularies.
+OSLO-SpecificationGenerator is a Python package to generate HTML specifications from RDF vocabularies.
 
 ## Table of Contents
 * [Overview](#overview)
@@ -19,7 +19,6 @@ OSLO-SpecificationGenerator is a Python package to generate specifications from 
   * [Running Tests](#running-tests)
   * [Code Conventions](#code-conventions)
   * [Bugs and Issues](#bugs-and-issues)
-* [History](#history)
 * [Contact](#contact)
 
 
@@ -59,9 +58,52 @@ python setup.py build
 python setup.py install
 ```
 
-## Generating vocabulary documentation
+## Running
 
-## Generating application profile documentation
+Leave out the `--output` option to write to stdout instead of a file.
+
+### List all options with their explanation
+
+```bash
+./bin/generate_vocabulary.py -- help
+```
+
+### Generating contributors RDF from CSV
+
+```bash
+./bin/generate_vocabulary.py --csv {csv_path} --contributors --target {column} --output {output_path}
+```
+
+### Merging contributors RDF with a vocabulary RDF
+
+```bash
+./bin/generate_vocabulary.py --rdf {vocabulary_rdf_path} --rdf1 {contributors_rdf_path} --merge --output {output_path}
+```
+
+### Generating vocabulary HTML specification from RDF
+
+By default the English template will be used.
+
+```bash
+./bin/generate_vocabulary.py --rdf {rdf_path} --output {output_path}
+```
+
+To use the Dutch template, use the following command.
+
+```bash
+./bin/generate_vocabulary.py --rdf {rdf_path} --output {output_path} --schema vocabularynl
+```
+
+### Generating application profile in HTML from CSV
+
+In this repository only a Dutch template is available.
+
+To use another template, use the `--schema_local` option with the path where the other template is located.
+See the section on other schemes for more information.
+
+```bash
+./bin/generate_vocabulary.py --csv {csv_path} --ap --output {output_path}
+```
 
 ## Development
 
@@ -75,7 +117,7 @@ pip install -r requirements-dev.txt
 
 ### Adding Another Target Schema to the Core
 
-List of supported metadata schemas in `specgen/templates/`
+List of supported metadata schemas in specgen/templates/`
 
 To add support to new metadata schemas:
 ```bash
@@ -97,6 +139,6 @@ python run_samples.py
 
 All bugs, enhancements and issues are managed on [GitHub](https://github.com/InformatieVlaanderen/OSLO-SpecificationGenerator/issues).
 
-## Contact (this branch only)
+## Contact
 
 * [Informatie Vlaanderen](mailto:oslo@kb.vlaanderen.be)
