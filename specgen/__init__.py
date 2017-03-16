@@ -7,7 +7,9 @@ from xml.dom import minidom
 import lxml.etree as ET
 from specgen.extractvoc import convert
 from specgen.extractap import convert_csv
+from specgen.extractcontributors import convert_contributor_csv
 import tempfile
+import rdflib
 
 from jinja2 import Environment, FileSystemLoader
 from jinja2.exceptions import TemplateNotFound
@@ -205,6 +207,38 @@ def voc_to_ap(csv, schema=None, schema_local=None):
         schema = 'ap'  # ap schema by default
 
     return render_template(fp, schema, schema_local)
+
+
+def contributor_to_rdf(csv, voc, schema=None, schema_local=None):
+    result = convert_contributor_csv(csv, voc)
+    _, fp = tempfile.mkstemp()
+
+    with codecs.open(fp, 'w', encoding='utf-8') as f:
+        f.write(u'%s' % result)
+    f.close()
+
+    if schema is None:
+        schema = 'contributors'  # contributor schema by default
+
+    return render_template(fp, schema, schema_local)
+
+
+def merge_rdf(rdf1, rdf2):
+    g = rdflib.Graph()
+    if rdf1.endswith('.xml'):
+        g.parse(os.path.realpath(rdf1),
+                format='xml')
+    else:
+        g.parse(os.path.realpath(rdf1),
+                format=rdflib.util.guess_format(os.path.realpath(rdf1)))
+    if rdf1.endswith('.xml'):
+        g.parse(os.path.realpath(rdf2),
+                format='xml')
+    else:
+        g.parse(os.path.realpath(rdf2),
+                format=rdflib.util.guess_format(os.path.realpath(rdf2)))
+
+    return g.serialize(format='turtle')
 
 
 def get_supported_schemas():

@@ -128,6 +128,40 @@ def convert(rdf):
         """SELECT DISTINCT *
            WHERE {
               ?v a owl:Ontology .
+              ?v dcterms:contributor ?c .
+              OPTIONAL { ?c schema:affiliation ?affiliation .
+                         ?affiliation foaf:homepage ?ahomepage .
+                         ?affiliation foaf:name ?aName } .
+              OPTIONAL { ?c foaf:homepage ?mhomepage } .
+              OPTIONAL { ?c foaf:mbox ?mmbox } .
+              OPTIONAL { ?c foaf:name ?mname } .
+           }""")
+
+    contributors = []
+
+    for row in qres:
+        if row['c'] is not None:
+            contributors.append(row['c'])
+            result += '\n[contributor:%s]\n' % row['c']
+            if row['mname'] is not None:
+                result += "mname=%s\n" % row['mname']
+            if row['mhomepage'] is not None:
+                result += "mhomepage=%s\n" % row['mhomepage']
+            if row['mmbox'] is not None:
+                result += "mmbox=%s\n" % row['mmbox']
+            if row['affiliation'] is not None:
+                result += "aName=%s\n" % row['aName']
+                result += "ahomepage=%s\n" % row['ahomepage']
+
+    if len(contributors) > 0:
+        result += '\n[contributors]\n'
+        result += 'list=%s\n' % ','.join(contributors)
+
+    qres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
+        PREFIXES +
+        """SELECT DISTINCT *
+           WHERE {
+              ?v a owl:Ontology .
               ?v rec:editor ?e .
               OPTIONAL { ?e schema:affiliation ?affiliation .
                          ?affiliation foaf:homepage ?ahomepage .

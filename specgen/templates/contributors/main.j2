@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF
+  xmlns:cc="http://creativecommons.org/ns#"
+  xmlns:dcat="http://www.w3.org/ns/dcat#"
+  xmlns:dcterms="http://purl.org/dc/terms/"
+  xmlns:foaf="http://xmlns.com/foaf/0.1/"
+  xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#"
+  xmlns:gsp="http://www.opengis.net/ont/geosparql#"
+  xmlns:locn="http://www.w3.org/ns/locn#"
+  xmlns:owl="http://www.w3.org/2002/07/owl#"
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:rec="http://www.w3.org/2001/02pd/rec54#"
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:schema="http://schema.org/"
+  xmlns:sf="http://www.opengis.net/ont/sf#"
+  xmlns:sioc="http://rdfs.org/sioc/ns#"
+  xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+  xmlns:vann="http://purl.org/vocab/vann/"
+  xmlns:voaf="http://purl.org/vocommons/voaf#"
+  xmlns:vs="http://www.w3.org/2003/06/sw-vocab-status/ns#"
+  xmlns:wdrs="http://www.w3.org/2007/05/powder-s#"
+>
+  <owl:Ontology rdf:about="http://data.vlaanderen.be/ns/{{ record["overview"]["voc"] }}">
+    <dcterms:mediator rdf:parseType="Resource">
+      <foaf:name>OSLO Werkgroepen</foaf:name>
+      <foaf:homepage rdf:resource="https://overheid.vlaanderen.be/producten-diensten/OSLO2"/>
+      <foaf:mbox rdf:resource="mailto:oslo@kb.vlaanderen.be"/>
+    </dcterms:mediator>
+    {% set editors = record['overview']['editors'].split(",") %}
+    {% for editor in editors %}
+    {% set redacteur = record['editor:'+editor] %}
+    <rec:editor rdf:parseType="Resource">
+      <foaf:name>{{ redacteur['naam'] }}</foaf:name>
+      <foaf:mbox rdf:resource="mailto:{{ redacteur['email'] }}" />
+      <schema:affiliation rdf:parseType="Resource">
+        <foaf:name>{{ redacteur['organisatie'] }}</foaf:name>
+        <foaf:homepage rdf:resource="{{ redacteur['website'] }}" />
+      </schema:affiliation>
+    </rec:editor>
+    {% endfor %}
+    {% set authors = record['overview']['authors'].split(",") %}
+    {% for author in authors %}
+    {% set auteur = record['author:'+author] %}
+    <foaf:maker rdf:parseType="Resource">
+      <foaf:name>{{ auteur['naam'] }}</foaf:name>
+      <foaf:mbox rdf:resource="mailto:{{ auteur['email'] }}" />
+      <schema:affiliation rdf:parseType="Resource">
+        <foaf:name>{{ auteur['organisatie'] }}</foaf:name>
+        <foaf:homepage rdf:resource="{{ auteur['website'] }}" />
+      </schema:affiliation>
+    </foaf:maker>
+    {% endfor %}
+    {% set contributors = record['overview']['contributors'].split(",") %}
+    {% for contributor in contributors %}
+    {% set bijdrager = record['contributor:'+contributor] %}
+    <dcterms:contributor rdf:parseType="Resource">
+      <foaf:name>{{ bijdrager['naam'] }}</foaf:name>
+      <foaf:mbox rdf:resource="mailto:{{ bijdrager['email'] }}" />
+      <schema:affiliation rdf:parseType="Resource">
+        <foaf:name>{{ bijdrager['organisatie'] }}</foaf:name>
+        <foaf:homepage rdf:resource="{{ bijdrager['website'] }}" />
+      </schema:affiliation>
+    </dcterms:contributor>
+    {% endfor %}
+  </owl:Ontology>
+</rdf:RDF>

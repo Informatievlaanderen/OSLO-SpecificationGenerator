@@ -38,20 +38,44 @@
                     <div class="head" role="contentinfo" id="respecHeader">
                     <h1 class="h1 title p-name"  property="dcterms:title" id="title">{{ record['metadata_nl']['title'] }}</h1>
                     <h2 class="h2" id="subtitle" property="bibo:subtitle">Specificatie van <em>{{ record['metadata']['prefix'] }}</em></h2>
-                    <h2 class="h2" content="{{ record['metadata']['issued'] }}" datatype="xsd:dateTime" property="dcterms:issued" id="draft-{{ record['metadata']['issued'] }}">Released <time datetime="{{ record['metadata']['issued'] }}" class="dt-published">{{ record['metadata']['issued'] }}</time></h2>
+                    <h2 class="h2" content="{{ record['metadata']['issued'] }}" datatype="xsd:dateTime" property="dcterms:issued" id="draft-{{ record['metadata']['issued'] }}">Uitgegeven op <time datetime="{{ record['metadata']['issued'] }}" class="dt-published">{{ record['metadata']['issued'] }}</time></h2>
                     <dl>
                         <dt>Laatste aanpassing</dt>
 
                         <dd>{{ record['metadata']['modified'] }}
                         </dd>
 
-                        <dt>Laatste versie URI:</dt>
+                        <dt>Laatste versie URI</dt>
 
                         <dd><a href="{{ record['metadata']['uri'] }}">{{ record['metadata']['uri'] }}</a>
                         </dd>
 
+
+                        {% if record['makers'] %}
+                        <dt>Auteurs</dt>
+                        {% set makers = record['makers']['list'].split(",") %}
+                        {% for maker in makers %}
+                        <dd inlist="" rel="foaf:maker" class="p-author h-card vcard">
+                            <span typeof="foaf:Person">
+                            {% if record['maker:'+maker]['mhomepage'] %}
+                            <span class="p-name fn" property="foaf:name"><a href="{{ record['maker:'+maker]['mhomepage'] }}">{{ record['maker:'+maker]['mname'] }}</a></span>
+                            {% else %}
+                            <span class="p-name fn" property="foaf:name">{{ record['maker:'+maker]['mname'] }}</span>
+                            {% endif %}
+                            {% if record['maker:'+maker]['aname'] %}
+                            - <a href="{{ record['maker:'+maker]['ahomepage'] }}" class="p-org org h-org h-card" rel="foaf:workplaceHomepage">{{ record['maker:'+maker]['aname'] }}</a>
+                            {% endif %}
+                            {% if record['maker:'+maker]['mmbox'] %}
+                            - <span class="ed_mailto"><a href="{{ record['maker:'+maker]['mmbox'] }}" rel="foaf:mbox" class="u-email email">{{ record['maker:'+maker]['mmbox'].replace("mailto:","") }}</a></span>
+                            {% endif %}
+                            </span>
+                        </dd>
+                        {% endfor %}
+                        {% endif %}
+
+
                         {% if record['editors'] %}
-                        <dt>Redacteurs:</dt>
+                        <dt>Redacteurs</dt>
                         {% set editors = record['editors']['list'].split(",") %}
                         {% for editor in editors %}
                         <dd inlist="" rel="bibo:editor" class="p-author h-card vcard">
@@ -63,32 +87,33 @@
                             <span class="p-name fn" property="foaf:name">{{ record['editor:'+editor]['mname'] }}</span>
                             {% endif %}
                             {% if record['editor:'+editor]['aname'] %}
-                            , <a href="{{ record['editor:'+editor]['ahomepage'] }}" class="p-org org h-org h-card" rel="foaf:workplaceHomepage">{{ record['editor:'+editor]['aname'] }}</a>,
+                            - <a href="{{ record['editor:'+editor]['ahomepage'] }}" class="p-org org h-org h-card" rel="foaf:workplaceHomepage">{{ record['editor:'+editor]['aname'] }}</a>
                             {% endif %}
                             {% if record['editor:'+editor]['mmbox'] %}
-                            , <span class="ed_mailto"><a href="mailto:{{ record['editor:'+editor]['mmbox'] }}" rel="foaf:mbox" class="u-email email">{{ record['editor:'+editor]['mmbox'] }}</a></span>
+                            - <span class="ed_mailto"><a href="{{ record['editor:'+editor]['mmbox'] }}" rel="foaf:mbox" class="u-email email">{{ record['editor:'+editor]['mmbox'].replace("mailto:","") }}</a></span>
                             {% endif %}
                             </span>
                         </dd>
                         {% endfor %}
                         {% endif %}
 
-                        {% if record['makers'] %}
-                        <dt>Auteurs:</dt>
-                        {% set makers = record['makers']['list'].split(",") %}
-                        {% for maker in makers %}
-                        <dd inlist="" rel="bibo:editor" class="p-author h-card vcard">
+
+                        {% if record['contributors'] %}
+                        <dt>Medewerkers</dt>
+                        {% set contributors = record['contributors']['list'].split(",") %}
+                        {% for contributor in contributors %}
+                        <dd inlist="" rel="dcterms:contributor" class="p-author h-card vcard">
                             <span typeof="foaf:Person">
-                            {% if record['maker:'+maker]['mhomepage'] %}
-                            <span class="p-name fn" property="foaf:name"><a href="{{ record['maker:'+maker]['mhomepage'] }}">{{ record['maker:'+maker]['mname'] }}</a></span>
+                            {% if record['contributor:'+contributor]['mhomepage'] %}
+                            <span class="p-name fn" property="foaf:name"><a href="{{ record['contributor:'+contributor]['mhomepage'] }}">{{ record['contributor:'+contributor]['mname'] }}</a></span>
                             {% else %}
-                            <span class="p-name fn" property="foaf:name">{{ record['maker:'+maker]['mname'] }}</span>
+                            <span class="p-name fn" property="foaf:name">{{ record['contributor:'+contributor]['mname'] }}</span>
                             {% endif %}
-                            {% if record['maker:'+maker]['aname'] %}
-                            , <a href="{{ record['maker:'+maker]['ahomepage'] }}" class="p-org org h-org h-card" rel="foaf:workplaceHomepage">{{ record['maker:'+maker]['aname'] }}</a>
+                            {% if record['contributor:'+contributor]['aname'] %}
+                            - <a href="{{ record['contributor:'+contributor]['ahomepage'] }}" class="p-org org h-org h-card" rel="foaf:workplaceHomepage">{{ record['contributor:'+contributor]['aname'] }}</a>
                             {% endif %}
-                            {% if record['maker:'+maker]['mmbox'] %}
-                            , <span class="ed_mailto"><a href="mailto:{{ record['maker:'+maker]['mmbox'] }}" rel="foaf:mbox" class="u-email email">{{ record['maker:'+maker]['mmbox'] }}</a></span>
+                            {% if record['contributor:'+contributor]['mmbox'] %}
+                            - <span class="ed_mailto"><a href="{{ record['contributor:'+contributor]['mmbox'] }}" rel="foaf:mbox" class="u-email email">{{ record['contributor:'+contributor]['mmbox'].replace("mailto:","") }}</a></span>
                             {% endif %}
                             </span>
                         </dd>
@@ -375,6 +400,11 @@
       }
 
       tr:nth-child(even) td     { background-color:#eee; }
+
+      dt, dd { margin-top: 0; margin-bottom: 0 } /* opera 3.50 */
+      dt { font-weight: bold }
+
+      pre, code { font-family: monospace } /* navigator 4 requires this */
 
       em {
             font-style: italic;

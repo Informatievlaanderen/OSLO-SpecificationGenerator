@@ -12,6 +12,9 @@
 @prefix vann:    <http://purl.org/vocab/vann/> .
 @prefix cpsv:    <http://purl.org/vocab/cpsv#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix schema: <http://schema.org/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix rec: <http://www.w3.org/2001/02pd/rec54#> .
 
 <http://data.vlaanderen.be/ns/persoon>
       a       owl:Ontology ;
@@ -20,7 +23,34 @@
       vann:preferredNamespacePrefix
               "vl-pers" ;
       vann:preferredNamespaceUri
-              "http://data.vlaanderen.be/ns/persoon#" .
+              "http://data.vlaanderen.be/ns/persoon#" ;
+        dcterms:contributor [ schema:affiliation [ foaf:homepage <http://tenforce.com> ;
+                        foaf:name "Tenforce" ] ;
+                foaf:mbox <mailto:Bert.Van.Nuffelen@tenforce.com> ;
+                foaf:name "Van Nuffelen, Bert" ],
+            [ schema:affiliation [ foaf:homepage <http://proxml.be> ;
+                        foaf:name "ProXML" ] ;
+                foaf:mbox <mailto:paul@proxml.be> ;
+                foaf:name "Hermans, Paul" ] ;
+        dcterms:mediator [ foaf:homepage <https://overheid.vlaanderen.be/producten-diensten/OSLO2> ;
+                foaf:mbox <mailto:oslo@kb.vlaanderen.be> ;
+                foaf:name "OSLO Werkgroepen" ] ;
+        rec:editor [ schema:affiliation [ foaf:homepage <http://idlab.ugent.be> ;
+                        foaf:name "imec - UGent" ] ;
+                foaf:mbox <mailto:dieter.depaepe@ugent.be> ;
+                foaf:name "De Paepe, Dieter" ],
+            [ schema:affiliation [ foaf:homepage <http://idlab.ugent.be> ;
+                        foaf:name "imec - UGent" ] ;
+                foaf:mbox <mailto:laurens.devocht@ugent.be> ;
+                foaf:name "De Vocht, Laurens" ],
+            [ schema:affiliation [ foaf:homepage <http://idlab.ugent.be> ;
+                        foaf:name "imec - UGent" ] ;
+                foaf:mbox <mailto:erik.mannens@ugent.be> ;
+                foaf:name "Mannens, Erik" ] ;
+        foaf:maker [ schema:affiliation [ foaf:homepage <http://vlaanderen.be/informatie-vlaanderen> ;
+                        foaf:name "Informatie Vlaanderen" ] ;
+                foaf:mbox <mailto:Geert.Thijs@agiv.be> ;
+                foaf:name "Thijs, Geert" ] .
 
 vl-pers:Achternaam
       a       owl:Class ;
