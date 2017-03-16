@@ -1,0 +1,75 @@
+<rdf:RDF xmlns:cc="http://creativecommons.org/ns#" xmlns:dcat="http://www.w3.org/ns/dcat#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#" xmlns:gsp="http://www.opengis.net/ont/geosparql#" xmlns:locn="http://www.w3.org/ns/locn#" xmlns:owl="http://www.w3.org/2002/07/owl#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rec="http://www.w3.org/2001/02pd/rec54#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:schema="http://schema.org/" xmlns:sf="http://www.opengis.net/ont/sf#" xmlns:sioc="http://rdfs.org/sioc/ns#" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:vann="http://purl.org/vocab/vann/" xmlns:voaf="http://purl.org/vocommons/voaf#" xmlns:vs="http://www.w3.org/2003/06/sw-vocab-status/ns#" xmlns:wdrs="http://www.w3.org/2007/05/powder-s#">
+  <owl:Ontology rdf:about="http://data.vlaanderen.be/ns/persoon">
+    <dcterms:mediator rdf:parseType="Resource">
+      <foaf:name>OSLO Werkgroepen</foaf:name>
+      <foaf:homepage rdf:resource="https://overheid.vlaanderen.be/producten-diensten/OSLO2"/>
+      <foaf:mbox rdf:resource="mailto:oslo@kb.vlaanderen.be"/>
+    </dcterms:mediator>
+    
+    
+    
+    <rec:editor rdf:parseType="Resource">
+      <foaf:name>De Vocht, Laurens</foaf:name>
+      <foaf:mbox rdf:resource="mailto:laurens.devocht@ugent.be"/>
+      <schema:affiliation rdf:parseType="Resource">
+        <foaf:name>imec - UGent</foaf:name>
+        <foaf:homepage rdf:resource="http://idlab.ugent.be"/>
+      </schema:affiliation>
+    </rec:editor>
+    
+    
+    <rec:editor rdf:parseType="Resource">
+      <foaf:name>De Paepe, Dieter</foaf:name>
+      <foaf:mbox rdf:resource="mailto:dieter.depaepe@ugent.be"/>
+      <schema:affiliation rdf:parseType="Resource">
+        <foaf:name>imec - UGent</foaf:name>
+        <foaf:homepage rdf:resource="http://idlab.ugent.be"/>
+      </schema:affiliation>
+    </rec:editor>
+    
+    
+    <rec:editor rdf:parseType="Resource">
+      <foaf:name>Mannens, Erik</foaf:name>
+      <foaf:mbox rdf:resource="mailto:erik.mannens@ugent.be"/>
+      <schema:affiliation rdf:parseType="Resource">
+        <foaf:name>imec - UGent</foaf:name>
+        <foaf:homepage rdf:resource="http://idlab.ugent.be"/>
+      </schema:affiliation>
+    </rec:editor>
+    
+    
+    
+    
+    <foaf:maker rdf:parseType="Resource">
+      <foaf:name>Thijs, Geert</foaf:name>
+      <foaf:mbox rdf:resource="mailto:Geert.Thijs@agiv.be"/>
+      <schema:affiliation rdf:parseType="Resource">
+        <foaf:name>Informatie Vlaanderen</foaf:name>
+        <foaf:homepage rdf:resource="http://vlaanderen.be/informatie-vlaanderen"/>
+      </schema:affiliation>
+    </foaf:maker>
+    
+    
+    
+    
+    <dcterms:contributor rdf:parseType="Resource">
+      <foaf:name>Hermans, Paul</foaf:name>
+      <foaf:mbox rdf:resource="mailto:paul@proxml.be"/>
+      <schema:affiliation rdf:parseType="Resource">
+        <foaf:name>ProXML</foaf:name>
+        <foaf:homepage rdf:resource="http://proxml.be"/>
+      </schema:affiliation>
+    </dcterms:contributor>
+    
+    
+    <dcterms:contributor rdf:parseType="Resource">
+      <foaf:name>Van Nuffelen, Bert</foaf:name>
+      <foaf:mbox rdf:resource="mailto:Bert.Van.Nuffelen@tenforce.com"/>
+      <schema:affiliation rdf:parseType="Resource">
+        <foaf:name>Tenforce</foaf:name>
+        <foaf:homepage rdf:resource="http://tenforce.com"/>
+      </schema:affiliation>
+    </dcterms:contributor>
+    
+  </owl:Ontology>
+</rdf:RDF>
