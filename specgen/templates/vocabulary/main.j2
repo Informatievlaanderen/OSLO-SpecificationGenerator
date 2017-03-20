@@ -32,7 +32,7 @@
     </div>
     <div class="page">
     <div class="region">
-        <div class="layout layout--wide">
+        <div class="layout layout--normal">
             <div class="grid">
                 <div class="col--9-12 col--1-1--s">
                     <div class="head" role="contentinfo" id="respecHeader">
@@ -123,16 +123,17 @@
 
                     <p class="copyright">{{ record['metadata']['rights'] }}</p>
 
-                    <hr />
+
                     </div>
                 </div>
+                <hr />
              </div>
         </div>
     </div>
 
     <div id="main" itemprop="mainContentOfPage" role="main" tabindex="-1" class="main-content">
     <div class="region region--no-space-top">
-      <div class="layout layout--wide">
+      <div class="layout layout--normal">
         <section id="abstract" class="introductory" property="dcterms:abstract" datatype="" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter">
         <h2 aria-level="1" role="heading" id="h2_abstract">Abstract</h2>
         <p>
@@ -143,7 +144,7 @@
     </div>
 
     <div class="region region--no-space-top">
-    <div class="layout layout--wide">
+    <div class="layout layout--normal">
     <section class="introductory" id="sotd" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter">
 
     <h2 aria-level="1" role="heading" id="h2_sotd">Status of This Document</h2>
@@ -163,25 +164,24 @@
     Terms defined here may be deprecated by that or future groups; but will not disappear or their definitions change other than to provide clarification of an existing definition.
     </p>
     {% endif %}
-
     </section>
 
     </div>
     </div>
 
     <div class="region region--no-space-top">
-    <div class="layout layout--wide">
+    <div class="layout layout--normal">
     <section typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter" id="license-and-liability">
 
     <h2 id="licenseandliability" aria-level="1" role="heading"><span class="secno">1. </span>License and Liability</h2>
 
-    <p><span rel="dct:type" property="dct:title" href="http://purl.org/dc/dcmitype/Text" xmlns:dct="http://purl.org/dc/terms/">This vocabulary</span> by <a rel="cc:attributionURL" property="cc:attributionName" href="http://vlaanderen.be/informatievlaanderen" xmlns:cc="http://creativecommons.org/ns#">Informatie Vlaanderen</a> is licensed under a <a href="https://overheid.vlaanderen.be/sites/default/files/documenten/ict-egov/licenties/hergebruik/modellicentie_gratis_hergebruik_v1_0.html" rel="license">"Modellicentie Gratis Hergebruik - v1.0"</a>.<br /></p>
+    <p><span rel="dct:type" property="dct:title" href="http://purl.org/dc/dcmitype/Text" xmlns:dct="http://purl.org/dc/terms/">This vocabulary</span> hosted by <a rel="cc:attributionURL" property="cc:attributionName" href="http://vlaanderen.be/informatievlaanderen" xmlns:cc="http://creativecommons.org/ns#">Informatie Vlaanderen</a> is licensed under a <a href="https://overheid.vlaanderen.be/sites/default/files/documenten/ict-egov/licenties/hergebruik/modellicentie_gratis_hergebruik_v1_0.html" rel="license">"Modellicentie Gratis Hergebruik - v1.0"</a>.<br /></p>
     </section>
     </div>
     </div>
 
     <div class="region region--no-space-top">
-    <div class="layout layout--wide">
+    <div class="layout layout--normal">
     <section typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter" id="conformance-statement">
 
     <h2 id="conformance" aria-level="1" role="heading"><span class="secno">2. </span>Conformance</h2>
@@ -193,7 +193,7 @@
     </div>
 
     <div class="region region--no-space-top">
-    <div class="layout layout--wide">
+    <div class="layout layout--normal">
 
 
     <section typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter" id="overview">
@@ -202,6 +202,23 @@
 
     <div class="region region--no-space-top">
     <p>This section lists all classes and properties in the vocabulary.</p>
+    <p>
+    {% if record['subproperties'] or record['subclasses'] %}
+    Furthermore, this vocabulary refers to terms from the following vocabularies:
+    {% if record['subproperties'] and record['subclasses'] %}
+        {% set termen = (record['subproperties']['list']+','+record['subclasses']['list']).split(',') %}
+    {% elif record['subproperties'] and not record['subclasses'] %}
+        {% set termen = record['subproperties']['list'].split(',') %}
+    {% elif not record['subproperties'] and record['subclasses'] %}
+        {% set termen = record['subclasses']['list'].split(',') %}
+    {% endif %}
+    <ul>
+    {% for term in termen %}
+    <li><a href="{{ term }}">{{ term }}</a></li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+    </p>
     </div>
 
     <div class="region region--no-space-top">
@@ -240,7 +257,7 @@
     </div>
 
     <div class="region region--no-space-top">
-    <div class="layout layout--wide">
+    <div class="layout layout--normal">
 
     <section typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter" id="classes">
 
@@ -293,7 +310,7 @@
     </div>
 
     <div class="region region--no-space-top">
-    <div class="layout layout--wide">
+    <div class="layout layout--normal">
 
     <section typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter" id="properties">
 
@@ -425,7 +442,7 @@
         }
 
         table {
-            font-size:11px;
+            font-size:12px;
             color:#333333;
             border-width: 1px;
             border-color: #666666;

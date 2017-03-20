@@ -8,6 +8,7 @@ import os
 import re
 import json
 import datetime
+from urllib.parse import urlparse
 
 PREFIXES = """prefix foaf: <http://xmlns.com/foaf/0.1/>
 prefix dcterms: <http://purl.org/dc/terms/>
@@ -122,6 +123,48 @@ def convert(rdf):
             result += "abstract=%s\n" % re.sub(r'\n', ' ', row['abstract'])
         if row['rights'] is not None:
             result += "rights=%s\n" % row['rights']
+
+    qres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
+        PREFIXES +
+        """SELECT DISTINCT ?s
+           WHERE {
+              { ?c rdfs:subPropertyOf ?s }.
+           }""")
+
+    subproperties = set()
+
+    for row in qres:
+        if row['s'] is not None:
+            parsedurl = urlparse(row['s'])
+            line = parsedurl.scheme + '://' + parsedurl.netloc + parsedurl.path
+            if len(parsedurl.fragment) == 0:
+                line = line[:line.rfind("/")]
+            subproperties.add(line)
+
+    if len(subproperties) > 0:
+        result += '\n[subproperties]\n'
+        result += 'list=%s\n' % ','.join(list(subproperties))
+
+    qres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
+        PREFIXES +
+        """SELECT DISTINCT ?s
+           WHERE {
+              { ?c rdfs:subClassOf ?s }.
+           }""")
+
+    subclasses = set()
+
+    for row in qres:
+        if row['s'] is not None:
+            parsedurl = urlparse(row['s'])
+            line = parsedurl.scheme + '://' + parsedurl.netloc + parsedurl.path
+            if len(parsedurl.fragment) == 0:
+                line = line[:line.rfind("/")]
+            subclasses.add(line)
+
+    if len(subclasses) > 0:
+        result += '\n[subclasses]\n'
+        result += 'list=%s\n' % ','.join(list(subclasses))
 
     qres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
         PREFIXES +
@@ -242,9 +285,9 @@ def convert(rdf):
             classes.append(row['label'])
             class_uris.append(row['class'])
 
-    result += "classes=%s\n" % ",".join(classes)
+    result += "classes=%s\n" % ",".join(sorted(classes))
 
-    result += "class_uris=%s\n" % ",".join(class_uris)
+    result += "class_uris=%s\n" % ",".join(sorted(class_uris))
 
     qres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
         PREFIXES +
@@ -263,9 +306,9 @@ def convert(rdf):
             classes.append(row['label'])
             class_uris.append(row['class'])
 
-    result += "classes_nl=%s\n" % ",".join(classes)
+    result += "classes_nl=%s\n" % ",".join(sorted(classes))
 
-    result += "class_uris_nl=%s\n" % ",".join(class_uris)
+    result += "class_uris_nl=%s\n" % ",".join(sorted(class_uris))
 
     qres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
         PREFIXES +
@@ -284,9 +327,9 @@ def convert(rdf):
             properties.append(row['label'])
             prop_uris.append(row['p'])
 
-    result += "properties=%s\n" % ",".join(properties)
+    result += "properties=%s\n" % ",".join(sorted(properties))
 
-    result += "prop_uris=%s\n" % ",".join(prop_uris)
+    result += "prop_uris=%s\n" % ",".join(sorted(prop_uris))
 
     qres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
         PREFIXES +
@@ -305,9 +348,9 @@ def convert(rdf):
             properties.append(row['label'])
             prop_uris.append(row['p'])
 
-    result += "properties_nl=%s\n" % ",".join(properties)
+    result += "properties_nl=%s\n" % ",".join(sorted(properties))
 
-    result += "prop_uris_nl=%s\n" % ",".join(prop_uris)
+    result += "prop_uris_nl=%s\n" % ",".join(sorted(prop_uris))
 
     qres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
         PREFIXES +
@@ -322,7 +365,7 @@ def convert(rdf):
               OPTIONAL { ?class vann:usageNote ?usageNote } .
               OPTIONAL { ?class rdfs:isDefinedBy ?definedBy } .
               OPTIONAL { ?class wdsr:describedBy ?describedBy } .
-           }""")
+           } ORDER BY ?label""")
 
     for row in qres:
         if row['class'] is not None:
@@ -353,7 +396,7 @@ def convert(rdf):
               OPTIONAL { ?class vann:usageNote ?usageNote } .
               OPTIONAL { ?class rdfs:isDefinedBy ?definedBy } .
               OPTIONAL { ?class wdsr:describedBy ?describedBy } .
-           }""")
+           } ORDER BY ?label""")
 
     for row in qres:
         if row['class'] is not None:
@@ -387,7 +430,7 @@ def convert(rdf):
               OPTIONAL { ?p vann:usageNote ?usageNote } .
               OPTIONAL { ?p rdfs:isDefinedBy ?definedBy } .
               OPTIONAL { ?p wdsr:describedBy ?describedBy } .
-           }""")
+           } ORDER BY ?label""")
 
     for row in qres:
         if row['p'] is not None:
@@ -424,7 +467,7 @@ def convert(rdf):
               OPTIONAL { ?p vann:usageNote ?usageNote } .
               OPTIONAL { ?p rdfs:isDefinedBy ?definedBy } .
               OPTIONAL { ?p wdsr:describedBy ?describedBy } .
-           }""")
+           } ORDER BY ?label""")
 
     for row in qres:
         if row['p'] is not None:
