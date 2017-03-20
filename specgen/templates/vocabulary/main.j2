@@ -148,6 +148,7 @@
     <section class="introductory" id="sotd" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter">
 
     <h2 aria-level="1" role="heading" id="h2_sotd">Status of This Document</h2>
+    <p><em>This section describes the status of this document at the time of its publication. Other documents may supersede it.</em></p>
     <p>
       This document is an official vocabulary specification.
       The purpose of this document is to clarify the definition, use, domain and range of the RDF terms within this domain.
@@ -224,12 +225,13 @@
     <div class="region region--no-space-top">
     <h3>Classes</h3>
     {% set classes = record['glance']['classes'].split(",") %}
+    {% set class_uris = record['glance']['class_uris'].split(",") %}
     <div class="grid">
     <div class="col--1-12 col--1-1--s" />
     <div class="col--8-12 col--1-1--s">
     <dl>
         {% for class in classes %}
-        <dd><a href="#{{ class }}" rel="class">{{ class }}</a></dd>
+        <dd><a href="#{{ class_uris[loop.index - 1] }}" rel="class">{{ class }}</a></dd>
         {% endfor %}
     </dl>
     </div>
@@ -239,12 +241,13 @@
     <div class="region region--no-space-top">
     <h3>Properties</h3>
     {% set props = record['glance']['properties'].split(",") %}
+    {% set prop_uris = record['glance']['prop_uris'].split(",") %}
     <div class="grid">
     <div class="col--1-12 col--1-1--s" />
     <div class="col--8-12 col--1-1--s">
     <dl>
         {% for prop in props %}
-        <dd><a href="#{{ prop }}" rel="property">{{ prop }}</a></dd>
+        <dd><a href="#{{ prop_uris[loop.index - 1] }}" rel="property">{{ prop }}</a></dd>
         {% endfor %}
     </dl>
     </div>
@@ -269,7 +272,7 @@
     {% for class_uri in class_uris %}
     {% set klasse = record['class:'+class_uri] %}
     <div class="region region--no-space-top">
-    <h3 id="{{ klasse['label'] }}">Class <em>{{ klasse['label'] }}</em></h3>
+    <h3 id="{{ class_uri }}">Class <em>{{ klasse['label'] }}</em></h3>
 
     <table class="definition">
         <tbody>
@@ -324,7 +327,7 @@
     {% for prop_uri in prop_uris %}
     {% set eigenschap = record['property:'+prop_uri] %}
     <div class="region region--no-space-top">
-    <h3 id="{{ eigenschap['label'] }}">Property <em>{{  eigenschap['label'] }}</em></h3>
+    <h3 id="{{ prop_uri }}">Property <em>{{  eigenschap['label'] }}</em></h3>
 
     <table class="definition">
         <tbody>

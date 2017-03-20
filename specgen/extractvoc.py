@@ -275,7 +275,7 @@ def convert(rdf):
               { ?class a owl:Class } UNION { ?class a rdfs:Class } .
               ?class rdfs:label ?label .
               FILTER(LANGMATCHES(LANG(?label), "en"))
-           }""")
+           } ORDER BY ?label""")
 
     classes = []
     class_uris = []
@@ -285,9 +285,9 @@ def convert(rdf):
             classes.append(row['label'])
             class_uris.append(row['class'])
 
-    result += "classes=%s\n" % ",".join(sorted(classes))
+    result += "classes=%s\n" % ",".join(classes)
 
-    result += "class_uris=%s\n" % ",".join(sorted(class_uris))
+    result += "class_uris=%s\n" % ",".join(class_uris)
 
     qres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
         PREFIXES +
@@ -296,7 +296,7 @@ def convert(rdf):
               { ?class a owl:Class } UNION { ?class a rdfs:Class } .
               ?class rdfs:label ?label .
               FILTER(LANGMATCHES(LANG(?label), "nl"))
-           }""")
+           } ORDER BY ?label""")
 
     classes = []
     class_uris = []
@@ -306,9 +306,9 @@ def convert(rdf):
             classes.append(row['label'])
             class_uris.append(row['class'])
 
-    result += "classes_nl=%s\n" % ",".join(sorted(classes))
+    result += "classes_nl=%s\n" % ",".join(classes)
 
-    result += "class_uris_nl=%s\n" % ",".join(sorted(class_uris))
+    result += "class_uris_nl=%s\n" % ",".join(class_uris)
 
     qres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
         PREFIXES +
@@ -316,20 +316,24 @@ def convert(rdf):
            WHERE {
               { { ?p a owl:ObjectProperty } UNION { ?p a owl:DatatypePoperty } } UNION { ?p a rdf:Property } .
               ?p rdfs:label ?label .
+              OPTIONAL { ?p rdfs:domain ?s . ?s rdfs:label ?sLabel . FILTER(LANGMATCHES(LANG(?sLabel), "en"))} .
               FILTER(LANGMATCHES(LANG(?label), "en"))
-           }""")
+           } ORDER BY ?label""")
 
     properties = []
     prop_uris = []
 
     for row in qres:
         if row['p'] is not None:
-            properties.append(row['label'])
+            if row['sLabel'] is not None:
+                properties.append("%s (%s)" % (row['label'], row['sLabel']))
+            else:
+                properties.append(row['label'])
             prop_uris.append(row['p'])
 
-    result += "properties=%s\n" % ",".join(sorted(properties))
+    result += "properties=%s\n" % ",".join(properties)
 
-    result += "prop_uris=%s\n" % ",".join(sorted(prop_uris))
+    result += "prop_uris=%s\n" % ",".join(prop_uris)
 
     qres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
         PREFIXES +
@@ -337,20 +341,24 @@ def convert(rdf):
            WHERE {
               { { ?p a owl:ObjectProperty } UNION { ?p a owl:DatatypePoperty } } UNION { ?p a rdf:Property } .
               ?p rdfs:label ?label .
+              OPTIONAL { ?p rdfs:domain ?s . ?s rdfs:label ?sLabel . FILTER(LANGMATCHES(LANG(?sLabel), "nl")) } .
               FILTER(LANGMATCHES(LANG(?label), "nl"))
-           }""")
+           } ORDER BY ?label""")
 
     properties = []
     prop_uris = []
 
     for row in qres:
         if row['p'] is not None:
-            properties.append(row['label'])
+            if row['sLabel'] is not None:
+                properties.append("%s (%s)" % (row['label'], row['sLabel']))
+            else:
+                properties.append(row['label'])
             prop_uris.append(row['p'])
 
-    result += "properties_nl=%s\n" % ",".join(sorted(properties))
+    result += "properties_nl=%s\n" % ",".join(properties)
 
-    result += "prop_uris_nl=%s\n" % ",".join(sorted(prop_uris))
+    result += "prop_uris_nl=%s\n" % ",".join(prop_uris)
 
     qres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
         PREFIXES +

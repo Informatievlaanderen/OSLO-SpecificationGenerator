@@ -148,6 +148,7 @@
     <section class="introductory" id="sotd" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter">
 
     <h2 class="h2" aria-level="1" role="heading" id="h2_sotd">Status van dit document</h2>
+    <p><em>Deze sectie beschrijft de status van dit document op het moment van publicatie. Het kan zijn dat er ondertussen al nieuwere versies zijn uitgebracht.</em></p>
     <p>
       Dit document is een officiële specificatie van een vocabularium.
       Deze specificatie dient om de definitie, gebruik, domein en bereik van de RDF termen binnen in dit domein te verduidelijken.
@@ -225,12 +226,13 @@
     <div class="region region--no-space-top">
     <h3 class="h3" >Klassen</h3>
     {% set classes = record['glance']['classes_nl'].split(",") %}
+    {% set class_uris = record['glance']['class_uris_nl'].split(",") %}
     <div class="grid">
     <div class="col--1-12 col--1-1--s" />
     <div class="col--8-12 col--1-1--s">
     <dl>
         {% for class in classes %}
-        <dd><a href="#{{ class }}" rel="class">{{ class }}</a></dd>
+        <dd><a href="#{{ class_uris[loop.index - 1] }}" rel="class">{{ class }}</a></dd>
         {% endfor %}
     </dl>
     </div>
@@ -240,12 +242,13 @@
     <div class="region region--no-space-top">
     <h3 class="h3" >Eigenschappen</h3>
     {% set props = record['glance']['properties_nl'].split(",") %}
+    {% set prop_uris = record['glance']['prop_uris_nl'].split(",") %}
     <div class="grid">
     <div class="col--1-12 col--1-1--s" />
     <div class="col--8-12 col--1-1--s">
     <dl>
         {% for prop in props %}
-        <dd><a href="#{{ prop }}" rel="property">{{ prop }}</a></dd>
+        <dd><a href="#{{ prop_uris[loop.index - 1] }}" rel="property">{{ prop }}</a></dd>
         {% endfor %}
     </dl>
     </div>
@@ -270,7 +273,7 @@
     {% for class_uri in class_uris %}
     {% set klasse = record['class_nl:'+class_uri] %}
     <div class="region region--no-space-top">
-    <h3 class="h3"  id="{{ klasse['label'] }}">Klasse <em>{{ klasse['label'] }}</em></h3>
+    <h3 class="h3"  id="{{ class_uri }}">Klasse <em>{{ klasse['label'] }}</em></h3>
 
     <table class="definition">
         <tbody>
@@ -325,7 +328,7 @@
     {% for prop_uri in prop_uris %}
     {% set eigenschap = record['property_nl:'+prop_uri] %}
     <div class="region region--no-space-top">
-    <h3 class="h3"  id="{{ eigenschap['label'] }}">Eigenschap <em>{{  eigenschap['label'] }}</em></h3>
+    <h3 class="h3"  id="{{ prop_uri }}">Eigenschap <em>{{  eigenschap['label'] }}</em></h3>
 
     <table class="definition">
         <tbody>
