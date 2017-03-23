@@ -2,6 +2,7 @@ import codecs
 import logging
 import os
 import re
+import sys
 from io import BytesIO
 from xml.dom import minidom
 import lxml.etree as ET
@@ -107,7 +108,10 @@ def read_mcf(mcf):
         c = ConfigParser()
         LOGGER.debug('reading {}'.format(mcf2))
         with codecs.open(mcf2, encoding='utf-8') as fh:
-            c.read_file(fh)
+            if sys.version_info >= (3, 0):
+                c.read_file(fh)
+            else:
+                c.readfp(fh)
             mcf_dict = c.__dict__['_sections']
             for section in mcf_dict.keys():
                 if 'base_mcf' in mcf_dict[section]:
@@ -125,7 +129,10 @@ def read_mcf(mcf):
     for mcf_file in mcf_list:
         LOGGER.debug('reading {}'.format(mcf))
         with codecs.open(mcf_file, encoding='utf-8') as fh:
-            c.read_file(fh)
+            if sys.version_info >= (3, 0):
+                c.read_file(fh)
+            else:
+                c.readfp(fh)
     mcf_dict = c.__dict__['_sections']
     return mcf_dict
 

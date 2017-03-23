@@ -2,12 +2,11 @@
 
 # OSLO-SpecificationGenerator
 
-OSLO-SpecificationGenerator is a Python package to generate HTML specifications from RDF vocabularies.
+OSLO-SpecificationGenerator is a Python package and CLI to generate HTML specifications from RDF vocabularies.
 
 ## Table of Contents
 * [Overview](#overview)
 * [Features](#features)
-* [Quickstart](#quickstart)
 * [Installation](#installation)
   * [Requirements](#requirements)
   * [Dependencies](#dependencies)
@@ -15,9 +14,8 @@ OSLO-SpecificationGenerator is a Python package to generate HTML specifications 
 * [Running](#running)
 * [Development](#development)
   * [Setting up a Development Environment](#setting-up-a-development-environment)
-  * [Adding Another Metadata Schema to the Core](#adding-another-metadata-schema-to-the-core)
+  * [Adding Another Target Schema](#adding-another-target-schema)
   * [Running Tests](#running-tests)
-  * [Code Conventions](#code-conventions)
   * [Bugs and Issues](#bugs-and-issues)
 * [Contact](#contact)
 
@@ -65,7 +63,7 @@ Leave out the `--output` option to write to stdout instead of a file.
 ### List all options with their explanation
 
 ```bash
-./bin/generate_vocabulary.py -- help
+./bin/generate_vocabulary.py --help
 ```
 
 ### Generating contributors RDF from CSV
@@ -77,7 +75,7 @@ Leave out the `--output` option to write to stdout instead of a file.
 ### Merging contributors RDF with a vocabulary RDF
 
 ```bash
-./bin/generate_vocabulary.py --rdf {vocabulary_rdf_path} --rdf1 {contributors_rdf_path} --merge --output {output_path}
+./bin/generate_vocabulary.py --rdf {vocabulary_rdf_path} --rdf_contributor {contributors_rdf_path} --merge --output {output_path}
 ```
 
 ### Generating vocabulary HTML specification from RDF
@@ -115,7 +113,7 @@ Same as installing a package.  Use a virtualenv.  Also install developer require
 pip install -r requirements-dev.txt
 ```
 
-### Adding Another Target Schema to the Core
+### Adding Another Target Schema
 
 List of supported metadata schemas in specgen/templates/`
 

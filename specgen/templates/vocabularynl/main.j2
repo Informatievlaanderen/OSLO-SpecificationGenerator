@@ -1,8 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html lang="en" dir="ltr" typeof="bibo:Document " about="" property="dcterms:language" content="en" prefix="bibo: http://purl.org/ontology/bibo/ w3p: http://www.w3.org/2001/02pd/rec54#" xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" dir="ltr" typeof="bibo:Document " about="" property="dcterms:language" content="nl" prefix="dcterms: http://purl.org/dc/terms/ bibo: http://purl.org/ontology/bibo/ schema: http://schema.org/ w3p: http://www.w3.org/2001/02pd/rec54#" xmlns="http://www.w3.org/1999/xhtml">
   <head>
+    <title>{{ record['metadata_nl']['title'] }}</title>
     <meta charset='utf-8' />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -40,10 +41,12 @@
                     <h2 class="h2" id="subtitle" property="bibo:subtitle">Specificatie van <em>{{ record['metadata']['prefix'] }}</em></h2>
                     <h2 class="h2" content="{{ record['metadata']['issued'] }}" datatype="xsd:dateTime" property="dcterms:issued" id="draft-{{ record['metadata']['issued'] }}">Uitgegeven op <time datetime="{{ record['metadata']['issued'] }}" class="dt-published">{{ record['metadata']['issued'] }}</time></h2>
                     <dl>
+                        {% if record['metadata']['modified'] %}
                         <dt>Laatste aanpassing</dt>
 
                         <dd>{{ record['metadata']['modified'] }}
                         </dd>
+                        {% endif %}
 
                         <dt>Laatste versie</dt>
 
@@ -136,6 +139,9 @@
       <div class="layout layout--normal">
         <section id="abstract" class="introductory" property="dcterms:abstract" datatype="" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter">
         <h2 class="h2" aria-level="1" role="heading" id="h2_abstract">Samenvatting</h2>
+        <p>
+        Het {{ record['metadata_nl']['title'] }} Vocabularium specificeert een aantal klassen en eigenschappen om een {{ record['metadata_nl']['title'].lower() }} te beschrijven.
+        </p>
         <p>
         {{ record['metadata_nl']['abstract'] }}
         </p>

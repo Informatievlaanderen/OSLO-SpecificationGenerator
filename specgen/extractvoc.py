@@ -8,7 +8,12 @@ import os
 import re
 import json
 import datetime
-from urllib.parse import urlparse
+import sys
+
+if sys.version_info >= (3, 0):
+    from urllib.parse import urlparse
+else:
+    from urlparse import urlparse
 
 PREFIXES = """prefix foaf: <http://xmlns.com/foaf/0.1/>
 prefix dcterms: <http://purl.org/dc/terms/>
@@ -178,7 +183,7 @@ def convert(rdf):
               OPTIONAL { ?c foaf:homepage ?mhomepage } .
               OPTIONAL { ?c foaf:mbox ?mmbox } .
               OPTIONAL { ?c foaf:name ?mname } .
-           }""")
+           } ORDER BY ?aName ?mname """)
 
     contributors = []
 
@@ -212,7 +217,7 @@ def convert(rdf):
               OPTIONAL { ?e foaf:homepage ?mhomepage } .
               OPTIONAL { ?e foaf:mbox ?mmbox } .
               OPTIONAL { ?e foaf:name ?mname } .
-           }""")
+           } ORDER BY ?aName ?mname """)
 
     editors = []
 
@@ -244,7 +249,7 @@ def convert(rdf):
               OPTIONAL { ?m foaf:homepage ?mhomepage }.
               OPTIONAL { ?m foaf:mbox ?mmbox }.
               OPTIONAL { ?m foaf:name ?mname }.
-           }""")
+           } ORDER BY ?aName ?mname """)
 
     makers = []
 

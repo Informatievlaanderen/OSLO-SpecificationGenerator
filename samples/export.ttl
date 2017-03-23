@@ -11,6 +11,7 @@
 @prefix locn:    <http://www.w3.org/ns/locn#> .
 @prefix vann:    <http://purl.org/vocab/vann/> .
 @prefix cpsv:    <http://purl.org/vocab/cpsv#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
 
 eu:FoundationEvent
       rdfs:comment "TODO"@nl ;
@@ -22,6 +23,8 @@ eu:PublicOrganisation
 
 <http://data.vlaanderen.be/ns/organisati>
       a       owl:Ontology ;
+      rdfs:label "Export"@nl , "Export"@en ;
+      dcterms:title "Export"@nl , "Export"@en ;
       vann:preferredNamespacePrefix
               "vl-org" ;
       vann:preferredNamespaceUri

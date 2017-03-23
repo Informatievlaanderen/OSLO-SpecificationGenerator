@@ -26,6 +26,7 @@
       <foaf:homepage rdf:resource="https://overheid.vlaanderen.be/producten-diensten/OSLO2"/>
       <foaf:mbox rdf:resource="mailto:oslo@kb.vlaanderen.be"/>
     </dcterms:mediator>
+    {% if record['overview']['editors'] %}
     {% set editors = record['overview']['editors'].split(",") %}
     {% for editor in editors %}
     {% set redacteur = record['editor:'+editor] %}
@@ -38,6 +39,8 @@
       </schema:affiliation>
     </rec:editor>
     {% endfor %}
+    {% endif %}
+    {% if record['overview']['authors'] %}
     {% set authors = record['overview']['authors'].split(",") %}
     {% for author in authors %}
     {% set auteur = record['author:'+author] %}
@@ -50,6 +53,8 @@
       </schema:affiliation>
     </foaf:maker>
     {% endfor %}
+    {% endif %}
+    {% if record['overview']['contributors'] %}
     {% set contributors = record['overview']['contributors'].split(",") %}
     {% for contributor in contributors %}
     {% set bijdrager = record['contributor:'+contributor] %}
@@ -62,5 +67,6 @@
       </schema:affiliation>
     </dcterms:contributor>
     {% endfor %}
+    {% endif %}
   </owl:Ontology>
 </rdf:RDF>

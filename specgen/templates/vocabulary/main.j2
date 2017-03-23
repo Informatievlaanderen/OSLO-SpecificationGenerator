@@ -1,9 +1,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html lang="en" dir="ltr" typeof="bibo:Document " about="" property="dcterms:language" content="en" prefix="bibo: http://purl.org/ontology/bibo/ w3p: http://www.w3.org/2001/02pd/rec54#" xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" dir="ltr" typeof="bibo:Document " about="" property="dcterms:language" content="en" prefix="dcterms: http://purl.org/dc/terms/ bibo: http://purl.org/ontology/bibo/ schema: http://schema.org/ w3p: http://www.w3.org/2001/02pd/rec54#" xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset='utf-8' />
+    <title>{{ record['metadata']['title'] }}</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="https://dij151upo6vad.cloudfront.net/2.latest/css/vlaanderen-ui.css" />
@@ -37,13 +38,17 @@
                 <div class="col--9-12 col--1-1--s">
                     <div class="head" role="contentinfo" id="respecHeader">
                     <h1 property="dcterms:title" id="title" class="title p-name">{{ record['metadata']['title'] }}</h1>
+                    {% if record['metadata']['prefix'] %}
                     <h2 id="subtitle" property="bibo:subtitle">Specification of <em>{{ record['metadata']['prefix'] }}</em></h2>
+                    {% endif %}
                     <h2 content="{{ record['metadata']['issued'] }}" datatype="xsd:dateTime" property="dcterms:issued" id="draft-{{ record['metadata']['issued'] }}">Released <time datetime="{{ record['metadata']['issued'] }}" class="dt-published">{{ record['metadata']['issued'] }}</time></h2>
                     <dl>
+                        {% if record['metadata']['modified'] %}
                         <dt>Latest Modification</dt>
 
                         <dd>{{ record['metadata']['modified'] }}
                         </dd>
+                        {% endif %}
 
                         <dt>Latest Version</dt>
 
@@ -136,6 +141,9 @@
       <div class="layout layout--normal">
         <section id="abstract" class="introductory" property="dcterms:abstract" datatype="" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter">
         <h2 aria-level="1" role="heading" id="h2_abstract">Abstract</h2>
+        <p>
+        The {{ record['metadata']['title'] }} Vocabulary specification provides a set of classes and properties for describing a {{ record['metadata']['title'].lower() }}.
+        </p>
         <p>
         {{ record['metadata']['abstract'] }}
         </p>
