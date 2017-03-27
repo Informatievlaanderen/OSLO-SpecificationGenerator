@@ -60,4 +60,4 @@ def convert_csv(path):
                 for key in attr:
                     result += '%s=%s\n' % (key, attr[key])
 
-    return result
+    return [result, package['EA-Name'].replace('OSLO-', '')]

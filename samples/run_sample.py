@@ -97,10 +97,15 @@ class SpecGenTest(unittest.TestCase):
             './export_org.csv'
         ]
 
+        contributor_file = './stakeholders.tsv'
+
         for t in test_files:
             # CSV -{1}> XML
             csv = get_abspath(t)
-            result = convert_csv(csv)
+            converted = convert_csv(csv)
+            voc = converted[1]
+            result = converted[0]
+            result += convert_contributor_csv(contributor_file, voc)
             _, fp = tempfile.mkstemp()
 
             with codecs.open(fp, 'w', encoding='utf-8') as f:

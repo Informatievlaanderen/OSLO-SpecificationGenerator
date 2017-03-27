@@ -234,14 +234,12 @@
     {% set classes = record['glance']['classes_nl'].split(",") %}
     {% set class_uris = record['glance']['class_uris_nl'].split(",") %}
     <div class="grid">
-    <div class="col--1-12 col--1-1--s" />
-    <div class="col--8-12 col--1-1--s">
-    <dl>
+    <p>
+        |
         {% for class in classes %}
-        <dd><a href="#{{ class_uris[loop.index - 1] }}" rel="class">{{ class }}</a></dd>
+        <a href="#{{ class_uris[loop.index - 1] }}" rel="class">{{ class }}</a> |
         {% endfor %}
-    </dl>
-    </div>
+    </p>
     </div>
     </div>
 
@@ -250,14 +248,12 @@
     {% set props = record['glance']['properties_nl'].split(",") %}
     {% set prop_uris = record['glance']['prop_uris_nl'].split(",") %}
     <div class="grid">
-    <div class="col--1-12 col--1-1--s" />
-    <div class="col--8-12 col--1-1--s">
-    <dl>
+    <p>
+        |
         {% for prop in props %}
-        <dd><a href="#{{ prop_uris[loop.index - 1] }}" rel="property">{{ prop }}</a></dd>
+        <a href="#{{ prop_uris[loop.index - 1] }}" rel="property">{{ prop }}</a> |
         {% endfor %}
-    </dl>
-    </div>
+    </p>
     </div>
     </div>
 

@@ -202,8 +202,13 @@ def voc_to_spec(rdf, schema=None, schema_local=None):
     return render_template(fp, schema, schema_local)
 
 
-def voc_to_ap(csv, schema=None, schema_local=None):
-    result = convert_csv(csv)
+def voc_to_ap(csv, csv_contributor=None, schema=None, schema_local=None):
+    converted = convert_csv(csv)
+    result = converted[0]
+    voc = converted[1]
+
+    if csv_contributor is not None:
+        result += convert_contributor_csv(csv_contributor, voc)
     _, fp = tempfile.mkstemp()
 
     with codecs.open(fp, 'w', encoding='utf-8') as f:

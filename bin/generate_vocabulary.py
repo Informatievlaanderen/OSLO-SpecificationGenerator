@@ -14,6 +14,9 @@ SUPPORTED_SCHEMAS = get_supported_schemas()
 @click.option('--rdf_contributor',
               type=click.Path(exists=True, resolve_path=True),
               help='Path to Author RDF file (.ttl/.rdf/.json/.jsonld/.nt/.nq/.n3)')
+@click.option('--csv_contributor',
+              type=click.Path(exists=True, resolve_path=True),
+              help='Path to Author CSV file (.csv)')
 @click.option('--csv',
               type=click.Path(exists=True, resolve_path=True),
               help='Path to Author or Application Profile CSV file (.csv)')
@@ -32,7 +35,7 @@ SUPPORTED_SCHEMAS = get_supported_schemas()
               help='Locally defined metadata schema')
 
 
-def process_args(rdf, rdf_contributor, csv, ap, contributors, merge, target, schema, schema_local, output):
+def process_args(rdf, rdf_contributor, csv_contributor, csv, ap, contributors, merge, target, schema, schema_local, output):
     xml_output = False
 
     if not ap and not contributors and not merge:
@@ -44,7 +47,7 @@ def process_args(rdf, rdf_contributor, csv, ap, contributors, merge, target, sch
                 'Missing arguments input RDF --rdf {path}')
 
     elif ap and csv is not None:
-        xml_output = voc_to_ap(csv, schema=schema,
+        xml_output = voc_to_ap(csv, csv_contributor=csv_contributor, schema=schema,
                                  schema_local=schema_local)
 
     elif contributors and csv is not None:

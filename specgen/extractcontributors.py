@@ -1,5 +1,6 @@
 import csv
 import pydash
+import time
 
 def convert_contributor_csv(path, voc):
     items = []
@@ -29,8 +30,9 @@ def convert_contributor_csv(path, voc):
     author_emails = pydash.map_(authors.copy(), 'E-mail')
 
     if len(items) > 0:
-        result += "\n[overview]\n"
+        result += "\n[overview_contributors]\n"
         result += 'voc=%s\n' % voc.lower()
+        result += 'issued=%s\n' % time.strftime("%Y-%m-%d")
         if len(contributor_emails) > 0:
             result += 'contributors=%s\n' % ','.join(contributor_emails)
         if len(editor_emails) > 0:

@@ -6,9 +6,8 @@
 import rdflib
 import os
 import re
-import json
-import datetime
 import sys
+import time
 
 if sys.version_info >= (3, 0):
     from urllib.parse import urlparse
@@ -93,6 +92,8 @@ def convert(rdf):
             result += "issued=%s\n" % row['issued']
         if row['modified'] is not None:
             result += "modified=%s\n" % row['modified']
+        if row['modified'] is None:
+            result += 'modified=%s\n' % time.strftime("%Y-%m-%d")
         if row['rights'] is not None:
             result += "rights=%s\n" % row['rights']
         if row['m'] is not None:

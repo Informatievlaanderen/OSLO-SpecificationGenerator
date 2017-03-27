@@ -20,14 +20,14 @@
   xmlns:vs="http://www.w3.org/2003/06/sw-vocab-status/ns#"
   xmlns:wdrs="http://www.w3.org/2007/05/powder-s#"
 >
-  <owl:Ontology rdf:about="http://data.vlaanderen.be/ns/{{ record["overview"]["voc"] }}">
+  <owl:Ontology rdf:about="http://data.vlaanderen.be/ns/{{ record["overview_contributors"]["voc"] }}">
     <dcterms:mediator rdf:parseType="Resource">
       <foaf:name>OSLO Werkgroepen</foaf:name>
       <foaf:homepage rdf:resource="https://overheid.vlaanderen.be/producten-diensten/OSLO2"/>
       <foaf:mbox rdf:resource="mailto:oslo@kb.vlaanderen.be"/>
     </dcterms:mediator>
-    {% if record['overview']['editors'] %}
-    {% set editors = record['overview']['editors'].split(",") %}
+    {% if record['overview_contributors']['editors'] %}
+    {% set editors = record['overview_contributors']['editors'].split(",") %}
     {% for editor in editors %}
     {% set redacteur = record['editor:'+editor] %}
     <rec:editor rdf:parseType="Resource">
@@ -40,8 +40,8 @@
     </rec:editor>
     {% endfor %}
     {% endif %}
-    {% if record['overview']['authors'] %}
-    {% set authors = record['overview']['authors'].split(",") %}
+    {% if record['overview_contributors']['authors'] %}
+    {% set authors = record['overview_contributors']['authors'].split(",") %}
     {% for author in authors %}
     {% set auteur = record['author:'+author] %}
     <foaf:maker rdf:parseType="Resource">
@@ -54,8 +54,8 @@
     </foaf:maker>
     {% endfor %}
     {% endif %}
-    {% if record['overview']['contributors'] %}
-    {% set contributors = record['overview']['contributors'].split(",") %}
+    {% if record['overview_contributors']['contributors'] %}
+    {% set contributors = record['overview_contributors']['contributors'].split(",") %}
     {% for contributor in contributors %}
     {% set bijdrager = record['contributor:'+contributor] %}
     <dcterms:contributor rdf:parseType="Resource">
