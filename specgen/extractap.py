@@ -1,5 +1,6 @@
 import csv
 import pydash
+import os
 
 def convert_csv(path):
     ap = []
@@ -31,12 +32,14 @@ def convert_csv(path):
     #    attributes = pydash.remove(attributes, {'EA-Domain': enumeration})
 
     package = pydash.find(ap, {'EA-Type': 'Package'})
+    title = os.path.splitext(os.path.basename(path))[0]
 
     if len(domains) > 0:
         result += "\n[overview]\n"
         result += 'entities=%s\n' % ','.join(domains)
         if package is not None:
             result += 'package=%s\n' % package['EA-Name'].replace('OSLO-', '')
+        result += 'title=%s\n' % title
 
         for domain in domains:
             result += "\n[%s]\n" % domain

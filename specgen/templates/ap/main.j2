@@ -4,7 +4,7 @@
 <html lang="en" dir="ltr" typeof="bibo:Document " about="" property="dcterms:language" content="nl" prefix="dcterms: http://purl.org/dc/terms/ bibo: http://purl.org/ontology/bibo/ schema: http://schema.org/ w3p: http://www.w3.org/2001/02pd/rec54#" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-  <title>{{ record['overview']['package'] }} AP</title>
+  <title>{{ record['overview']['title'] }}</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -43,7 +43,7 @@
         <div class="layout layout--normal">
             <div class="grid u-hr">
                 <div class="col--9-12 col--1-1--s">
-                    <h1 class="h1">{{ record['overview']['package'] }} AP</h1>
+                    <h1 class="h1">{{ record['overview']['title'] }}</h1>
                     <div class="head" role="contentinfo" id="respecHeader">
                         <dl>
                         {% if record['overview_contributors']['issued'] %}
@@ -121,7 +121,7 @@
             <div class="grid">
                 <div class="col--9-12 col--1-1--s">
                 <div class="introduction typography">
-                            <p>Dit document beschrijft het <strong>applicatie-profiel</strong> voor <strong>{{ record['overview']['package'] }}</strong>.
+                            <p>Dit document beschrijft een <strong>applicatie-profiel</strong> voor <strong>{{ record['overview']['package'] }}</strong>, in dit geval <strong>{{ record['overview']['title'] }}</strong>.
                             Een applicatie-profiel is een specificatie die bestaande termen hergebruikt van verschillende basis-standaarden
                             en daar meer specificiteit aan toevoegt.
                             Daarbij wordt het gebruik van de termen toegelicht voor de uitwisseling van Vlaamse overheidsinformatie.
@@ -150,14 +150,18 @@
             <h2 class="h2">Overzicht</h2>
             <div class="grid">
               <div class="col--9-12 col--1-1--s typography">
-                    <div><p> In dit document wordt correct gebruik van de volgende entiteiten toegelicht in de context van de uitwisseling van een {{ record['overview']['package'] }} in Vlaanderen:
+                    <div>
+                        <p> In dit document wordt correct gebruik van de volgende entiteiten toegelicht in de context van de uitwisseling van een {{ record['overview']['package'] }} in Vlaanderen:
                             <br />
                             |
                             {% set entities = record['overview']['entities'].split(",") %}
                             {% for entity in entities %}
                             <a href="#{{ entity }}">{{ entity }}</a> |
                             {% endfor %}
-                            </p>
+                         </p>
+                    </div>
+                    <div>
+                        <img src="{{ record['overview']['package'].lower().jpg }}" />
                     </div>
               </div>
             </div>
