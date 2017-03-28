@@ -160,11 +160,13 @@
                             {% endfor %}
                          </p>
                     </div>
-                    <div>
-                        <img src="{{ record['overview']['package'].lower().jpg }}" />
-                    </div>
               </div>
             </div>
+          </div>
+      </div>
+      <div class="region region--no-space-top">
+          <div class="layout layout--normal">
+            <img src="{{ record['overview']['package'].lower() }}.jpg" />
           </div>
       </div>
       {% for entity in entities %}
