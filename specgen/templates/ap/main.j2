@@ -73,7 +73,7 @@
 
 
                         {% if record['overview_contributors']['editors'] %}
-                        <dt>Redacteurs</dt>
+                        <dt>Editors</dt>
                         {% set editors = record['overview_contributors']['editors'].split(",") %}
                         {% for editor in editors %}
                         <dd inlist="" rel="bibo:editor" class="p-author h-card vcard">
@@ -121,8 +121,8 @@
             <div class="grid">
                 <div class="col--9-12 col--1-1--s">
                 <div class="introduction typography">
-                            <p>Dit document beschrijft een <strong>applicatie-profiel</strong> voor <strong>{{ record['overview']['package'] }}</strong>, in dit geval <strong>{{ record['overview']['title'] }}</strong>.
-                            Een applicatie-profiel is een specificatie die bestaande termen hergebruikt van verschillende basis-standaarden
+                            <p>Dit document beschrijft een <strong>applicatieprofiel</strong> voor <strong>{{ record['overview']['package'] }}</strong>, in dit geval <strong>{{ record['overview']['title'] }}</strong>.
+                            Een applicatieprofiel is een specificatie die bestaande termen hergebruikt van verschillende basis-standaarden
                             en daar meer specificiteit aan toevoegt.
                             Daarbij wordt het gebruik van de termen toegelicht voor de uitwisseling van Vlaamse overheidsinformatie.
                             Het AP beantwoord de vraag over hoe het corresponderende domeinmodel in de praktijk kan toegepast worden.
@@ -137,14 +137,37 @@
       <div class="region region--no-space-top">
           <div class="layout layout--normal">
             <h2 class="h2">Licentie en aansprakelijkheid</h2>
-            <div class="grid">
-              <div class="col--9-12 col--1-1--s typography">
-                    <div><p><span rel="dct:type" property="dct:title" href="http://purl.org/dc/dcmitype/Text" xmlns:dct="http://purl.org/dc/terms/">Deze specificatie</span> van <a rel="cc:attributionURL" property="cc:attributionName" href="http://vlaanderen.be/informatievlaanderen" xmlns:cc="http://creativecommons.org/ns#">Informatie Vlaanderen</a> is gepubliceerd onder de <a href="https://overheid.vlaanderen.be/sites/default/files/documenten/ict-egov/licenties/hergebruik/modellicentie_gratis_hergebruik_v1_0.html" rel="license">"Modellicentie Gratis Hergebruik - v1.0"</a>.<br /></p>
-                    </div>
-              </div>
-            </div>
+            <p><span rel="dct:type" property="dct:title" href="http://purl.org/dc/dcmitype/Text" xmlns:dct="http://purl.org/dc/terms/">Deze specificatie</span> van <a rel="cc:attributionURL" property="cc:attributionName" href="http://vlaanderen.be/informatievlaanderen" xmlns:cc="http://creativecommons.org/ns#">Informatie Vlaanderen</a> is gepubliceerd onder de <a href="https://overheid.vlaanderen.be/sites/default/files/documenten/ict-egov/licenties/hergebruik/modellicentie_gratis_hergebruik_v1_0.html" rel="license">"Modellicentie Gratis Hergebruik - v1.0"</a>.</p>
           </div>
       </div>
+      <div class="region region--no-space-top">
+        <div class="layout layout--normal">
+        <div class="grid">
+        <div class="col--9-12 col--1-1--s typography">
+        <h2 class="h2" id="conformance" aria-level="1" role="heading"><span class="secno">2. </span>Conformantie</h2>
+
+        <p>Een applicatieprofiel is een specificatie voor gegevensuitwisseling dat bijkomende beperkingen introduceert voor het toepassen van vocabularia.
+        Dergelijke bijkomende beperkingen kunnen de volgende elementen bevatten:</p>
+        <p>
+        <ul>
+        <li>verfijning van de terminologie (klassen en eigenschappen) consistent met de semantiek uit de betreffende specificaties met een welbepaald gebruik als doel;</li>
+        <li>externe terminologie (klassen en eigenschappen) gebruikt voor nieuwe/extra termen die niet in de bestaande vocabularia voorkomen.</li>
+        </ul>
+        </p>
+        <p>Om conform te zijn met dit applicatieprofiel, MOET een implementatie:</p>
+        <p>
+        <ul>
+        <li>Voor elke klasse steeds de eigenschappen bevatten die als minimum kardinaliteit 1 hebben.</li>
+        <li>Niet meer dan 1 instantie bevatten van eigenschappen die 1 als maximum kardinaliteit hebben.</li>
+        <li>De terminologie (klassen en eigenschappen) gebruiken op een manier die consistent is met haar semantiek (definitie, gebruik, domein en bereik).</li>
+        <li>Geen terminologie van andere gecontroleerde vocabularia gebruiken dan diegene die gedefinieerd wordt in dit applicatieprofiel.</li>
+        <li>Mag uitgebreid worden met klassen en eigenschappen van andere datamodellen (vocabularia) die niet overlappen met terminologie uit dit applicatieprofiel.</li>
+        </ul>
+        </p>
+        </div>
+        </div>
+    </div>
+    </div>
       <div class="region region--no-space-top">
           <div class="layout layout--normal">
             <h2 class="h2">Overzicht</h2>
@@ -178,6 +201,7 @@
                     <div class="region region--no-space-top">
                     <div><p>{{ record[entity]['ap-definition-nl'] }}</p></div>
                     <div><p>{{ record[entity]['ap-usageNote-nl'] }}</p></div>
+                    {% if record[entity]['attributes'] %}
                     {% set attributes = record[entity]['attributes'].split(",") %}
                     {% set attributelist = record[entity]['attributes'].replace(",", ", ") %}
                     <div><p>Voor deze entiteit zijn de volgende attributen gedefinieerd: {{ attributelist }}.</p></div>
@@ -211,6 +235,7 @@
                           {% endfor %}
                           </tbody>
                         </table>
+                        {% endif %}
                     </div>
               </div>
             </div>
@@ -233,6 +258,10 @@
     <style>
       @media screen {  /* hide from IE3 */
         a[href]:hover { background: #ffa }
+      }
+
+      p {
+        text-align: justify;
       }
 
       tr:nth-child(even) td     { background-color:#eee; }

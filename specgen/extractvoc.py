@@ -155,7 +155,7 @@ def convert(rdf):
         PREFIXES +
         """SELECT DISTINCT ?s
            WHERE {
-              { ?c rdfs:subClassOf ?s }.
+              { ?c rdfs:subClassOf ?s } UNION { ?c owl:equivalentClass ?s }
            }""")
 
     subclasses = set()
@@ -320,7 +320,7 @@ def convert(rdf):
         PREFIXES +
         """SELECT DISTINCT *
            WHERE {
-              { { ?p a owl:ObjectProperty } UNION { ?p a owl:DatatypePoperty } } UNION { ?p a rdf:Property } .
+              { { ?p a owl:ObjectProperty } UNION { ?p a owl:DatatypeProperty } } UNION { ?p a rdf:Property } .
               ?p rdfs:label ?label .
               OPTIONAL { ?p rdfs:domain ?s . ?s rdfs:label ?sLabel . FILTER(LANGMATCHES(LANG(?sLabel), "en"))} .
               FILTER(LANGMATCHES(LANG(?label), "en"))
@@ -345,7 +345,7 @@ def convert(rdf):
         PREFIXES +
         """SELECT DISTINCT *
            WHERE {
-              { { ?p a owl:ObjectProperty } UNION { ?p a owl:DatatypePoperty } } UNION { ?p a rdf:Property } .
+              { { ?p a owl:ObjectProperty } UNION { ?p a owl:DatatypeProperty } } UNION { ?p a rdf:Property } .
               ?p rdfs:label ?label .
               OPTIONAL { ?p rdfs:domain ?s . ?s rdfs:label ?sLabel . FILTER(LANGMATCHES(LANG(?sLabel), "nl")) } .
               FILTER(LANGMATCHES(LANG(?label), "nl"))
@@ -433,7 +433,7 @@ def convert(rdf):
         PREFIXES +
         """SELECT DISTINCT *
            WHERE {
-              { { ?p a owl:ObjectProperty } UNION { ?p a owl:DatatypePoperty } } UNION { ?p a rdf:Property } .
+              { { ?p a owl:ObjectProperty } UNION { ?p a owl:DatatypeProperty } } UNION { ?p a rdf:Property } .
               ?p rdfs:label ?label .
               FILTER(LANGMATCHES(LANG(?label), "en")) .
               OPTIONAL { ?p dcterms:identifier ?identifier } .
@@ -470,7 +470,7 @@ def convert(rdf):
         PREFIXES +
         """SELECT DISTINCT *
            WHERE {
-              { { ?p a owl:ObjectProperty } UNION { ?p a owl:DatatypePoperty } } UNION { ?p a rdf:Property } .
+              { { ?p a owl:ObjectProperty } UNION { ?p a owl:DatatypeProperty } } UNION { ?p a rdf:Property } .
               ?p rdfs:label ?label .
               FILTER(LANGMATCHES(LANG(?label), "nl")) .
               OPTIONAL { ?p dcterms:identifier ?identifier } .

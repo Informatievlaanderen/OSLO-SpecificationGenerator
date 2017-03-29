@@ -67,7 +67,8 @@ class SpecGenTest(unittest.TestCase):
 
         test_files = [
             './persoon.ttl',
-            './adres.ttl'
+            './adres.ttl',
+            './generiek.ttl'
         ]
 
         for t in test_files:
@@ -94,7 +95,8 @@ class SpecGenTest(unittest.TestCase):
         """Test CSV2AP_HTML"""
 
         test_files = [
-            './export_org.csv'
+            #'./export_org.csv',
+            './Dienstencataloog AP.tsv'
         ]
 
         contributor_file = './stakeholders.tsv'
