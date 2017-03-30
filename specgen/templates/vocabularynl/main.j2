@@ -331,6 +331,7 @@
 
     <h2 class="h2" id="properties" aria-level="1" role="heading"><span class="secno">5. </span>Eigenschappen</h2>
 
+    {% if record['glance']['prop_uris_nl'] %}
     <div class="region region--no-space-top">
     <p>Deze sectie geeft een formele definitie aan elke eigenschap.</p>
     </div>
@@ -383,7 +384,11 @@
       </table>
       </div>
       {% endfor %}
-
+    {% else %}
+    <div class="region region--no-space-top">
+    <p>In dit vocabularium zijn geen eigenschappen gedefinieerd. Het is wel mogelijk dat eigenschappen uit een gerelateerd vocabularium worden hergebruikt.</p>
+    </div>
+    {% endif %}
     </section>
 
     </div>
