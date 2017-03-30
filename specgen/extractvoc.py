@@ -167,6 +167,7 @@ def convert(rdf):
         """SELECT DISTINCT ?s
            WHERE {
               { ?s ?p ?o } .
+              { ?s rdfs:label ?l } .
               FILTER NOT EXISTS { ?s rdfs:isDefinedBy ?x } .
               FILTER NOT EXISTS { ?s a owl:Ontology }
            }""")

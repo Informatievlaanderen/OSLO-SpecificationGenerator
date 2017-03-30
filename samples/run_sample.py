@@ -68,7 +68,7 @@ class SpecGenTest(unittest.TestCase):
         test_files = [
             './persoon.ttl',
             './adres.ttl',
-            './generiek.ttl'
+
         ]
 
         for t in test_files:

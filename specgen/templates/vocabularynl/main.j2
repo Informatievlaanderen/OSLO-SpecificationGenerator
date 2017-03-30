@@ -246,6 +246,7 @@
     </div>
     {% endif %}
 
+    {% if record['glance']['properties_nl'] %}
     <div class="region region--no-space-top">
     <h3 class="h3" >Eigenschappen</h3>
     {% set props = record['glance']['properties_nl'].split(",") %}
@@ -259,6 +260,7 @@
     </p>
     </div>
     </div>
+    {% endif %}
 
     </section>
 
