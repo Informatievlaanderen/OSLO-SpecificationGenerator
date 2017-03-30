@@ -251,7 +251,7 @@
                             <td>{{ attribute_detail["min card"] }} ... {{ attribute_detail["max card"] }}</td>
                             <td property="rdfs:comment">{{ attribute_detail["ap-definition-nl"] }}</td>
                             <td property="vann:usageNote">{{ attribute_detail["ap-usagenote-nl"] }}</td>
-                            <td>{{ attribute_detail["ap-codelist"] }}</td>
+                            <td>{% if attribute_detail["ap-codelist"] %}<a href="{{ attribute_detail["ap-codelist"] }}">Link</a>{% endif %}</td>
                           </tr>
                           {% endif %}
                           {% endfor %}
