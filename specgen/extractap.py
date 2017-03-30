@@ -27,7 +27,10 @@ def convert_csv(path):
     domains = list(set(domains) - set(pydash.map_(codelists.copy(), 'EA-Name')))
     domains.sort()
     final_domains = []
+    final_datypes = []
     classes = pydash.filter_(ap, {'EA-Type': 'CLASS'}) + pydash.filter_(ap, {'EA-Type': 'DATATYPE'})
+    datatypes = pydash.map_(pydash.filter_(ap, {'EA-Type': 'DATATYPE'}), 'EA-Name')
+    classes_only = pydash.map_(pydash.filter_(ap, {'EA-Type': 'CLASS'}), 'EA-Name')
     attributes = pydash.filter_(ap, {'EA-Type': 'attribute'}) + pydash.filter_(ap, {'EA-Type': 'connector'})
     attributes = pydash.sort_by(attributes, 'EA-Domain')
     # for enumeration in codelists:
@@ -38,11 +41,17 @@ def convert_csv(path):
 
     if len(domains) > 0:
         for domain in domains:
-            final_domains.append(domain)
+
             klassen = pydash.filter_(classes, {'EA-Name': domain})
             if 0 < len(klassen) <= 1:
-                result += "\n[%s]\n" % domain
                 klasse = pydash.find(classes, {'EA-Name': domain})
+                if klasse['EA-Type'] == 'DATATYPE':
+                    result += "\n[%s]\n" % domain
+                    final_datypes.append(domain)
+                else:
+                    result += "\n[%s]\n" % domain
+                    final_domains.append(domain)
+
                 if klasse is not None:
                     result += 'ap-definition-nl=%s\n' % klasse['ap-definition-nl']
                     result += 'ap-usagenote-nl=%s\n' % klasse['ap-usageNote-nl']
@@ -66,8 +75,12 @@ def convert_csv(path):
                 for klasse in klassen:
                     if klasse['ap-label-nl'] == "":
                         klasse['ap-label-nl'] = domain
-                    result += "\n[%s]\n" % klasse['ap-label-nl']
-                    final_domains.append(klasse['ap-label-nl'])
+                    if klasse['EA-Type'] == 'DATATYPE':
+                        result += "\n[%s]\n" % klasse['ap-label-nl']
+                        final_datypes.append(klasse['ap-label-nl'])
+                    else:
+                        result += "\n[%s]\n" % klasse['ap-label-nl']
+                        final_domains.append(klasse['ap-label-nl'])
                     if klasse is not None:
                         result += 'ap-definition-nl=%s\n' % klasse['ap-definition-nl']
                         result += 'ap-usagenote-nl=%s\n' % klasse['ap-usageNote-nl']
@@ -98,6 +111,7 @@ def convert_csv(path):
         final_domains = list(set(final_domains))
         final_domains.sort()
         result += 'entities=%s\n' % ','.join(final_domains)
+        result += 'dtypes=%s\n' % ','.join(final_datypes)
         if package is not None:
             result += 'package=%s\n' % package['EA-Name'].replace('OSLO-', '')
         result += 'title=%s\n' % title

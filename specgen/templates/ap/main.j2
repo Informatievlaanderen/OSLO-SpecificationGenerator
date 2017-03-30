@@ -144,7 +144,7 @@
         <div class="layout layout--normal">
         <div class="grid">
         <div class="col--9-12 col--1-1--s typography">
-        <h2 class="h2" id="conformance" aria-level="1" role="heading"><span class="secno">2. </span>Conformantie</h2>
+        <h2 class="h2" id="conformance" aria-level="1" role="heading">Conformantie</h2>
 
         <p>Een applicatieprofiel is een specificatie voor gegevensuitwisseling dat bijkomende beperkingen introduceert voor het toepassen van vocabularia.
         Dergelijke bijkomende beperkingen kunnen de volgende elementen bevatten:</p>
@@ -173,8 +173,8 @@
             <h2 class="h2">Overzicht</h2>
             <div class="grid">
               <div class="col--9-12 col--1-1--s typography">
-                    <div>
-                        <p> In dit document wordt correct gebruik van de volgende entiteiten toegelicht in de context van de uitwisseling van een {{ record['overview']['package'] }} in Vlaanderen:
+                    <div class="region region--no-space-top">
+                        <p> In dit document wordt correct gebruik van de volgende entiteiten toegelicht in de context van een uitwisseling in Vlaanderen:
                             <br />
                             |
                             {% set entities = record['overview']['entities'].split(",") %}
@@ -183,6 +183,18 @@
                             {% endfor %}
                          </p>
                     </div>
+                    {% if record['overview']['dtypes'] %}
+                    <div class="region region--no-space-top">
+                        <p> In dit document worden de volgende datatypes toegelicht in de context van een uitwisseling:
+                            <br />
+                            |
+                            {% set datatypes = record['overview']['dtypes'].split(",") %}
+                            {% for dtype in datatypes %}
+                            <a href="#{{ dtype }}">{{ dtype }}</a> |
+                            {% endfor %}
+                         </p>
+                    </div>
+                    {% endif %}
               </div>
             </div>
           </div>
@@ -252,6 +264,76 @@
           </div>
       </div>
       {% endfor %}
+
+      {% if record['overview']['dtypes'] %}
+      <div>
+      <div class="region region--no-space-top">
+          <div class="layout layout--normal">
+            <h2 class="h2">Datatypes</h2>
+          </div>
+      </div>
+      {% for entity in datatypes %}
+      <div class="region region--no-space-top">
+          <div class="layout layout--normal">
+            <h3 class="h3" id="{{ entity }}">{{ entity }}</h3>
+            <div class="grid">
+              <div class="col--9-12 col--1-1--s typography">
+                    <div class="region region--no-space-top">
+                    <div><p>{{ record[entity]['ap-definition-nl'] }}</p></div>
+                    <div><p>{{ record[entity]['ap-usageNote-nl'] }}</p></div>
+                    {% if record[entity]['attributes'] %}
+                    {% set attributes = record[entity]['attributes'].split(",") %}
+                    {% set attributelist = record[entity]['attributes'].replace(",", ", ") %}
+                    <div><p>Voor dit datatype zijn de volgende attributen gedefinieerd: {{ attributelist }}.</p></div>
+                    </div>
+                    <div class="u-table-overflow">
+                        <table class="data-table">
+                          <thead>
+                          <tr class="data-table__header">
+                            <th class="data-table__header-title--sortable data-table__header-title--sortable-active">Eigenschap</th>
+                            <th class="data-table__header-title--sortable">Verwacht Type</th>
+                            <th class="data-table__header-title--sortable">Kardinaliteit</th>
+                            <th class="data-table__header-title--sortable">Beschrijving</th>
+                            <th class="data-table__header-title--sortable">Gebruik</th>
+                            <th class="data-table__header-title--sortable">Codelijst</th>
+                          </tr>
+                          </thead>
+
+                          <tbody class="supertype">
+                          {% for attribute in attributes %}
+                          {% set attribute_detail = record[entity + ':' + attribute] %}
+                          {% if attribute_detail  %}
+                          <tr typeof="rdfs:Property" resource="{{ attribute_detail["namespace"] }}{{ attribute_detail["localname"] }}">
+                            <td>
+                            <code property="rdfs:label">
+                                <a href="{{ attribute_detail["namespace"] }}{{ attribute_detail["localname"] }}" data-toggle="tooltip" data-content="{{ attribute_detail["namespace"] }}{{ attribute_detail["localname"] }}" data-placement="right">
+                                {% if attribute_detail["ap-label-nl"] %}
+                                {{ attribute_detail["ap-label-nl"] }}
+                                {% else %}
+                                {{ attribute_detail["ea-name"] }}
+                                {% endif %}
+                                </a>
+                            </code>
+                            </td>
+                            <td><a href="{{ attribute_detail["range"] }}" data-toggle="tooltip" data-content="{{ attribute_detail["range"] }}" data-placement="right">{{ attribute_detail["ea-range"] }}</a></td>
+                            <td>{{ attribute_detail["min card"] }} ... {{ attribute_detail["max card"] }}</td>
+                            <td property="rdfs:comment">{{ attribute_detail["ap-definition-nl"] }}</td>
+                            <td property="vann:usageNote">{{ attribute_detail["ap-usagenote-nl"] }}</td>
+                            <td>{{ attribute_detail["ap-codelist"] }}</td>
+                          </tr>
+                          {% endif %}
+                          {% endfor %}
+                          </tbody>
+                        </table>
+                        {% endif %}
+                    </div>
+              </div>
+            </div>
+          </div>
+      </div>
+      {% endfor %}
+      </div>
+      {% endif %}
     </div>
   </div>
   <!-- End page content -->
