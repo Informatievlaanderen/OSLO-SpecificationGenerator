@@ -224,7 +224,17 @@
                           {% set attribute_detail = record[entity + ':' + attribute] %}
                           {% if attribute_detail  %}
                           <tr typeof="rdfs:Property" resource="{{ attribute_detail["namespace"] }}{{ attribute_detail["localname"] }}">
-                            <td><code property="rdfs:label"><a href="{{ attribute_detail["namespace"] }}{{ attribute_detail["localname"] }}" data-toggle="tooltip" data-content="{{ attribute_detail["namespace"] }}{{ attribute_detail["localname"] }}" data-placement="right">{{ attribute_detail["label-nl"] }}</a></code></td>
+                            <td>
+                            <code property="rdfs:label">
+                                <a href="{{ attribute_detail["namespace"] }}{{ attribute_detail["localname"] }}" data-toggle="tooltip" data-content="{{ attribute_detail["namespace"] }}{{ attribute_detail["localname"] }}" data-placement="right">
+                                {% if attribute_detail["ap-label-nl"] %}
+                                {{ attribute_detail["ap-label-nl"] }}
+                                {% else %}
+                                {{ attribute_detail["ea-name"] }}
+                                {% endif %}
+                                </a>
+                            </code>
+                            </td>
                             <td><a href="{{ attribute_detail["range"] }}" data-toggle="tooltip" data-content="{{ attribute_detail["range"] }}" data-placement="right">{{ attribute_detail["ea-range"] }}</a></td>
                             <td>{{ attribute_detail["min card"] }} ... {{ attribute_detail["max card"] }}</td>
                             <td property="rdfs:comment">{{ attribute_detail["ap-definition-nl"] }}</td>

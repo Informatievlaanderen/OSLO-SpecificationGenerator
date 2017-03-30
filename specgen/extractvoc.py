@@ -137,7 +137,7 @@ def convert(rdf):
               { ?c rdfs:subPropertyOf ?s }.
            }""")
 
-    subproperties = set()
+    parents = set()
 
     for row in qres:
         if row['s'] is not None:
@@ -145,11 +145,7 @@ def convert(rdf):
             line = parsedurl.scheme + '://' + parsedurl.netloc + parsedurl.path
             if len(parsedurl.fragment) == 0:
                 line = line[:line.rfind("/")]
-            subproperties.add(line)
-
-    if len(subproperties) > 0:
-        result += '\n[subproperties]\n'
-        result += 'list=%s\n' % ','.join(list(subproperties))
+            parents.add(line)
 
     qres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
         PREFIXES +
@@ -158,7 +154,22 @@ def convert(rdf):
               { ?c rdfs:subClassOf ?s } UNION { ?c owl:equivalentClass ?s }
            }""")
 
-    subclasses = set()
+    for row in qres:
+        if row['s'] is not None:
+            parsedurl = urlparse(row['s'])
+            line = parsedurl.scheme + '://' + parsedurl.netloc + parsedurl.path
+            if len(parsedurl.fragment) == 0:
+                line = line[:line.rfind("/")]
+            parents.add(line)
+
+    qres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
+        PREFIXES +
+        """SELECT DISTINCT ?s
+           WHERE {
+              { ?s ?p ?o } .
+              FILTER NOT EXISTS { ?s rdfs:isDefinedBy ?x } .
+              FILTER NOT EXISTS { ?s a owl:Ontology }
+           }""")
 
     for row in qres:
         if row['s'] is not None:
@@ -166,11 +177,13 @@ def convert(rdf):
             line = parsedurl.scheme + '://' + parsedurl.netloc + parsedurl.path
             if len(parsedurl.fragment) == 0:
                 line = line[:line.rfind("/")]
-            subclasses.add(line)
+            parents.add(line)
 
-    if len(subclasses) > 0:
-        result += '\n[subclasses]\n'
-        result += 'list=%s\n' % ','.join(list(subclasses))
+    if len(parents) > 0:
+        result += '\n[parents]\n'
+        parents = list(parents)
+        parents.sort()
+        result += 'list=%s\n' % ','.join(parents)
 
     qres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
         PREFIXES +

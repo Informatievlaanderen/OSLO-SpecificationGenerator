@@ -216,15 +216,9 @@
     <div class="region region--no-space-top">
     <p>Deze sectie somt alle klassen en eigenschappen van het vocabularium op.</p>
     <p>
-    {% if record['subproperties'] or record['subclasses'] %}
+    {% if record['parents'] %}
     Dit vocabularium verwijst verder naar termen uit de volgende vocabularia:
-    {% if record['subproperties'] and record['subclasses'] %}
-        {% set termen = (record['subproperties']['list']+','+record['subclasses']['list']).split(',') %}
-    {% elif record['subproperties'] and not record['subclasses'] %}
-        {% set termen = record['subproperties']['list'].split(',') %}
-    {% elif not record['subproperties'] and record['subclasses'] %}
-        {% set termen = record['subclasses']['list'].split(',') %}
-    {% endif %}
+    {% set termen = record['parents']['list'].split(',') %}
     <ul>
     {% for term in termen %}
     <li><a href="{{ term }}">{{ term }}</a></li>
@@ -233,7 +227,7 @@
     {% endif %}
     </p>
     <br />
-    <p><a href="http://visualdataweb.de/webvowl/#iri={{ record['metadata']['uri'] }}">Verken het vocabularium</a></p>
+    <p><a href="http://visualdataweb.de/webvowl/#iri={{ record['metadata']['uri'] }}.ttl">Verken het vocabularium</a></p>
     </div>
 
     {% if record['glance']['classes_nl'] %}

@@ -212,15 +212,9 @@
     <div class="region region--no-space-top">
     <p>This section lists all classes and properties in the vocabulary.</p>
     <p>
-    {% if record['subproperties'] or record['subclasses'] %}
+    {% if record['parents'] %}
     Furthermore, this vocabulary refers to terms from the following vocabularies:
-    {% if record['subproperties'] and record['subclasses'] %}
-        {% set termen = (record['subproperties']['list']+','+record['subclasses']['list']).split(',') %}
-    {% elif record['subproperties'] and not record['subclasses'] %}
-        {% set termen = record['subproperties']['list'].split(',') %}
-    {% elif not record['subproperties'] and record['subclasses'] %}
-        {% set termen = record['subclasses']['list'].split(',') %}
-    {% endif %}
+    {% set termen = record['parents']['list'].split(',') %}
     <ul>
     {% for term in termen %}
     <li><a href="{{ term }}">{{ term }}</a></li>

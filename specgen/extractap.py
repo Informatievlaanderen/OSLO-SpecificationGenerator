@@ -48,13 +48,13 @@ def convert_csv(path):
                     result += 'ap-usagenote-nl=%s\n' % klasse['ap-usageNote-nl']
 
                 domain_attributes = pydash.filter_(attributes, {'EA-Domain': domain})
-                domain_attribute_names = pydash.without(pydash.uniq(pydash.map_(domain_attributes, 'localname')), '', None)
+                domain_attribute_names = pydash.without(pydash.uniq(pydash.map_(domain_attributes, 'EA-Name')), '', None) #localname
 
                 result += 'attributes=%s\n' % ','.join(domain_attribute_names)
 
                 for attr_name in domain_attribute_names:
                     result += "\n[%s:%s]\n" % (domain, attr_name)
-                    attr = pydash.find(domain_attributes, {'localname': attr_name} )
+                    attr = pydash.find(domain_attributes, {'EA-Name': attr_name})
                     if attr['range'] == "http://www.w3.org/2004/02/skos/core#Concept":
                         ap_codelist = pydash.find(codelists, {'EA-Name': attr['EA-Range']})
                         if not ap_codelist is None:
