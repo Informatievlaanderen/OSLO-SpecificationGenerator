@@ -95,7 +95,7 @@ class SpecGenTest(unittest.TestCase):
         """Test CSV2AP_HTML"""
 
         test_files = [
-            #'./export_org.csv',
+            './Organisatie Basis AP.tsv',
             './Dienstencataloog AP.tsv'
         ]
 
