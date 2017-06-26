@@ -43,12 +43,25 @@ OSLO-SpecificationGenerator is best installed and used within a Python virtualen
 
 Dependencies are listed in [requirements.txt](requirements.txt). Dependencies are automatically installed during specgen's installation.
 
-### Installing the Package
+### Installing the Package in Linux
 
 ```bash
 virtualenv my-env
 cd my-env
 . bin/activate
+git clone https://github.com/InformatieVlaanderen/OSLO-SpecificationGenerator.git
+cd OSLO-SpecificationGenerator
+pip install -r requirements.txt
+python setup.py build
+python setup.py install
+```
+
+### Installing the Package in Windows
+
+```bash
+virtualenv my-env
+cd my-env
+Scripts\activate.bat
 git clone https://github.com/InformatieVlaanderen/OSLO-SpecificationGenerator.git
 cd OSLO-SpecificationGenerator
 pip install -r requirements.txt
