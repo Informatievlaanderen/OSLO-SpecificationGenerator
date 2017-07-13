@@ -197,9 +197,7 @@
 
     <h2 class="h2" id="conformance" aria-level="1" role="heading"><span class="secno">2. </span>Conformiteit</h2>
 
-    <p>Een uitwisseling van gegevens, hoe deze uitwisseling ook gebeurt, is conform aan dit vocabularium wanneer
-    het de terminologie (klassen en eigenschappen) gebruikt op een manier die consistent is met de semantiek zoals opgesteld in de nieuwste versie van de specificatie (domein, bereik, definitie en gebruik)
-    en het geen terminologie gebruikt uit andere vocabularia als alternatief voor de voorgestelde terminologie opgenomen in dit vocabularium.</p>
+    <p>Een uitwisseling van gegevens, op welke manier deze uitwisseling ook gebeurt, is conform aan dit vocabularium wanneer het de terminologie (klassen en eigenschappen) gebruikt op een manier die consistent is met de semantiek zoals opgesteld in de nieuwste versie van de specificatie (domein, bereik, definitie en gebruik) en het geen terminologie gebruikt uit andere vocabularia als alternatief voor de voorgestelde terminologie opgenomen in dit vocabularium.</p>
 
     </section>
     </div>
@@ -303,12 +301,12 @@
             <th>Definitie</th>
             <td>{{ klasse['comment'] }}</td>
           </tr>
-          {% if klasse['usageNote'] %}
+          {% if klasse['usagenote'] %}
           <tr>
             <th>
               <p>Gebruik</p>
             </th>
-            <td>{{ klasse['usageNote'] }}</td>
+            <td>{{ klasse['usagenote'] }}</td>
           </tr>
           {% endif %}
         </tbody>
@@ -376,10 +374,10 @@
             <th>Definitie</th>
             <td>{{ eigenschap['comment'] }}</td>
           </tr>
-          {% if eigenschap['usageNote'] %}
+          {% if eigenschap['usagenote'] %}
           <tr>
             <th>Gebruik</th>
-            <td>{{ eigenschap['usageNote'] }}</td>
+            <td>{{ eigenschap['usagenote'] }}</td>
           </tr>
           {% endif %}
         </tbody>

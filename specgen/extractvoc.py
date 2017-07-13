@@ -405,7 +405,7 @@ def convert(rdf):
             if row['comment'] is not None:
                 result += "comment=%s\n" % re.sub(r'\n', ' ', row['comment'])
             if row['usageNote'] is not None:
-                result += "usageNote=%s\n" % re.sub(r'\n', ' ', row['usageNote'])
+                result += "usagenote=%s\n" % re.sub(r'\n', ' ', row['usageNote'])
             if row['definedBy'] is not None:
                 result += "definedBy=%s\n" % row['definedBy']
             if row['describedBy'] is not None:
@@ -436,7 +436,7 @@ def convert(rdf):
             if row['comment'] is not None:
                 result += "comment=%s\n" % re.sub(r'\n', ' ', row['comment'])
             if row['usageNote'] is not None:
-                result += "usageNote=%s\n" % re.sub(r'\n', ' ',
+                result += "usagenote=%s\n" % re.sub(r'\n', ' ',
                                                     row['usageNote'])
             if row['definedBy'] is not None:
                 result += "definedBy=%s\n" % row['definedBy']
@@ -474,7 +474,7 @@ def convert(rdf):
             if row['comment'] is not None:
                 result += "comment=%s\n" % re.sub(r'\n', ' ', row['comment'])
             if row['usageNote'] is not None:
-                result += "usageNote=%s\n" % re.sub(r'\n', ' ', row['usageNote'])
+                result += "usagenote=%s\n" % re.sub(r'\n', ' ', row['usageNote'])
             if row['definedBy'] is not None:
                 result += "definedBy=%s\n" % row['definedBy']
             if row['describedBy'] is not None:
@@ -511,8 +511,8 @@ def convert(rdf):
             if row['comment'] is not None:
                 result += "comment=%s\n" % re.sub(r'\n', ' ', row['comment'])
             if row['usageNote'] is not None:
-                result += "usageNote=%s\n" % re.sub(r'\n', ' ',
-                                                    row['usageNote'])
+                result += "usagenote=%s\n" % re.sub(r'\n', ' ',
+                                                    row['usageNote']).replace('&','&amp;')
             if row['definedBy'] is not None:
                 result += "definedBy=%s\n" % row['definedBy']
             if row['describedBy'] is not None:

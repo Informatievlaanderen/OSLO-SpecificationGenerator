@@ -9,6 +9,7 @@ import lxml.etree as ET
 from specgen.extractvoc import convert
 from specgen.extractap import convert_csv
 from specgen.extractcontributors import convert_contributor_csv
+from specgen.extractap_from_rdf import convertap_from_rdf
 import tempfile
 import rdflib
 
@@ -200,6 +201,10 @@ def voc_to_spec(rdf, schema=None, schema_local=None):
         schema = 'vocabulary'  # Vocabulary schema by default
 
     return render_template(fp, schema, schema_local)
+
+
+def voc_to_spec_from_rdf(rdf, title):
+    return convertap_from_rdf(rdf, title)
 
 
 def voc_to_ap(csv, csv_contributor=None, schema=None, schema_local=None):

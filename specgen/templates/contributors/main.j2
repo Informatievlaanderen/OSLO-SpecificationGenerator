@@ -21,9 +21,10 @@
   xmlns:wdrs="http://www.w3.org/2007/05/powder-s#"
 >
   <owl:Ontology rdf:about="http://data.vlaanderen.be/ns/{{ record["overview_contributors"]["voc"] }}">
+    <dcterms:license rdf:resource="https://overheid.vlaanderen.be/sites/default/files/documenten/ict-egov/licenties/hergebruik/modellicentie_gratis_hergebruik_v1_0.html" />
     <dcterms:mediator rdf:parseType="Resource">
-      <foaf:name>OSLO Werkgroepen</foaf:name>
-      <foaf:homepage rdf:resource="https://overheid.vlaanderen.be/producten-diensten/OSLO2"/>
+      <foaf:name>Data Vlaanderen</foaf:name>
+      <foaf:homepage rdf:resource="https://data.vlaanderen.be"/>
       <foaf:mbox rdf:resource="mailto:oslo@kb.vlaanderen.be"/>
     </dcterms:mediator>
     {% if record['overview_contributors']['editors'] %}

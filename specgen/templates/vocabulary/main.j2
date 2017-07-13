@@ -296,12 +296,12 @@
             <th>Definition</th>
             <td>{{ klasse['comment'] }}</td>
           </tr>
-          {% if klasse['usageNote'] %}
+          {% if klasse['usagenote'] %}
           <tr>
             <th>
               <p>Usage Note</p>
             </th>
-            <td>{{ klasse['usageNote'] }}</td>
+            <td>{{ klasse['usagenote'] }}</td>
           </tr>
           {% endif %}
         </tbody>
@@ -363,10 +363,10 @@
             <th>Definition</th>
             <td>{{ eigenschap['comment'] }}</td>
           </tr>
-          {% if eigenschap['usageNote'] %}
+          {% if eigenschap['usagenote'] %}
           <tr>
             <th>Usage Note</th>
-            <td>{{ eigenschap['usageNote'] }}</td>
+            <td>{{ eigenschap['usagenote'] }}</td>
           </tr>
           {% endif %}
         </tbody>

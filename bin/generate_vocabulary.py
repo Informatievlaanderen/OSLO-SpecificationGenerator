@@ -3,7 +3,7 @@
 import click
 
 from lxml import etree as ET
-from specgen import get_supported_schemas, render_template, voc_to_spec, voc_to_ap, merge_rdf, contributor_to_rdf
+from specgen import get_supported_schemas, render_template, voc_to_spec, voc_to_spec_from_rdf, voc_to_ap, merge_rdf, contributor_to_rdf
 
 SUPPORTED_SCHEMAS = get_supported_schemas()
 
@@ -26,6 +26,7 @@ SUPPORTED_SCHEMAS = get_supported_schemas()
 @click.option('--contributors', is_flag=True, help='Output RDF of authors, editors and contributors')
 @click.option('--merge', is_flag=True, help='Merge RDF of vocabulary RDF with RDF of authors')
 @click.option('--target', help='Vocabulary to export authors to')
+@click.option('--title', help='Title of the AP')
 @click.option('--schema',
               type=click.Choice(SUPPORTED_SCHEMAS),
               help='Metadata schema')
@@ -35,7 +36,7 @@ SUPPORTED_SCHEMAS = get_supported_schemas()
               help='Locally defined metadata schema')
 
 
-def process_args(rdf, rdf_contributor, csv_contributor, csv, ap, contributors, merge, target, schema, schema_local, output):
+def process_args(rdf, rdf_contributor, csv_contributor, csv, ap, contributors, merge, target, schema, schema_local, output, title):
     xml_output = False
 
     if not ap and not contributors and not merge:
@@ -45,6 +46,27 @@ def process_args(rdf, rdf_contributor, csv_contributor, csv, ap, contributors, m
         else:
             raise click.UsageError(
                 'Missing arguments input RDF --rdf {path}')
+
+    elif ap and rdf is not None:
+        if output is not None and title is not None:
+            csv_output = voc_to_spec_from_rdf(rdf, title)
+            writer = csv.DictWriter(csvfile, fieldnames=csv_output.push())
+
+            writer.writeheader()
+            for row in csv_output:
+                writer.writerow(row)
+
+        else:
+            raise click.UsageError(
+                'Missing arguments: --output {path} and/or --title {AP title}')
+
+    elif ap and csv is not None and schema is None and schema_local is None:
+        if csv_contributor is not None:
+            xml_output = voc_to_ap(csv, csv_contributor=csv_contributor, schema=schema,
+                                     schema_local=schema_local)
+        else:
+            raise click.UsageError(
+                'Missing path to contributor CSV: --csv_contributor {path}')
 
     elif ap and csv is not None:
         xml_output = voc_to_ap(csv, csv_contributor=csv_contributor, schema=schema,

@@ -66,6 +66,7 @@ class SpecGenTest(unittest.TestCase):
         """Test RDF2VOC_HTML_NL"""
 
         test_files = [
+            './generiek.ttl',
             './persoon.ttl',
             './adres.ttl',
 
