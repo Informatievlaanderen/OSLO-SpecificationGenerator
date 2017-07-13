@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import click
-
+import csv
 from lxml import etree as ET
 from specgen import get_supported_schemas, render_template, voc_to_spec, voc_to_spec_from_rdf, voc_to_ap, merge_rdf, contributor_to_rdf
 

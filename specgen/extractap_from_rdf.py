@@ -35,9 +35,18 @@ prefix cc: <http://creativecommons.org/ns#>
 prefix rec: <http://www.w3.org/2001/02pd/rec54#>
 prefix vann: <http://purl.org/vocab/vann/>
 prefix wdsr: <http://www.w3.org/2007/05/powder-s#>
-prefix sh: <	http://www.w3.org/ns/shacl#>
+prefix sh: <http://www.w3.org/ns/shacl#>
+prefix voaf: <http://purl.org/vocommons/voaf#>
 """
 
+
+def spliturl(url):
+    parsedurl = urlparse(url)
+    line = parsedurl.scheme + '://' + parsedurl.netloc + parsedurl.path
+    if len(parsedurl.fragment) == 0:
+        return [line[:line.rfind("/")], line[line.rfind("/")+1:]]
+    else:
+        return [line, parsedurl.fragment]
 
 def convertap_from_rdf(rdf, title):
     g = rdflib.Graph()
@@ -49,15 +58,15 @@ def convertap_from_rdf(rdf, title):
                 format=rdflib.util.guess_format(os.path.realpath(rdf)))
 
     result = []
-
+    namespace = False
     # add header
-    result.append(["EA-Type", "EA-Package", "EA-Name", "EA-GUID", "EA-Parent", "EA-Domain", "EA-Domain-GUID", "EA-Range", "ap-label-nl", "ap-definition-nl", "ap-usageNote-nl", "ap-codelist", "external term", "namespace", "localname", "type", "domain", "range", "parent", "min card", "max card"])
+    result.append(["EA-Type", "EA-Package", "EA-Name", "EA-GUID", "EA-Parent", "EA-Domain", "EA-Domain-GUID", "EA-Range", "EA-Range-GUID", "ap-label-nl", "ap-definition-nl", "ap-usageNote-nl", "ap-codelist", "external term", "namespace", "localname", "type", "domain", "range", "parent", "min card", "max card"])
 
     qres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
         PREFIXES +
         """SELECT DISTINCT *
            WHERE {
-              ?v a owl:Ontology .
+              { ?v a owl:Ontology } UNION { ?v a voaf:Vocabulary } .
               OPTIONAL { ?v rdfs:label ?label . FILTER(LANGMATCHES(LANG(?label), "nl")) } .
               OPTIONAL { ?v dcterms:abstract ?abstract . FILTER(LANGMATCHES(LANG(?abstract), "nl")) } .
               OPTIONAL { ?v dcterms:title ?title . FILTER(LANGMATCHES(LANG(?title), "nl")) } .
@@ -66,154 +75,123 @@ def convertap_from_rdf(rdf, title):
            } LIMIT 1""")
 
     for row in qres:
-        if row['v'] is not None:
-            result += "uri=%s\n" % row['v']
-        if row['label'] is not None:
-            result += "label=%s\n" % row['label']
-        if row['title'] is not None:
-            result += "title=%s\n" % row['title']
-        if row['abstract'] is not None:
-            result += "abstract=%s\n" % re.sub(r'\n', ' ', row['abstract'])
-        if row['rights'] is not None:
-            result += "rights=%s\n" % row['rights']
-
-    qres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
-        PREFIXES +
-        """SELECT DISTINCT ?s
-           WHERE {
-              { ?c rdfs:subPropertyOf ?s }.
-           }""")
-
-    parents = dict()
-
-    for row in qres:
-        if row['s'] is not None:
-            parents[row['c']] = row['s']
-
-    qres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
-        PREFIXES +
-        """SELECT DISTINCT ?s
-           WHERE {
-              { ?c rdfs:subClassOf ?s }.
-           }""")
-
-    parentClasses = dict()
-
-    for row in qres:
-        if row['s'] is not None:
-            parentClasses[row['c']] = row['s']
+        namespace = spliturl(row['v'])[0]
+        result.append({"EA-Type": "Package", "EA-Name": title, "EA-GUID": row['v'], "namespace": spliturl(row['v'])[0], "localname": spliturl(row['v'])[1], "type": "http://www.w3.org/2002/07/owl#Ontology"})
 
     qres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
         PREFIXES +
         """SELECT DISTINCT *
            WHERE {
-              { ?class a owl:Class } UNION { ?class a rdfs:Class } .
-              ?class rdfs:label ?label .
-              FILTER(LANGMATCHES(LANG(?label), "nl"))
-           } ORDER BY ?label""")
-
-    classes = []
-    class_uris = []
-
-    for row in qres:
-        if row['class'] is not None:
-            classes.append(row['label'])
-            class_uris.append(row['class'])
-
-    qres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
-        PREFIXES +
-        """SELECT DISTINCT *
-           WHERE {
-              { { ?p a owl:ObjectProperty } UNION { ?p a owl:DatatypeProperty } } UNION { ?p a rdf:Property } .
-              ?p rdfs:label ?label .
-              OPTIONAL { ?p rdfs:domain ?s . ?s rdfs:label ?sLabel . FILTER(LANGMATCHES(LANG(?sLabel), "nl")) } .
-              FILTER(LANGMATCHES(LANG(?label), "nl"))
-           } ORDER BY ?label""")
-
-    properties = []
-    prop_uris = []
-
-    for row in qres:
-        if row['p'] is not None:
-            if row['sLabel'] is not None:
-                properties.append("%s (%s)" % (row['label'], row['sLabel']))
-            else:
-                properties.append(row['label'])
-            prop_uris.append(row['p'])
-
-    qres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
-        PREFIXES +
-        """SELECT DISTINCT *
-           WHERE {
-              { ?class a owl:Class } UNION { ?class a rdfs:Class } .
-              ?class rdfs:label ?label .
+              { { ?class a owl:Class } UNION { ?class a rdfs:Class } } UNION { ?s rdfs:subClassOf ?class } .
+              OPTIONAL { ?class rdfs:label ?label } .
               FILTER(LANGMATCHES(LANG(?label), "nl")) .
+              OPTIONAL { ?class rdfs:subClassOf ?parent . OPTIONAL { ?parent rdfs:label ?plabel . FILTER(LANGMATCHES(LANG(?plabel), "nl")) } } .
               OPTIONAL { ?class dcterms:identifier ?identifier } .
-              ?class rdfs:comment ?comment .
+              OPTIONAL { ?class rdfs:comment ?comment } .
               FILTER(LANGMATCHES(LANG(?comment), "nl")) .
               OPTIONAL { ?class vann:usageNote ?usageNote } .
               OPTIONAL { ?class rdfs:isDefinedBy ?definedBy } .
-              OPTIONAL { ?class wdsr:describedBy ?describedBy } .
-           } ORDER BY ?label""")
+           } ORDER BY ?class""")
 
     for row in qres:
-        if row['class'] is not None:
-            result += '\n[class_nl:%s]\n' % row['class']
-            if row['label'] is not None:
-                result += "label=%s\n" % row['label']
-            if row['identifier'] is not None:
-                result += "identifier=%s\n" % row['identifier']
-            if row['comment'] is not None:
-                result += "comment=%s\n" % re.sub(r'\n', ' ', row['comment'])
-            if row['usageNote'] is not None:
-                result += "usageNote=%s\n" % re.sub(r'\n', ' ',
-                                                    row['usageNote'])
-            if row['definedBy'] is not None:
-                result += "definedBy=%s\n" % row['definedBy']
-            if row['describedBy'] is not None:
-                result += "describedBy=%s\n" % row['describedBy']
+        if row['class'] is not None and row['definedBy'] is not None:
+            result.append(
+                {"EA-Type": "CLASS",
+                 "EA-Package": spliturl(row['definedBy'])[1],
+                 "EA-Name": row['label'] if (row['label'] is not None) else spliturl(row['class'])[1],
+                 "EA-GUID": row['class'],
+                 "EA-Parent": row['plabel'] if (row['plabel'] is not None) else spliturl(row['parent'])[1] if (row['parent'] is not None) else None,
+                 "ap-definition-nl": row['comment'],
+                 "ap-label-nl": row['label'],
+                 "ap-usageNote-nl": row['usageNote'],
+                 "external term": spliturl(row['class'])[0] == namespace,
+                 "namespace": spliturl(row['class'])[0],
+                 "localname": spliturl(row['class'])[1],
+                 "parent": row['parent'],
+                 "type": "http://www.w3.org/2000/01/rdf-schema#Class"})
 
     qres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
         PREFIXES +
         """SELECT DISTINCT *
            WHERE {
-              { { ?p a owl:ObjectProperty } UNION { ?p a owl:DatatypeProperty } } UNION { ?p a rdf:Property } .
-              ?p rdfs:label ?label .
+              { ?p a owl:ObjectProperty } UNION { ?p a owl:DatatypeProperty } .
+              OPTIONAL { ?p rdfs:label ?label } .
+              ?p a ?type .
               FILTER(LANGMATCHES(LANG(?label), "nl")) .
               OPTIONAL { ?p dcterms:identifier ?identifier } .
-              ?p rdfs:comment ?comment .
+              OPTIONAL { ?p rdfs:comment ?comment } .
               FILTER(LANGMATCHES(LANG(?comment), "nl")) .
-              OPTIONAL { ?p rdfs:domain ?domain } .
-              OPTIONAL { ?p rdfs:range ?range } .
+              OPTIONAL { ?p rdfs:domain ?domain .
+                         OPTIONAL { ?domain rdfs:label ?domainLabel .
+                         FILTER(LANGMATCHES(LANG(?domainLabel), "nl")) } } .
+              OPTIONAL { ?p rdfs:range ?range .
+                         OPTIONAL { ?range rdfs:label ?rangeLabel .
+                         FILTER(LANGMATCHES(LANG(?rangeLabel), "nl")) } } .
               OPTIONAL { ?p vann:usageNote ?usageNote } .
               OPTIONAL { ?p rdfs:isDefinedBy ?definedBy } .
-              OPTIONAL { ?p wdsr:describedBy ?describedBy } .
+              OPTIONAL { ?p rdfs:subPropertyOf ?parent } .
               OPTIONAL { ?e a sh:PropertyShape ;
                     sh:targetNode ?domain ;
                     sh:path ?p .
                  OPTIONAL { ?e sh:minCount ?min } .
                  OPTIONAL { ?e sh:maxCount ?max } } .
-           } ORDER BY ?label""")
+           } ORDER BY ?p""")
 
     for row in qres:
+
         if row['p'] is not None:
-            result += '\n[property_nl:%s]\n' % row['p']
-            if row['label'] is not None:
-                result += "label=%s\n" % row['label']
-            if row['identifier'] is not None:
-                result += "identifier=%s\n" % row['identifier']
-            if row['domain'] is not None:
-                result += "domain=%s\n" % row['domain']
-            if row['range'] is not None:
-                result += "range=%s\n" % row['range']
-            if row['comment'] is not None:
-                result += "comment=%s\n" % re.sub(r'\n', ' ', row['comment'])
-            if row['usageNote'] is not None:
-                result += "usageNote=%s\n" % re.sub(r'\n', ' ',
-                                                    row['usageNote'])
-            if row['definedBy'] is not None:
-                result += "definedBy=%s\n" % row['definedBy']
-            if row['describedBy'] is not None:
-                result += "describedBy=%s\n" % row['describedBy']
+            if row['type'] == rdflib.URIRef("http://www.w3.org/2002/07/owl#ObjectProperty"):
+                try:
+                    result.append(
+                        {"EA-Type": "connector",
+                         "EA-Package": spliturl(row['definedBy'])[1],
+                         "EA-Name": row['label'] if (row['label'] is not None) else spliturl(row['p'])[1],
+                         "EA-GUID": row['p'],
+                         "EA-Domain-GUID": row['domain'],
+                         "EA-Domain": row['domainLabel'] if (row['domainLabel'] is not None) else spliturl(row['domain'])[1],
+                         "EA-Range-GUID": row['range'],
+                         "EA-Range": row['rangeLabel'] if (row['rangeLabel'] is not None) else spliturl(row['range'])[1],
+                         "ap-definition-nl": row['comment'],
+                         "ap-label-nl": row['label'],
+                         "ap-usageNote-nl": row['usageNote'],
+                         "external term": spliturl(row['p'])[0] == namespace,
+                         "namespace": spliturl(row['p'])[0],
+                         "localname": spliturl(row['p'])[1],
+                         "parent": row['parent'],
+                         "domain": row['domain'],
+                         "range": row['range'],
+                         "type": row['type'],
+                         "min card": row['min'],
+                         "max card": row['max']
+                         })
+                except:
+                    print("Unexpected error:", sys.exc_info()[0])
+                    raise
+
+            elif row['type'] == rdflib.URIRef("http://www.w3.org/2002/07/owl#DatatypeProperty"):
+                try:
+                    result.append(
+                        {"EA-Type": "attribute",
+                         "EA-Package": spliturl(row['definedBy'])[1],
+                         "EA-Name": row['label'],
+                         "EA-GUID": row['p'],
+                         "EA-Domain-GUID": row['domain'],
+                         "EA-Domain": row['domainLabel'] if (row['domainLabel'] is not None) else spliturl(row['domain'])[1],
+                         "EA-Range-GUID": row['range'],
+                         "EA-Range": row['rangeLabel'] if (row['rangeLabel'] is not None) else spliturl(row['range'])[1],
+                         "ap-definition-nl": row['comment'],
+                         "ap-label-nl": row['label'],
+                         "ap-usageNote-nl": row['usageNote'],
+                         "external term": spliturl(row['p'])[0] == namespace,
+                         "namespace": spliturl(row['p'])[0],
+                         "localname": spliturl(row['p'])[1],
+                         "parent": row['parent'],
+                         "domain": row['domain'],
+                         "range": row['range'],
+                         "min card": row['min'],
+                         "max card": row['max']})
+                except:
+                    print("Unexpected error:", sys.exc_info()[0])
+                    raise
 
     return result

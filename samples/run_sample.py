@@ -3,12 +3,14 @@ from specgen import merge_rdf, voc_to_spec, read_mcf, pretty_print, render_templ
 from specgen.extractvoc import convert
 from specgen.extractap import convert_csv
 from specgen.extractcontributors import convert_contributor_csv
-
+from specgen.extractap_from_rdf import convertap_from_rdf
 import tempfile
 import os
 import codecs
 import unittest
-
+import csv
+import logging
+import sys
 import lxml.etree as ET
 
 THISDIR = os.path.dirname(os.path.realpath(__file__))
@@ -27,12 +29,29 @@ class SpecGenTest(unittest.TestCase):
 
         print(msg(self.id(), self.shortDescription()))
 
-
     def tearDown(self):
         """return to pristine state"""
 
         pass
 
+    def test_ap_from_rdf(self):
+        """Test RDF2AP_CSV"""
+
+        test_files = [
+            './adres.ttl'
+        ]
+
+        for t in test_files:
+            rdf = get_abspath(t)
+            _, xp = tempfile.mkstemp()
+            csv_output = convertap_from_rdf(rdf, xp)
+            print(csv_output)
+            with open(xp, 'w') as csvfile:
+                writer = csv.DictWriter(csvfile, fieldnames=csv_output.pop(0))
+                writer.writeheader()
+                for row in csv_output:
+                    writer.writerow(row)
+            print(os.path.realpath(xp))
 
     def test_rdf_lossless(self):
         """Test RDF2VOC_HTML"""
@@ -60,7 +79,6 @@ class SpecGenTest(unittest.TestCase):
             xml.write(f)
             f.close()
             print(os.path.realpath(xp))
-
 
     def test_rdf_lossless_nl(self):
         """Test RDF2VOC_HTML_NL"""
@@ -90,7 +108,6 @@ class SpecGenTest(unittest.TestCase):
             xml.write(f)
             f.close()
             print(os.path.realpath(xp))
-
 
     def test_csv_lossless(self):
         """Test CSV2AP_HTML"""
@@ -123,7 +140,6 @@ class SpecGenTest(unittest.TestCase):
             xml.write(f)
             f.close()
             print(os.path.realpath(xp))
-
 
     def test_contributor_csv_lossless(self):
         """Test CONTRIBUTORCSV2RDF"""
@@ -160,12 +176,12 @@ class SpecGenTest(unittest.TestCase):
             print(os.path.realpath(rp))
 
 
-
 def get_abspath(filepath):
     """helper function absolute file access"""
 
     return os.path.join(THISDIR, filepath)
 
-
 if __name__ == '__main__':
+    logging.basicConfig(stream=sys.stderr)
+    logging.getLogger("SomeTest.testSomething").setLevel(logging.DEBUG)
     unittest.main()
