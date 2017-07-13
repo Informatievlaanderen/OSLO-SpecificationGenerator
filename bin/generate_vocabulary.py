@@ -50,7 +50,7 @@ def process_args(rdf, rdf_contributor, csv_contributor, csv, ap, contributors, m
     elif ap and rdf is not None:
         if output is not None and title is not None:
             csv_output = voc_to_spec_from_rdf(rdf, title)
-            writer = csv.DictWriter(csvfile, fieldnames=csv_output.push())
+            writer = csv.DictWriter(csvfile, fieldnames=csv_output.pop(0))
 
             writer.writeheader()
             for row in csv_output:
