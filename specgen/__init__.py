@@ -13,7 +13,6 @@ from jinja2 import Environment, FileSystemLoader
 from jinja2.exceptions import TemplateNotFound
 from six.moves.configparser import ConfigParser
 
-from suml import yuml2dot
 from specgen.extractap import convert_csv
 from specgen.extractap_from_rdf import convertap_from_rdf
 from specgen.extractcontributors import convert_contributor_csv
