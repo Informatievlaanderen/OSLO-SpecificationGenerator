@@ -1,9 +1,12 @@
-from specgen import merge_rdf, voc_to_spec, read_mcf, pretty_print, render_template, get_charstring, get_supported_schemas
+from suml import suml2pic
+
+from specgen import merge_rdf, voc_to_spec, read_mcf, pretty_print, render_template, get_charstring, get_supported_schemas, transform_to_picture
 
 from specgen.extractvoc import convert
 from specgen.extractap import convert_csv
 from specgen.extractcontributors import convert_contributor_csv
 from specgen.extractap_from_rdf import convertap_from_rdf
+from specgen.extractdiagram import convert_to_diagram
 import tempfile
 import os
 import codecs
@@ -33,6 +36,26 @@ class SpecGenTest(unittest.TestCase):
         """return to pristine state"""
 
         pass
+
+    def test_csv_to_diagram(self):
+        """Test CSV2AP_DIAGRAM"""
+
+        test_files = [
+            './Organisatie Basis AP.tsv',
+            './Dienstencataloog AP.tsv'
+        ]
+
+        for t in test_files:
+            # CSV -{1}> XML
+            csv = get_abspath(t)
+            converted = convert_to_diagram(csv)
+            print(converted)
+            # converted = "[note: You can stick notes on diagrams too!{bg:cornsilk}],[Customer]<>1-orders 0..*>[Order], [Order]++*->[LineItem], [Order]-1>[DeliveryMethod], [Order]-*>[Product], [Category]<->[Product], [DeliveryMethod]^[National], [DeliveryMethod]^[International]"
+            _, xp = tempfile.mkstemp()
+            with open(xp, 'wb') as fout:
+                 transform_to_picture(converted, fout, {'png': True})
+            print(os.path.realpath(xp))
+
 
     def test_ap_from_rdf(self):
         """Test RDF2AP_CSV"""

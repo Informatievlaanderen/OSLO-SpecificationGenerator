@@ -82,7 +82,7 @@ def convertap_from_rdf(rdf, title):
         PREFIXES +
         """SELECT DISTINCT *
            WHERE {
-              { { ?class a owl:Class } UNION { ?class a rdfs:Class } } UNION { ?s rdfs:subClassOf ?class } .
+              { { ?class a owl:Class } UNION { ?class a rdfs:Class } } UNION { { ?s rdfs:subClassOf ?class } UNION { ?class rdfs:domain ?s } } .
               OPTIONAL { ?class rdfs:label ?label } .
               FILTER(LANGMATCHES(LANG(?label), "nl")) .
               OPTIONAL { ?class rdfs:subClassOf ?parent . OPTIONAL { ?parent rdfs:label ?plabel . FILTER(LANGMATCHES(LANG(?plabel), "nl")) } } .

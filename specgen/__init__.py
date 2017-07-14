@@ -3,20 +3,22 @@ import logging
 import os
 import re
 import sys
+import tempfile
 from io import BytesIO
 from xml.dom import minidom
-import lxml.etree as ET
-from specgen.extractvoc import convert
-from specgen.extractap import convert_csv
-from specgen.extractcontributors import convert_contributor_csv
-from specgen.extractap_from_rdf import convertap_from_rdf
-import tempfile
-import rdflib
 
+import lxml.etree as ET
+import rdflib
 from jinja2 import Environment, FileSystemLoader
 from jinja2.exceptions import TemplateNotFound
-
 from six.moves.configparser import ConfigParser
+
+from suml import yuml2dot
+from specgen.extractap import convert_csv
+from specgen.extractap_from_rdf import convertap_from_rdf
+from specgen.extractcontributors import convert_contributor_csv
+from specgen.extractdiagram import convert_to_diagram
+from specgen.extractvoc import convert
 
 __version__ = '0.1.1'
 
@@ -67,6 +69,10 @@ def get_charstring(option, section_items, language,
             option_value2 = section_items[option_tmp2]
 
     return [option_value1, option_value2]
+
+
+def transform_to_picture(expr, fout, options):
+    return yuml2dot.transform(expr, fout, options)
 
 
 def get_distribution_language(section):
@@ -201,6 +207,10 @@ def voc_to_spec(rdf, schema=None, schema_local=None):
         schema = 'vocabulary'  # Vocabulary schema by default
 
     return render_template(fp, schema, schema_local)
+
+
+def csv_ap_to_diagram(rdf):
+    return convert_to_diagram(rdf)
 
 
 def voc_to_spec_from_rdf(rdf, title):

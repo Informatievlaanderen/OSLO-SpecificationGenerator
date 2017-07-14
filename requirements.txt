@@ -5,3 +5,4 @@ rdflib
 python-dateutil
 lxml
 pydash
+# scruffy

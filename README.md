@@ -113,7 +113,15 @@ To use another template, use the `--schema_local` option with the path where the
 See the section on other schemes for more information.
 
 ```bash
-./bin/generate_vocabulary.py --csv {csv_path} --ap --output {output_path}
+./bin/generate_vocabulary.py --csv {csv_path} --csv_contributor {csv_contributor_path} --ap --output {output_path}
+```
+
+### Generating an application profile in CSV from RDF
+
+In this repository only a Dutch application profiles are supported.
+
+```bash
+./bin/generate_vocabulary.py --rdf {path} --ap --output {output_path}
 ```
 
 ## Development
