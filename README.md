@@ -118,7 +118,7 @@ See the section on other schemes for more information.
 
 ### Generating an application profile in CSV from RDF
 
-In this repository only a Dutch application profiles are supported.
+In this repository only Dutch application profiles are supported.
 
 ```bash
 ./bin/generate_vocabulary.py --rdf {path} --ap --output {output_path}

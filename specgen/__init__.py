@@ -70,10 +70,6 @@ def get_charstring(option, section_items, language,
     return [option_value1, option_value2]
 
 
-def transform_to_picture(expr, fout, options):
-    return yuml2dot.transform(expr, fout, options)
-
-
 def get_distribution_language(section):
     """derive language of a given distribution construct"""
 

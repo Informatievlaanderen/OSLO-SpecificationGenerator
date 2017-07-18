@@ -200,7 +200,7 @@
       </div>
       <div class="region region--no-space-top">
           <div class="layout layout--normal">
-            <img src="./../../../cms/ap/{{ record['overview']['title'][:-3].lower().replace(' basis', '') }}/{{ record['overview']['title'][:-3].lower().replace(' basis', '') }}.jpg" />
+            <img src="./../../../cms/ap/{{ record['overview']['title'][:-3].lower().replace(' basis', '').replace(' publicatie', '') }}/{{ record['overview']['title'][:-3].lower().replace(' basis', '').replace(' publicatie', '') }}.jpg" />
           </div>
       </div>
       {% for entity in entities %}

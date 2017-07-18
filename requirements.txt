@@ -6,3 +6,4 @@ python-dateutil
 lxml
 pydash
 scruffy
+recordclass
