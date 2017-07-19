@@ -1,11 +1,9 @@
 import csv
 import pydash
-import os
-
 
 def convert_to_p_diagram(path):
     ap = []
-    result = "@startuml\n"
+    result = "@startuml\nscale max 2000 width\nskinparam linetype ortho\n"
 
     with open(path) as csvfile:
         dialect = csv.Sniffer().sniff(csvfile.read(4096))
@@ -46,10 +44,15 @@ def convert_to_p_diagram(path):
                                                      lambda a: a['EA-Name'] + ':' +
                                                                a['EA-Range'])
                 if len(domain_attribute_pairs) > 0:
-                    result += 'class %s.%s {\n%s\n}\n' % (klasse['EA-Package'],
+                    result += 'class %s.%s {\n%s\n}\n' % (klasse['EA-Package'].replace('-',''),
                         klasse['EA-Name'], '\n'.join(domain_attribute_pairs))
                 else:
-                    result += 'class %s.%s {}\n' % (klasse['EA-Package'], klasse['EA-Name'])
+                    result += 'class %s.%s\n' % (klasse['EA-Package'].replace('-',''), klasse['EA-Name'])
+
+                if klasse['EA-Parent'] is not None and klasse['EA-Parent'] != "":
+                    parent_class = pydash.find(classes, {'EA-Name': klasse['EA-Parent']})
+                    if parent_class is not None:
+                        result += '%s.%s <|- %s.%s\n' % (parent_class['EA-Package'].replace('-',''), parent_class['EA-Name'], klasse['EA-Package'].replace('-',''), klasse['EA-Name'])
 
                 domain_connectors = pydash.filter_(connectors, {
                     'EA-Domain-GUID': klasse['EA-GUID']})
@@ -61,7 +64,7 @@ def convert_to_p_diagram(path):
                                                    {'EA-GUID': connector})
                     range_class = pydash.find(classes, {'EA-Name' : domain_connector['EA-Range']})
                     if domain_connector is not None:
-                        result += '%s.%s --> "%s..%s" %s.%s : %s' % (klasse['EA-Package'],
+                        result += '%s.%s --> "%s..%s" %s.%s : %s >\n' % (klasse['EA-Package'].replace('-',''),
                                                   klasse['EA-Name'],
                                                   domain_connector[
                                                       'min card'] if
@@ -71,13 +74,13 @@ def convert_to_p_diagram(path):
                                                       'max card'] if
                                                   domain_connector[
                                                       'max card'] != '' else "*",
-                                                  range_class['EA-Package'],
+                                                  range_class['EA-Package'].replace('-',''),
                                                   domain_connector[
                                                       'EA-Range'],
                                                   domain_connector[
                                                       'EA-Name'])
 
-    result += "\nhide methods\nhide circle\n@enduml\n"
+    result += "\nhide empty members\nhide methods\nhide circle\n@enduml\n"
     return result
 
 

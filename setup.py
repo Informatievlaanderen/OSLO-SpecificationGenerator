@@ -96,7 +96,7 @@ def find_packages_templates(location='.'):
     #         packages.append(root.replace(os.sep, '.').replace('..', ''))
     # return packages
 
-    return {'specgen': ['templates/*/*.j2']}
+    return {'specgen': ['templates/*/*.j2', 'lib/*']}
 
 setup(
     name='specgen',

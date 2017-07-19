@@ -14,6 +14,7 @@ import unittest
 import csv
 import logging
 import sys
+import subprocess, pkgutil
 from recordclass import recordclass
 import lxml.etree as ET
 
@@ -84,11 +85,10 @@ class SpecGenTest(unittest.TestCase):
             converted = convert_to_p_diagram(csv)
             print(converted)
             _, xp = tempfile.mkstemp()
-            # with open(xp, 'wb') as fout:
-            #      options = {'png': True, 'scruffy': False, 'font': False, 'svg': False, 'rankdir': False}
-            #      options = recordclass('Options', options.keys())(*options.values())
-            #      yuml2dot.transform(converted, fout, options)
-            # print(os.path.realpath(xp))
+            with open(xp, 'wb') as fout:
+                package = os.path.dirname(pkgutil.get_loader("specgen").get_filename())
+                subprocess.Popen(['java', '-jar','%s/lib/plantuml.jar' % package, '-pipe'], stdin=subprocess.PIPE, stdout=fout).communicate(input=converted.encode('utf8'))
+            print(os.path.realpath(xp))
 
 
     def test_csv_to_diagram(self):
