@@ -105,9 +105,11 @@ To use the Dutch template, use the following command.
 ./bin/generate_vocabulary.py --rdf {rdf_path} --output {output_path} --schema vocabularynl
 ```
 
-### Generating application profile in HTML from CSV
+### Generating application profile in HTML from an AP CSV
 
 In this repository only a Dutch template is available.
+
+The AP CSV needs be converted from an Enterprise Architect file (.eap) using the [Enterprise Architect RDF Conversion Tool](https://github.com/Informatievlaanderen/OSLO-EA-to-RDF).
 
 To use another template, use the `--schema_local` option with the path where the other template is located.
 See the section on other schemes for more information.
@@ -116,12 +118,32 @@ See the section on other schemes for more information.
 ./bin/generate_vocabulary.py --csv {csv_path} --csv_contributor {csv_contributor_path} --ap --output {output_path}
 ```
 
-### Generating an application profile in CSV from RDF
+No contributor file yet? Use the `--schema apv2` option.
+
+```bash
+./bin/generate_vocabulary.py --csv {csv_path} --schema apv2 --ap --output {output_path}
+```
+
+### Generating a (basic) application profile from RDF
 
 In this repository only Dutch application profiles are supported.
 
 ```bash
-./bin/generate_vocabulary.py --rdf {path} --ap --output {output_path}
+./bin/generate_vocabulary.py --rdf {path} --csv_contributor {csv_contributor_path} --ap --output {output_path}
+```
+
+### Generating a UML diagram in PNG from RDF or AP CSV
+
+Note: this requires Java Runtime environment to be installed and included in your system's PATH.
+
+For an RDF file:
+```bash
+./bin/generate_vocabulary.py --rdf {path} --diagram --output {output_path}
+```
+
+For an AP CSV file:
+```bash
+./bin/generate_vocabulary.py --csv {path} --diagram --output {output_path}
 ```
 
 ## Development
