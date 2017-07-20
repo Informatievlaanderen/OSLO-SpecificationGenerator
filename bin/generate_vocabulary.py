@@ -87,12 +87,14 @@ def process_args(rdf, rdf_contributor, csv_contributor, csv, ap, contributors, m
     elif ap and rdf is not None:
         if output is not None and title is not None:
             csv_output = voc_to_spec_from_rdf(rdf, title)
-            _, xp = tempfile.mkstemp()
+            xp = tempfile.mkdtemp()
+            xp = os.path.join(xp, title)
             with open(xp, 'w') as csvfile:
-                writer = csv.DictWriter(csvfile, fieldnames=csv_output.pop(0))
+                writer = csv_engine.DictWriter(csvfile, fieldnames=csv_output.pop(0))
                 writer.writeheader()
                 for row in csv_output:
                     writer.writerow(row)
+
             csv_path = os.path.realpath(xp)
 
             if schema is None and schema_local is None:
