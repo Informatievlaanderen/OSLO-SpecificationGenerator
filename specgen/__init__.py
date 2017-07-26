@@ -157,6 +157,7 @@ def render_template(mcf, schema=None, schema_local=None):
         msg = 'schema or schema_local required'
         LOGGER.exception(msg)
         raise RuntimeError(msg)
+        
     if schema_local is None:  # default templates dir
         abspath = '{}{}{}'.format(TEMPLATES, os.sep, schema)
     elif schema_local is not None:  # user-defined

@@ -48,7 +48,6 @@ def spliturl(url):
     else:
         return [line + '#', parsedurl.fragment]
 
-
 def convertap_from_rdf(rdf, title):
     g = rdflib.Graph()
     if rdf.endswith('.xml'):
