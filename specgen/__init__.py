@@ -202,8 +202,8 @@ def voc_to_spec(rdf, schema=None, schema_local=None, diagram_description=None):
         schema = 'vocabulary'  # Vocabulary schema by default
 
     if diagram_description is not None:
-        result += "[diagram]\n"
-        result += "description=%s" % diagram_description
+        result += "\n[diagram]\n"
+        result += "description=%s\n" % diagram_description
 
     return render_template(fp, schema, schema_local)
 
