@@ -195,16 +195,16 @@ def voc_to_spec(rdf, schema=None, schema_local=None, diagram_description=None):
     result = convert(rdf)
     _, fp = tempfile.mkstemp()
 
+    if diagram_description is not None:
+        result += "\n[diagram]\n"
+        result += "description=%s\n" % diagram_description
+
     with codecs.open(fp, 'w', encoding='utf-8') as f:
         f.write(u'%s' % result)
     f.close()
 
     if schema is None:
         schema = 'vocabulary'  # Vocabulary schema by default
-
-    if diagram_description is not None:
-        result += "\n[diagram]\n"
-        result += "description=%s\n" % diagram_description
 
     return render_template(fp, schema, schema_local)
 
