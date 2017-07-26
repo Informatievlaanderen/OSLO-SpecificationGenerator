@@ -7,6 +7,7 @@ import os
 import pkgutil
 import subprocess
 from lxml import etree as ET
+from xml.sax.saxutils import escape
 from specgen import get_supported_schemas, render_template, voc_to_spec, \
     voc_to_spec_from_rdf, voc_to_ap, merge_rdf, contributor_to_rdf, \
     csv_ap_to_diagram, csv_ap_to_diagram_description
@@ -96,9 +97,10 @@ def process_args(rdf, rdf_contributor, csv_contributor, csv, ap, contributors,
                     for row in csv_output:
                         writer.writerow(row)
                 csv_path = os.path.realpath(xp)
-                description = csv_ap_to_diagram_description(csv_path)
+                description = escape(csv_ap_to_diagram_description(csv_path))
             except:  # TODO: fix unsafe check
                 description = None
+
             xml_output = voc_to_spec(rdf, schema=schema,
                                      schema_local=schema_local,
                                      diagram_description=description)
