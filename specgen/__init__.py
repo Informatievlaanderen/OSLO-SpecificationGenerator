@@ -16,7 +16,7 @@ from six.moves.configparser import ConfigParser
 from specgen.extractap import convert_csv
 from specgen.extractap_from_rdf import convertap_from_rdf
 from specgen.extractcontributors import convert_contributor_csv
-from specgen.extractdiagram import convert_to_p_diagram
+from specgen.extractdiagram import convert_to_p_diagram, convert_to_n_diagram
 from specgen.extractvoc import convert
 
 __version__ = '0.1.1'
@@ -159,7 +159,7 @@ def render_template(mcf, schema=None, schema_local=None):
         raise RuntimeError(msg)
     if schema_local is None:  # default templates dir
         abspath = '{}{}{}'.format(TEMPLATES, os.sep, schema)
-    elif schema is None:  # user-defined
+    elif schema_local is not None:  # user-defined
         abspath = schema_local
 
     def debug(text):
@@ -190,7 +190,7 @@ def render_template(mcf, schema=None, schema_local=None):
     return ET.parse(BytesIO(xml))
 
 
-def voc_to_spec(rdf, schema=None, schema_local=None):
+def voc_to_spec(rdf, schema=None, schema_local=None, diagram_description=None):
     result = convert(rdf)
     _, fp = tempfile.mkstemp()
 
@@ -201,11 +201,19 @@ def voc_to_spec(rdf, schema=None, schema_local=None):
     if schema is None:
         schema = 'vocabulary'  # Vocabulary schema by default
 
+    if diagram_description is not None:
+        result += "[diagram]\n"
+        result += "description=%s" % diagram_description
+
     return render_template(fp, schema, schema_local)
 
 
 def csv_ap_to_diagram(csv):
     return convert_to_p_diagram(csv)
+
+
+def csv_ap_to_diagram_description(csv):
+    return convert_to_n_diagram(csv)
 
 
 def voc_to_spec_from_rdf(rdf, title):

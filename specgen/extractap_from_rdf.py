@@ -148,7 +148,7 @@ def convertap_from_rdf(rdf, title):
 
         if row['p'] is not None:
             if row['type'] == rdflib.URIRef(
-                    "http://www.w3.org/2002/07/owl#ObjectProperty"):
+                    "http://www.w3.org/2002/07/owl#ObjectProperty") and not 'Concept'in row['range']:
                 try:
                     result.append(
                         {"EA-Type": "connector",
@@ -182,7 +182,7 @@ def convertap_from_rdf(rdf, title):
                     raise
 
             elif row['type'] == rdflib.URIRef(
-                    "http://www.w3.org/2002/07/owl#DatatypeProperty"):
+                    "http://www.w3.org/2002/07/owl#DatatypeProperty") or 'Concept' in row['range']:
                 try:
                     result.append(
                         {"EA-Type": "attribute",
