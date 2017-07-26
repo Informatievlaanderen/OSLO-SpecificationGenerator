@@ -83,6 +83,81 @@ def convert_to_p_diagram(path):
     return result
 
 
+def convert_to_n_diagram(path):
+    ap = []
+    result = ""
+
+    with open(path) as csvfile:
+        dialect = csv.Sniffer().sniff(csvfile.read(4096))
+        dialect.doublequote = True
+        csvfile.seek(0)
+        reader = csv.reader(csvfile, dialect)
+        header = False
+
+        for row in reader:
+            if not header:
+                header = row
+            else:
+                item = {}
+                for i in range(0, len(row)):
+                    item[header[i]] = row[i]
+                ap.append(item)
+
+    domains = pydash.without(pydash.uniq(pydash.map_(ap, 'EA-Domain')), '', None)
+    codelists = pydash.filter_(ap, {'EA-Type': 'ENUMERATION'})
+    domains = list(set(domains) - set(pydash.map_(codelists.copy(), 'EA-Name')))
+    domains.sort()
+    classes = pydash.filter_(ap, {'EA-Type': 'CLASS'}) + pydash.filter_(ap, {'EA-Type': 'DATATYPE'})
+    packages = pydash.uniq(pydash.map_(classes, 'EA-Package'))
+    attributes = pydash.filter_(ap, {'EA-Type': 'attribute'})
+    attributes = pydash.sort_by(attributes, 'EA-Domain')
+    connectors = pydash.filter_(ap, {'EA-Type': 'connector'})
+    connectors = pydash.sort_by(connectors, 'EA-Domain')
+
+    if len(domains) > 0:
+        for domain in domains:
+            klassen = pydash.filter_(classes, {'EA-Name': domain})
+            for klasse in klassen:
+                domain_attributes = pydash.filter_(attributes, {
+                    'EA-Domain-GUID': klasse['EA-GUID']})
+                domain_attribute_pairs = pydash.map_(domain_attributes, lambda a: a['EA-Name'] + ': ' + a['EA-Range'])
+                if len(domain_attribute_pairs) > 0:
+                    result += '[%s|%s];' % (
+                    klasse['EA-Name'], ';'.join(domain_attribute_pairs))
+                else:
+                    result += '[%s];' % klasse['EA-Name']
+
+                if klasse['EA-Parent'] is not None and klasse['EA-Parent'] != "":
+                    parent_class = pydash.find(classes, {
+                        'EA-Name': klasse['EA-Parent']})
+                    if parent_class is not None:
+                        result += '[%s] <:- [%s];' % (
+                        parent_class['EA-Name'].replace(' ', ''),
+                        klasse['EA-Name'].replace(' ', ''))
+
+                domain_connectors = pydash.filter_(connectors, {
+                    'EA-Domain-GUID': klasse['EA-GUID']})
+                domain_connector_guids = pydash.without(
+                    pydash.uniq(pydash.map_(domain_connectors, 'EA-GUID')), '',
+                    None)  # localname
+                for connector in domain_connector_guids:
+                    domain_connector = pydash.find(domain_connectors,
+                                                   {'EA-GUID': connector})
+                    if domain_connector is not None:
+                        result += '[%s] -> %s [%s];' % (klasse['EA-Name'],
+                                                           domain_connector[
+                                                               'EA-Name'],
+                                                           #domain_connector['min card'] if
+                                                           #domain_connector['min card'] != '' else "0",
+                                                           #domain_connector['max card'] if
+                                                           #domain_connector['max card'] != '' else "*",
+                                                           domain_connector[
+                                                               'EA-Range'])
+
+    return result[:-1]
+
+
+
 def convert_to_diagram(path):
     ap = []
     result = ""

@@ -6,7 +6,7 @@ from specgen.extractvoc import convert
 from specgen.extractap import convert_csv
 from specgen.extractcontributors import convert_contributor_csv
 from specgen.extractap_from_rdf import convertap_from_rdf
-from specgen.extractdiagram import convert_to_diagram, convert_to_p_diagram
+from specgen.extractdiagram import convert_to_diagram, convert_to_p_diagram, convert_to_n_diagram
 import tempfile
 import os
 import codecs
@@ -38,6 +38,31 @@ class SpecGenTest(unittest.TestCase):
         """return to pristine state"""
 
         pass
+
+
+    def test_rdf_to_diagram_description(self):
+        """Test RDF2AP_DIAGRAM_DESCRIPTION"""
+
+        test_files = [
+            './adres.ttl'
+        ]
+
+        for t in test_files:
+            # RDF -{1}> CSV
+            rdf = get_abspath(t)
+            _, xp = tempfile.mkstemp()
+            csv_output = convertap_from_rdf(rdf, xp)
+
+            with open(xp, 'w') as csvfile:
+                writer = csv.DictWriter(csvfile, fieldnames=csv_output.pop(0))
+                writer.writeheader()
+                for row in csv_output:
+                    writer.writerow(row)
+
+            # CSV -{2}> PNG
+            csv_file = get_abspath(xp)
+            converted = convert_to_n_diagram(csv_file)
+            print(converted)
 
 
     def test_rdf_to_diagram(self):

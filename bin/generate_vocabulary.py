@@ -7,9 +7,12 @@ import os
 import pkgutil
 import subprocess
 from lxml import etree as ET
-from specgen import get_supported_schemas, render_template, voc_to_spec, voc_to_spec_from_rdf, voc_to_ap, merge_rdf, contributor_to_rdf, csv_ap_to_diagram
+from specgen import get_supported_schemas, render_template, voc_to_spec, \
+    voc_to_spec_from_rdf, voc_to_ap, merge_rdf, contributor_to_rdf, \
+    csv_ap_to_diagram, csv_ap_to_diagram_description
 
 SUPPORTED_SCHEMAS = get_supported_schemas()
+
 
 @click.command()
 @click.option('--rdf', '-r',
@@ -26,10 +29,14 @@ SUPPORTED_SCHEMAS = get_supported_schemas()
               help='Path to Author or Application Profile CSV file (.csv)')
 @click.option('--output', '-o', type=click.File('wb'),
               help='Name of output file')
-@click.option('--ap', is_flag=True, help='Output full AP instead of vocabulary')
-@click.option('--diagram', '-d', is_flag=True, help='Output diagram of vocabulary or AP')
-@click.option('--contributors', is_flag=True, help='Output RDF of authors, editors and contributors')
-@click.option('--merge', is_flag=True, help='Merge RDF of vocabulary RDF with RDF of authors')
+@click.option('--ap', is_flag=True,
+              help='Output full AP instead of vocabulary')
+@click.option('--diagram', '-d', is_flag=True,
+              help='Output diagram of vocabulary or AP')
+@click.option('--contributors', is_flag=True,
+              help='Output RDF of authors, editors and contributors')
+@click.option('--merge', is_flag=True,
+              help='Merge RDF of vocabulary RDF with RDF of authors')
 @click.option('--target', help='Vocabulary to export authors to')
 @click.option('--title', help='Title of the AP')
 @click.option('--schema', '-s',
@@ -39,9 +46,8 @@ SUPPORTED_SCHEMAS = get_supported_schemas()
               type=click.Path(exists=True, resolve_path=True,
                               dir_okay=True, file_okay=False),
               help='Locally defined metadata schema')
-
-
-def process_args(rdf, rdf_contributor, csv_contributor, csv, ap, contributors, merge, target, schema, schema_local, output, title, diagram):
+def process_args(rdf, rdf_contributor, csv_contributor, csv, ap, contributors,
+                 merge, target, schema, schema_local, output, title, diagram):
     xml_output = False
 
     if diagram:
@@ -52,7 +58,8 @@ def process_args(rdf, rdf_contributor, csv_contributor, csv, ap, contributors, m
                     csv_output = voc_to_spec_from_rdf(rdf, xp)
                     with open(xp, 'w') as csvfile:
                         writer = csv_engine.DictWriter(csvfile,
-                                                fieldnames=csv_output.pop(0))
+                                                       fieldnames=csv_output.pop(
+                                                           0))
                         writer.writeheader()
                         for row in csv_output:
                             writer.writerow(row)
@@ -60,7 +67,8 @@ def process_args(rdf, rdf_contributor, csv_contributor, csv, ap, contributors, m
                 else:
                     csv_path = os.path.realpath(csv)
                 converted = csv_ap_to_diagram(csv_path)
-                package = os.path.dirname(pkgutil.get_loader("specgen").get_filename())
+                package = os.path.dirname(
+                    pkgutil.get_loader("specgen").get_filename())
                 subprocess.Popen(
                     ['java', '-jar', '%s/lib/plantuml.jar' % package, '-pipe'],
                     stdin=subprocess.PIPE,
@@ -78,8 +86,22 @@ def process_args(rdf, rdf_contributor, csv_contributor, csv, ap, contributors, m
 
     elif not ap and not contributors and not merge:
         if rdf is not None:
+            try:
+                _, xp = tempfile.mkstemp()
+                csv_output = voc_to_spec_from_rdf(rdf, xp)
+                with open(xp, 'w') as csvfile:
+                    writer = csv_engine.DictWriter(csvfile,
+                                                   fieldnames=csv_output.pop(0))
+                    writer.writeheader()
+                    for row in csv_output:
+                        writer.writerow(row)
+                csv_path = os.path.realpath(xp)
+                description = csv_ap_to_diagram_description(csv_path)
+            except:  # TODO: fix unsafe check
+                description = None
             xml_output = voc_to_spec(rdf, schema=schema,
-                                 schema_local=schema_local)
+                                     schema_local=schema_local,
+                                     diagram_description=description)
         else:
             raise click.UsageError(
                 'Missing arguments input RDF --rdf {path}')
@@ -90,15 +112,18 @@ def process_args(rdf, rdf_contributor, csv_contributor, csv, ap, contributors, m
             xp = tempfile.mkdtemp()
             xp = os.path.join(xp, title)
             with open(xp, 'w') as csvfile:
-                writer = csv_engine.DictWriter(csvfile, fieldnames=csv_output.pop(0))
+                writer = csv_engine.DictWriter(csvfile,
+                                               fieldnames=csv_output.pop(0))
                 writer.writeheader()
                 for row in csv_output:
                     writer.writerow(row)
+
             csv_path = os.path.realpath(xp)
 
             if schema is None and schema_local is None:
                 if csv_contributor is not None:
-                    xml_output = voc_to_ap(csv_path, csv_contributor=csv_contributor,
+                    xml_output = voc_to_ap(csv_path,
+                                           csv_contributor=csv_contributor,
                                            schema=schema,
                                            schema_local=schema_local)
                 else:
@@ -106,7 +131,8 @@ def process_args(rdf, rdf_contributor, csv_contributor, csv, ap, contributors, m
                         'Missing path to contributor CSV: --csv_contributor {path}')
 
             else:
-                xml_output = voc_to_ap(csv_path, csv_contributor=csv_contributor,
+                xml_output = voc_to_ap(csv_path,
+                                       csv_contributor=csv_contributor,
                                        schema=schema,
                                        schema_local=schema_local)
 
@@ -116,20 +142,22 @@ def process_args(rdf, rdf_contributor, csv_contributor, csv, ap, contributors, m
 
     elif ap and csv is not None and schema is None and schema_local is None:
         if csv_contributor is not None:
-            xml_output = voc_to_ap(csv, csv_contributor=csv_contributor, schema=schema,
-                                     schema_local=schema_local)
+            xml_output = voc_to_ap(csv, csv_contributor=csv_contributor,
+                                   schema=schema,
+                                   schema_local=schema_local)
         else:
             raise click.UsageError(
                 'Missing path to contributor CSV: --csv_contributor {path}')
 
     elif ap and csv is not None:
-        xml_output = voc_to_ap(csv, csv_contributor=csv_contributor, schema=schema,
-                                 schema_local=schema_local)
+        xml_output = voc_to_ap(csv, csv_contributor=csv_contributor,
+                               schema=schema,
+                               schema_local=schema_local)
 
     elif contributors and csv is not None:
         if target is not None:
             xml_output = contributor_to_rdf(csv, target, schema=schema,
-                                     schema_local=schema_local)
+                                            schema_local=schema_local)
         else:
             click.UsageError(
                 'Missing arguments input target --target {column}')
@@ -139,7 +167,7 @@ def process_args(rdf, rdf_contributor, csv_contributor, csv, ap, contributors, m
         if output is None:
             click.echo_via_pager(merged)
         else:
-           output.write(merged)
+            output.write(merged)
 
     else:
         raise click.UsageError(

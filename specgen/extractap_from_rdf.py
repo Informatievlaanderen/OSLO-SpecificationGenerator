@@ -44,9 +44,9 @@ def spliturl(url):
     parsedurl = urlparse(url)
     line = str(parsedurl.scheme) + '://' + str(parsedurl.netloc) + str(parsedurl.path)
     if len(parsedurl.fragment) == 0:
-        return [line[:line.rfind("/")], line[line.rfind("/")+1:]]
+        return [line[:line.rfind("/")], line[line.rfind("/") + 1:]]
     else:
-        return [line+ '#', parsedurl.fragment]
+        return [line + '#', parsedurl.fragment]
 
 def convertap_from_rdf(rdf, title):
     g = rdflib.Graph()
@@ -75,7 +75,11 @@ def convertap_from_rdf(rdf, title):
     for row in qres:
         namespace = spliturl(row['v'])[0]
         abbr_title = os.path.splitext(os.path.basename(title))[0].replace(' AP','')
-        result.append({"EA-Type": "Package", "EA-Name": abbr_title, "EA-GUID": row['v'], "namespace": spliturl(row['v'])[0], "localname": spliturl(row['v'])[1], "type": "http://www.w3.org/2002/07/owl#Ontology"})
+        result.append(
+            {"EA-Type": "Package", "EA-Name": abbr_title, "EA-GUID": row['v'],
+             "namespace": spliturl(row['v'])[0],
+             "localname": spliturl(row['v'])[1],
+             "type": "http://www.w3.org/2002/07/owl#Ontology"})
 
     qres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
         PREFIXES +
@@ -97,9 +101,12 @@ def convertap_from_rdf(rdf, title):
             result.append(
                 {"EA-Type": "CLASS",
                  "EA-Package": spliturl(row['definedBy'])[1],
-                 "EA-Name": row['label'] if (row['label'] is not None) else spliturl(row['class'])[1],
+                 "EA-Name": row['label'] if (row['label'] is not None) else
+                 spliturl(row['class'])[1],
                  "EA-GUID": row['class'],
-                 "EA-Parent": row['plabel'] if (row['plabel'] is not None) else spliturl(row['parent'])[1] if (row['parent'] is not None) else None,
+                 "EA-Parent": row['plabel'] if (row['plabel'] is not None) else
+                 spliturl(row['parent'])[1] if (
+                 row['parent'] is not None) else None,
                  "ap-definition-nl": row['comment'],
                  "ap-label-nl": row['label'],
                  "ap-usageNote-nl": row['usageNote'],
@@ -139,17 +146,23 @@ def convertap_from_rdf(rdf, title):
     for row in qres:
 
         if row['p'] is not None:
-            if row['type'] == rdflib.URIRef("http://www.w3.org/2002/07/owl#ObjectProperty"):
+            if row['type'] == rdflib.URIRef(
+                    "http://www.w3.org/2002/07/owl#ObjectProperty") and not 'Concept'in row['range']:
                 try:
                     result.append(
                         {"EA-Type": "connector",
                          "EA-Package": spliturl(row['definedBy'])[1],
-                         "EA-Name": row['label'] if (row['label'] is not None) else spliturl(row['p'])[1],
+                         "EA-Name": row['label'] if (
+                         row['label'] is not None) else spliturl(row['p'])[1],
                          "EA-GUID": row['p'],
                          "EA-Domain-GUID": row['domain'],
-                         "EA-Domain": row['domainLabel'] if (row['domainLabel'] is not None) else spliturl(row['domain'])[1],
+                         "EA-Domain": row['domainLabel'] if (
+                         row['domainLabel'] is not None) else
+                         spliturl(row['domain'])[1],
                          "EA-Range-GUID": row['range'],
-                         "EA-Range": row['rangeLabel'] if (row['rangeLabel'] is not None) else spliturl(row['range'])[1],
+                         "EA-Range": row['rangeLabel'] if (
+                         row['rangeLabel'] is not None) else
+                         spliturl(row['range'])[1],
                          "ap-definition-nl": row['comment'],
                          "ap-label-nl": row['label'],
                          "ap-usageNote-nl": row['usageNote'],
@@ -167,7 +180,8 @@ def convertap_from_rdf(rdf, title):
                     print("Unexpected error:", sys.exc_info()[0])
                     raise
 
-            elif row['type'] == rdflib.URIRef("http://www.w3.org/2002/07/owl#DatatypeProperty"):
+            elif row['type'] == rdflib.URIRef(
+                    "http://www.w3.org/2002/07/owl#DatatypeProperty") or 'Concept' in row['range']:
                 try:
                     result.append(
                         {"EA-Type": "attribute",
@@ -175,9 +189,13 @@ def convertap_from_rdf(rdf, title):
                          "EA-Name": row['label'],
                          "EA-GUID": row['p'],
                          "EA-Domain-GUID": row['domain'],
-                         "EA-Domain": row['domainLabel'] if (row['domainLabel'] is not None) else spliturl(row['domain'])[1],
+                         "EA-Domain": row['domainLabel'] if (
+                         row['domainLabel'] is not None) else
+                         spliturl(row['domain'])[1],
                          "EA-Range-GUID": row['range'],
-                         "EA-Range": row['rangeLabel'] if (row['rangeLabel'] is not None) else spliturl(row['range'])[1],
+                         "EA-Range": row['rangeLabel'] if (
+                         row['rangeLabel'] is not None) else
+                         spliturl(row['range'])[1],
                          "ap-definition-nl": row['comment'],
                          "ap-label-nl": row['label'],
                          "ap-usageNote-nl": row['usageNote'],
@@ -192,7 +210,14 @@ def convertap_from_rdf(rdf, title):
                 except:
                     print("Unexpected error:", sys.exc_info()[0])
                     raise
-                    
-    result = list({x['EA-GUID']:x for x in result}.values())
-    result.insert(0, ["EA-Type", "EA-Package", "EA-Name", "EA-GUID", "EA-Parent", "EA-Domain", "EA-Domain-GUID", "EA-Range", "EA-Range-GUID", "ap-label-nl", "ap-definition-nl", "ap-usageNote-nl", "ap-codelist", "external term", "namespace", "localname", "type", "domain", "range", "parent", "min card", "max card"])
+
+    result = list({x['EA-GUID']: x for x in result}.values())
+    result.insert(0,
+                  ["EA-Type", "EA-Package", "EA-Name", "EA-GUID", "EA-Parent",
+                   "EA-Domain", "EA-Domain-GUID", "EA-Range", "EA-Range-GUID",
+                   "ap-label-nl", "ap-definition-nl", "ap-usageNote-nl",
+                   "ap-codelist", "external term", "namespace", "localname",
+                   "type", "domain", "range", "parent", "min card",
+                   "max card"])
+
     return result
