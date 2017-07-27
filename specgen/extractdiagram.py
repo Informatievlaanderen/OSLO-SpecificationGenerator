@@ -123,17 +123,17 @@ def convert_to_n_diagram(path):
                 domain_attribute_pairs = pydash.map_(domain_attributes, lambda a: a['EA-Name'] + ': ' + a['EA-Range'])
                 if len(domain_attribute_pairs) > 0:
                     result += '[%s|%s];' % (
-                    klasse['EA-Name'], ';'.join(domain_attribute_pairs))
+                    klasse['EA-Name'].replace(' ',''), ';'.join(domain_attribute_pairs))
                 else:
-                    result += '[%s];' % klasse['EA-Name']
+                    result += '[%s];' % klasse['EA-Name'].replace(' ','')
 
                 if klasse['EA-Parent'] is not None and klasse['EA-Parent'] != "":
                     parent_class = pydash.find(classes, {
                         'EA-Name': klasse['EA-Parent']})
                     if parent_class is not None:
                         result += '[%s] <:- [%s];' % (
-                        parent_class['EA-Name'].replace(' ', ''),
-                        klasse['EA-Name'].replace(' ', ''))
+                        parent_class['EA-Name'].replace(' ',''),
+                        klasse['EA-Name'].replace(' ',''))
 
                 domain_connectors = pydash.filter_(connectors, {
                     'EA-Domain-GUID': klasse['EA-GUID']})
@@ -144,15 +144,15 @@ def convert_to_n_diagram(path):
                     domain_connector = pydash.find(domain_connectors,
                                                    {'EA-GUID': connector})
                     if domain_connector is not None:
-                        result += '[%s] -> %s [%s];' % (klasse['EA-Name'],
+                        result += '[%s] -> %s [%s];' % (klasse['EA-Name'].replace(' ',''),
                                                            domain_connector[
-                                                               'EA-Name'],
+                                                               'EA-Name'].replace(' ',''),
                                                            #domain_connector['min card'] if
                                                            #domain_connector['min card'] != '' else "0",
                                                            #domain_connector['max card'] if
                                                            #domain_connector['max card'] != '' else "*",
                                                            domain_connector[
-                                                               'EA-Range'])
+                                                               'EA-Range'].replace(' ',''))
 
     return result[:-1]
 
