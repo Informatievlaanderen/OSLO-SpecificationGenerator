@@ -71,7 +71,7 @@ def process_args(rdf, rdf_contributor, csv_contributor, csv, ap, contributors,
                 package = os.path.dirname(
                     pkgutil.get_loader("specgen").get_filename())
                 subprocess.Popen(
-                    ['java', '-jar', '%s/lib/plantuml.jar' % package, '-pipe'],
+                    ['java', '-jar', os.path.join(package,'lib','plantuml.jar'), '-pipe'],
                     stdin=subprocess.PIPE,
                     stdout=output).communicate(
                     input=converted.encode('utf8')

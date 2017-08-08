@@ -5,5 +5,5 @@ rdflib
 python-dateutil
 lxml
 pydash
-scruffy
+#scruffy
 recordclass
