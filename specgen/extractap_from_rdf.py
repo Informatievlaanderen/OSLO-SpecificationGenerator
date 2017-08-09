@@ -120,7 +120,7 @@ def convertap_from_rdf(rdf, title):
         PREFIXES +
         """SELECT DISTINCT *
            WHERE {
-              { ?p a owl:ObjectProperty } UNION { ?p a owl:DatatypeProperty } .
+              { { ?p a owl:ObjectProperty } UNION { ?p a owl:DatatypeProperty } } UNION { ?p a rdf:Property } .
               OPTIONAL { ?p rdfs:label ?label } .
               ?p a ?type .
               FILTER(LANGMATCHES(LANG(?label), "nl")) .
@@ -146,8 +146,7 @@ def convertap_from_rdf(rdf, title):
     for row in qres:
 
         if row['p'] is not None:
-            if row['type'] == rdflib.URIRef(
-                    "http://www.w3.org/2002/07/owl#ObjectProperty") and not 'Concept'in row['range']:
+            if ( row['type'] == rdflib.URIRef("http://www.w3.org/2002/07/owl#ObjectProperty") or row['type'] == rdflib.URIRef("http://www.w3.org/1999/02/22-rdf-syntax-ns#") ) and not 'Concept' in row['range']:
                 try:
                     result.append(
                         {"EA-Type": "connector",
