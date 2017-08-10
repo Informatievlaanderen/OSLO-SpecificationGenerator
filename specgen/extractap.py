@@ -57,7 +57,8 @@ def convert_csv(path):
                     result += 'ap-usagenote-nl=%s\n' % klasse['ap-usageNote-nl']
                     result += 'namespace=%s\n' % klasse['namespace']
                     result += 'localname=%s\n' % klasse['localname']
-
+                    if klasse['parent'] is not None:
+                        result += 'parent=%s\n' % klasse['parent']
 
                 domain_attributes = pydash.filter_(attributes, {'EA-Domain': domain})
                 domain_attribute_names = pydash.without(pydash.uniq(pydash.map_(domain_attributes, 'EA-Name')), '', None) #localname
@@ -89,6 +90,8 @@ def convert_csv(path):
                         result += 'ap-usagenote-nl=%s\n' % klasse['ap-usageNote-nl']
                         result += 'namespace=%s\n' % klasse['namespace']
                         result += 'localname=%s\n' % klasse['localname']
+                        if klasse['parent'] is not None:
+                            result += 'parent=%s\n' % klasse['parent']
 
                     domain_attributes = pydash.filter_(attributes,
                                                        {'EA-Domain-GUID': klasse['EA-GUID']})
