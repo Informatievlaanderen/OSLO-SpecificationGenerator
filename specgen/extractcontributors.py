@@ -34,11 +34,11 @@ def convert_contributor_csv(path, voc):
         result += 'voc=%s\n' % voc.lower()
         result += 'issued=%s\n' % time.strftime("%Y-%m-%d")
         if len(contributor_emails) > 0:
-            result += 'contributors=%s\n' % ','.join(contributor_emails)
+            result += 'contributors=%s\n' % ','.join(sorted(contributor_emails))
         if len(editor_emails) > 0:
-            result += 'editors=%s\n' % ','.join(editor_emails)
+            result += 'editors=%s\n' % ','.join(sorted(editor_emails))
         if len(author_emails) > 0:
-            result += 'authors=%s\n' % ','.join(author_emails)
+            result += 'authors=%s\n' % ','.join(sorted(author_emails))
 
         for contributor in contributor_emails:
             result += "\n[contributor:%s]\n" % contributor

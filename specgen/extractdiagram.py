@@ -146,7 +146,7 @@ def convert_to_n_diagram(path):
                     if domain_connector is not None:
                         result += '[%s] -> %s [%s];' % (klasse['EA-Name'].replace(' ',''),
                                                            domain_connector[
-                                                               'EA-Name'].replace(' ',''),
+                                                               'EA-Name'],
                                                            #domain_connector['min card'] if
                                                            #domain_connector['min card'] != '' else "0",
                                                            #domain_connector['max card'] if
