@@ -405,7 +405,6 @@ def convert(rdf):
     result += "externals=%s\n" % ",".join(externals)
     result += "ext_uris=%s\n" % ",".join(ext_uris)
 
-
     qres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
         PREFIXES +
         """SELECT DISTINCT *
@@ -436,6 +435,17 @@ def convert(rdf):
                 result += "definedBy=%s\n" % row['definedBy']
             if row['describedBy'] is not None:
                 result += "describedBy=%s\n" % row['describedBy']
+            parents = []
+            pres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
+                        PREFIXES +
+                        """SELECT DISTINCT ?parent
+                           WHERE {
+                              <%s> rdfs:subClassOf ?parent . 
+                           }""" % row['class'])
+            for p in pres:
+                parents.append(p['parent'])
+            if len(parents) > 0:
+                result += "parents=%s\n" % ",".join(parents)
 
     qres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
         PREFIXES +
@@ -468,6 +478,17 @@ def convert(rdf):
                 result += "definedBy=%s\n" % row['definedBy']
             if row['describedBy'] is not None:
                 result += "describedBy=%s\n" % row['describedBy']
+            parents = []
+            pres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
+                        PREFIXES +
+                        """SELECT DISTINCT ?parent
+                           WHERE {
+                              <%s> rdfs:subClassOf ?parent . 
+                           }""" % row['class'])
+            for p in pres:
+                parents.append(p['parent'])
+            if len(parents) > 0:
+                result += "parents=%s\n" % ",".join(parents)
 
     qres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
         PREFIXES +
@@ -505,6 +526,17 @@ def convert(rdf):
                 result += "definedBy=%s\n" % row['definedBy']
             if row['describedBy'] is not None:
                 result += "describedBy=%s\n" % row['describedBy']
+            parents = []
+            pres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
+                        PREFIXES +
+                        """SELECT DISTINCT ?parent
+                           WHERE {
+                              <%s> rdfs:subPropertyOf ?parent . 
+                           }""" % row['p'])
+            for p in pres:
+                parents.append(p['parent'])
+            if len(parents) > 0:
+                result += "parents=%s\n" % ",".join(parents)
 
     qres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
         PREFIXES +
@@ -543,5 +575,16 @@ def convert(rdf):
                 result += "definedBy=%s\n" % row['definedBy']
             if row['describedBy'] is not None:
                 result += "describedBy=%s\n" % row['describedBy']
+            parents = []
+            pres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
+                        PREFIXES +
+                        """SELECT DISTINCT ?parent
+                           WHERE {
+                              <%s> rdfs:subPropertyOf ?parent . 
+                           }""" % row['p'])
+            for p in pres:
+                parents.append(p['parent'])
+            if len(parents) > 0:
+                result += "parents=%s\n" % ",".join(parents)
 
     return result
