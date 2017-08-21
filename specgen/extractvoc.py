@@ -544,23 +544,4 @@ def convert(rdf):
             if row['describedBy'] is not None:
                 result += "describedBy=%s\n" % row['describedBy']
 
-    qres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
-        PREFIXES +
-        """SELECT DISTINCT *
-           WHERE {
-              ?p rdfs:label ?label .
-              FILTER(LANGMATCHES(LANG(?label), "nl")) .
-              MINUS {
-                ?p rdfs:label ?label .
-                FILTER(STRSTARTS(STR(?p), "http://data.vlaanderen.be/ns"))
-              } 
-           } ORDER BY ?label""")
-
-    for row in qres:
-        if row['p'] is not None:
-            result += '\n[externals:%s]\n' % row['p']
-            if row['label'] is not None:
-                result += "label=%s\n" % row['label']
-
-
     return result
