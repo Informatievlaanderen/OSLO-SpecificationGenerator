@@ -380,6 +380,32 @@ def convert(rdf):
 
     result += "prop_uris_nl=%s\n" % ",".join(prop_uris)
 
+
+
+    qres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
+        PREFIXES +
+        """SELECT DISTINCT *
+           WHERE {
+              ?p rdfs:label ?label .
+              FILTER(LANGMATCHES(LANG(?label), "nl")) .
+              MINUS {
+                ?p rdfs:label ?label .
+                FILTER(STRSTARTS(STR(?p), "http://data.vlaanderen.be/ns"))
+              } 
+           } ORDER BY ?label""")
+
+    externals = []
+    ext_uris = []
+
+    for row in qres:
+        if row['p'] is not None:
+            externals.append(row['label'])
+            ext_uris.append(row['p'])
+
+    result += "externals=%s\n" % ",".join(externals)
+    result += "ext_uris=%s\n" % ",".join(ext_uris)
+
+
     qres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
         PREFIXES +
         """SELECT DISTINCT *
@@ -410,17 +436,6 @@ def convert(rdf):
                 result += "definedBy=%s\n" % row['definedBy']
             if row['describedBy'] is not None:
                 result += "describedBy=%s\n" % row['describedBy']
-            parents = []
-            pres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
-                        PREFIXES +
-                        """SELECT DISTINCT ?parent
-                           WHERE {
-                              <%s> rdfs:subClassOf ?parent . 
-                           }""" % row['class'])
-            for p in pres:
-                parents.append(p['parent'])
-            if len(parents) > 0:
-                result += "parents=%s\n" % ",".join(parents)
 
     qres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
         PREFIXES +
@@ -453,17 +468,6 @@ def convert(rdf):
                 result += "definedBy=%s\n" % row['definedBy']
             if row['describedBy'] is not None:
                 result += "describedBy=%s\n" % row['describedBy']
-            parents = []
-            pres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
-                        PREFIXES +
-                        """SELECT DISTINCT ?parent
-                           WHERE {
-                              <%s> rdfs:subClassOf ?parent . 
-                           }""" % row['class'])
-            for p in pres:
-                parents.append(p['parent'])
-            if len(parents) > 0:
-                result += "parents=%s\n" % ",".join(parents)
 
     qres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
         PREFIXES +
@@ -501,17 +505,6 @@ def convert(rdf):
                 result += "definedBy=%s\n" % row['definedBy']
             if row['describedBy'] is not None:
                 result += "describedBy=%s\n" % row['describedBy']
-            parents = []
-            pres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
-                        PREFIXES +
-                        """SELECT DISTINCT ?parent
-                           WHERE {
-                              <%s> rdfs:subPropertyOf ?parent . 
-                           }""" % row['p'])
-            for p in pres:
-                parents.append(p['parent'])
-            if len(parents) > 0:
-                result += "parents=%s\n" % ",".join(parents)
 
     qres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
         PREFIXES +
@@ -550,16 +543,24 @@ def convert(rdf):
                 result += "definedBy=%s\n" % row['definedBy']
             if row['describedBy'] is not None:
                 result += "describedBy=%s\n" % row['describedBy']
-            parents = []
-            pres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
-                        PREFIXES +
-                        """SELECT DISTINCT ?parent
-                           WHERE {
-                              <%s> rdfs:subPropertyOf ?parent . 
-                           }""" % row['p'])
-            for p in pres:
-                parents.append(p['parent'])
-            if len(parents) > 0:
-                result += "parents=%s\n" % ",".join(parents)
+
+    qres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
+        PREFIXES +
+        """SELECT DISTINCT *
+           WHERE {
+              ?p rdfs:label ?label .
+              FILTER(LANGMATCHES(LANG(?label), "nl")) .
+              MINUS {
+                ?p rdfs:label ?label .
+                FILTER(STRSTARTS(STR(?p), "http://data.vlaanderen.be/ns"))
+              } 
+           } ORDER BY ?label""")
+
+    for row in qres:
+        if row['p'] is not None:
+            result += '\n[externals:%s]\n' % row['p']
+            if row['label'] is not None:
+                result += "label=%s\n" % row['label']
+
 
     return result
