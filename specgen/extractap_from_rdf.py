@@ -94,6 +94,7 @@ def convertap_from_rdf(rdf, title):
               FILTER(LANGMATCHES(LANG(?comment), "nl")) .
               OPTIONAL { ?class vann:usageNote ?usageNote } .
               OPTIONAL { ?class rdfs:isDefinedBy ?definedBy } .
+              FILTER(STRSTARTS(STR(?class), "http://data.vlaanderen.be/ns")) .
            } ORDER BY ?class""")
 
     for row in qres:
@@ -141,6 +142,7 @@ def convertap_from_rdf(rdf, title):
                     sh:path ?p .
                  OPTIONAL { ?e sh:minCount ?min } .
                  OPTIONAL { ?e sh:maxCount ?max } } .
+              FILTER(STRSTARTS(STR(?p), "http://data.vlaanderen.be/ns")) .
            } ORDER BY ?p""")
 
     for row in qres:
