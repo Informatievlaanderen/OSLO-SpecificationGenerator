@@ -221,7 +221,7 @@
                                         <p>
                                             |
                                             {% for class in classes %}
-                                            <a href="#{{ class_uris[loop.index - 1] }}" rel="class">{{ class }}</a> |
+                                            <a href="{{ class_uris[loop.index - 1]  | replace(record['metadata']['uri'], '') }}" rel="class">{{ class }}</a> |
                                             {% endfor %}
                                         </p>
                                     </div>
@@ -237,7 +237,7 @@
                                         <p>
                                             |
                                             {% for prop in props %}
-                                            <a href="#{{ prop_uris[loop.index - 1] }}" rel="property">{{ prop }}</a> |
+                                            <a href="{{ prop_uris[loop.index - 1]  | replace(record['metadata']['uri'], '')}}" rel="property">{{ prop }}</a> |
                                             {% endfor %}
                                         </p>
                                     </div>
@@ -258,7 +258,7 @@
                                 {% for class_uri in class_uris %}
                                 {% set klasse = record['class_nl:'+class_uri] %}
                                 <div class="region region--no-space-top">
-                                    <h3 class="h3"  id="{{ class_uri }}">Klasse <em>{{ klasse['label'] }}</em></h3>
+                                    <h3 class="h3"  id="{{ class_uri | replace(record['metadata']['uri'] + '#', '') }}">Klasse <em>{{ klasse['label'] }}</em></h3>
                                     <table class="definition">
                                         <tbody>
                                           <tr>
@@ -325,7 +325,7 @@
                                 {% for prop_uri in prop_uris %}
                                 {% set eigenschap = record['property_nl:'+prop_uri] %}
                                 <div class="region region--no-space-top">
-                                    <h3 class="h3"  id="{{ prop_uri }}">Eigenschap <em>{{  eigenschap['label'] }}</em></h3>
+                                    <h3 class="h3"  id="{{ prop_uri | replace(record['metadata']['uri'] + '#', '') }}">Eigenschap <em>{{  eigenschap['label'] }}</em></h3>
                                     <table class="definition">
                                         <tbody>
                                           <tr>
