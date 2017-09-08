@@ -275,6 +275,17 @@
                                             <th>URI</th>
                                             <td><code>{{ class_uri }}</code></td>
                                           </tr>
+                                          {% if klasse['parents'] %}
+										  <tr>
+                                            <th>Specialisatie van</th>
+											<td><ul>
+											{% set parents = klasse['parents'].split(",") %}
+											{% for parent in parents %}
+                                              <li><code>{{ parent }}</code></li>
+											{% endfor %}
+                                            </ul></td>
+										  </tr>
+                                          {% endif %}
                                           <tr>
                                             <th>Definitie</th>
                                             <td>{{ klasse['comment'] }}</td>
@@ -342,6 +353,17 @@
                                             <th>Bereik</th>
                                             <td><code>{{ eigenschap['range'] }}</code></td>
                                           </tr>
+                                          {% endif %}
+                                          {% if eigenschap['parents'] %}
+										  <tr>
+                                            <th>Specialisatie van</th>
+											<td><ul>
+											{% set parents = eigenschap['parents'].split(",") %}
+											{% for parent in parents %}
+                                              <li><code>{{ parent }}</code></li>
+											{% endfor %}
+                                            </ul></td>
+										  </tr>
                                           {% endif %}
                                           <tr>
                                             <th>Definitie</th>
@@ -469,6 +491,7 @@
             border-style: solid;
             border-color: #666666;
             background-color: #dedede;
+            width: 110px;
       }
 
       table td {
@@ -481,10 +504,6 @@
 
       table tr:first-child {
           font-weight:bold;
-      }
-
-      table th {
-        width: 100px;
       }
 
       tr:nth-child(even) td     { background-color:#eee; }
