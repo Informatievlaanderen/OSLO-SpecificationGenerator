@@ -380,6 +380,31 @@ def convert(rdf):
 
     result += "prop_uris_nl=%s\n" % ",".join(prop_uris)
 
+
+
+    qres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
+        PREFIXES +
+        """SELECT DISTINCT *
+           WHERE {
+              ?p rdfs:label ?label .
+              FILTER(LANGMATCHES(LANG(?label), "nl")) .
+              MINUS {
+                ?p rdfs:label ?label .
+                FILTER(STRSTARTS(STR(?p), "http://data.vlaanderen.be/ns"))
+              } 
+           } ORDER BY ?label""")
+
+    externals = []
+    ext_uris = []
+
+    for row in qres:
+        if row['p'] is not None:
+            externals.append(row['label'])
+            ext_uris.append(row['p'])
+
+    result += "externals=%s\n" % ",".join(externals)
+    result += "ext_uris=%s\n" % ",".join(ext_uris)
+
     qres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
         PREFIXES +
         """SELECT DISTINCT *
