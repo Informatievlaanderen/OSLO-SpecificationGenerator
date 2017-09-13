@@ -64,7 +64,7 @@
                             - <a href="{{ record['author:'+maker]['website'] }}" class="p-org org h-org h-card" rel="foaf:workplaceHomepage">{{ record['author:'+maker]['organisatie'] }}</a>
                             {% endif %}
                             {% if record['author:'+maker]['email'] %}
-                            - <span class="ed_mailto"><a href="{{ record['author:'+maker]['email'] }}" rel="foaf:mbox" class="u-email email">{{ record['author:'+maker]['email'].replace("mailto:","") }}</a></span>
+                            - <span class="ed_mailto"><a href="mailto:{{ record['author:'+maker]['email'] }}" rel="foaf:mbox" class="u-email email">{{ record['author:'+maker]['email'] }}</a></span>
                             {% endif %}
                             </span>
                         </dd>
@@ -83,7 +83,7 @@
                             - <a href="{{ record['editor:'+editor]['website'] }}" class="p-org org h-org h-card" rel="foaf:workplaceHomepage">{{ record['editor:'+editor]['organisatie'] }}</a>
                             {% endif %}
                             {% if record['editor:'+editor]['email'] %}
-                            - <span class="ed_mailto"><a href="{{ record['editor:'+editor]['email'] }}" rel="foaf:mbox" class="u-email email">{{ record['editor:'+editor]['email'].replace("mailto:","") }}</a></span>
+                            - <span class="ed_mailto"><a href="mailto:{{ record['editor:'+editor]['email'] }}" rel="foaf:mbox" class="u-email email">{{ record['editor:'+editor]['email'] }}</a></span>
                             {% endif %}
                             </span>
                         </dd>
@@ -102,7 +102,7 @@
                             - <a href="{{ record['contributor:'+contributor]['website'] }}" class="p-org org h-org h-card" rel="foaf:workplaceHomepage">{{ record['contributor:'+contributor]['organisatie'] }}</a>
                             {% endif %}
                             {% if record['contributor:'+contributor]['email'] %}
-                            - <span class="ed_mailto"><a href="{{ record['contributor:'+contributor]['email'] }}" rel="foaf:mbox" class="u-email email">{{ record['contributor:'+contributor]['email'].replace("mailto:","") }}</a></span>
+                            - <span class="ed_mailto"><a href="mailto:{{ record['contributor:'+contributor]['email'] }}" rel="foaf:mbox" class="u-email email">{{ record['contributor:'+contributor]['email'] }}</a></span>
                             {% endif %}
                             </span>
                         </dd>
