@@ -159,7 +159,7 @@
         <div class="col--9-12 col--1-1--s typography">
         <h2 class="h2" id="conformance" aria-level="1" role="heading">Conformiteit</h2>
 
-        <p>De conformiteit voor applicatiepofielen is <a href="../../begeleidend/applicatieprofielen/conformiteit">hier</a> te vinden.</p>
+        <p>De conformiteit voor applicatieprofielen is <a href="../../begeleidend/applicatieprofielen/conformiteit">hier</a> te vinden.</p>
         </div>
         </div>
     </div>
@@ -197,7 +197,10 @@
       </div>
       <div class="region region--no-space-top">
           <div class="layout layout--normal">
-            <img src="./../../../cms/ap/{{ record['overview']['title'][:-3].lower().replace(' basis', '').replace(' publicatie', '') }}/{{ record['overview']['title'][:-3].lower().replace(' basis', '').replace(' publicatie', '') }}.jpg" />
+		    {% set image_name = record['overview']['title'][:-3].lower().replace(' basis', '').replace(' publicatie', '') %}
+			<a href="./../../../cms/ap/{{image_name}}/{{image_name}}.jpg" target="_blank">
+              <img src="./../../../cms/ap/{{ image_name }}/{{ image_name }}.jpg" />
+			</a>
           </div>
       </div>
       {% for entity in entities %}
