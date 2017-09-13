@@ -6,7 +6,7 @@ def convert_csv(path):
     ap = []
     result = ""
 
-    with open(path) as csvfile:
+    with open(path, encoding="utf-8") as csvfile:
         dialect = csv.Sniffer().sniff(csvfile.read(8192))
         dialect.doublequote = True
         csvfile.seek(0)

@@ -6,7 +6,7 @@ def convert_contributor_csv(path, voc):
     items = []
     result = ""
 
-    with open(path) as csvfile:
+    with open(path, encoding="utf-8") as csvfile:
         dialect = csv.Sniffer().sniff(csvfile.read(4096))
         csvfile.seek(0)
         reader = csv.reader(csvfile, dialect)
