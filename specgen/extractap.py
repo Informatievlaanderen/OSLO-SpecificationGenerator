@@ -43,77 +43,47 @@ def convert_csv(path):
         for domain in domains:
 
             klassen = pydash.filter_(classes, {'EA-Name': domain})
-            if 0 < len(klassen) <= 1:
-                klasse = pydash.find(classes, {'EA-Name': domain})
+            for klasse in klassen:
+                if klasse['ap-label-nl'] == "":
+                    klasse['ap-label-nl'] = klasse['EA-Name']
+
+                result += "\n[%s]\n" % klasse['ap-label-nl']
+
                 if klasse['EA-Type'] == 'DATATYPE':
-                    result += "\n[%s]\n" % domain
-                    final_datypes.append(domain)
+                    final_datypes.append(klasse['ap-label-nl'])
                 else:
-                    result += "\n[%s]\n" % domain
-                    final_domains.append(domain)
+                    final_domains.append(klasse['ap-label-nl'])
 
-                if klasse is not None:
-                    result += 'ap-definition-nl=%s\n' % klasse['ap-definition-nl']
-                    result += 'ap-usagenote-nl=%s\n' % klasse['ap-usageNote-nl']
-                    result += 'namespace=%s\n' % klasse['namespace']
-                    result += 'localname=%s\n' % klasse['localname']
-                    if klasse['parent'] is not None:
-                        result += 'parent=%s\n' % klasse['parent']
+                result += 'ap-definition-nl=%s\n' % klasse['ap-definition-nl']
+                result += 'ap-usagenote-nl=%s\n' % klasse['ap-usageNote-nl']
+                result += 'namespace=%s\n' % klasse['namespace']
+                result += 'localname=%s\n' % klasse['localname']
+                if klasse['parent'] is not None:
+                    result += 'parent=%s\n' % klasse['parent']
 
-                domain_attributes = pydash.filter_(attributes, {'EA-Domain': domain})
-                domain_attribute_names = pydash.without(pydash.uniq(pydash.map_(domain_attributes, 'EA-Name')), '', None) #localname
+                domain_attributes = pydash.filter_(attributes,
+                                                   {'EA-Domain-GUID': klasse['EA-GUID']})
+                domain_attribute_names = pydash.without(pydash.uniq(
+                    pydash.map_(domain_attributes, 'localname')), '', None)
 
                 result += 'attributes=%s\n' % ','.join(domain_attribute_names)
 
+                attribute_display_name = []
                 for attr_name in domain_attribute_names:
-                    result += "\n[%s:%s]\n" % (domain, attr_name)
-                    attr = pydash.find(domain_attributes, {'EA-Name': attr_name})
+                    attr = pydash.find(domain_attributes, {'localname': attr_name})
+                    attribute_display_name.append( attr['ap-label-nl'] or attr['EA-Name'])
+                attribute_display_name.sort()
+                result += 'attribute_displaynames=%s\n' % ','.join(attribute_display_name)
+
+                for attr_name in domain_attribute_names:
+                    result += "\n[%s:%s]\n" % (klasse['ap-label-nl'], attr_name)
+                    attr = pydash.find(domain_attributes, {'localname': attr_name})
                     if attr['range'] == "http://www.w3.org/2004/02/skos/core#Concept":
                         ap_codelist = pydash.find(codelists, {'EA-Name': attr['EA-Range']})
                         if not ap_codelist is None:
                             attr['ap-codelist'] = ap_codelist['ap-codelist']
                     for key in attr:
-                        result += '%s=%s\n' % (key, attr[key].replace('&', '&amp;'))
-
-            elif len(klassen) > 1:
-                for klasse in klassen:
-                    if klasse['ap-label-nl'] == "":
-                        klasse['ap-label-nl'] = domain
-                    if klasse['EA-Type'] == 'DATATYPE':
-                        result += "\n[%s]\n" % klasse['ap-label-nl']
-                        final_datypes.append(klasse['ap-label-nl'])
-                    else:
-                        result += "\n[%s]\n" % klasse['ap-label-nl']
-                        final_domains.append(klasse['ap-label-nl'])
-                    if klasse is not None:
-                        result += 'ap-definition-nl=%s\n' % klasse['ap-definition-nl']
-                        result += 'ap-usagenote-nl=%s\n' % klasse['ap-usageNote-nl']
-                        result += 'namespace=%s\n' % klasse['namespace']
-                        result += 'localname=%s\n' % klasse['localname']
-                        if klasse['parent'] is not None:
-                            result += 'parent=%s\n' % klasse['parent']
-
-                    domain_attributes = pydash.filter_(attributes,
-                                                       {'EA-Domain-GUID': klasse['EA-GUID']})
-                    domain_attribute_names = pydash.without(pydash.uniq(
-                        pydash.map_(domain_attributes, 'localname')), '', None)
-
-                    result += 'attributes=%s\n' % ','.join(
-                        domain_attribute_names)
-
-                    for attr_name in domain_attribute_names:
-                        result += "\n[%s:%s]\n" % (klasse['ap-label-nl'], attr_name)
-                        attr = pydash.find(domain_attributes,
-                                           {'localname': attr_name})
-                        if attr[
-                            'range'] == "http://www.w3.org/2004/02/skos/core#Concept":
-                            ap_codelist = pydash.find(codelists, {
-                                'EA-Name': attr['EA-Range']})
-                            if not ap_codelist is None:
-                                attr['ap-codelist'] = ap_codelist[
-                                    'ap-codelist']
-                        for key in attr:
-                            result += '%s=%s\n' % (key, attr[key])
+                        result += '%s=%s\n' % (key, attr[key])
 
         result += "\n[overview]\n"
         final_domains = list(set(final_domains))
