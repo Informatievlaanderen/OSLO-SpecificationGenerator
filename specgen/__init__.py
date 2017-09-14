@@ -167,7 +167,7 @@ def render_template(mcf, schema=None, schema_local=None):
         print(text)
 
     LOGGER.debug('Setting up template environment {}'.format(abspath))
-    env = Environment(loader=FileSystemLoader([abspath, TEMPLATES]))
+    env = Environment(loader=FileSystemLoader([abspath, TEMPLATES]), autoescape=True)
     env.filters['normalize_datestring'] = normalize_datestring
     env.filters['get_distribution_language'] = get_distribution_language
     env.filters['get_charstring'] = get_charstring
