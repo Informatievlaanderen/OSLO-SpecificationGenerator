@@ -13,21 +13,16 @@ from jinja2 import Environment, FileSystemLoader
 from jinja2.exceptions import TemplateNotFound
 from six.moves.configparser import ConfigParser
 
-from specgen.extractap import convert_csv
-from specgen.extractap_from_rdf import convertap_from_rdf
-from specgen.extractcontributors import convert_contributor_csv
-from specgen.extractvoc import convert
+from extractap import convert_csv
+from extractap_from_rdf import convertap_from_rdf
+from extractcontributors import convert_contributor_csv
+from extractvoc import convert
 
 __version__ = '0.1.1'
 
 LOGGER = logging.getLogger(__name__)
 
-TEMPLATES = '%s%stemplates' % (os.path.dirname(os.path.realpath(__file__)),
-                               os.sep)
-
-TRANSFORMATIONS = '%s%stransformations' % (
-os.path.dirname(os.path.realpath(__file__)),
-os.sep)
+TEMPLATES = os.path.abspath(os.path.join(os.path.dirname(__file__), '../templates'))
 
 
 def get_charstring(option, section_items, language,
@@ -148,25 +143,23 @@ def pretty_print(xml):
                       l.strip()])
 
 
-def render_template(mcf, schema=None, schema_local=None):
+def render_template(mcf, schema, schema_folder=None):
     """convenience function to render Jinja2 template"""
 
     LOGGER.debug('Evaluating schema path')
-    if schema is None and schema_local is None:
-        msg = 'schema or schema_local required'
+    if schema is None:
+        msg = 'schema required'
         LOGGER.exception(msg)
         raise RuntimeError(msg)
-        
-    if schema_local is None:  # default templates dir
-        abspath = '{}{}{}'.format(TEMPLATES, os.sep, schema)
-    elif schema_local is not None:  # user-defined
-        abspath = schema_local
+
+    template_folders = [TEMPLATES]
+    if schema_folder:
+        template_folders.append(template_folders)
 
     def debug(text):
         print(text)
 
-    LOGGER.debug('Setting up template environment {}'.format(abspath))
-    env = Environment(loader=FileSystemLoader([abspath, TEMPLATES]), autoescape=True)
+    env = Environment(loader=FileSystemLoader(template_folders), autoescape=True)
     env.filters['normalize_datestring'] = normalize_datestring
     env.filters['get_distribution_language'] = get_distribution_language
     env.filters['get_charstring'] = get_charstring
@@ -177,7 +170,7 @@ def render_template(mcf, schema=None, schema_local=None):
 
     try:
         LOGGER.debug('Loading template')
-        template = env.get_template('main.j2')
+        template = env.get_template(schema)
     except TemplateNotFound:
         msg = 'Missing metadata template'
         LOGGER.exception(msg)
@@ -190,13 +183,13 @@ def render_template(mcf, schema=None, schema_local=None):
     return ET.parse(BytesIO(xml))
 
 
-def voc_to_spec(rdf, schema=None, schema_local=None):
+def voc_to_spec(rdf, schema, schema_folder=None):
     """
     Converts a RDF file into a rendered template using the specified schema
 
     :param rdf: an RDF file
     :param schema: one of the built-in templates
-    :param schema_local: path to a non built-in template
+    :param schema_folder: directory containing non built-in templates
     :return: string of the rendered template
     """
     result = convert(rdf)
@@ -206,17 +199,14 @@ def voc_to_spec(rdf, schema=None, schema_local=None):
         f.write(u'%s' % result)
     f.close()
 
-    if schema is None:
-        schema = 'vocabulary'  # Vocabulary schema by default
-
-    return render_template(fp, schema, schema_local)
+    return render_template(fp, schema, schema_folder)
 
 
 def voc_to_spec_from_rdf(rdf, title):
     return convertap_from_rdf(rdf, title)
 
 
-def voc_to_ap(csv, csv_contributor=None, schema=None, schema_local=None):
+def voc_to_ap(csv, schema, csv_contributor=None, schema_folder=None):
     """
     Renders the CSV catalog using the specified template. In case contributor is set,
     the column matching the EA-name of the package of the catalog is used to determine the roles.
@@ -224,7 +214,7 @@ def voc_to_ap(csv, csv_contributor=None, schema=None, schema_local=None):
     :param csv: utf-8 encoded csv file of a entity/property/ontology catalog
     :param csv_contributor: utf-8 encoded file of contributors
     :param schema: built in template name
-    :param schema_local: path to non-built-in template
+    :param schema_folder: directory containing non-built-in template
     :return: string rendering of the template
     """
     converted = convert_csv(csv)
@@ -239,20 +229,17 @@ def voc_to_ap(csv, csv_contributor=None, schema=None, schema_local=None):
         f.write(u'%s' % result)
     f.close()
 
-    if schema is None:
-        schema = 'ap'  # ap schema by default
-
-    return render_template(fp, schema, schema_local)
+    return render_template(fp, schema, schema_folder)
 
 
-def contributor_to_rdf(csv, voc, schema=None, schema_local=None):
+def contributor_to_rdf(csv, voc, schema, schema_folder=None):
     """
     Renders the CSV of contributors using the specified schema.
 
     :param csv: path to utf-8 encoded file of contributors
     :param voc: header of the contributor role in the csv
     :param schema: name of built-in template
-    :param schema_local: path to non-built-in template
+    :param schema_folder: directory containing non-built-in template
     :return: string containing the rendered template
     """
     result = convert_contributor_csv(csv, voc)
@@ -262,10 +249,7 @@ def contributor_to_rdf(csv, voc, schema=None, schema_local=None):
         f.write(u'%s' % result)
     f.close()
 
-    if schema is None:
-        schema = 'contributors'  # contributor schema by default
-
-    return render_template(fp, schema, schema_local)
+    return render_template(fp, schema, schema_folder)
 
 
 def merge_rdf(rdf1, rdf2):

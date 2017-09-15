@@ -1,21 +1,16 @@
-[![Build Status](https://travis-ci.org/InformatieVlaanderen/OSLO-SpecificationGenerator.png)](https://travis-ci.org/InformatieVlaanderen/OSLO-SpecificationGenerator)
-
 # OSLO-SpecificationGenerator
 
-OSLO-SpecificationGenerator is a Python package and CLI to generate HTML specifications from RDF vocabularies.
+OSLO-SpecificationGenerator is a CLI to generate HTML specifications from RDF vocabularies.
 
 ## Table of Contents
 * [Overview](#overview)
-* [Features](#features)
 * [Installation](#installation)
   * [Requirements](#requirements)
-  * [Dependencies](#dependencies)
-  * [Installing the Package](#installing-the-package)
+  * [Installing](#installing)
 * [Running](#running)
 * [Development](#development)
   * [Setting up a Development Environment](#setting-up-a-development-environment)
   * [Adding Another Target Schema](#adding-another-target-schema)
-  * [Running Tests](#running-tests)
   * [Bugs and Issues](#bugs-and-issues)
 * [Contact](#contact)
 
@@ -24,11 +19,6 @@ OSLO-SpecificationGenerator is a Python package and CLI to generate HTML specifi
 
 OSLO-SpecificationGenerator is a Python package to generate HTML documentation for RDF Vocabularies.
 
-## Features
-
-* simple configuration: inspired by Python's ConfigParser
-* extensible: template architecture allows for easy addition of new metadata formats
-* flexible: use as a command-line tool or integrate as a library
 
 ## Installation
 
@@ -39,34 +29,19 @@ OSLO-SpecificationGenerator is best installed and used within a Python virtualen
 * Python 3.5 and above.
 * Python [virtualenv](https://virtualenv.pypa.io/) package
 
-### Dependencies
 
-Dependencies are listed in [requirements.txt](requirements.txt). Dependencies are automatically installed during specgen's installation.
-
-### Installing the Package in Linux
+### Installing
 
 ```bash
 virtualenv my-env
 cd my-env
-. bin/activate
+
+. bin/activate   # Linux
+Scripts\activate # Windows
+
 git clone https://github.com/InformatieVlaanderen/OSLO-SpecificationGenerator.git
 cd OSLO-SpecificationGenerator
 pip install -r requirements.txt
-python setup.py build
-python setup.py install
-```
-
-### Installing the Package in Windows
-
-```bash
-virtualenv my-env
-cd my-env
-Scripts\activate.bat
-git clone https://github.com/InformatieVlaanderen/OSLO-SpecificationGenerator.git
-cd OSLO-SpecificationGenerator
-pip install -r requirements.txt
-python setup.py build
-python setup.py install
 ```
 
 ## Running
@@ -76,19 +51,19 @@ Leave out the `--output` option to write to stdout instead of a file.
 ### List all options with their explanation
 
 ```bash
-./bin/generate_vocabulary.py --help
+./specgen/generate_vocabulary.py --help
 ```
 
 ### Generating contributors RDF from CSV
 
 ```bash
-./bin/generate_vocabulary.py --csv {csv_path} --contributors --target {column} --output {output_path}
+./specgen/generate_vocabulary.py --contributors --csv {csv_path} --target {column} --output {output_path}
 ```
 
 ### Merging contributors RDF with a vocabulary RDF
 
 ```bash
-./bin/generate_vocabulary.py --rdf {vocabulary_rdf_path} --rdf_contributor {contributors_rdf_path} --merge --output {output_path}
+./specgen/generate_vocabulary.py --merge --rdf {vocabulary_rdf_path} --rdf_contributor {contributors_rdf_path} --output {output_path}
 ```
 
 ### Generating vocabulary HTML specification from RDF
@@ -96,13 +71,13 @@ Leave out the `--output` option to write to stdout instead of a file.
 By default the English template will be used.
 
 ```bash
-./bin/generate_vocabulary.py --rdf {rdf_path} --output {output_path}
+./specgen/generate_vocabulary.py --rdf {rdf_path} --output {output_path}
 ```
 
 To use the Dutch template, use the following command.
 
 ```bash
-./bin/generate_vocabulary.py --rdf {rdf_path} --output {output_path} --schema vocabularynl
+./specgen/generate_vocabulary.py --rdf {rdf_path} --output {output_path} --schema vocabularynl.j2
 ```
 
 ### Generating application profile in HTML from an AP CSV
@@ -111,17 +86,17 @@ In this repository only a Dutch template is available.
 
 The AP CSV needs be converted from an Enterprise Architect file (.eap) using the [Enterprise Architect RDF Conversion Tool](https://github.com/Informatievlaanderen/OSLO-EA-to-RDF).
 
-To use another template, use the `--schema_local` option with the path where the other template is located.
+To use another template, use the `--schema_folder` option to specify the folder containing your templates.
 See the section on other schemes for more information.
 
 ```bash
-./bin/generate_vocabulary.py --csv {csv_path} --csv_contributor {csv_contributor_path} --ap --output {output_path}
+./bin/generate_vocabulary.py --ap --csv {csv_path} --csv_contributor {csv_contributor_path} --output {output_path}
 ```
 
-No contributor file yet? Use the `--schema apv2` option.
+No contributor file yet? Use the `--schema apv2.j2` option.
 
 ```bash
-./bin/generate_vocabulary.py --csv {csv_path} --schema apv2 --ap --output {output_path}
+./bin/generate_vocabulary.py --ap --csv {csv_path} --schema apv2.j2 --output {output_path}
 ```
 
 ### Generating a (basic) application profile from RDF
@@ -129,13 +104,13 @@ No contributor file yet? Use the `--schema apv2` option.
 In this repository only Dutch application profiles are supported.
 
 ```bash
-./bin/generate_vocabulary.py --rdf {path} --csv_contributor {csv_contributor_path} --ap --output {output_path}
+./bin/generate_vocabulary.py --ap --rdf {path} --csv_contributor {csv_contributor_path} --output {output_path}
 ```
 
-No contributor file yet? Use the `--schema apv2` option.
+No contributor file yet? Use the `--schema apv2.j2` option.
 
 ```bash
-./bin/generate_vocabulary.py --rdf {csv_path} --schema apv2 --ap --output {output_path}
+./bin/generate_vocabulary.py --ap --rdf {csv_path} --schema apv2.j2 --output {output_path}
 ```
 
 ## Development
@@ -150,23 +125,14 @@ pip install -r requirements-dev.txt
 
 ### Adding Another Target Schema
 
-List of supported metadata schemas in specgen/templates/`
+List of supported templates in `templates`
 
 To add support to new metadata schemas:
 ```bash
-cp -r specgen/templates/vocabulary specgen/templates/new-schema
+cp -r templates/vocabulary.j2 specgen/templates/new-schema.j2
 ```
-Then modify `*.j2` files in the new `specgen/templates/new-schema` directory to comply to new schema.
+Then modify the file to comply to new schema.
 
-### Running Tests
-
-```bash
-# via distutils
-python setup.py test
-# manually
-cd samples
-python run_samples.py
-```
 
 ### Bugs and Issues
 

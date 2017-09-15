@@ -8,7 +8,7 @@ import pkgutil
 import subprocess
 from lxml import etree as ET
 from xml.sax.saxutils import escape
-from specgen import get_supported_schemas, render_template, voc_to_spec, \
+from entry import get_supported_schemas, render_template, voc_to_spec, \
     voc_to_spec_from_rdf, voc_to_ap, merge_rdf, contributor_to_rdf
 
 SUPPORTED_SCHEMAS = get_supported_schemas()
@@ -38,14 +38,13 @@ SUPPORTED_SCHEMAS = get_supported_schemas()
 @click.option('--target', help='Vocabulary to export authors to')
 @click.option('--title', help='Title of the AP')
 @click.option('--schema', '-s',
-              type=click.Choice(SUPPORTED_SCHEMAS),
               help='Metadata schema')
-@click.option('--schema_local',
+@click.option('--schema_folder',
               type=click.Path(exists=True, resolve_path=True,
                               dir_okay=True, file_okay=False),
-              help='Locally defined metadata schema')
+              help='Directory containing additional templates.')
 def process_args(rdf, rdf_contributor, csv_contributor, csv, ap, contributors,
-                 merge, target, schema, schema_local, output, title):
+                 merge, target, schema, schema_folder, output, title):
     xml_output = False
 
     if not ap and not contributors and not merge:
@@ -53,7 +52,8 @@ def process_args(rdf, rdf_contributor, csv_contributor, csv, ap, contributors,
             raise click.UsageError('Missing arguments input RDF --rdf {path}')
 
         # Convert the RDF vocabulary to html
-        xml_output = voc_to_spec(rdf, schema=schema, schema_local=schema_local)
+        schema = schema or 'vocabulary.j2'
+        xml_output = voc_to_spec(rdf, schema, schema_folder=schema_folder)
 
     elif ap:
         if not csv and rdf:
@@ -76,9 +76,8 @@ def process_args(rdf, rdf_contributor, csv_contributor, csv, ap, contributors,
             raise click.UsageError('Missing argument --csv or --rdf')
 
         # Render the CSV catalog file using the template
-        xml_output = voc_to_ap(csv, csv_contributor=csv_contributor,
-               schema=schema,
-               schema_local=schema_local)
+        schema = schema or 'ap.j2'
+        xml_output = voc_to_ap(csv, schema, csv_contributor=csv_contributor, schema_folder=schema_folder)
 
     elif contributors:
         if csv is None:
@@ -86,7 +85,8 @@ def process_args(rdf, rdf_contributor, csv_contributor, csv, ap, contributors,
         if target is None:
             click.UsageError('Missing arguments --target {column}')
         # Renders the contributors CSV to RDF
-        xml_output = contributor_to_rdf(csv, target, schema=schema, schema_local=schema_local)
+        schema = schema or 'contributors.j2'
+        xml_output = contributor_to_rdf(csv, target, schema, schema_folder=schema_folder)
 
     elif merge:
         if rdf is None:
