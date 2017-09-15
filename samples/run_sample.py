@@ -6,7 +6,7 @@ from specgen.extractvoc import convert
 from specgen.extractap import convert_csv
 from specgen.extractcontributors import convert_contributor_csv
 from specgen.extractap_from_rdf import convertap_from_rdf
-from specgen.extractdiagram import convert_to_diagram, convert_to_p_diagram, convert_to_n_diagram
+from specgen.extractdiagram import convert_to_diagram, convert_to_n_diagram
 import tempfile
 import os
 import codecs
@@ -95,25 +95,6 @@ class SpecGenTest(unittest.TestCase):
                  yuml2dot.transform(converted, fout, options)
             print(os.path.realpath(xp))
 
-
-    def test_csv_to_p_diagram(self):
-        """Test CSV2AP_P_DIAGRAM"""
-
-        test_files = [
-            './Organisatie Basis AP.tsv',
-            './Dienstencataloog AP.tsv'
-        ]
-
-        for t in test_files:
-            # CSV -{1}> PNG
-            csv = get_abspath(t)
-            converted = convert_to_p_diagram(csv)
-            print(converted)
-            _, xp = tempfile.mkstemp()
-            with open(xp, 'wb') as fout:
-                package = os.path.dirname(pkgutil.get_loader("specgen").get_filename())
-                subprocess.Popen(['java', '-jar','%s/lib/plantuml.jar' % package, '-pipe'], stdin=subprocess.PIPE, stdout=fout).communicate(input=converted.encode('utf8'))
-            print(os.path.realpath(xp))
 
 
     def test_csv_to_diagram(self):

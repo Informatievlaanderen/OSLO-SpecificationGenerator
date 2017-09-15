@@ -16,7 +16,7 @@ from six.moves.configparser import ConfigParser
 from specgen.extractap import convert_csv
 from specgen.extractap_from_rdf import convertap_from_rdf
 from specgen.extractcontributors import convert_contributor_csv
-from specgen.extractdiagram import convert_to_p_diagram, convert_to_n_diagram
+from specgen.extractdiagram import convert_to_n_diagram
 from specgen.extractvoc import convert
 
 __version__ = '0.1.1'
@@ -208,9 +208,6 @@ def voc_to_spec(rdf, schema=None, schema_local=None, diagram_description=None):
 
     return render_template(fp, schema, schema_local)
 
-
-def csv_ap_to_diagram(csv):
-    return convert_to_p_diagram(csv)
 
 
 def csv_ap_to_diagram_description(csv):

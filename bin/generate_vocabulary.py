@@ -10,7 +10,7 @@ from lxml import etree as ET
 from xml.sax.saxutils import escape
 from specgen import get_supported_schemas, render_template, voc_to_spec, \
     voc_to_spec_from_rdf, voc_to_ap, merge_rdf, contributor_to_rdf, \
-    csv_ap_to_diagram, csv_ap_to_diagram_description
+    csv_ap_to_diagram_description
 
 SUPPORTED_SCHEMAS = get_supported_schemas()
 
@@ -32,8 +32,6 @@ SUPPORTED_SCHEMAS = get_supported_schemas()
               help='Name of output file')
 @click.option('--ap', is_flag=True,
               help='Output full AP instead of vocabulary')
-@click.option('--diagram', '-d', is_flag=True,
-              help='Output diagram of vocabulary or AP')
 @click.option('--contributors', is_flag=True,
               help='Output RDF of authors, editors and contributors')
 @click.option('--merge', is_flag=True,
@@ -48,44 +46,10 @@ SUPPORTED_SCHEMAS = get_supported_schemas()
                               dir_okay=True, file_okay=False),
               help='Locally defined metadata schema')
 def process_args(rdf, rdf_contributor, csv_contributor, csv, ap, contributors,
-                 merge, target, schema, schema_local, output, title, diagram):
+                 merge, target, schema, schema_local, output, title):
     xml_output = False
 
-    if diagram:
-        if output:
-            if rdf or csv:
-                if rdf:
-                    _, xp = tempfile.mkstemp()
-                    csv_output = voc_to_spec_from_rdf(rdf, xp)
-                    with open(xp, 'w') as csvfile:
-                        writer = csv_engine.DictWriter(csvfile,
-                                                       fieldnames=csv_output.pop(
-                                                           0))
-                        writer.writeheader()
-                        for row in csv_output:
-                            writer.writerow(row)
-                    csv_path = os.path.realpath(xp)
-                else:
-                    csv_path = os.path.realpath(csv)
-                converted = csv_ap_to_diagram(csv_path)
-                package = os.path.dirname(
-                    pkgutil.get_loader("specgen").get_filename())
-                subprocess.Popen(
-                    ['java', '-jar', os.path.join(package,'lib','plantuml.jar'), '-pipe'],
-                    stdin=subprocess.PIPE,
-                    stdout=output).communicate(
-                    input=converted.encode('utf8')
-                )
-
-            else:
-                raise click.UsageError(
-                    'Missing argument: input RDF --rdf {path} or CSV --csv {path}')
-        else:
-            raise
-            click.UsageError(
-                'Missing argument for diagram output: --output {path}')
-
-    elif not ap and not contributors and not merge:
+    if not ap and not contributors and not merge:
         if rdf is not None:
             try:
                 _, xp = tempfile.mkstemp()

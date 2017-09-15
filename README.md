@@ -138,24 +138,6 @@ No contributor file yet? Use the `--schema apv2` option.
 ./bin/generate_vocabulary.py --rdf {csv_path} --schema apv2 --ap --output {output_path}
 ```
 
-### Generating a UML diagram in PNG from RDF or AP CSV
-
-Note: this requires Java Runtime environment to be installed and included in your system's PATH.
-
-For an RDF file:
-```bash
-./bin/generate_vocabulary.py --rdf {path} --diagram --output {output_path}
-```
-
-Currently this requires Dutch labels and descriptions in the RDF (using `@nl`)
-
-For an AP CSV file:
-```bash
-./bin/generate_vocabulary.py --csv {path} --diagram --output {output_path}
-```
-
-Currently only Dutch application profiles are supported.
-
 ## Development
 
 ### Setting up a Development Environment
