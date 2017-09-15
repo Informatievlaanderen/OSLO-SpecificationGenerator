@@ -2,7 +2,15 @@ import csv
 import pydash
 import os
 
+
 def convert_csv(path):
+    """
+    Reads in a CSV entity/property/ontology catalog and converts it to a string representation of a
+    template configuration.
+
+    :param path: path to a utf-8 encoded csv file
+    :return: a list containing the string representation and the EA-name of the package in the catalog (minus "OSLO-")
+    """
     ap = []
     result = ""
 

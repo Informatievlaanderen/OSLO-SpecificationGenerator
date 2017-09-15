@@ -52,6 +52,7 @@ def process_args(rdf, rdf_contributor, csv_contributor, csv, ap, contributors,
     if not ap and not contributors and not merge:
         if rdf is not None:
             try:
+                # Convert the RDF to a CSV catalog file
                 _, xp = tempfile.mkstemp()
                 csv_output = voc_to_spec_from_rdf(rdf, xp)
                 with open(xp, 'w') as csvfile:
@@ -61,10 +62,13 @@ def process_args(rdf, rdf_contributor, csv_contributor, csv, ap, contributors,
                     for row in csv_output:
                         writer.writerow(row)
                 csv_path = os.path.realpath(xp)
+
+                # Create a diagram based on the CSV
                 description = escape(csv_ap_to_diagram_description(csv_path))
             except:  # TODO: fix unsafe check
                 description = None
 
+            # Convert the RDF vocabulary to html
             xml_output = voc_to_spec(rdf, schema=schema,
                                      schema_local=schema_local,
                                      diagram_description=description)
@@ -74,6 +78,7 @@ def process_args(rdf, rdf_contributor, csv_contributor, csv, ap, contributors,
 
     elif ap and rdf is not None:
         if output is not None and title is not None:
+            # Convert the RDF to a CSV catalog file
             csv_output = voc_to_spec_from_rdf(rdf, title)
             xp = tempfile.mkdtemp()
             xp = os.path.join(xp, title)
@@ -86,6 +91,7 @@ def process_args(rdf, rdf_contributor, csv_contributor, csv, ap, contributors,
 
             csv_path = os.path.realpath(xp)
 
+            # Render the CSV catalog file using the template
             if schema is None and schema_local is None:
                 if csv_contributor is not None:
                     xml_output = voc_to_ap(csv_path,
@@ -107,6 +113,7 @@ def process_args(rdf, rdf_contributor, csv_contributor, csv, ap, contributors,
                 'Missing arguments: --output {path} and/or --title {AP title}')
 
     elif ap and csv is not None and schema is None and schema_local is None:
+        # Render the CSV using the template
         if csv_contributor is not None:
             xml_output = voc_to_ap(csv, csv_contributor=csv_contributor,
                                    schema=schema,
@@ -116,11 +123,13 @@ def process_args(rdf, rdf_contributor, csv_contributor, csv, ap, contributors,
                 'Missing path to contributor CSV: --csv_contributor {path}')
 
     elif ap and csv is not None:
+        # Render the CSV using the template
         xml_output = voc_to_ap(csv, csv_contributor=csv_contributor,
                                schema=schema,
                                schema_local=schema_local)
 
     elif contributors and csv is not None:
+        # Renders the contributors CSV to RDF
         if target is not None:
             xml_output = contributor_to_rdf(csv, target, schema=schema,
                                             schema_local=schema_local)
@@ -141,8 +150,10 @@ def process_args(rdf, rdf_contributor, csv_contributor, csv, ap, contributors,
 
     if xml_output:
         if output is None:
+            # Write to console
             click.echo_via_pager(ET.tostring(xml_output.getroot()))
         else:
+            # Write to specified file
             xml_output.write(output)
 
 

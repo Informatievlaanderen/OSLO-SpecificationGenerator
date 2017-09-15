@@ -2,7 +2,15 @@ import csv
 import pydash
 import time
 
+
 def convert_contributor_csv(path, voc):
+    """
+    Converts a CSV file containing contributor names and roles to a string representation of a template configuration.
+
+    :param path: path to a utf-8 encoded csv file
+    :param voc: the header of the column in the CSV containing the roles of the contributors
+    :return: string representation
+    """
     items = []
     result = ""
 

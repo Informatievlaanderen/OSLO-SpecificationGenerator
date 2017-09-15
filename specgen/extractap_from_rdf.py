@@ -48,7 +48,15 @@ def spliturl(url):
     else:
         return [line + '#', parsedurl.fragment]
 
+
 def convertap_from_rdf(rdf, title):
+    """
+    Converts an RDF file into a in-memory representation of a CSV entity/property/ontology catalog.
+
+    :param rdf: a file name of an RDF file
+    :param title: will be used to derive the name of the ontology in the catalog
+    :return: a list of records - a header row (list of strings) followed by value records (dicts)
+    """
     g = rdflib.Graph()
     if rdf.endswith('.xml'):
         g.parse(os.path.realpath(rdf),

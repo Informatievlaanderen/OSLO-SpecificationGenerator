@@ -4,6 +4,12 @@ import pydash
 
 
 def convert_to_n_diagram(path):
+    """
+    Reads in a CSV and outputs a diagram spec.
+
+    :param path: csv path
+    :return: a string
+    """
     ap = []
     result = ""
 
@@ -79,6 +85,12 @@ def convert_to_n_diagram(path):
 
 
 def convert_to_diagram(path):
+    """
+    Reads in a CSV file and output a diagram spec
+
+    :param path: path to csv file
+    :return: string
+    """
     ap = []
     result = ""
 

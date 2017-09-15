@@ -192,6 +192,15 @@ def render_template(mcf, schema=None, schema_local=None):
 
 
 def voc_to_spec(rdf, schema=None, schema_local=None, diagram_description=None):
+    """
+    Converts a RDF file into a rendered template using the specified schema
+
+    :param rdf: an RDF file
+    :param schema: one of the built-in templates
+    :param schema_local: path to a non built-in template
+    :param diagram_description: diagram specification as a string
+    :return: string of the rendered template
+    """
     result = convert(rdf)
     _, fp = tempfile.mkstemp()
 
@@ -219,6 +228,16 @@ def voc_to_spec_from_rdf(rdf, title):
 
 
 def voc_to_ap(csv, csv_contributor=None, schema=None, schema_local=None):
+    """
+    Renders the CSV catalog using the specified template. In case contributor is set,
+    the column matching the EA-name of the package of the catalog is used to determine the roles.
+
+    :param csv: utf-8 encoded csv file of a entity/property/ontology catalog
+    :param csv_contributor: utf-8 encoded file of contributors
+    :param schema: built in template name
+    :param schema_local: path to non-built-in template
+    :return: string rendering of the template
+    """
     converted = convert_csv(csv)
     result = converted[0]
     voc = converted[1]
@@ -238,6 +257,15 @@ def voc_to_ap(csv, csv_contributor=None, schema=None, schema_local=None):
 
 
 def contributor_to_rdf(csv, voc, schema=None, schema_local=None):
+    """
+    Renders the CSV of contributors using the specified schema.
+
+    :param csv: path to utf-8 encoded file of contributors
+    :param voc: header of the contributor role in the csv
+    :param schema: name of built-in template
+    :param schema_local: path to non-built-in template
+    :return: string containing the rendered template
+    """
     result = convert_contributor_csv(csv, voc)
     _, fp = tempfile.mkstemp()
 
@@ -252,6 +280,13 @@ def contributor_to_rdf(csv, voc, schema=None, schema_local=None):
 
 
 def merge_rdf(rdf1, rdf2):
+    """
+    Reads both specified RDF files, outputs a turtle string of the merged graph.
+
+    :param rdf1: path to first file
+    :param rdf2: path to second file
+    :return: a string containing turtle of both files
+    """
     g = rdflib.Graph()
     if rdf1.endswith('.xml'):
         g.parse(os.path.realpath(rdf1),

@@ -39,6 +39,14 @@ prefix wdsr: <http://www.w3.org/2007/05/powder-s#>
 
 
 def convert(rdf):
+    """
+    Reads in a RDF file and converts it to a string representation of a
+    template configuration.
+
+    :param rdf: rdf file
+    :return: string
+    """
+
     g = rdflib.Graph()
     if rdf.endswith('.xml'):
         g.parse(os.path.realpath(rdf),
