@@ -90,13 +90,13 @@ To use another template, use the `--schema_folder` option to specify the folder 
 See the section on other schemes for more information.
 
 ```bash
-./bin/generate_vocabulary.py --ap --csv {csv_path} --csv_contributor {csv_contributor_path} --output {output_path}
+./specgen/generate_vocabulary.py --ap --csv {csv_path} --csv_contributor {csv_contributor_path} --output {output_path}
 ```
 
 No contributor file yet? Use the `--schema apv2.j2` option.
 
 ```bash
-./bin/generate_vocabulary.py --ap --csv {csv_path} --schema apv2.j2 --output {output_path}
+./specgen/generate_vocabulary.py --ap --csv {csv_path} --schema apv2.j2 --output {output_path}
 ```
 
 ### Generating a (basic) application profile from RDF
@@ -104,13 +104,13 @@ No contributor file yet? Use the `--schema apv2.j2` option.
 In this repository only Dutch application profiles are supported.
 
 ```bash
-./bin/generate_vocabulary.py --ap --rdf {path} --csv_contributor {csv_contributor_path} --output {output_path}
+./specgen/generate_vocabulary.py --ap --rdf {path} --csv_contributor {csv_contributor_path} --output {output_path}
 ```
 
 No contributor file yet? Use the `--schema apv2.j2` option.
 
 ```bash
-./bin/generate_vocabulary.py --ap --rdf {csv_path} --schema apv2.j2 --output {output_path}
+./specgen/generate_vocabulary.py --ap --rdf {csv_path} --schema apv2.j2 --output {output_path}
 ```
 
 ## Development
