@@ -121,12 +121,14 @@
             <div class="grid">
                 <div class="col--9-12 col--1-1--s">
                 <div class="introduction typography">
+                {% block introduction %}
                             <p>Dit document beschrijft een <strong>applicatieprofiel</strong> voor <strong>{{ record['overview']['package'] }}</strong>, in dit geval <strong>{{ record['overview']['title'] }}</strong>.
                             <!--Een applicatieprofiel is een specificatie die bestaande termen hergebruikt van verschillende basis-standaarden en daar meer specificiteit aan toevoegt.-->
                             <!-- Daarbij wordt het gebruik van de termen toegelicht voor de interbestuurlijke uitwisseling van overheidsinformatie.-->
                             Dit applicatieprofiel beantwoordt de vraag over hoe het corresponderende domeinmodel in de praktijk kan toegepast worden.
                             Daarbij worden de beperkingen (kardinaliteit, codelijsten) toegelicht en de overeenkomstige (RDF) termen opgelijst.
                             </p>
+                {% endblock %}
                 </div>
                 </div>
             </div>
@@ -138,10 +140,12 @@
     <section class="introductory" id="sotd" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter">
 
     <h2 class="h2" aria-level="1" role="heading" id="h2_sotd">Status van dit document</h2>
+    {% block status %}
     <p><em>Deze sectie beschrijft de status van dit document op het moment van publicatie. Het kan zijn dat er ondertussen al nieuwere versies zijn uitgebracht.</em></p>
     <p>
       Dit applicatieprofiel dient om het specifieke gebruik van de entitieten relevant voor de beschreven applicatie te verduidelijken.
     </p>
+    {% endblock %}
     </section>
 
     </div>
@@ -150,7 +154,9 @@
       <div class="region region--no-space-top">
           <div class="layout layout--normal">
             <h2 class="h2">Licentie</h2>
+            {% block license %}
             <p><span rel="dct:type" property="dct:title" href="http://purl.org/dc/dcmitype/Text" xmlns:dct="http://purl.org/dc/terms/">Deze specificatie</span> van <a rel="cc:attributionURL" property="cc:attributionName" href="http://vlaanderen.be/informatievlaanderen" xmlns:cc="http://creativecommons.org/ns#">Informatie Vlaanderen</a> is gepubliceerd onder de <a href="https://overheid.vlaanderen.be/sites/default/files/documenten/ict-egov/licenties/hergebruik/modellicentie_gratis_hergebruik_v1_0.html" rel="license">"Modellicentie Gratis Hergebruik - v1.0"</a>.</p>
+            {% endblock %}
           </div>
       </div>
       <div class="region region--no-space-top">
@@ -158,8 +164,9 @@
         <div class="grid">
         <div class="col--9-12 col--1-1--s typography">
         <h2 class="h2" id="conformance" aria-level="1" role="heading">Conformiteit</h2>
-
+        {% block conformance %}
         <p>De conformiteit voor applicatieprofielen is <a href="../../begeleidend/applicatieprofielen/conformiteit">hier</a> te vinden.</p>
+        {% endblock %}
         </div>
         </div>
     </div>

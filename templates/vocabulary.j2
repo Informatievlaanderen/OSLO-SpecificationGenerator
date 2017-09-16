@@ -141,12 +141,14 @@
       <div class="layout layout--normal">
         <section id="abstract" class="introductory" property="dcterms:abstract" datatype="" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter">
         <h2 aria-level="1" role="heading" id="h2_abstract">Abstract</h2>
+        {% block abstract %}
         <p>
         The {{ record['metadata']['title'] }} Vocabulary specification provides a set of classes and properties for describing a {{ record['metadata']['title'].lower() }}.
         </p>
         <p>
         {{ record['metadata']['abstract'] }}
         </p>
+        {% endblock %}
         </section>
       </div>
     </div>
@@ -156,6 +158,7 @@
     <section class="introductory" id="sotd" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter">
 
     <h2 aria-level="1" role="heading" id="h2_sotd">Status of This Document</h2>
+    {% block status %}
     <p><em>This section describes the status of this document at the time of its publication. Other documents may supersede it.</em></p>
     <p>
       This document is an official vocabulary specification.
@@ -173,6 +176,7 @@
     Terms defined here may be deprecated by that or future groups; but will not disappear or their definitions change other than to provide clarification of an existing definition.
     </p>
     {% endif %}
+    {% endblock %}
     </section>
 
     </div>
@@ -183,8 +187,9 @@
     <section typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter" id="license-and-liability">
 
     <h2 id="licenseandliability" aria-level="1" role="heading"><span class="secno">1. </span>License and Liability</h2>
-
+    {% block license %}
     <p><span rel="dct:type" property="dct:title" href="http://purl.org/dc/dcmitype/Text" xmlns:dct="http://purl.org/dc/terms/">This vocabulary</span> hosted by <a rel="cc:attributionURL" property="cc:attributionName" href="http://vlaanderen.be/informatievlaanderen" xmlns:cc="http://creativecommons.org/ns#">Informatie Vlaanderen</a> is licensed under a <a href="https://overheid.vlaanderen.be/sites/default/files/documenten/ict-egov/licenties/hergebruik/modellicentie_gratis_hergebruik_v1_0.html" rel="license">"Modellicentie Gratis Hergebruik - v1.0"</a>.<br /></p>
+    {% endblock %}
     </section>
     </div>
     </div>
@@ -194,9 +199,9 @@
     <section typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter" id="conformance-statement">
 
     <h2 id="conformance" aria-level="1" role="heading"><span class="secno">2. </span>Conformance</h2>
-
+    {% block conformance %}
     <p>A conformant implementation of this vocabulary <em class="rfc2119" title="MUST">MUST</em> understand all vocabulary terms defined in this document.</p>
-
+    {% endblock %}
     </section>
     </div>
     </div>

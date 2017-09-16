@@ -142,12 +142,14 @@
       <div class="layout layout--normal">
         <section id="abstract" class="introductory" property="dcterms:abstract" datatype="" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter">
         <h2 class="h2" aria-level="1" role="heading" id="h2_abstract">Samenvatting</h2>
+        {% block summary %}
         <p>
         Het {{ record['metadata_nl']['title'] }} vocabularium specificeert een aantal klassen en eigenschappen om een {{ record['metadata_nl']['title'].lower() }} te beschrijven.
         </p>
         <p>
         {{ record['metadata_nl']['abstract'] }}
         </p>
+        {% endblock %}
         </section>
       </div>
     </div>
@@ -157,6 +159,7 @@
     <section class="introductory" id="sotd" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter">
 
     <h2 class="h2" aria-level="1" role="heading" id="h2_sotd">Status van dit document</h2>
+    {% block status %}
     <p><em>Deze sectie beschrijft de status van dit document op het moment van publicatie. Het kan zijn dat er ondertussen al nieuwere versies zijn uitgebracht.</em></p>
     <p>
       Dit document is een specificatie van een vocabularium.
@@ -175,6 +178,7 @@
     De termen zullen echter nooit verdwijnen, noch zullen de definities veranderen behalve dan om een bestaande definitie verder te verduidelijken.
     </p>
     {% endif %}
+    {% endblock %}
     </section>
 
     </div>
@@ -185,8 +189,9 @@
     <section typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter" id="license-and-liability">
 
     <h2 class="h2" id="licenseandliability" aria-level="1" role="heading"><span class="secno">1. </span>Licentie</h2>
-
+    {% block license %}
     <p><span rel="dct:type" property="dct:title" href="http://purl.org/dc/dcmitype/Text" xmlns:dct="http://purl.org/dc/terms/">Dit vocabularium</span> gehost door <a rel="cc:attributionURL" property="cc:attributionName" href="http://vlaanderen.be/informatievlaanderen" xmlns:cc="http://creativecommons.org/ns#">Informatie Vlaanderen</a> is uitgegeven onder de <a href="https://overheid.vlaanderen.be/sites/default/files/documenten/ict-egov/licenties/hergebruik/modellicentie_gratis_hergebruik_v1_0.html" rel="license">"Modellicentie Gratis Hergebruik - v1.0"</a>.<br /></p>
+    {% endblock %}
     </section>
     </div>
     </div>
@@ -196,9 +201,9 @@
     <section typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter" id="conformance-statement">
 
     <h2 class="h2" id="conformance" aria-level="1" role="heading"><span class="secno">2. </span>Conformiteit</h2>
-
+    {% block conformance %}
     <p>Een uitwisseling van gegevens, op welke manier deze uitwisseling ook gebeurt, is conform aan dit vocabularium wanneer het de terminologie (klassen en eigenschappen) gebruikt op een manier die consistent is met de semantiek zoals opgesteld in de nieuwste versie van de specificatie (domein, bereik, definitie en gebruik) en het geen terminologie gebruikt uit andere vocabularia als alternatief voor de voorgestelde terminologie opgenomen in dit vocabularium.</p>
-
+    {% endblock %}
     </section>
     </div>
     </div>
