@@ -81,18 +81,18 @@ def process_args(rdf, rdf_contributor, csv_contributor, csv, ap, contributors,
 
     elif contributors:
         if csv is None:
-            click.UsageError('Missing arguments --csv')
+            raise click.UsageError('Missing arguments --csv')
         if target is None:
-            click.UsageError('Missing arguments --target {column}')
+            raise click.UsageError('Missing arguments --target {column}')
         # Renders the contributors CSV to RDF
         schema = schema or 'contributors.j2'
         xml_output = contributor_to_rdf(csv, target, schema, schema_folder=schema_folder)
 
     elif merge:
         if rdf is None:
-            click.UsageError('Missing arguments --rdf')
+            raise click.UsageError('Missing arguments --rdf')
         if rdf_contributor is None:
-            click.UsageError('Missing arguments --rdf_contributors')
+            raise click.UsageError('Missing arguments --rdf_contributors')
 
         merged = merge_rdf(rdf, rdf_contributor)
         if output is None:
