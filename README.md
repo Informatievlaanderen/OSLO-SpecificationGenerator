@@ -93,11 +93,6 @@ See the section on other schemes for more information.
 ./specgen/generate_vocabulary.py --ap --csv {csv_path} --csv_contributor {csv_contributor_path} --output {output_path}
 ```
 
-No contributor file yet? Use the `--schema apv2.j2` option.
-
-```bash
-./specgen/generate_vocabulary.py --ap --csv {csv_path} --schema apv2.j2 --output {output_path}
-```
 
 ### Generating a (basic) application profile from RDF
 
