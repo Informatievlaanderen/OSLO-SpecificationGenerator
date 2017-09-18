@@ -46,25 +46,24 @@
                     <h1 class="h1">{{ record['overview']['title'] }}</h1>
                     <div class="head" role="contentinfo" id="respecHeader">
                         <dl>
-                        {% if record['overview_contributors']['issued'] %}
                         <dt>Laatste aanpassing</dt>
+                        <dd>{{ now.strftime("%Y-%m-%d") }}</dd>
 
-                        <dd>{{ record['overview_contributors']['issued'] }}
-                        </dd>
-                        {% endif %}
-
-                        {% if record['overview_contributors']['authors'] %}
+                        {% set authors = contributors|selectattr("role", "equalto", "A")|sort(attribute='last_name') %}
+                        {% if authors %}
                         <dt>Auteurs</dt>
-                        {% set makers = record['overview_contributors']['authors'].split(",") %}
-                        {% for maker in makers %}
+                        {% for author in authors %}
                         <dd inlist="" rel="foaf:maker" class="p-author h-card vcard">
                             <span typeof="foaf:Person">
-                            <span class="p-name fn" property="foaf:name">{{ record['author:'+maker]['naam'] }}</span>
-                            {% if record['author:'+maker]['organisatie'] %}
-                            - <a href="{{ record['author:'+maker]['website'] }}" class="p-org org h-org h-card" rel="foaf:workplaceHomepage">{{ record['author:'+maker]['organisatie'] }}</a>
+                            <span class="p-name fn" property="foaf:lastName">{{ author['last_name'] }}</span>,
+                            <span class="p-name fn" property="foaf:firstName">{{ author['first_name'] }}</span>
+                            {% if author['affiliation_website'] and author['affiliation_name'] %}
+                            - <a href="{{ author['affiliation_website'] }}" class="p-org org h-org h-card" rel="foaf:workplaceHomepage">{{ author['affiliation_name'] }}</a>
+                            {% elif author['affiliation_name'] %}
+                            - <span class="p-org org h-org h-card">{{ author['affiliation_name'] }}</span>
                             {% endif %}
-                            {% if record['author:'+maker]['email'] %}
-                            - <span class="ed_mailto"><a href="mailto:{{ record['author:'+maker]['email'] }}" rel="foaf:mbox" class="u-email email">{{ record['author:'+maker]['email'] }}</a></span>
+                            {% if author['email'] %}
+                            - <span class="ed_mailto"><a href="mailto:{{ author['email'] }}" rel="foaf:mbox" class="u-email email">{{ author['email'] }}</a></span>
                             {% endif %}
                             </span>
                         </dd>
@@ -72,18 +71,21 @@
                         {% endif %}
 
 
-                        {% if record['overview_contributors']['editors'] %}
+                        {% set editors = contributors|selectattr("role", "equalto", "E")|sort(attribute='last_name') %}
+                        {% if editors %}
                         <dt>Editors</dt>
-                        {% set editors = record['overview_contributors']['editors'].split(",") %}
                         {% for editor in editors %}
                         <dd inlist="" rel="bibo:editor" class="p-author h-card vcard">
                             <span typeof="foaf:Person">
-                            <span class="p-name fn" property="foaf:name">{{ record['editor:'+editor]['naam'] }}</span>
-                            {% if record['editor:'+editor]['organisatie'] %}
-                            - <a href="{{ record['editor:'+editor]['website'] }}" class="p-org org h-org h-card" rel="foaf:workplaceHomepage">{{ record['editor:'+editor]['organisatie'] }}</a>
+                            <span class="p-name fn" property="foaf:lastName">{{ editor['last_name'] }}</span>,
+                            <span class="p-name fn" property="foaf:firstName">{{ editor['first_name'] }}</span>
+                            {% if editor['affiliation_website'] and editor['affiliation_name'] %}
+                            - <a href="{{ editor['affiliation_website'] }}" class="p-org org h-org h-card" rel="foaf:workplaceHomepage">{{ editor['affiliation_name'] }}</a>
+                            {% elif editor['affiliation_name'] %}
+                            - <span class="p-org org h-org h-card">{{ editor['affiliation_name'] }}</span>
                             {% endif %}
-                            {% if record['editor:'+editor]['email'] %}
-                            - <span class="ed_mailto"><a href="mailto:{{ record['editor:'+editor]['email'] }}" rel="foaf:mbox" class="u-email email">{{ record['editor:'+editor]['email'] }}</a></span>
+                            {% if editor['email'] %}
+                            - <span class="ed_mailto"><a href="mailto:{{ editor['email'] }}" rel="foaf:mbox" class="u-email email">{{ editor['email'] }}</a></span>
                             {% endif %}
                             </span>
                         </dd>
@@ -91,18 +93,21 @@
                         {% endif %}
 
 
-                        {% if record['overview_contributors']['contributors'] %}
+                        {% set pure_contributors = contributors|selectattr("role", "equalto", "C")|sort(attribute='last_name') %}
+                        {% if pure_contributors %}
                         <dt>Medewerkers</dt>
-                        {% set contributors = record['overview_contributors']['contributors'].split(",") %}
-                        {% for contributor in contributors %}
+                        {% for contributor in pure_contributors %}
                         <dd inlist="" rel="dcterms:contributor" class="p-author h-card vcard">
                             <span typeof="foaf:Person">
-                            <span class="p-name fn" property="foaf:name">{{ record['contributor:'+contributor]['naam'] }}</span>
-                            {% if record['contributor:'+contributor]['organisatie'] %}
-                            - <a href="{{ record['contributor:'+contributor]['website'] }}" class="p-org org h-org h-card" rel="foaf:workplaceHomepage">{{ record['contributor:'+contributor]['organisatie'] }}</a>
+                            <span class="p-name fn" property="foaf:lastName">{{ contributor['last_name'] }}</span>,
+                            <span class="p-name fn" property="foaf:firstName">{{ contributor['first_name'] }}</span>
+                            {% if contributor['affiliation_website'] and contributor['affiliation_name'] %}
+                            - <a href="{{ contributor['affiliation_website'] }}" class="p-org org h-org h-card" rel="foaf:workplaceHomepage">{{ contributor['affiliation_name'] }}</a>
+                            {% elif contributor['affiliation_name'] %}
+                            - <span class="p-org org h-org h-card">{{ contributor['affiliation_name'] }}</span>
                             {% endif %}
-                            {% if record['contributor:'+contributor]['email'] %}
-                            - <span class="ed_mailto"><a href="mailto:{{ record['contributor:'+contributor]['email'] }}" rel="foaf:mbox" class="u-email email">{{ record['contributor:'+contributor]['email'] }}</a></span>
+                            {% if contributor['email'] %}
+                            - <span class="ed_mailto"><a href="mailto:{{ contributor['email'] }}" rel="foaf:mbox" class="u-email email">{{ contributor['email'] }}</a></span>
                             {% endif %}
                             </span>
                         </dd>

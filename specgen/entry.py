@@ -4,6 +4,7 @@ import os
 import re
 import sys
 import tempfile
+from datetime import datetime
 from io import BytesIO
 from xml.dom import minidom
 
@@ -97,6 +98,9 @@ def normalize_datestring(datestring, fmt='default'):
 def read_mcf(mcf):
     """returns dict of ConfigParser object"""
 
+    if mcf is None:
+        return None
+
     mcf_list = []
 
     def makelist(mcf2):
@@ -143,7 +147,7 @@ def pretty_print(xml):
                       l.strip()])
 
 
-def render_template(mcf, schema, schema_folder=None):
+def render_template(mcf, schema, schema_folder=None, **kwargs):
     """convenience function to render Jinja2 template"""
 
     LOGGER.debug('Evaluating schema path')
@@ -178,7 +182,8 @@ def render_template(mcf, schema, schema_folder=None):
 
     LOGGER.debug('Processing template')
     xml = template.render(record=read_mcf(mcf),
-                          software_version=__version__).encode('utf-8')
+                          software_version=__version__,
+                          **kwargs).encode('utf-8')
 
     return ET.parse(BytesIO(xml))
 
@@ -220,16 +225,18 @@ def voc_to_ap(csv, schema, csv_contributor=None, schema_folder=None):
     converted = convert_csv(csv)
     result = converted[0]
     voc = converted[1]
+    contributors = None
 
     if csv_contributor is not None:
-        result += convert_contributor_csv(csv_contributor, voc)
+        contributors = convert_contributor_csv(csv_contributor, voc)
+
     _, fp = tempfile.mkstemp()
 
     with codecs.open(fp, 'w', encoding='utf-8') as f:
         f.write(u'%s' % result)
     f.close()
 
-    return render_template(fp, schema, schema_folder)
+    return render_template(fp, schema, schema_folder, contributors=contributors, now=datetime.utcnow())
 
 
 def contributor_to_rdf(csv, voc, schema, schema_folder=None):
@@ -242,14 +249,9 @@ def contributor_to_rdf(csv, voc, schema, schema_folder=None):
     :param schema_folder: directory containing non-built-in template
     :return: string containing the rendered template
     """
-    result = convert_contributor_csv(csv, voc)
-    _, fp = tempfile.mkstemp()
+    contributors = convert_contributor_csv(csv, voc)
 
-    with codecs.open(fp, 'w', encoding='utf-8') as f:
-        f.write(u'%s' % result)
-    f.close()
-
-    return render_template(fp, schema, schema_folder)
+    return render_template(None, schema, schema_folder, contributors=contributors, voc_name=voc.lower())
 
 
 def merge_rdf(rdf1, rdf2):
