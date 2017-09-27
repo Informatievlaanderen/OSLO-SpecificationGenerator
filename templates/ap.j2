@@ -294,8 +294,8 @@
                     <div><p>{{ record[entity]['ap-usagenote-nl'] }}</p></div>
                     {% if record[entity]['attributes'] %}
                     {% set attributes = record[entity]['attributes'].split(",") %}
-                    {% set attributelist = record[entity]['attributes'].replace(",", ", ") %}
-                    <div><p>Voor dit datatype zijn de volgende attributen gedefinieerd: {{ attributelist }}.</p></div>
+                    {% set attributelist = record[entity]['attribute_displaynames'].replace(",", ", ") %}
+                    <div><p>Voor dit datatype zijn de volgende eigenschappen gedefinieerd: {{ attributelist }}.</p></div>
                     </div>
                     <div class="u-table-overflow">
                         <table class="data-table">
