@@ -226,8 +226,11 @@
                     <div><p>{{ record[entity]['ap-usagenote-nl'] }}</p></div>
                     {% if record[entity]['attributes'] %}
                     {% set attributes = record[entity]['attributes'].split(",") %}
-                    {% set attributelist = record[entity]['attribute_displaynames'].replace(",", ", ") %}
-                    <div><p>Voor deze entiteit zijn de volgende eigenschappen gedefinieerd: {{ attributelist }}.</p></div>
+                    {% set attributelist = record[entity]['attribute_displaynames'].split(",") %}
+                    <div><p>Voor deze entiteit zijn de volgende eigenschappen gedefinieerd: 
+						{%- for attribute in attributelist %}
+                            <a href="#{{ entity }}:{{attribute}}">{{ attribute }}</a>{% if not loop.last %}, {% endif %}
+						{%- endfor %}.</p></div>
                     </div>
                     <div class="u-table-overflow">
                         <table class="data-table">
@@ -246,15 +249,11 @@
                           {% for attribute in attributes %}
                           {% set attribute_detail = record[entity + ':' + attribute] %}
                           {% if attribute_detail  %}
-                          <tr typeof="rdfs:Property" resource="{{ attribute_detail["namespace"] }}{{ attribute_detail["localname"] }}">
+                          <tr id="{{ entity }}:{{ attribute_detail["ap-label-nl"] }}" typeof="rdfs:Property" resource="{{ attribute_detail["namespace"] }}{{ attribute_detail["localname"] }}">
                             <td>
                             <code property="rdfs:label">
                                 <a href="{{ attribute_detail["namespace"] }}{{ attribute_detail["localname"] }}" data-toggle="tooltip" data-content="{{ attribute_detail["namespace"] }}{{ attribute_detail["localname"] }}" data-placement="right">
-                                {% if attribute_detail["ap-label-nl"] %}
                                 {{ attribute_detail["ap-label-nl"] }}
-                                {% else %}
-                                {{ attribute_detail["ea-name"] }}
-                                {% endif %}
                                 </a>
                             </code>
                             </td>
@@ -294,8 +293,11 @@
                     <div><p>{{ record[entity]['ap-usagenote-nl'] }}</p></div>
                     {% if record[entity]['attributes'] %}
                     {% set attributes = record[entity]['attributes'].split(",") %}
-                    {% set attributelist = record[entity]['attribute_displaynames'].replace(",", ", ") %}
-                    <div><p>Voor dit datatype zijn de volgende eigenschappen gedefinieerd: {{ attributelist }}.</p></div>
+					{% set attributelist = record[entity]['attribute_displaynames'].split(",") %}
+                    <div><p>Voor dit datatypezijn de volgende eigenschappen gedefinieerd: 
+						{%- for attribute in attributelist %}
+                            <a href="#{{ entity }}:{{attribute}}">{{ attribute }}</a>{% if not loop.last %}, {% endif %}
+						{%- endfor %}.</p></div>
                     </div>
                     <div class="u-table-overflow">
                         <table class="data-table">
@@ -314,15 +316,11 @@
                           {% for attribute in attributes %}
                           {% set attribute_detail = record[entity + ':' + attribute] %}
                           {% if attribute_detail  %}
-                          <tr typeof="rdfs:Property" resource="{{ attribute_detail["namespace"] }}{{ attribute_detail["localname"] }}">
+                          <tr id="{{ entity }}:{{ attribute_detail["ap-label-nl"] }}" typeof="rdfs:Property" resource="{{ attribute_detail["namespace"] }}{{ attribute_detail["localname"] }}">
                             <td>
                             <code property="rdfs:label">
                                 <a href="{{ attribute_detail["namespace"] }}{{ attribute_detail["localname"] }}" data-toggle="tooltip" data-content="{{ attribute_detail["namespace"] }}{{ attribute_detail["localname"] }}" data-placement="right">
-                                {% if attribute_detail["ap-label-nl"] %}
                                 {{ attribute_detail["ap-label-nl"] }}
-                                {% else %}
-                                {{ attribute_detail["ea-name"] }}
-                                {% endif %}
                                 </a>
                             </code>
                             </td>
