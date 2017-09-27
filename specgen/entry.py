@@ -96,7 +96,11 @@ def normalize_datestring(datestring, fmt='default'):
 
 
 def read_mcf(mcf):
-    """returns dict of ConfigParser object"""
+    """
+    Returns a dict representation of the passed configuration file.
+    The dict is structured as follows (section-name -> (attribute-name -> value)).
+    Note that all attribute-names are converted to lower case as part of this processing.
+    """
 
     if mcf is None:
         return None

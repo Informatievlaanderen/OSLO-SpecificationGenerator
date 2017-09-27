@@ -223,7 +223,7 @@
               <div class="col--9-12 col--1-1--s typography">
                     <div class="region region--no-space-top">
                     <div><p>{{ record[entity]['ap-definition-nl'] }}</p></div>
-                    <div><p>{{ record[entity]['ap-usageNote-nl'] }}</p></div>
+                    <div><p>{{ record[entity]['ap-usagenote-nl'] }}</p></div>
                     {% if record[entity]['attributes'] %}
                     {% set attributes = record[entity]['attributes'].split(",") %}
                     {% set attributelist = record[entity]['attribute_displaynames'].replace(",", ", ") %}
@@ -291,7 +291,7 @@
               <div class="col--9-12 col--1-1--s typography">
                     <div class="region region--no-space-top">
                     <div><p>{{ record[entity]['ap-definition-nl'] }}</p></div>
-                    <div><p>{{ record[entity]['ap-usageNote-nl'] }}</p></div>
+                    <div><p>{{ record[entity]['ap-usagenote-nl'] }}</p></div>
                     {% if record[entity]['attributes'] %}
                     {% set attributes = record[entity]['attributes'].split(",") %}
                     {% set attributelist = record[entity]['attributes'].replace(",", ", ") %}

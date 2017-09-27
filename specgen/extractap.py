@@ -63,7 +63,7 @@ def convert_csv(path):
                     final_domains.append(klasse['ap-label-nl'])
 
                 result += 'ap-definition-nl=%s\n' % klasse['ap-definition-nl']
-                result += 'ap-usagenote-nl=%s\n' % klasse['ap-usageNote-nl']
+                result += 'ap-usageNote-nl=%s\n' % klasse['ap-usageNote-nl']
                 result += 'namespace=%s\n' % klasse['namespace']
                 result += 'localname=%s\n' % klasse['localname']
                 if klasse['parent'] is not None:
