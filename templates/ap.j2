@@ -222,16 +222,25 @@
             <div class="grid">
               <div class="col--9-12 col--1-1--s typography">
                     <div class="region region--no-space-top">
-                    <div><p>{{ record[entity]['ap-definition-nl'] }}</p></div>
-                    <div><p>{{ record[entity]['ap-usagenote-nl'] }}</p></div>
+					<dl>
+						<dt>Beschrijving</dt><dd>{{ record[entity]['ap-definition-nl'] }}</dd>
+						{% if record[entity]['ap-usagenote-nl'] %}
+							<dt>Gebruik</dt><dd>{{ record[entity]['ap-usagenote-nl'] }}</dd>
+						{% endif %}
+						<dt>Eigenschappen</dt>
+						{% set attributelist = record[entity]['attribute_displaynames'].split(",") %}
+						{% if record[entity]['attributes'] %}
+							<dd>Voor deze entiteit zijn de volgende eigenschappen gedefinieerd: 
+							{%- for attribute in attributelist %}
+								<a href="#{{ entity }}:{{attribute}}">{{ attribute }}</a>{% if not loop.last %}, {% endif %}
+							{%- endfor %}.</dd>
+						{% else %}
+							<dd>Voor deze entiteit zijn geen eigenschappen gedefinieerd.</dd>
+						{% endif %}
+					</dl>
+					</div>
                     {% if record[entity]['attributes'] %}
                     {% set attributes = record[entity]['attributes'].split(",") %}
-                    {% set attributelist = record[entity]['attribute_displaynames'].split(",") %}
-                    <div><p>Voor deze entiteit zijn de volgende eigenschappen gedefinieerd: 
-						{%- for attribute in attributelist %}
-                            <a href="#{{ entity }}:{{attribute}}">{{ attribute }}</a>{% if not loop.last %}, {% endif %}
-						{%- endfor %}.</p></div>
-                    </div>
                     <div class="u-table-overflow">
                         <table class="data-table">
                           <thead>
@@ -289,16 +298,25 @@
             <div class="grid">
               <div class="col--9-12 col--1-1--s typography">
                     <div class="region region--no-space-top">
-                    <div><p>{{ record[entity]['ap-definition-nl'] }}</p></div>
-                    <div><p>{{ record[entity]['ap-usagenote-nl'] }}</p></div>
+                    <dl>
+						<dt>Beschrijving</dt><dd>{{ record[entity]['ap-definition-nl'] }}</dd>
+						{% if record[entity]['ap-usagenote-nl'] %}
+							<dt>Gebruik</dt><dd>{{ record[entity]['ap-usagenote-nl'] }}</dd>
+						{% endif %}
+						<dt>Eigenschappen</dt>
+						{% set attributelist = record[entity]['attribute_displaynames'].split(",") %}
+						{% if record[entity]['attributes'] %}
+							<dd>Voor dit datatype zijn de volgende eigenschappen gedefinieerd: 
+							{%- for attribute in attributelist %}
+								<a href="#{{ entity }}:{{attribute}}">{{ attribute }}</a>{% if not loop.last %}, {% endif %}
+							{%- endfor %}.</dd>
+						{% else %}
+							<dd>Voor dit datatype zijn geen eigenschappen gedefinieerd.</dd>
+						{% endif %}
+					</dl>
+					</div>
                     {% if record[entity]['attributes'] %}
                     {% set attributes = record[entity]['attributes'].split(",") %}
-					{% set attributelist = record[entity]['attribute_displaynames'].split(",") %}
-                    <div><p>Voor dit datatypezijn de volgende eigenschappen gedefinieerd: 
-						{%- for attribute in attributelist %}
-                            <a href="#{{ entity }}:{{attribute}}">{{ attribute }}</a>{% if not loop.last %}, {% endif %}
-						{%- endfor %}.</p></div>
-                    </div>
                     <div class="u-table-overflow">
                         <table class="data-table">
                           <thead>
