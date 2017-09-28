@@ -215,10 +215,15 @@
 			</a>
           </div>
       </div>
+      <div class="region region--no-space-top">
+        <div class="layout layout--normal">
+      	  <h2 class="h2">Entiteiten</h2>
+        </div>
+      </div>
       {% for entity in entities %}
       <div class="region region--no-space-top">
           <div class="layout layout--normal">
-            <h2 class="h2" id="{{ entity }}"><a href="{{ record[entity]['namespace'] }}{{ record[entity]['localname'] }}" data-toggle="tooltip" data-content="{{ record[entity]["namespace"] }}{{ record[entity]["localname"] }}" data-placement="right">{{ entity }}</a></h2>
+            <h3 class="h3" id="{{ entity }}"><a href="{{ record[entity]['namespace'] }}{{ record[entity]['localname'] }}" data-toggle="tooltip" data-content="{{ record[entity]["namespace"] }}{{ record[entity]["localname"] }}" data-placement="right">{{ entity }}</a></h3>
             <div class="grid">
               <div class="col--9-12 col--1-1--s typography">
                     <div class="region region--no-space-top">
