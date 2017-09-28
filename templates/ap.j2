@@ -218,7 +218,7 @@
       {% for entity in entities %}
       <div class="region region--no-space-top">
           <div class="layout layout--normal">
-            <h2 class="h2" id="{{ entity }}">{{ entity }}</h2>
+            <h2 class="h2" id="{{ entity }}"><a href="{{ record[entity]['namespace'] }}{{ record[entity]['localname'] }}" data-toggle="tooltip" data-content="{{ record[entity]["namespace"] }}{{ record[entity]["localname"] }}" data-placement="right">{{ entity }}</a></h2>
             <div class="grid">
               <div class="col--9-12 col--1-1--s typography">
                     <div class="region region--no-space-top">
@@ -294,7 +294,7 @@
       {% for entity in datatypes %}
       <div class="region region--no-space-top">
           <div class="layout layout--normal">
-            <h3 class="h3" id="{{ entity }}">{{ entity }}</h3>
+            <h3 class="h3" id="{{ entity }}"><a href="{{ record[entity]['namespace'] }}{{ record[entity]['localname'] }}" data-toggle="tooltip" data-content="{{ record[entity]["namespace"] }}{{ record[entity]["localname"] }}" data-placement="right">{{ entity }}</a></h3>
             <div class="grid">
               <div class="col--9-12 col--1-1--s typography">
                     <div class="region region--no-space-top">
