@@ -41,10 +41,10 @@ prefix wdsr: <http://www.w3.org/2007/05/powder-s#>
 def convert(rdf):
     """
     Reads in a RDF file and converts it to a string representation of a
-    template configuration.
+    template configuration and a contributors dict.
 
     :param rdf: rdf file
-    :return: string
+    :return: a tuple of contributors dict and string
     """
 
     g = rdflib.Graph()
@@ -194,105 +194,34 @@ def convert(rdf):
         parents.sort()
         result += 'list=%s\n' % ','.join(parents)
 
-    qres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
-        PREFIXES +
-        """SELECT DISTINCT *
-           WHERE {
-              ?v a owl:Ontology .
-              ?v dcterms:contributor ?c .
-              OPTIONAL { ?c schema:affiliation ?affiliation .
-                         ?affiliation foaf:homepage ?ahomepage .
-                         ?affiliation foaf:name ?aName } .
-              OPTIONAL { ?c foaf:homepage ?mhomepage } .
-              OPTIONAL { ?c foaf:mbox ?mmbox } .
-              OPTIONAL { ?c foaf:name ?mname } .
-           } ORDER BY ?aName ?mname """)
-
     contributors = []
 
-    for row in qres:
-        if row['c'] is not None:
-            contributors.append(row['c'])
-            result += '\n[contributor:%s]\n' % row['c']
-            if row['mname'] is not None:
-                result += "mname=%s\n" % row['mname']
-            if row['mhomepage'] is not None:
-                result += "mhomepage=%s\n" % row['mhomepage']
-            if row['mmbox'] is not None:
-                result += "mmbox=%s\n" % row['mmbox']
-            if row['affiliation'] is not None:
-                result += "aName=%s\n" % row['aName']
-                result += "ahomepage=%s\n" % row['ahomepage']
+    for (rdf_role, role) in [("dcterms:contributor", "C"), ("rec:editor", "E"), ("foaf:maker", "A")]:
+        qres = g.query(
+            PREFIXES +
+            """SELECT DISTINCT *
+               WHERE {
+                  ?v a owl:Ontology .
+                  ?v %s ?c .
+                  OPTIONAL { ?c schema:affiliation ?affiliation .
+                             ?affiliation foaf:homepage ?ahomepage .
+                             ?affiliation foaf:name ?aName } .
+                  OPTIONAL { ?c foaf:homepage ?mhomepage } .
+                  OPTIONAL { ?c foaf:mbox ?email } .
+                  OPTIONAL { ?c foaf:lastName ?last_name } .
+                  OPTIONAL { ?c foaf:firstName ?first_name } .
+               } ORDER BY ?aName ?mname """ % rdf_role)
 
-    if len(contributors) > 0:
-        result += '\n[contributors]\n'
-        result += 'list=%s\n' % ','.join(contributors)
-
-    qres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
-        PREFIXES +
-        """SELECT DISTINCT *
-           WHERE {
-              ?v a owl:Ontology .
-              ?v rec:editor ?e .
-              OPTIONAL { ?e schema:affiliation ?affiliation .
-                         ?affiliation foaf:homepage ?ahomepage .
-                         ?affiliation foaf:name ?aName } .
-              OPTIONAL { ?e foaf:homepage ?mhomepage } .
-              OPTIONAL { ?e foaf:mbox ?mmbox } .
-              OPTIONAL { ?e foaf:name ?mname } .
-           } ORDER BY ?aName ?mname """)
-
-    editors = []
-
-    for row in qres:
-        if row['e'] is not None:
-            editors.append(row['e'])
-            result += '\n[editor:%s]\n' % row['e']
-            if row['mname'] is not None:
-                result += "mname=%s\n" % row['mname']
-            if row['mhomepage'] is not None:
-                result += "mhomepage=%s\n" % row['mhomepage']
-            if row['mmbox'] is not None:
-                result += "mmbox=%s\n" % row['mmbox']
-            if row['affiliation'] is not None:
-                result += "aName=%s\n" % row['aName']
-                result += "ahomepage=%s\n" % row['ahomepage']
-
-    if len(editors) > 0:
-        result += '\n[editors]\n'
-        result += 'list=%s\n' % ','.join(editors)
-
-    qres = g.query(  # Mandatory -> required; Optional -> OPTIONAL
-        PREFIXES +
-        """SELECT DISTINCT *
-           WHERE {
-              ?v a owl:Ontology .
-              ?v foaf:maker ?m .
-              OPTIONAL { ?m schema:affiliation ?affiliation . ?affiliation foaf:homepage ?ahomepage . ?affiliation foaf:name ?aName } .
-              OPTIONAL { ?m foaf:homepage ?mhomepage }.
-              OPTIONAL { ?m foaf:mbox ?mmbox }.
-              OPTIONAL { ?m foaf:name ?mname }.
-           } ORDER BY ?aName ?mname """)
-
-    makers = []
-
-    for row in qres:
-        if row['m'] is not None:
-            makers.append(row['m'])
-            result += '\n[maker:%s]\n' % row['m']
-            if row['mname'] is not None:
-                result += "mname=%s\n" % row['mname']
-            if row['mhomepage'] is not None:
-                result += "mhomepage=%s\n" % row['mhomepage']
-            if row['mmbox'] is not None:
-                result += "mmbox=%s\n" % row['mmbox']
-            if row['affiliation'] is not None:
-                result += "aname=%s\n" % row['aName']
-                result += "ahomepage=%s\n" % row['ahomepage']
-
-    if len(makers) > 0:
-        result += '\n[makers]\n'
-        result += 'list=%s\n' % ','.join(makers)
+        for row in qres:
+            if row['c'] is not None:
+                contributors.append({
+                        'last_name': row['last_name'],
+                        'first_name': row['first_name'],
+                        'role': role,
+                        'email': row['email'] and str(row['email']).replace('mailto:', ''),
+                        'affiliation_name': row['aName'],
+                        'affiliation_website': row['ahomepage']
+                    })
 
     result += "\n[glance]\n"
 
@@ -602,4 +531,4 @@ def convert(rdf):
             if len(parents) > 0:
                 result += "parents=%s\n" % ",".join(parents)
 
-    return result
+    return contributors, result

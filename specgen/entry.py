@@ -201,14 +201,14 @@ def voc_to_spec(rdf, schema, schema_folder=None):
     :param schema_folder: directory containing non built-in templates
     :return: string of the rendered template
     """
-    result = convert(rdf)
+    contributors, result = convert(rdf)
     _, fp = tempfile.mkstemp()
 
     with codecs.open(fp, 'w', encoding='utf-8') as f:
         f.write(u'%s' % result)
     f.close()
 
-    return render_template(fp, schema, schema_folder)
+    return render_template(fp, schema, schema_folder, contributors=contributors)
 
 
 def voc_to_spec_from_rdf(rdf, title):
