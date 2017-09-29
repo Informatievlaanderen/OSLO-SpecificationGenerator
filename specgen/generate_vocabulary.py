@@ -106,6 +106,8 @@ def process_args(rdf, rdf_contributor, csv_contributor, csv, ap, contributors,
             click.echo_via_pager(ET.tostring(xml_output.getroot()))
         else:
             # Write to specified file
+            if not os.path.exists(os.path.dirname(output.name)):
+                os.makedirs(os.path.dirname(output.name))
             xml_output.write(output)
 
 
