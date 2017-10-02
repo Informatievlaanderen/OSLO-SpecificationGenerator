@@ -29,6 +29,7 @@
     </dcterms:mediator>
     {% for editor in contributors|selectattr("role", "equalto", "E") %}
     <rec:editor rdf:parseType="Resource">
+      <rdf:type rdf:resource="http://www.w3.org/ns/person#Person"/>
       <foaf:lastName>{{ editor['last_name'] }}</foaf:lastName>
       <foaf:firstName>{{ editor['first_name'] }}</foaf:firstName>
       {% if editor['email'] %}
@@ -43,6 +44,7 @@
 
     {% for author in contributors|selectattr("role", "equalto", "A") %}
     <foaf:maker rdf:parseType="Resource">
+      <rdf:type rdf:resource="http://www.w3.org/ns/person#Person"/>
       <foaf:lastName>{{ author['last_name'] }}</foaf:lastName>
       <foaf:firstName>{{ author['first_name'] }}</foaf:firstName>
       {% if author['email'] %}
@@ -57,6 +59,7 @@
 
     {% for contributor in contributors|selectattr("role", "equalto", "C") %}
     <dcterms:contributor rdf:parseType="Resource">
+      <rdf:type rdf:resource="http://www.w3.org/ns/person#Person"/>
       <foaf:lastName>{{ contributor['last_name'] }}</foaf:lastName>
       <foaf:firstName>{{ contributor['first_name'] }}</foaf:firstName>
       {% if contributor['email'] %}
