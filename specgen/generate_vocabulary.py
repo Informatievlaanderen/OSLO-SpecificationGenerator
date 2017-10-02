@@ -4,12 +4,9 @@ import click
 import csv as csv_engine
 import tempfile
 import os
-import pkgutil
-import subprocess
 from lxml import etree as ET
-from xml.sax.saxutils import escape
-from entry import get_supported_schemas, render_template, voc_to_spec, \
-    voc_to_spec_from_rdf, voc_to_ap, merge_rdf, contributor_to_rdf
+from entry import get_supported_schemas, voc_to_spec, \
+    voc_to_spec_from_rdf, csv_catalog_to_ap, merge_rdf, contributor_to_rdf
 
 SUPPORTED_SCHEMAS = get_supported_schemas()
 
@@ -35,7 +32,9 @@ SUPPORTED_SCHEMAS = get_supported_schemas()
               help='Output RDF of authors, editors and contributors')
 @click.option('--merge', is_flag=True,
               help='Merge RDF of vocabulary RDF with RDF of authors')
-@click.option('--target', help='Vocabulary to export authors to')
+@click.option('--csv_contributor_role_column',
+              help='Column name containing roles in the contributor CSV file .'
+                   'Also used to form the ontology namespace for the contributors command.')
 @click.option('--title', help='Title of the AP')
 @click.option('--schema', '-s',
               help='Metadata schema')
@@ -44,7 +43,7 @@ SUPPORTED_SCHEMAS = get_supported_schemas()
                               dir_okay=True, file_okay=False),
               help='Directory containing additional templates.')
 def process_args(rdf, rdf_contributor, csv_contributor, csv, ap, contributors,
-                 merge, target, schema, schema_folder, output, title):
+                 merge, csv_contributor_role_column, schema, schema_folder, output, title):
     xml_output = False
 
     if not ap and not contributors and not merge:
@@ -56,10 +55,13 @@ def process_args(rdf, rdf_contributor, csv_contributor, csv, ap, contributors,
         xml_output = voc_to_spec(rdf, schema, schema_folder=schema_folder)
 
     elif ap:
-        if not csv and rdf:
-            if not title:
-                raise click.UsageError('Missing argument --title')
+        if not title:
+            raise click.UsageError('Missing argument --title')
 
+        if not csv and not rdf:
+            raise click.UsageError('Missing argument --csv or --rdf')
+
+        if not csv and rdf:
             # Convert the RDF to a CSV catalog file
             csv_output = voc_to_spec_from_rdf(rdf, title)
             xp = tempfile.mkdtemp()
@@ -72,21 +74,19 @@ def process_args(rdf, rdf_contributor, csv_contributor, csv, ap, contributors,
 
             csv = os.path.realpath(xp)
 
-        if not csv:
-            raise click.UsageError('Missing argument --csv or --rdf')
-
         # Render the CSV catalog file using the template
         schema = schema or 'ap.j2'
-        xml_output = voc_to_ap(csv, schema, csv_contributor=csv_contributor, schema_folder=schema_folder)
+        xml_output = csv_catalog_to_ap(csv, schema, title, csv_contributor=csv_contributor,
+                               csv_column=csv_contributor_role_column, schema_folder=schema_folder)
 
     elif contributors:
         if csv is None:
             raise click.UsageError('Missing arguments --csv')
-        if target is None:
-            raise click.UsageError('Missing arguments --target {column}')
+        if csv_contributor_role_column is None:
+            raise click.UsageError('Missing arguments --csv_contributor_role_column {column}')
         # Renders the contributors CSV to RDF
         schema = schema or 'contributors.j2'
-        xml_output = contributor_to_rdf(csv, target, schema, schema_folder=schema_folder)
+        xml_output = contributor_to_rdf(csv, csv_contributor_role_column, schema, schema_folder=schema_folder)
 
     elif merge:
         if rdf is None:

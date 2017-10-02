@@ -57,7 +57,7 @@ Leave out the `--output` option to write to stdout instead of a file.
 ### Generating contributors RDF from CSV
 
 ```bash
-./specgen/generate_vocabulary.py --contributors --csv {csv_path} --target {column} --output {output_path}
+./specgen/generate_vocabulary.py --contributors --csv {csv_path} --csv_contributor_role_column {column} --output {output_path}
 ```
 
 ### Merging contributors RDF with a vocabulary RDF
@@ -102,11 +102,6 @@ In this repository only Dutch application profiles are supported.
 ./specgen/generate_vocabulary.py --ap --rdf {path} --csv_contributor {csv_contributor_path} --output {output_path}
 ```
 
-No contributor file yet? Use the `--schema apv2.j2` option.
-
-```bash
-./specgen/generate_vocabulary.py --ap --rdf {csv_path} --schema apv2.j2 --output {output_path}
-```
 
 ## Development
 

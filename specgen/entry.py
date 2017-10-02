@@ -215,32 +215,28 @@ def voc_to_spec_from_rdf(rdf, title):
     return convertap_from_rdf(rdf, title)
 
 
-def voc_to_ap(csv, schema, csv_contributor=None, schema_folder=None):
+def csv_catalog_to_ap(csv, schema, title, csv_contributor=None, csv_column=None, schema_folder=None):
     """
-    Renders the CSV catalog using the specified template. In case contributor is set,
-    the column matching the EA-name of the package of the catalog is used to determine the roles.
+    Renders the CSV catalog using the specified template. In case csv_contributor and csv_column is set,
+    contributor info is added to the template.
 
     :param csv: utf-8 encoded csv file of a entity/property/ontology catalog
+    :param title: the title of the AP, to be used in the rendered template
     :param csv_contributor: utf-8 encoded file of contributors
+    :param csv_column: column name containing the role of each contributor
     :param schema: built in template name
     :param schema_folder: directory containing non-built-in template
     :return: string rendering of the template
     """
-    converted = convert_csv(csv)
-    result = converted[0]
-    voc = converted[1]
-    contributors = None
+    entities_dict = convert_csv(csv)
 
-    if csv_contributor is not None:
-        contributors = convert_contributor_csv(csv_contributor, voc)
+    if csv_contributor is not None and csv_column is not None:
+        contributors = convert_contributor_csv(csv_contributor, csv_column)
+    else:
+        contributors = {}
 
-    _, fp = tempfile.mkstemp()
-
-    with codecs.open(fp, 'w', encoding='utf-8') as f:
-        f.write(u'%s' % result)
-    f.close()
-
-    return render_template(fp, schema, schema_folder, contributors=contributors, now=datetime.utcnow())
+    return render_template(None, schema, schema_folder, title=title,
+                           entities=entities_dict, contributors=contributors, now=datetime.utcnow())
 
 
 def contributor_to_rdf(csv, voc, schema, schema_folder=None):
