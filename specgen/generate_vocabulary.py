@@ -51,7 +51,7 @@ def process_args(rdf, rdf_contributor, csv_contributor, csv, ap, contributors,
             raise click.UsageError('Missing arguments input RDF --rdf {path}')
 
         # Convert the RDF vocabulary to html
-        schema = schema or 'vocabulary.j2'
+        schema = schema or 'vocabularynlv2.j2'
         xml_output = voc_to_spec(rdf, schema, schema_folder=schema_folder)
 
     elif ap:

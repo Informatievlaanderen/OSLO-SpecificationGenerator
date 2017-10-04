@@ -68,16 +68,8 @@ Leave out the `--output` option to write to stdout instead of a file.
 
 ### Generating vocabulary HTML specification from RDF
 
-By default the English template will be used.
-
 ```bash
 ./specgen/generate_vocabulary.py --rdf {rdf_path} --output {output_path}
-```
-
-To use the Dutch template, use the following command.
-
-```bash
-./specgen/generate_vocabulary.py --rdf {rdf_path} --output {output_path} --schema vocabularynl.j2
 ```
 
 ### Generating application profile in HTML from an AP CSV
@@ -113,16 +105,16 @@ Same as installing a package.  Use a virtualenv.  Also install developer require
 pip install -r requirements-dev.txt
 ```
 
-### Adding Another Target Schema
+### Available Templates
 
-List of supported templates in `templates`
+All commands use a default template, this default can be overridden using the
+`--schema` parameter.
 
-To add support to new metadata schemas:
-```bash
-cp -r templates/vocabulary.j2 specgen/templates/new-schema.j2
-```
-Then modify the file to comply to new schema.
+The templates can be found in the `templates` folder. Additionally,
+on can specify an additional (external) folder containing templates using the
+`--schema_folder` parameter.
 
+Templates use the [Jinja2 library](http://jinja.pocoo.org/docs/).
 
 ### Bugs and Issues
 
