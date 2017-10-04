@@ -356,7 +356,7 @@ def convert(rdf):
               OPTIONAL { ?class dcterms:identifier ?identifier } .
               ?class rdfs:comment ?comment .
               FILTER(LANGMATCHES(LANG(?comment), "en")) .
-              OPTIONAL { ?class vann:usageNote ?usageNote } .
+              OPTIONAL { ?class vann:usageNote ?usageNote . FILTER(LANGMATCHES(LANG(?usageNote), "en")) .} .
               OPTIONAL { ?class rdfs:isDefinedBy ?definedBy } .
               OPTIONAL { ?class wdsr:describedBy ?describedBy } .
               FILTER(STRSTARTS(STR(?class), "http://data.vlaanderen.be/ns")) .
@@ -399,7 +399,7 @@ def convert(rdf):
               OPTIONAL { ?class dcterms:identifier ?identifier } .
               ?class rdfs:comment ?comment .
               FILTER(LANGMATCHES(LANG(?comment), "nl")) .
-              OPTIONAL { ?class vann:usageNote ?usageNote } .
+              OPTIONAL { ?class vann:usageNote ?usageNote . FILTER(LANGMATCHES(LANG(?usageNote), "nl")) .} .
               OPTIONAL { ?class rdfs:isDefinedBy ?definedBy } .
               OPTIONAL { ?class wdsr:describedBy ?describedBy } .
               FILTER(STRSTARTS(STR(?class), "http://data.vlaanderen.be/ns")) .
@@ -445,7 +445,7 @@ def convert(rdf):
               FILTER(LANGMATCHES(LANG(?comment), "en")) .
               OPTIONAL { ?p rdfs:domain ?domain } .
               OPTIONAL { ?p rdfs:range ?range } .
-              OPTIONAL { ?p vann:usageNote ?usageNote } .
+              OPTIONAL { ?p vann:usageNote ?usageNote . FILTER(LANGMATCHES(LANG(?usageNote), "en")) .} .
               OPTIONAL { ?p rdfs:isDefinedBy ?definedBy } .
               OPTIONAL { ?p wdsr:describedBy ?describedBy } .
               FILTER(STRSTARTS(STR(?p), "http://data.vlaanderen.be/ns")) .
@@ -494,7 +494,7 @@ def convert(rdf):
               FILTER(LANGMATCHES(LANG(?comment), "nl")) .
               OPTIONAL { ?p rdfs:domain ?domain } .
               OPTIONAL { ?p rdfs:range ?range } .
-              OPTIONAL { ?p vann:usageNote ?usageNote } .
+              OPTIONAL { ?p vann:usageNote ?usageNote . FILTER(LANGMATCHES(LANG(?usageNote), "nl")) .} .
               OPTIONAL { ?p rdfs:isDefinedBy ?definedBy } .
               OPTIONAL { ?p wdsr:describedBy ?describedBy } .
               FILTER(STRSTARTS(STR(?p), "http://data.vlaanderen.be/ns")) .
