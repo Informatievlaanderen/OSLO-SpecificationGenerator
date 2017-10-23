@@ -73,6 +73,10 @@ def convert_csv(path):
     guid_entity = {entity['guid']: entity for entity in entities}
 
     for prop in properties:
+        if prop['domain_guid'] not in guid_entity:
+            # Property is an enum value
+            continue
+
         domain_entity = guid_entity[prop['domain_guid']]
         domain_entity['properties'].append(prop)
         prop['domain_label'] = domain_entity['label']
