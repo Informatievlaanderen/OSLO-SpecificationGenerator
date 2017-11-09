@@ -23,6 +23,8 @@ def convert_csv(path):
             if not header:
                 header = row
             else:
+                if (len(row) != len(header)):
+                    raise ValueError('Error reading csv file: rows have varying number of columns.')
                 item = {}
                 for i in range(0, len(row)):
                     item[header[i]] = row[i]
