@@ -28,6 +28,12 @@ def convert_csv(path):
                     item[header[i]] = row[i]
                 ap.append(item)
 
+    codelists = {}
+
+    for row in ap:
+        if "ENUMERATION" == row['EA-Type'] and row['ap-codelist']:
+            codelists[row['EA-Name']] = row['ap-codelist']
+
     entities = []
     properties = []
 
@@ -63,7 +69,7 @@ def convert_csv(path):
                                                  # which isn't guaranteed, but should be true.
                                                  # Attribute datatypes such as "String" will not have a matching entity.
                 'range_uri': row['range'],
-                'codelist_uri': row['ap-codelist'],
+                'codelist_uri': row['ap-codelist'] or codelists.get(row['EA-Range']),
                 'cardinality': cardinality,
                 'source_type': row['EA-Type'].lower()
             })
