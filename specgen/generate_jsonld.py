@@ -5,16 +5,17 @@ import getopt
 import csv
 
 
-HELP = "USAGE: 	generate_jsonld.py -i filename.tsv \n" \
-		"		generate_jsonld.py --input filename.tsv"
+HELP = "USAGE: 	generate_jsonld.py -i filename.tsv -o output.jsonld \n" \
+		"		generate_jsonld.py --input filename.tsv --output output.jsonld"
 
 def main(argv):
 
 	input_file = ''
+	output_file = ''
 
 	# check arguments
 	try: 
-		opts, args = getopt.getopt(argv,"hi:",["help","input="])
+		opts, args = getopt.getopt(argv,"hi:",["help","input=","output="])
 	except getopt.GetoptError:
 		print("ERROR - Incorrect arguments")
 		print(HELP)
@@ -29,16 +30,19 @@ def main(argv):
                         sys.exit(2)
                 elif opt in ("-i", "--input"):
                         input_file = arg
-                        # create jsonLD from inputfile
-                        generateJSONLD(input_file)
+                elif opt in ("-o", "--output"):
+                        output_file = arg
                 else:
                         print(HELP)
 
+	# create jsonLD from inputfile
+	generateJSONLD(input_file,output_file)
 
-def generateJSONLD(input_file):
+
+def generateJSONLD(input_file,output_file):
 	content = readFile(input_file) # returns tuple with classes and attributes/connectors
 	result = processInput(content) # returns the jsonld
-	writeOutput(input_file,result) # writes the jsonld to file
+	writeOutput(input_file,result,output_file) # writes the jsonld to file
 
 
 
@@ -80,17 +84,23 @@ def readFile(input_file):
 			#for connectors or attributes
 			if ea_type == "connector" or ea_type == "attribute":
 				attribute = ''
+				jsonld_label = ''
 
-				if ea_name in arr_already_outputted: 
-					continue
+				if namespace + localname in arr_already_outputted:
+					continue 
+				elif ea_name in arr_already_outputted:
+					jsonld_label = ea_domain + "." + ea_name
+					arr_already_outputted.append(ea_domain + "." + ea_name)
 				else:
+					jsonld_label = ea_name
 					arr_already_outputted.append(ea_name)
+					arr_already_outputted.append(namespace + localname)
 
 				##logic for ignoring enumeration attributes
 				if ea_domain in enums:
 					continue
 				
-				attribute += ("\t\t\"" + ea_name + "\":{\n") # e.g. "label":{
+				attribute += ("\t\t\"" + jsonld_label + "\":{\n") # e.g. "label":{
 				attribute += ("\t\t\t\"@id\":\"" + namespace + localname + "\",\n") # e.g. "@id":"http://example.com#name",
 				attribute +=("\t\t\t\"@type\":\"" + var_range + "\"") # e.g. "@type":"http://example.com#literal" 
 
@@ -140,19 +150,17 @@ def processInput(content):
 
 
 # write to output file
-def writeOutput(input_file, output): 
+def writeOutput(input_file, output, output_file): 
 	
-	#create name for outputfile
-	OUTPUTFILE = input_file.split('/')[-1][:-4] + '.jsonld' #e.g. digimelding-ap.tsv --> digimelding-ap.jsonld
 
 	#output file
-	output_file = open(OUTPUTFILE,"w") # open output file
+	OUTPUTFILE = open(output_file,"w") # open output file
 
-	output_file.write(output)
+	OUTPUTFILE.write(output)
 
-	output_file.close() #close output file
+	OUTPUTFILE.close() #close output file
 
-	print("Succesfully converted " + input_file + " to " + OUTPUTFILE)
+	print("Succesfully converted " + input_file + " to " + output_file)
 
 
 if __name__ == "__main__": main(sys.argv[1:])
