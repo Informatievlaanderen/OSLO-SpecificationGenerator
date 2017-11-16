@@ -6,7 +6,7 @@ import csv
 
 
 HELP = "USAGE: 	generate_jsonld.py -i filename.tsv -o output.jsonld \n" \
-		"		generate_jsonld.py --input filename.tsv --output.jsonld"
+		"		generate_jsonld.py --input filename.tsv --output output.jsonld"
 
 def main(argv):
 

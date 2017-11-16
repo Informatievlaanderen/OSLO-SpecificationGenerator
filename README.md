@@ -94,6 +94,13 @@ In this repository only Dutch application profiles are supported.
 ./specgen/generate_vocabulary.py --ap --rdf {path} --csv_contributor {csv_contributor_path} --output {output_path}
 ```
 
+### Generating a JSON-LD context file from an AP CSV
+
+
+```bash
+.generate_jsonld.py --input {csv_path} --output {output_path}
+```
+
 
 ## Development
 
