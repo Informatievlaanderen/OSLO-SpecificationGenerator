@@ -82,6 +82,7 @@ def convert(rdf):
            } LIMIT 1""")
 
     result += "[metadata]\n"
+    namespace = ""
 
     for row in qres:
         if row['v'] is not None:
@@ -90,6 +91,7 @@ def convert(rdf):
             result += "prefix=%s\n" % row['prefix']
         if row['pUri'] is not None:
             result += "prefUri=%s\n" % row['pUri']
+            namespace = row['pUri']
         if row['label'] is not None:
             result += "label=%s\n" % row['label']
         if row['title'] is not None:
@@ -232,7 +234,7 @@ def convert(rdf):
               { ?class a owl:Class } UNION { ?class a rdfs:Class } .
               ?class rdfs:label ?label .
               FILTER(LANGMATCHES(LANG(?label), "en"))
-              FILTER(STRSTARTS(STR(?class), "http://data.vlaanderen.be/ns"))
+              FILTER(STRSTARTS(STR(?class), '"""+namespace+"""'))
            } ORDER BY ?label""")
 
     classes = []
@@ -254,7 +256,7 @@ def convert(rdf):
               { ?class a owl:Class } UNION { ?class a rdfs:Class } .
               ?class rdfs:label ?label .
               FILTER(LANGMATCHES(LANG(?label), "nl")) .
-              FILTER(STRSTARTS(STR(?class), "http://data.vlaanderen.be/ns")) .
+              FILTER(STRSTARTS(STR(?class), '"""+namespace+"""')) .
            } ORDER BY ?label""")
 
     classes = []
@@ -277,7 +279,7 @@ def convert(rdf):
               ?p rdfs:label ?label .
               OPTIONAL { ?p rdfs:domain ?s . ?s rdfs:label ?sLabel . FILTER(LANGMATCHES(LANG(?sLabel), "en"))} .
               FILTER(LANGMATCHES(LANG(?label), "en")) .
-              FILTER(STRSTARTS(STR(?p), "http://data.vlaanderen.be/ns")) .
+              FILTER(STRSTARTS(STR(?p), '"""+namespace+"""')) .
            } ORDER BY ?label""")
 
     properties = []
@@ -303,7 +305,7 @@ def convert(rdf):
               ?p rdfs:label ?label .
               OPTIONAL { ?p rdfs:domain ?s . ?s rdfs:label ?sLabel . FILTER(LANGMATCHES(LANG(?sLabel), "nl")) } .
               FILTER(LANGMATCHES(LANG(?label), "nl")) .
-              FILTER(STRSTARTS(STR(?p), "http://data.vlaanderen.be/ns")) .
+              FILTER(STRSTARTS(STR(?p), '"""+namespace+"""')) .
            } ORDER BY ?label""")
 
     properties = []
@@ -331,7 +333,7 @@ def convert(rdf):
               FILTER(LANGMATCHES(LANG(?label), "nl")) .
               MINUS {
                 ?p rdfs:label ?label .
-                FILTER(STRSTARTS(STR(?p), "http://data.vlaanderen.be/ns"))
+                FILTER(STRSTARTS(STR(?p), '"""+namespace+"""'))
               } 
            } ORDER BY ?label""")
 
@@ -359,7 +361,7 @@ def convert(rdf):
               OPTIONAL { ?class vann:usageNote ?usageNote . FILTER(LANGMATCHES(LANG(?usageNote), "en")) .} .
               OPTIONAL { ?class rdfs:isDefinedBy ?definedBy } .
               OPTIONAL { ?class wdsr:describedBy ?describedBy } .
-              FILTER(STRSTARTS(STR(?class), "http://data.vlaanderen.be/ns")) .
+              FILTER(STRSTARTS(STR(?class), '"""+namespace+"""')) .
            } ORDER BY ?label""")
 
     for row in qres:
@@ -402,7 +404,7 @@ def convert(rdf):
               OPTIONAL { ?class vann:usageNote ?usageNote . FILTER(LANGMATCHES(LANG(?usageNote), "nl")) .} .
               OPTIONAL { ?class rdfs:isDefinedBy ?definedBy } .
               OPTIONAL { ?class wdsr:describedBy ?describedBy } .
-              FILTER(STRSTARTS(STR(?class), "http://data.vlaanderen.be/ns")) .
+              FILTER(STRSTARTS(STR(?class), '"""+namespace+"""')) .
            } ORDER BY ?label""")
 
     for row in qres:
@@ -448,7 +450,7 @@ def convert(rdf):
               OPTIONAL { ?p vann:usageNote ?usageNote . FILTER(LANGMATCHES(LANG(?usageNote), "en")) .} .
               OPTIONAL { ?p rdfs:isDefinedBy ?definedBy } .
               OPTIONAL { ?p wdsr:describedBy ?describedBy } .
-              FILTER(STRSTARTS(STR(?p), "http://data.vlaanderen.be/ns")) .
+              FILTER(STRSTARTS(STR(?p), '"""+namespace+"""')) .
            } ORDER BY ?label""")
 
     for row in qres:
@@ -497,7 +499,7 @@ def convert(rdf):
               OPTIONAL { ?p vann:usageNote ?usageNote . FILTER(LANGMATCHES(LANG(?usageNote), "nl")) .} .
               OPTIONAL { ?p rdfs:isDefinedBy ?definedBy } .
               OPTIONAL { ?p wdsr:describedBy ?describedBy } .
-              FILTER(STRSTARTS(STR(?p), "http://data.vlaanderen.be/ns")) .
+              FILTER(STRSTARTS(STR(?p), '"""+namespace+"""')) .
            } ORDER BY ?label""")
 
     for row in qres:
