@@ -137,7 +137,8 @@
                         <div class="region region">
                             <section id="abstract" class="introductory" property="dcterms:abstract" datatype="" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter">
                                 <h2 class="h2" aria-level="1" role="heading" id="h2_abstract">Samenvatting</h2>
-                                {% block summary %}
+                                <div class="region region--no-space-top typography" id="summary"> 
+				{% block summary %}
                                 <p>
                                 Het {{ record['metadata_nl']['title'] }} vocabularium specificeert een aantal klassen en eigenschappen om een {{ record['metadata_nl']['title'].lower() }} te beschrijven.
                                 </p>
@@ -145,13 +146,15 @@
                                 {{ record['metadata_nl']['abstract'] }}
                                 </p>
                                 {% endblock %}
+				</div>
                             </section>
                         </div>
 
                         <div class="region region--no-space-top">
                             <section class="introductory" id="sotd" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter">
                                 <h2 class="h2" aria-level="1" role="heading" id="h2_sotd">Status van dit document</h2>
-                                {% block status %}
+                                <div class="region region--no-space-top typography" id="status"> 
+				{% block status %}
                                 <p><em>Deze sectie beschrijft de status van dit document op het moment van publicatie. Het kan zijn dat er ondertussen al nieuwere versies zijn uitgebracht.</em></p><br/>
 
                                 <p>Een lijst van de recentste vocabularia is terug te vinden op <a href="http://data.vlaanderen.be/ns">http://data.vlaanderen.be/ns</a></p><br/>
@@ -168,6 +171,7 @@
                                 <p>Feedback op deze specificatie kan gegeven worden via de <a href="{{ record['metadata']['mmbox'] }}">mailing lijst</a> of als een topic in onze <a href="https://github.com/Informatievlaanderen/OSLO-Public-Discussion">publieke reviewdiscussielijst</a>.</p>
                                 {% endif %}
                                 {% endblock %}
+				</div>
                             </section>
                         </div>
 
