@@ -82,7 +82,7 @@ def readFile(input_file):
 						localname	= attribute['localname']
 						var_type 	= attribute['type']
 						var_range 	= attribute['range']
-						definition 	= attribute['ap-definition-nl']
+						definition 	= attribute['ap-definition-nl'].replace('\n', ' ')
 						mincard		= attribute['min card']
 						maxcard		= attribute['max card']
 						if ((ea_type == "attribute") or (ea_type == "connector")) and ea_domain == class_name:
@@ -92,9 +92,9 @@ def readFile(input_file):
 							classes[i].append("		sh:path <"+namespace+localname+"> ;\n")
 							if var_range != "":
 								classes[i].append("		sh:class <"+var_range+"> ;\n")
-							if mincard != "0":
+							if (mincard != "0") and (mincard != ""):
 								classes[i].append("		sh:minCount "+mincard+" ;\n")
-							if maxcard != "*":
+							if (maxcard != "*") and (maxcard != ""):
 								classes[i].append("		sh:maxCount "+maxcard+" ;\n")
 							classes[i].append("	] ;\n")
 				
