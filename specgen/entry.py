@@ -15,6 +15,7 @@ from jinja2.exceptions import TemplateNotFound
 from six.moves.configparser import ConfigParser
 
 from extractap import convert_csv
+from extractapcodelist import convert_codelist
 from extractap_from_rdf import convertap_from_rdf
 from extractcontributors import convert_contributor_csv
 from extractvoc import convert
@@ -153,7 +154,6 @@ def pretty_print(xml):
 
 def render_template(mcf, schema, schema_folder=None, **kwargs):
     """convenience function to render Jinja2 template"""
-
     LOGGER.debug('Evaluating schema path')
     if schema is None:
         msg = 'schema required'
@@ -229,6 +229,29 @@ def csv_catalog_to_ap(csv, schema, title, csv_contributor=None, csv_column=None,
     :return: string rendering of the template
     """
     entities_dict = convert_csv(csv)
+
+    if csv_contributor is not None and csv_column is not None:
+        contributors = convert_contributor_csv(csv_contributor, csv_column)
+    else:
+        contributors = {}
+
+    return render_template(None, schema, schema_folder, title=title,
+                           entities=entities_dict, contributors=contributors, now=datetime.utcnow())
+
+def csv_catalog_to_codelist(csv, schema, title, csv_contributor=None, csv_column=None, schema_folder=None):
+    """
+    Renders the codelist catalog using the specified template. In case csv_contributor and csv_column is set,
+    contributor info is added to the template.
+
+    :param csv: utf-8 encoded csv file of a entity/property/ontology catalog
+    :param title: the title of the AP, to be used in the rendered template
+    :param csv_contributor: utf-8 encoded file of contributors
+    :param csv_column: column name containing the role of each contributor
+    :param schema: built in template name
+    :param schema_folder: directory containing non-built-in template
+    :return: string rendering of the template
+    """
+    entities_dict = convert_codelist(csv, title)
 
     if csv_contributor is not None and csv_column is not None:
         contributors = convert_contributor_csv(csv_contributor, csv_column)

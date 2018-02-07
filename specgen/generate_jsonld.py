@@ -57,7 +57,7 @@ def readFile(input_file):
 	arr_already_outputted = [] #array to keep track of already outputted classes / attributes to avoid duplicates
 
 	# open file
-	with open(input_file) as tsvfile: 
+	with open(input_file, encoding="utf8") as tsvfile: 
 		reader = csv.DictReader(tsvfile, delimiter="\t", quotechar='"')
 
 		# loop through tsv file

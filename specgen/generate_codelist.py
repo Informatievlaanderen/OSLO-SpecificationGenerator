@@ -51,74 +51,59 @@ def readFile(input_file):
 	print('reading file: ' + input_file)
 
 	classes = []
+	namespace = "http://data.vlaanderen.be/id/conceptschema/"
 
 	arr_already_outputted = [] #array to keep track of already outputted classes / attributes to avoid duplicates
 
 	# open file
 	with open(input_file, encoding="utf8") as tsvfile: 
 		reader = csv.DictReader(tsvfile, delimiter="\t", quotechar='"')
+		header = False
 
 		# loop through tsv file
-		i = 0
 		for row in reader:
 
-			class_type 	= row['EA-Type'] 
-			class_name 	= row['EA-Name']
-			namespace	= row['namespace']
+			ea_type 	= row['EA-Type'] 
+			ea_name 	= row['EA-Name']
+			ea_package 	= row['EA-Package']
 			localname	= row['localname']
+			definition 	= row['ap-definition-nl']
+			note	 	= row['ap-usageNote-nl']
+			domain 		= row['EA-Domain']
 
-			if (class_type == "CLASS") or (class_type == "DATATYPE"):
-				classes.append([i])
-				classes[i].append("<"+namespace+localname+"Shape"+">\n")
-				classes[i].append("	a sh:NodeShape ;\n")
-				classes[i].append("	sh:targetClass <"+namespace+localname+"> ;\n")
-				with open(input_file, encoding="utf8") as tsvfile: 
-					reader2 = csv.DictReader(tsvfile, delimiter="\t", quotechar='"')
-					for attribute in reader2: 
-						ea_type 	= attribute['EA-Type'] 
-						ea_name 	= attribute['EA-Name']
-						ea_domain 	= attribute['EA-Domain']
-						namespace	= attribute['namespace']
-						localname	= attribute['localname']
-						var_type 	= attribute['type']
-						var_range 	= attribute['range']
-						definition 	= attribute['ap-definition-nl'].replace('\n', ' ')
-						mincard		= attribute['min card']
-						maxcard		= attribute['max card']
-						if ((ea_type == "attribute") or (ea_type == "connector")) and ea_domain == class_name:
-							classes[i].append("	sh:property [\n")
-							classes[i].append("		sh:name \""+ea_name+"\" ;\n")
-							classes[i].append("		sh:description \""+definition+"\" ;\n")
-							classes[i].append("		sh:path <"+namespace+localname+"> ;\n")
-							if var_range != "":
-								classes[i].append("		sh:class <"+var_range+"> ;\n")
-							if (mincard != "0") and (mincard != ""):
-								classes[i].append("		sh:minCount "+mincard+" ;\n")
-							if (maxcard != "*") and (maxcard != ""):
-								classes[i].append("		sh:maxCount "+maxcard+" ;\n")
-							classes[i].append("	] ;\n")
-				
-				classes[i].append("	sh:closed false .\n")
-				i += 1
+			if ea_type == "ENUMERATION":
+				classes.append("\<"+namespace+ea_name.replace(' ', '_')+">\n")
+				classes.append("    a skos:ConceptScheme ;\n")
+				classes.append("    rdfs:label \""+ea_name+"\"@nl .\n\n")
+
+			if (ea_type == "attribute") and (ea_package == "Codelijsten"):
+				classes.append("\<"+namespace+domain+"#"+ea_name.replace(' ', '_')+">\n")
+				classes.append("    a skos:Concept ;\n")
+				classes.append("    rdfs:label \""+ea_name+"\"@nl ;\n")
+				classes.append("    skos:definition \""+definition.replace('\"', '')+"\"@nl ;\n")
+				if note:
+					classes.append("    skos:note \""+note.replace('\"', '')+"\"@nl ;\n")
+				classes.append("    skos:notation \""+ea_name+"\"@nl ;\n")
+				classes.append("    skos:inScheme <"+namespace+domain+"> .\n\n")
 
 			
 		return (classes)
 
-# process input file, return SHACL
+# process input file, return SKOS Codelist
 def processInput(content):
 	print("process input")
 
 	result = ''
 	classes = content
-	#SHACL header
-	result += "@prefix sh:      <http://www.w3.org/ns/shacl#> .\n"
+	# header
+	result += "@prefix skos:      <http://www.w3.org/2004/02/skos/core#> .\n"
+	result += "@prefix rdfs:      <http://www.w3.org/2000/01/rdf-schema#> .\n\n"
 
 
 	# classes
 	for iClass in classes: 
 		for line in iClass[1:]:
 			result += line
-		result += "\n"
 
 	return result
 

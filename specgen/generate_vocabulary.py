@@ -6,7 +6,7 @@ import tempfile
 import os
 from lxml import etree as ET
 from entry import get_supported_schemas, voc_to_spec, \
-    voc_to_spec_from_rdf, csv_catalog_to_ap, merge_rdf, contributor_to_rdf
+    voc_to_spec_from_rdf, csv_catalog_to_ap, merge_rdf, contributor_to_rdf, csv_catalog_to_codelist
 
 SUPPORTED_SCHEMAS = get_supported_schemas()
 
@@ -28,6 +28,8 @@ SUPPORTED_SCHEMAS = get_supported_schemas()
               help='Name of output file')
 @click.option('--ap', is_flag=True,
               help='Output full AP instead of vocabulary')
+@click.option('--codelist', is_flag=True,
+              help='Output codelists')
 @click.option('--contributors', is_flag=True,
               help='Output RDF of authors, editors and contributors')
 @click.option('--merge', is_flag=True,
@@ -42,11 +44,11 @@ SUPPORTED_SCHEMAS = get_supported_schemas()
               type=click.Path(exists=True, resolve_path=True,
                               dir_okay=True, file_okay=False),
               help='Directory containing additional templates.')
-def process_args(rdf, rdf_contributor, csv_contributor, csv, ap, contributors,
+def process_args(rdf, rdf_contributor, csv_contributor, csv, ap, codelist, contributors,
                  merge, csv_contributor_role_column, schema, schema_folder, output, title):
     xml_output = False
 
-    if not ap and not contributors and not merge:
+    if not ap and not contributors and not merge and not codelist:
         if rdf is None:
             raise click.UsageError('Missing arguments input RDF --rdf {path}')
 
@@ -77,6 +79,31 @@ def process_args(rdf, rdf_contributor, csv_contributor, csv, ap, contributors,
         # Render the CSV catalog file using the template
         schema = schema or 'ap.j2'
         xml_output = csv_catalog_to_ap(csv, schema, title, csv_contributor=csv_contributor,
+                               csv_column=csv_contributor_role_column, schema_folder=schema_folder)
+
+    elif codelist:
+        if not title:
+            raise click.UsageError('Missing argument --title')
+
+        if not csv and not rdf:
+            raise click.UsageError('Missing argument --csv or --rdf')
+
+        if not csv and rdf:
+            # Convert the RDF to a CSV catalog file
+            csv_output = voc_to_spec_from_rdf(rdf, title)
+            xp = tempfile.mkdtemp()
+            xp = os.path.join(xp, title)
+            with open(xp, 'w') as csvfile:
+                writer = csv_engine.DictWriter(csvfile, fieldnames=csv_output.pop(0))
+                writer.writeheader()
+                for row in csv_output:
+                    writer.writerow(row)
+
+            csv = os.path.realpath(xp)
+
+        # Render the CSV catalog file using the template
+        schema = schema or 'codelist.j2'
+        xml_output = csv_catalog_to_codelist(csv, schema, title, csv_contributor=csv_contributor,
                                csv_column=csv_contributor_role_column, schema_folder=schema_folder)
 
     elif contributors:
