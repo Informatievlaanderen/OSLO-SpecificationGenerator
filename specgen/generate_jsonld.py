@@ -121,8 +121,8 @@ def processInput(content):
 
 	result = ''
 
-	classes = content[0]
-	attributes = content[1]
+	classes = sorted(content[0])
+	attributes = sorted(content[1])
 
 	#jsonld header
 	result += "{\n\t\"@context\":\n\t{\n"
