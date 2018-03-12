@@ -83,15 +83,18 @@ def readFile(input_file):
 						var_type 	= attribute['type']
 						var_range 	= attribute['range']
 						definition 	= attribute['ap-definition-nl'].replace('\n', ' ')
-						mincard		= attribute['min card']
-						maxcard		= attribute['max card']
+						mincard		= attribute['min card'].strip()
+						maxcard		= attribute['max card'].strip()
 						if ((ea_type == "attribute") or (ea_type == "connector")) and ea_domain == class_name:
 							classes[i].append("	sh:property [\n")
 							classes[i].append("		sh:name \""+ea_name+"\" ;\n")
 							classes[i].append("		sh:description \""+definition+"\" ;\n")
 							classes[i].append("		sh:path <"+namespace+localname+"> ;\n")
 							if var_range != "":
-								classes[i].append("		sh:class <"+var_range+"> ;\n")
+								if ("XMLSchema" in var_range) or ("Literal" in var_range) or ("langString" in var_range):
+									classes[i].append("		sh:datatype <"+var_range+"> ;\n")
+								else:
+									classes[i].append("		sh:class <"+var_range+"> ;\n")
 							if (mincard != "0") and (mincard != ""):
 								classes[i].append("		sh:minCount "+mincard+" ;\n")
 							if (maxcard != "*") and (maxcard != ""):
@@ -128,7 +131,7 @@ def writeOutput(input_file, output, output_file):
 	
 
 	#output file
-	OUTPUTFILE = open(output_file,"w") # open output file
+	OUTPUTFILE = open(output_file,"w",encoding="utf8") # open output file
 
 	OUTPUTFILE.write(output)
 

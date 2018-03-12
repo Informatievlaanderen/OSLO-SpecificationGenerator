@@ -154,7 +154,7 @@ def writeOutput(input_file, output, output_file):
 	
 
 	#output file
-	OUTPUTFILE = open(output_file,"w") # open output file
+	OUTPUTFILE = open(output_file,"w",encoding="utf8") # open output file
 
 	OUTPUTFILE.write(output)
 
