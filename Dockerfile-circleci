@@ -1,0 +1,12 @@
+FROM circleci/python:3 as builder
+
+CMD ["python", "/app/specgen/generate_vocabulary.py", "--help"]
+VOLUME /data
+
+WORKDIR /app
+RUN apt-get update && apt-get dist-upgrade -y && apt-get install -y build-essentials libxml2-dev libxslt-dev
+COPY requirements.txt /app/requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY templates/ /app/templates
+COPY specgen/ /app/specgen
