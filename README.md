@@ -82,7 +82,7 @@ To use another template, use the `--schema_folder` option to specify the folder 
 See the section on other schemes for more information.
 
 ```bash
-./specgen/generate_vocabulary.py --ap --csv {csv_path} --csv_contributor {csv_contributor_path} --output {output_path}
+./specgen/generate_vocabulary.py --ap --title {ap_title} --csv {csv_path} --csv_contributor {csv_contributor_path} --output {output_path}
 ```
 
 
@@ -91,7 +91,7 @@ See the section on other schemes for more information.
 In this repository only Dutch application profiles are supported.
 
 ```bash
-./specgen/generate_vocabulary.py --ap --rdf {path} --csv_contributor {csv_contributor_path} --output {output_path}
+./specgen/generate_vocabulary.py --ap --title {ap_title} --rdf {path} --csv_contributor {csv_contributor_path} --output {output_path}
 ```
 
 ### Generating a JSON-LD context file from an AP CSV
