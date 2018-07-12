@@ -57,19 +57,19 @@ Leave out the `--output` option to write to stdout instead of a file.
 ### Generating contributors RDF from CSV
 
 ```bash
-./specgen/generate_vocabulary.py --contributors --csv {csv_path} --csv_contributor_role_column {column} --output {output_path}
+./specgen/generate_vocabulary.py --contributors --csv {csv_path} --csv_contributor_role_column {column} --output {output_file_path}
 ```
 
 ### Merging contributors RDF with a vocabulary RDF
 
 ```bash
-./specgen/generate_vocabulary.py --merge --rdf {vocabulary_rdf_path} --rdf_contributor {contributors_rdf_path} --output {output_path}
+./specgen/generate_vocabulary.py --merge --rdf {vocabulary_rdf_path} --rdf_contributor {contributors_rdf_path} --output {output_file_path}
 ```
 
 ### Generating vocabulary HTML specification from RDF
 
 ```bash
-./specgen/generate_vocabulary.py --rdf {rdf_path} --output {output_path}
+./specgen/generate_vocabulary.py --rdf {rdf_path} --output {output_file_path}
 ```
 
 ### Generating application profile in HTML from an AP CSV
@@ -82,7 +82,7 @@ To use another template, use the `--schema_folder` option to specify the folder 
 See the section on other schemes for more information.
 
 ```bash
-./specgen/generate_vocabulary.py --ap --title {ap_title} --csv {csv_path} --csv_contributor {csv_contributor_path} --output {output_path}
+./specgen/generate_vocabulary.py --ap --title {ap_title} --csv {csv_path} --csv_contributor {csv_contributor_path} --output {output_file_path}
 ```
 
 
@@ -91,14 +91,14 @@ See the section on other schemes for more information.
 In this repository only Dutch application profiles are supported.
 
 ```bash
-./specgen/generate_vocabulary.py --ap --title {ap_title} --rdf {path} --csv_contributor {csv_contributor_path} --output {output_path}
+./specgen/generate_vocabulary.py --ap --title {ap_title} --rdf {path} --csv_contributor {csv_contributor_path} --output {output_file_path}
 ```
 
 ### Generating a JSON-LD context file from an AP CSV
 
 
 ```bash
-.generate_jsonld.py --input {csv_path} --output {output_path}
+.generate_jsonld.py --input {csv_path} --output {output_file_path}
 ```
 
 
