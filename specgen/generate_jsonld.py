@@ -14,7 +14,7 @@ def main(argv):
 	output_file = ''
 
 	# check arguments
-	try: 
+	try:
 		opts, args = getopt.getopt(argv,"hi:",["help","input=","output="])
 	except getopt.GetoptError:
 		print("ERROR - Incorrect arguments")
@@ -57,13 +57,13 @@ def readFile(input_file):
 	arr_already_outputted = [] #array to keep track of already outputted classes / attributes to avoid duplicates
 
 	# open file
-	with open(input_file, encoding="utf8") as tsvfile: 
+	with open(input_file, encoding="utf8") as tsvfile:
 		reader = csv.DictReader(tsvfile, delimiter="\t", quotechar='"')
 
 		# loop through tsv file
 		for row in reader:
 
-			ea_type 	= row['EA-Type'] 
+			ea_type 	= row['EA-Type']
 			ea_package 	= row['EA-Package']
 			ea_name 	= row['EA-Name']
 			ea_domain 	= row['EA-Domain']
@@ -76,7 +76,7 @@ def readFile(input_file):
 			#for classes
 			if ea_type == "CLASS":
 				classes.append("\t\t\"" + ea_name + "\":\"" + namespace + localname + "\"")
-				
+
 			#for enumerations
 			if ea_type == "ENUMERATION":
 				enums.append(ea_name)
@@ -87,7 +87,7 @@ def readFile(input_file):
 				jsonld_label = ''
 
 				if namespace + localname in arr_already_outputted:
-					continue 
+					continue
 				elif ea_name in arr_already_outputted:
 					jsonld_label = ea_domain + "." + ea_name
 					arr_already_outputted.append(ea_domain + "." + ea_name)
@@ -99,14 +99,14 @@ def readFile(input_file):
 				##logic for ignoring enumeration attributes
 				if ea_domain in enums:
 					continue
-				
+
 				attribute += ("\t\t\"" + jsonld_label + "\":{\n") # e.g. "label":{
 				attribute += ("\t\t\t\"@id\":\"" + namespace + localname + "\",\n") # e.g. "@id":"http://example.com#name",
-				attribute +=("\t\t\t\"@type\":\"" + var_range + "\"") # e.g. "@type":"http://example.com#literal" 
+				attribute +=("\t\t\t\"@type\":\"" + var_range + "\"") # e.g. "@type":"http://example.com#literal"
 
 				if cardinality == '*':
 					attribute += (",\n\t\t\t\"@container\":\"@set\"\n")
-				else: 
+				else:
 					attribute += ("\n")
 
 				attribute +=("\t\t}") #e.g. },
@@ -129,7 +129,7 @@ def processInput(content):
 
 
 	# classes
-	for iClass in classes: 
+	for iClass in classes:
 		result += iClass + ",\n"
 
 	result += "\n"
@@ -139,9 +139,9 @@ def processInput(content):
 		if row == len(attributes)-1:
 			result += iAttributes + "\n" # no comma for last attribute
 		else:
-			result += iAttributes + ",\n" 
+			result += iAttributes + ",\n"
 		row += 1
-		
+
 	#footer jsonld
 	result += "\t}\n}"
 
@@ -150,8 +150,11 @@ def processInput(content):
 
 
 # write to output file
-def writeOutput(input_file, output, output_file): 
-	
+def writeOutput(input_file, output, output_file):
+
+    # Write to specified file
+    if not os.path.exists(os.path.dirname(output_file.name)):
+        os.makedirs(os.path.dirname(output_file.name))
 
 	#output file
 	OUTPUTFILE = open(output_file,"w") # open output file

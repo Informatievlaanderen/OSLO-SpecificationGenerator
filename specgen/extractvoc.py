@@ -334,7 +334,7 @@ def convert(rdf):
               MINUS {
                 ?p rdfs:label ?label .
                 FILTER(STRSTARTS(STR(?p), '"""+namespace+"""'))
-              } 
+              }
            } ORDER BY ?label""")
 
     externals = []
@@ -384,7 +384,7 @@ def convert(rdf):
                         PREFIXES +
                         """SELECT DISTINCT ?parent
                            WHERE {
-                              <%s> rdfs:subClassOf ?parent . 
+                              <%s> rdfs:subClassOf ?parent .
                            }""" % row['class'])
             for p in pres:
                 parents.append(p['parent'])
@@ -428,7 +428,7 @@ def convert(rdf):
                         PREFIXES +
                         """SELECT DISTINCT ?parent
                            WHERE {
-                              <%s> rdfs:subClassOf ?parent . 
+                              <%s> rdfs:subClassOf ?parent .
                            }""" % row['class'])
             for p in pres:
                 parents.append(p['parent'])
@@ -477,7 +477,7 @@ def convert(rdf):
                         PREFIXES +
                         """SELECT DISTINCT ?parent
                            WHERE {
-                              <%s> rdfs:subPropertyOf ?parent . 
+                              <%s> rdfs:subPropertyOf ?parent .
                            }""" % row['p'])
             for p in pres:
                 parents.append(p['parent'])
@@ -503,6 +503,7 @@ def convert(rdf):
            } ORDER BY ?label""")
 
     for row in qres:
+        print(row)
         if row['p'] is not None:
             result += '\n[property_nl:%s]\n' % row['p']
             if row['label'] is not None:
@@ -526,7 +527,7 @@ def convert(rdf):
                         PREFIXES +
                         """SELECT DISTINCT ?parent
                            WHERE {
-                              <%s> rdfs:subPropertyOf ?parent . 
+                              <%s> rdfs:subPropertyOf ?parent .
                            }""" % row['p'])
             for p in pres:
                 parents.append(p['parent'])
