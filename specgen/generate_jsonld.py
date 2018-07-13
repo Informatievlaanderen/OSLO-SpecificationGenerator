@@ -3,167 +3,175 @@
 import sys
 import getopt
 import csv
+import os
 
 
 HELP = "USAGE: 	generate_jsonld.py -i filename.tsv -o output.jsonld \n" \
-		"		generate_jsonld.py --input filename.tsv --output output.jsonld"
+    "		generate_jsonld.py --input filename.tsv --output output.jsonld"
+
 
 def main(argv):
 
-	input_file = ''
-	output_file = ''
+    input_file = ''
+    output_file = ''
 
-	# check arguments
-	try:
-		opts, args = getopt.getopt(argv,"hi:",["help","input=","output="])
-	except getopt.GetoptError:
-		print("ERROR - Incorrect arguments")
-		print(HELP)
-		sys.exit(2)
+    # check arguments
+    try:
+        opts, args = getopt.getopt(argv, "hi:", ["help", "input=", "output="])
+    except getopt.GetoptError:
+        print("ERROR - Incorrect arguments")
+        print(HELP)
+        sys.exit(2)
 
-	if len(opts) == 0:
-		print(HELP)
+    if len(opts) == 0:
+        print(HELP)
 
-	for opt, arg in opts:
-                if opt == '-h':
-                        print(HELP)
-                        sys.exit(2)
-                elif opt in ("-i", "--input"):
-                        input_file = arg
-                elif opt in ("-o", "--output"):
-                        output_file = arg
-                else:
-                        print(HELP)
+    for opt, arg in opts:
+        if opt == '-h':
+            print(HELP)
+            sys.exit(2)
+        elif opt in ("-i", "--input"):
+            input_file = arg
+        elif opt in ("-o", "--output"):
+            output_file = arg
+        else:
+            print(HELP)
 
-	# create jsonLD from inputfile
-	generateJSONLD(input_file,output_file)
+    # create jsonLD from inputfile
+    generateJSONLD(input_file, output_file)
 
 
-def generateJSONLD(input_file,output_file):
-	content = readFile(input_file) # returns tuple with classes and attributes/connectors
-	result = processInput(content) # returns the jsonld
-	writeOutput(input_file,result,output_file) # writes the jsonld to file
-
+def generateJSONLD(input_file, output_file):
+    # returns tuple with classes and attributes/connectors
+    content = readFile(input_file)
+    result = processInput(content)  # returns the jsonld
+    writeOutput(input_file, result, output_file)  # writes the jsonld to file
 
 
 # read file and return tuple with classes and attributes/connectors
 def readFile(input_file):
-	print('reading file: ' + input_file)
+    print('reading file: ' + input_file)
 
-	classes = []
-	enums = []
-	attributes = []
+    classes = []
+    enums = []
+    attributes = []
 
-	arr_already_outputted = [] #array to keep track of already outputted classes / attributes to avoid duplicates
+    # array to keep track of already outputted classes / attributes to avoid duplicates
+    arr_already_outputted = []
 
-	# open file
-	with open(input_file, encoding="utf8") as tsvfile:
-		reader = csv.DictReader(tsvfile, delimiter="\t", quotechar='"')
+    # open file
+    with open(input_file, encoding="utf8") as tsvfile:
+        reader = csv.DictReader(tsvfile, delimiter="\t", quotechar='"')
 
-		# loop through tsv file
-		for row in reader:
+        # loop through tsv file
+        for row in reader:
 
-			ea_type 	= row['EA-Type']
-			ea_package 	= row['EA-Package']
-			ea_name 	= row['EA-Name']
-			ea_domain 	= row['EA-Domain']
-			namespace	= row['namespace']
-			localname	= row['localname']
-			var_type 	= row['type']
-			var_range 	= row['range']
-			cardinality	= row['max card']
+            ea_type = row['EA-Type']
+            ea_package = row['EA-Package']
+            ea_name = row['EA-Name']
+            ea_domain = row['EA-Domain']
+            namespace = row['namespace']
+            localname = row['localname']
+            var_type = row['type']
+            var_range = row['range']
+            cardinality = row['max card']
 
-			#for classes
-			if ea_type == "CLASS":
-				classes.append("\t\t\"" + ea_name + "\":\"" + namespace + localname + "\"")
+            # for classes
+            if ea_type == "CLASS":
+                classes.append("\t\t\"" + ea_name + "\":\"" +
+                               namespace + localname + "\"")
 
-			#for enumerations
-			if ea_type == "ENUMERATION":
-				enums.append(ea_name)
+            # for enumerations
+            if ea_type == "ENUMERATION":
+                enums.append(ea_name)
 
-			#for connectors or attributes
-			if ea_type == "connector" or ea_type == "attribute":
-				attribute = ''
-				jsonld_label = ''
+            # for connectors or attributes
+            if ea_type == "connector" or ea_type == "attribute":
+                attribute = ''
+                jsonld_label = ''
 
-				if namespace + localname in arr_already_outputted:
-					continue
-				elif ea_name in arr_already_outputted:
-					jsonld_label = ea_domain + "." + ea_name
-					arr_already_outputted.append(ea_domain + "." + ea_name)
-				else:
-					jsonld_label = ea_name
-					arr_already_outputted.append(ea_name)
-					arr_already_outputted.append(namespace + localname)
+                if namespace + localname in arr_already_outputted:
+                    continue
+                elif ea_name in arr_already_outputted:
+                    jsonld_label = ea_domain + "." + ea_name
+                    arr_already_outputted.append(ea_domain + "." + ea_name)
+                else:
+                    jsonld_label = ea_name
+                    arr_already_outputted.append(ea_name)
+                    arr_already_outputted.append(namespace + localname)
 
-				##logic for ignoring enumeration attributes
-				if ea_domain in enums:
-					continue
+                # logic for ignoring enumeration attributes
+                if ea_domain in enums:
+                    continue
 
-				attribute += ("\t\t\"" + jsonld_label + "\":{\n") # e.g. "label":{
-				attribute += ("\t\t\t\"@id\":\"" + namespace + localname + "\",\n") # e.g. "@id":"http://example.com#name",
-				attribute +=("\t\t\t\"@type\":\"" + var_range + "\"") # e.g. "@type":"http://example.com#literal"
+                attribute += ("\t\t\"" + jsonld_label +
+                              "\":{\n")  # e.g. "label":{
+                # e.g. "@id":"http://example.com#name",
+                attribute += ("\t\t\t\"@id\":\"" +
+                              namespace + localname + "\",\n")
+                # e.g. "@type":"http://example.com#literal"
+                attribute += ("\t\t\t\"@type\":\"" + var_range + "\"")
 
-				if cardinality == '*':
-					attribute += (",\n\t\t\t\"@container\":\"@set\"\n")
-				else:
-					attribute += ("\n")
+                if cardinality == '*':
+                    attribute += (",\n\t\t\t\"@container\":\"@set\"\n")
+                else:
+                    attribute += ("\n")
 
-				attribute +=("\t\t}") #e.g. },
+                attribute += ("\t\t}")  # e.g. },
 
-				attributes.append(attribute)
+                attributes.append(attribute)
 
-	return (classes,attributes)
+    return (classes, attributes)
 
 # process input file, return jsonld
+
+
 def processInput(content):
-	print("process input")
+    print("process input")
 
-	result = ''
+    result = ''
 
-	classes = sorted(content[0])
-	attributes = sorted(content[1])
+    classes = sorted(content[0])
+    attributes = sorted(content[1])
 
-	#jsonld header
-	result += "{\n\t\"@context\":\n\t{\n"
+    # jsonld header
+    result += "{\n\t\"@context\":\n\t{\n"
 
+    # classes
+    for iClass in classes:
+        result += iClass + ",\n"
 
-	# classes
-	for iClass in classes:
-		result += iClass + ",\n"
+    result += "\n"
 
-	result += "\n"
+    row = 0
+    for iAttributes in attributes:
+        if row == len(attributes) - 1:
+            result += iAttributes + "\n"  # no comma for last attribute
+        else:
+            result += iAttributes + ",\n"
+        row += 1
 
-	row = 0
-	for iAttributes in attributes:
-		if row == len(attributes)-1:
-			result += iAttributes + "\n" # no comma for last attribute
-		else:
-			result += iAttributes + ",\n"
-		row += 1
+    # footer jsonld
+    result += "\t}\n}"
 
-	#footer jsonld
-	result += "\t}\n}"
-
-
-	return result
+    return result
 
 
 # write to output file
 def writeOutput(input_file, output, output_file):
-
     # Write to specified file
-    if not os.path.exists(os.path.dirname(output_file.name)):
-        os.makedirs(os.path.dirname(output_file.name))
+    if not os.path.exists(os.path.dirname(output_file)):
+        os.makedirs(os.path.dirname(output_file))
 
-	#output file
-	OUTPUTFILE = open(output_file,"w") # open output file
+        # output file
+        OUTPUTFILE = open(output_file, "w")  # open output file
 
-	OUTPUTFILE.write(output)
+        OUTPUTFILE.write(output)
 
-	OUTPUTFILE.close() #close output file
+        OUTPUTFILE.close()  # close output file
 
-	print("Succesfully converted " + input_file + " to " + output_file)
+        print("Succesfully converted " + input_file + " to " + output_file)
 
 
-if __name__ == "__main__": main(sys.argv[1:])
+if __name__ == "__main__":
+    main(sys.argv[1:])
