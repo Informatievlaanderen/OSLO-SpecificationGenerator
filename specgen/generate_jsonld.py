@@ -60,7 +60,7 @@ def readFile(input_file):
     arr_already_outputted = []
 
     # open file
-    with open(input_file, encoding="utf8") as tsvfile:
+    with open(input_file, encoding="utf-8") as tsvfile:
         reader = csv.DictReader(tsvfile, delimiter="\t", quotechar='"')
 
         # loop through tsv file
@@ -164,7 +164,7 @@ def writeOutput(input_file, output, output_file):
         os.makedirs(os.path.dirname(output_file))
 
         # output file
-        OUTPUTFILE = open(output_file, "w")  # open output file
+        OUTPUTFILE = open(output_file, "w", encoding='utf-8')  # open output file
 
         OUTPUTFILE.write(output)
 

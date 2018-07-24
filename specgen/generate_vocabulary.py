@@ -66,7 +66,7 @@ def process_args(rdf, rdf_contributor, csv_contributor, csv, ap, contributors,
             csv_output = voc_to_spec_from_rdf(rdf, title)
             xp = tempfile.mkdtemp()
             xp = os.path.join(xp, title)
-            with open(xp, 'w') as csvfile:
+            with open(xp, 'w', encoding='utf-8') as csvfile:
                 writer = csv_engine.DictWriter(csvfile, fieldnames=csv_output.pop(0))
                 writer.writeheader()
                 for row in csv_output:
