@@ -162,7 +162,7 @@ def render_template(mcf, schema, schema_folder=None, **kwargs):
 
     template_folders = [TEMPLATES]
     if schema_folder:
-        template_folders.append(template_folders)
+        template_folders.append(schema_folder)
 
     def debug(text):
         print(text)
