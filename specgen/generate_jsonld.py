@@ -163,14 +163,14 @@ def writeOutput(input_file, output, output_file):
     if not os.path.exists(os.path.dirname(output_file)):
         os.makedirs(os.path.dirname(output_file))
 
-        # output file
-        OUTPUTFILE = open(output_file, "w", encoding='utf-8')  # open output file
+    # output file
+    OUTPUTFILE = open(output_file, "w", encoding='utf-8')  # open output file
 
-        OUTPUTFILE.write(output)
+    OUTPUTFILE.write(output)
 
-        OUTPUTFILE.close()  # close output file
+    OUTPUTFILE.close()  # close output file
 
-        print("Succesfully converted " + input_file + " to " + output_file)
+    print("Succesfully converted " + input_file + " to " + output_file)
 
 
 if __name__ == "__main__":
