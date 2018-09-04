@@ -1,8 +1,10 @@
 {% extends "ap.j2" %}
 
 {% block summary %}
-<p>Dit applicatieprofiel beschrijft een specificatie voor het structureren en uitwisselen van meldingen met betrekking tot een bepaald probleem of een vaststelling die mogelijks aanleiding geeft tot een actie van de overheid. De melding kan gebruikt worden voor vaststellingen in de echte wereld, bijvoorbeeld het melden van een put in de weg of sluikstort, of voor het melden van fouten of onvolledigheden in digitale gegevensbronnen.</p>
-<p>Om (automatische) dispatching toe te laten werd een melding voorzien van relaties met verschillende agenten die als actor optreden tijdens de afhandeling van een melding. Verder laat een melding body toe om extra informatie m.b.t. de melding toe te voegen, zoals een foto, coördinaten of een uitgebreide beschrijvingen van het probleem.</p>
+    <p>De Generieke Terugmeldfaciliteit voorziet in het opzetten van een generiek mechanisme voor gebruikers van digitaal
+verstrekte informatie om fouten en onvolledigheden in deze informatie terug te melden aan de
+verantwoordelijke bronbeheerder. Dit applicatieprofiel definieert een data specificatie voor gegevensuitwisseling met en tussen implementaties van deze bouwsteen.</p>
+<p>Een terugmelding, afgeleid van de generieke klasse Melding, wordt gelinkt aan een body en een doelwit (een meldingsobject). De body is gerelateerd aan het meldingsobject en verschaft additionele informatie aan de behandelaar van de terugmelding, bijvoorbeeld in de vorm van ingescande documenten ter staving van de terugmelding. Verder worden mechanismen voorzien die toelaten om een terugmelding te dispatchen, bijvoorbeeld op basis van de bronhouder van de dataset waar het meldingsobject in beheerd wordt.</p>
 {% endblock %}
 
 {% block status %}<p>Dit applicatieprofiel dient om het specifieke gebruik van de entiteiten relevant voor de beschreven applicatie te verduidelijken.</p>
@@ -33,5 +35,5 @@ Dergelijke bijkomende beperkingen kunnen de volgende elementen bevatten:</p>
 {% endblock %}
 
 {% block jsonld %}
-<p>Een herbruikbare JSON-LD context definitie voor dit applicatieprofiel is terug te vinden op: <a href="../../../context/melding.jsonld" target="_blank">http://data.vlaanderen.be/context/melding.jsonld</a></p>
+<p>Een herbruikbare JSON-LD context definitie voor dit applicatieprofiel is terug te vinden op: <a href="../../../context/terugmelding.jsonld" target="_blank">http://data.vlaanderen.be/context/terugmelding.jsonld</a></p>
 {% endblock %}

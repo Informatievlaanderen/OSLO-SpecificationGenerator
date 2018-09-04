@@ -1,17 +1,7 @@
 {% extends "ap.j2" %}
 
 {% block summary %}
-<p>
-Dit is een applicatieprofiel op de <a href="http://data.vlaanderen.be/ns/dienst">OSLO-Dienst</a>, <a href="http://data.vlaanderen.be/ns/subsidie">OSLO-Subsidie</a> en <a href="http://data.vlaanderen.be/ns/transactie">OSLO-Transactie</a> vocabularia. Deze specificatie beschrijft een informatiemodel voor een <a href="https://overheid.vlaanderen.be/subsidieregister" target="_blank">Subsidieregister</a>. Een subsidieregister helpt entiteiten om een transparant overzicht te creëren in het kader van staatssteun. De overheid moet in staat zijn een overzicht te bieden van de steun die ze verleent aan derden. De informatie in dit applicatieprofiel zal typisch niet in één databank worden opgeslagen worden, maar verzameld uit dienstverleningsregisters, organisatieregisters en dossierbehandelingssystemen. De geharmoniseerde data kan dienen om het subsidiebeleid te monitoren, dubbele subsidiëring te detecteren en vlotter informatie uit te wisselen tussen de entiteiten van de Vlaamse overheid. De achterliggende standaarden die gebruikt werden om deze specificatie op te stellen zijn de ISA <a href="https://joinup.ec.europa.eu/solution/core-public-service-vocabulary-application-profile">Core Public Service Application Profile</a> en <a href="https://joinup.ec.europa.eu/news/new-vocabulary-publishing">State Aid Vocabulary</a>.
-</p>
-
-<p>
-De consumptie van een bepaalde Subsidiemaatregel (de concrete aanvraag door een burger of onderneming) is telkens een instantie van een Publieke Dienstverlening langs de aanbodzijde. Concreet betekend dit dat alleen subsidiemaatregelen kunnen geconsumeerd worden die gedefinieerd zijn in een dienstverleningsregister. Naast een consument kunnen tal van andere Agenten een rol spelen in het afleveren van een bepaalde publieke dienst. De Agent die de dienst uitvoert en dus optreed als dienstverlener is expliciet opgenomen in het informatiemodel, maar daarnaast is voorzien in een generieke entiteit 'Participatie' die toelaat om voor een specifieke toepassing of business context een aantal rollen te specifi&#235;ren, mogelijke voorbeelden zijn die van expertencommissie, betrokkene, adviesorgaan... Verder is de consumptie van een Subsidiemaatregel gelinkt aan een rechtsgrond die de toekenning van de subsidiemaatregel aan een bepaalde Agent beschrijft, dit omvat onder meer het toegekend bedrag, de gesubsidieerde activiteit en de gesubsidieerde periode.
-</p>
-
-<p>
-Uiteindelijke zal de dienstverlening leiden tot een bepaalde Output, in de context van subsidies neemt deze Output de vorm aan van een Financieel Voordeel. Naast de uiteindelijke Output van een dienst worden typisch heel wat tussentijdse documenten bijgehouden in de vorm van een Dossier. Een Dossier is in dit informatiemodel voorzien als het geheel aan werk gedaan om tot een bestuurlijke of zakelijke beslissing te komen. Een dossier slaat doorgaans neer in een verzameling documenten. De verdere uitwerking van hoe een Dossier beschreven wordt valt buiten de scope van dit applicatieprofiel, er wordt enkel gespecifieerd dat een dossier een bepaald referentienummer heeft en dat als onderdeel van het onderliggend administratief proces, een bepaald subsidiebedrag kan worden vastgelegd in bijvoorbeeld een boekhoudsystemen voor latere uitbetaling.
-</p>
+    <p>Dit is een applicatieprofiel op het <a href="http://data.vlaanderen.be/ns/dienst">OSLO-Dienst vocabularium</a> en de uitbreiding <a href="http://data.vlaanderen.be/ns/subsidie">OSLO-Subsidie vocabularium</a>. Het beschrijft hoe informatie met betrekking tot subsidiemaatregelen kan ontsloten worden in een subsidieregister.</p>
 {% endblock %}
 
 {% block status %}
