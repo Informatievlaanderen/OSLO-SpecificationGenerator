@@ -6,7 +6,7 @@ import tempfile
 import os
 from lxml import etree as ET
 from entry import get_supported_schemas, voc_to_spec, \
-    voc_to_spec_from_rdf, csv_catalog_to_ap, add_contributors
+    voc_to_spec_from_rdf, csv_catalog_to_ap, add_contributors_to_rdf
 
 SUPPORTED_SCHEMAS = get_supported_schemas()
 
@@ -86,7 +86,7 @@ def process_args(rdf, rdf_contributor, csv_contributor, csv, ap, add_contributor
             raise click.UsageError('Missing arguments --csv_contributor_role_column {column}')
         
         # Inserts contributors triples into the owl:Ontology contained in the rdf file
-        result = add_contributors(csv, csv_contributor_role_column, rdf)
+        result = add_contributors_to_rdf(csv, csv_contributor_role_column, rdf)
         if output is None:
             click.echo_via_pager(result)
         else:

@@ -241,7 +241,7 @@ def csv_catalog_to_ap(csv, schema, title, csv_contributor=None, csv_column=None,
                            entities=entities_dict, contributors=contributors, now=datetime.utcnow())
 
 
-def add_contributors(csv, column, voc):
+def add_contributors_to_rdf(csv, column, voc):
     """
     Add contributor statements to the ontology included in voc (which is a file containing rdf somewhere on disk)
 
