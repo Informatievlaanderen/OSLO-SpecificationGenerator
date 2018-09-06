@@ -10,6 +10,8 @@ from xml.dom import minidom
 
 import lxml.etree as ET
 import rdflib
+from rdflib import Literal, BNode, URIRef
+from rdflib.namespace import FOAF, DCTERMS, RDF
 from jinja2 import Environment, FileSystemLoader
 from jinja2.exceptions import TemplateNotFound
 from six.moves.configparser import ConfigParser
@@ -239,43 +241,64 @@ def csv_catalog_to_ap(csv, schema, title, csv_contributor=None, csv_column=None,
                            entities=entities_dict, contributors=contributors, now=datetime.utcnow())
 
 
-def contributor_to_rdf(csv, voc, schema, schema_folder=None):
+def add_contributors(csv, column, voc):
     """
-    Renders the CSV of contributors using the specified schema.
+    Add contributor statements to the ontology included in voc (which is a file containing rdf somewhere on disk)
 
     :param csv: path to utf-8 encoded file of contributors
-    :param voc: header of the contributor role in the csv
-    :param schema: name of built-in template
-    :param schema_folder: directory containing non-built-in template
-    :return: string containing the rendered template
-    """
-    contributors = convert_contributor_csv(csv, voc)
-
-    return render_template(None, schema, schema_folder, contributors=contributors, voc_name=voc.lower())
-
-
-def merge_rdf(rdf1, rdf2):
-    """
-    Reads both specified RDF files, outputs a turtle string of the merged graph.
-
-    :param rdf1: path to first file
-    :param rdf2: path to second file
-    :return: a string containing turtle of both files
+    :param column: header of the contributor role in the csv
+    :param voc: path to utf-8 encoded file with the ontology to add contributors to
+    :return: the resulting ontology in turtle format as a string
     """
     g = rdflib.Graph()
-    if rdf1.endswith('.xml'):
-        g.parse(os.path.realpath(rdf1),
-                format='xml')
+    if voc.endswith('.ttl'):
+        g.parse(os.path.realpath(voc), format='turtle')
     else:
-        g.parse(os.path.realpath(rdf1),
-                format=rdflib.util.guess_format(os.path.realpath(rdf1)))
-    if rdf1.endswith('.xml'):
-        g.parse(os.path.realpath(rdf2),
-                format='xml')
-    else:
-        g.parse(os.path.realpath(rdf2),
-                format=rdflib.util.guess_format(os.path.realpath(rdf2)))
+        g.parse(os.path.realpath(voc))
+    contributors = convert_contributor_csv(csv, column)
 
+    qres = g.query(
+        """
+        select ?s where {
+            ?s a owl:Ontology.
+        }
+        """
+    )
+    if len(qres) != 1:
+        raise ValueError('RDF input should contain exactly 1 owl:Ontology')
+    for row in qres:
+        ontology = row['s']
+
+    license = URIRef('https://overheid.vlaanderen.be/sites/default/files/documenten/ict-egov/licenties/hergebruik/modellicentie_gratis_hergebruik_v1_0.html')
+    mediator = BNode()
+    g.add((ontology, DCTERMS.license, license))
+    g.add((ontology, DCTERMS.mediator, mediator))
+    g.add((mediator, FOAF.name, Literal('Data Vlaanderen')))
+    g.add((mediator, FOAF.mbox, URIRef('mailto:oslo@kb.vlaanderen.be')))
+    g.add((mediator, FOAF.homepage, URIRef('https://data.vlaanderen.be')))
+
+    for contributor in contributors:
+        cnode = BNode()
+        affiliation = BNode()
+        affiliationPredicate = URIRef('http://schema.org/affiliation')
+        if contributor['role'] == 'C':
+            contributor_type = DCTERMS.contributor
+        elif contributor['role'] == 'E':
+            contributor_type = URIRef('http://www.w3.org/2001/02pd/rec54#editor')
+        elif contributor['role'] == 'A':
+            contributor_type = FOAF.maker
+        else:
+            continue
+        g.add((ontology, contributor_type, cnode))
+        g.add((cnode, RDF.type, FOAF.person))
+        g.add((cnode, FOAF.firstName, Literal(contributor['first_name'])))
+        g.add((cnode, FOAF.lastName, Literal(contributor['last_name'])))
+        g.add((cnode, affiliationPredicate, affiliation))
+        g.add((affiliation, FOAF.name, Literal(contributor['affiliation_name'])))
+        g.add((affiliation, FOAF.homepage, URIRef(contributor['affiliation_website'])))
+        if contributor['email'] is not None:
+            g.add((cnode, FOAF.mbox, URIRef(contributor['email'])))
+        
     return g.serialize(format='turtle')
 
 

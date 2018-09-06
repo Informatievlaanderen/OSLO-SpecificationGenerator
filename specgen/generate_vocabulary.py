@@ -6,7 +6,7 @@ import tempfile
 import os
 from lxml import etree as ET
 from entry import get_supported_schemas, voc_to_spec, \
-    voc_to_spec_from_rdf, csv_catalog_to_ap, merge_rdf, contributor_to_rdf
+    voc_to_spec_from_rdf, csv_catalog_to_ap, add_contributors
 
 SUPPORTED_SCHEMAS = get_supported_schemas()
 
@@ -28,10 +28,8 @@ SUPPORTED_SCHEMAS = get_supported_schemas()
               help='Name of output file')
 @click.option('--ap', is_flag=True,
               help='Output full AP instead of vocabulary')
-@click.option('--contributors', is_flag=True,
-              help='Output RDF of authors, editors and contributors')
-@click.option('--merge', is_flag=True,
-              help='Merge RDF of vocabulary RDF with RDF of authors')
+@click.option('--add_contributors', is_flag=True,
+              help='Insert contributor triples into an ontology')
 @click.option('--csv_contributor_role_column',
               help='Column name containing roles in the contributor CSV file .'
                    'Also used to form the ontology namespace for the contributors command.')
@@ -42,11 +40,11 @@ SUPPORTED_SCHEMAS = get_supported_schemas()
               type=click.Path(exists=True, resolve_path=True,
                               dir_okay=True, file_okay=False),
               help='Directory containing additional templates.')
-def process_args(rdf, rdf_contributor, csv_contributor, csv, ap, contributors,
-                 merge, csv_contributor_role_column, schema, schema_folder, output, title):
+def process_args(rdf, rdf_contributor, csv_contributor, csv, ap, add_contributors,
+                 csv_contributor_role_column, schema, schema_folder, output, title):
     xml_output = False
 
-    if not ap and not contributors and not merge:
+    if not ap and not add_contributors:
         if rdf is None:
             raise click.UsageError('Missing arguments input RDF --rdf {path}')
 
@@ -79,26 +77,20 @@ def process_args(rdf, rdf_contributor, csv_contributor, csv, ap, contributors,
         xml_output = csv_catalog_to_ap(csv, schema, title, csv_contributor=csv_contributor,
                                csv_column=csv_contributor_role_column, schema_folder=schema_folder)
 
-    elif contributors:
+    elif add_contributors:
+        if rdf is None:
+            raise click.UsageError('Missing arguments --rdf')
         if csv is None:
             raise click.UsageError('Missing arguments --csv')
         if csv_contributor_role_column is None:
             raise click.UsageError('Missing arguments --csv_contributor_role_column {column}')
-        # Renders the contributors CSV to RDF
-        schema = schema or 'contributors.j2'
-        xml_output = contributor_to_rdf(csv, csv_contributor_role_column, schema, schema_folder=schema_folder)
-
-    elif merge:
-        if rdf is None:
-            raise click.UsageError('Missing arguments --rdf')
-        if rdf_contributor is None:
-            raise click.UsageError('Missing arguments --rdf_contributors')
-
-        merged = merge_rdf(rdf, rdf_contributor)
+        
+        # Inserts contributors triples into the owl:Ontology contained in the rdf file
+        result = add_contributors(csv, csv_contributor_role_column, rdf)
         if output is None:
-            click.echo_via_pager(merged)
+            click.echo_via_pager(result)
         else:
-            output.write(merged)
+            output.write(result)
 
     if xml_output:
         if output is None:

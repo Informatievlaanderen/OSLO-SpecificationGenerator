@@ -59,16 +59,10 @@ Leave out the `--output` option to write to stdout instead of a file.
 ./specgen/generate_vocabulary.py --help
 ```
 
-### Generating contributors RDF from CSV
+## Add contributors to a vocabulary RDF
 
 ```bash
-./specgen/generate_vocabulary.py --contributors --csv {csv_path} --csv_contributor_role_column {column} --output {output_file_path}
-```
-
-### Merging contributors RDF with a vocabulary RDF
-
-```bash
-./specgen/generate_vocabulary.py --merge --rdf {vocabulary_rdf_path} --rdf_contributor {contributors_rdf_path} --output {output_file_path}
+./specgen/generate_vocabulary.py --add_contributors --csv {csv_path} --csv_contributor_role_column {column} --rdfd {vocabulary_rdf_path} --output {output_file_path}
 ```
 
 ### Generating vocabulary HTML specification from RDF
