@@ -295,9 +295,10 @@ def add_contributors_to_rdf(csv, column, voc):
         g.add((cnode, FOAF.lastName, Literal(contributor['last_name'])))
         g.add((cnode, affiliationPredicate, affiliation))
         g.add((affiliation, FOAF.name, Literal(contributor['affiliation_name'])))
-        g.add((affiliation, FOAF.homepage, URIRef(contributor['affiliation_website'])))
-        if contributor['email'] is not None:
-            g.add((cnode, FOAF.mbox, URIRef(contributor['email'])))
+        if contributor['affiliation_website'] is not None and len(contributor['affiliation_website']) != 0:
+            g.add((affiliation, FOAF.homepage, URIRef(contributor['affiliation_website'])))
+        if contributor['email'] is not None and len(contributor['email']) != 0:
+            g.add((cnode, FOAF.mbox, URIRef('mailto:%s' % contributor['email'])))
         
     return g.serialize(format='turtle')
 
