@@ -81,7 +81,7 @@ To use another template, use the `--schema_folder` option to specify the folder 
 See the section on other schemes for more information.
 
 ```bash
-./specgen/generate_vocabulary.py --ap --title {ap_title} --csv {csv_path} --csv_contributor {csv_contributor_path} --output {output_file_path}
+./specgen/generate_vocabulary.py --ap --title {ap_title} --name {ap_name} --csv {csv_path} --csv_contributor {csv_contributor_path} --output {output_file_path}
 ```
 
 
