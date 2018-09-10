@@ -217,7 +217,7 @@ def voc_to_spec_from_rdf(rdf, title):
     return convertap_from_rdf(rdf, title)
 
 
-def csv_catalog_to_ap(csv, schema, title, csv_contributor=None, csv_column=None, schema_folder=None):
+def csv_catalog_to_ap(csv, schema, title, name, csv_contributor=None, csv_column=None, schema_folder=None):
     """
     Renders the CSV catalog using the specified template. In case csv_contributor and csv_column is set,
     contributor info is added to the template.
@@ -237,7 +237,7 @@ def csv_catalog_to_ap(csv, schema, title, csv_contributor=None, csv_column=None,
     else:
         contributors = {}
 
-    return render_template(None, schema, schema_folder, title=title,
+    return render_template(None, schema, schema_folder, title=title, name=name,
                            entities=entities_dict, contributors=contributors, now=datetime.utcnow())
 
 

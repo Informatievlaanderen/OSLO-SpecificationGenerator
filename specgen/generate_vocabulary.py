@@ -34,6 +34,7 @@ SUPPORTED_SCHEMAS = get_supported_schemas()
               help='Column name containing roles in the contributor CSV file .'
                    'Also used to form the ontology namespace for the contributors command.')
 @click.option('--title', help='Title of the AP')
+@click.option('--name', help='Name of the AP. Used in URLs and file names (determines which subfolder static assets are loaded from in the default AP template)')
 @click.option('--schema', '-s',
               help='Metadata schema')
 @click.option('--schema_folder',
@@ -41,7 +42,7 @@ SUPPORTED_SCHEMAS = get_supported_schemas()
                               dir_okay=True, file_okay=False),
               help='Directory containing additional templates.')
 def process_args(rdf, rdf_contributor, csv_contributor, csv, ap, add_contributors,
-                 csv_contributor_role_column, schema, schema_folder, output, title):
+                 csv_contributor_role_column, schema, schema_folder, output, title, name):
     xml_output = False
 
     if not ap and not add_contributors:
@@ -55,6 +56,10 @@ def process_args(rdf, rdf_contributor, csv_contributor, csv, ap, add_contributor
     elif ap:
         if not title:
             raise click.UsageError('Missing argument --title')
+
+        if not name:
+            raise click.UsageError('Missing argument --name')
+        # TODO: validate that name does not contain tabs and spaces (valid for use in uri)
 
         if not csv and not rdf:
             raise click.UsageError('Missing argument --csv or --rdf')
@@ -74,7 +79,7 @@ def process_args(rdf, rdf_contributor, csv_contributor, csv, ap, add_contributor
 
         # Render the CSV catalog file using the template
         schema = schema or 'ap.j2'
-        xml_output = csv_catalog_to_ap(csv, schema, title, csv_contributor=csv_contributor,
+        xml_output = csv_catalog_to_ap(csv, schema, title, name, csv_contributor=csv_contributor,
                                csv_column=csv_contributor_role_column, schema_folder=schema_folder)
 
     elif add_contributors:
