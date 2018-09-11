@@ -4,7 +4,6 @@ import click
 import csv as csv_engine
 import tempfile
 import os
-from lxml import etree as ET
 from entry import get_supported_schemas, voc_to_spec, \
     voc_to_spec_from_rdf, csv_catalog_to_ap, add_contributors_to_rdf
 
@@ -100,12 +99,12 @@ def process_args(rdf, rdf_contributor, csv_contributor, csv, ap, add_contributor
     if xml_output:
         if output is None:
             # Write to console
-            click.echo_via_pager(ET.tostring(xml_output.getroot()))
+            click.echo_via_pager(xml_output)
         else:
             # Write to specified file
             if not os.path.exists(os.path.dirname(output.name)):
                 os.makedirs(os.path.dirname(output.name))
-            xml_output.write(output)
+            output.write(xml_output)
 
 
 if __name__ == '__main__':

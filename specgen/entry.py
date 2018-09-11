@@ -8,7 +8,6 @@ from datetime import datetime
 from io import BytesIO
 from xml.dom import minidom
 
-import lxml.etree as ET
 import rdflib
 from rdflib import Literal, BNode, URIRef
 from rdflib.namespace import FOAF, DCTERMS, RDF
@@ -191,7 +190,7 @@ def render_template(mcf, schema, schema_folder=None, **kwargs):
                           software_version=__version__,
                           **kwargs).encode('utf-8')
 
-    return ET.parse(BytesIO(xml))
+    return xml
 
 
 def voc_to_spec(rdf, schema, schema_folder=None):
