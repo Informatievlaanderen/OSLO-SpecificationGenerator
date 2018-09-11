@@ -503,7 +503,6 @@ def convert(rdf):
            } ORDER BY ?label""")
 
     for row in qres:
-        print(row)
         if row['p'] is not None:
             result += '\n[property_nl:%s]\n' % row['p']
             if row['label'] is not None:
