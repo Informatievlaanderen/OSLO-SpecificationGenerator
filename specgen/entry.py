@@ -163,7 +163,8 @@ def render_template(mcf, schema, schema_folder=None, **kwargs):
 
     template_folders = [TEMPLATES]
     if schema_folder:
-        template_folders.append(schema_folder)
+        # Ensure the user passed folder has higher priority than the built-in templates
+        template_folders = [schema_folder] + template_folders
 
     def debug(text):
         print(text)
