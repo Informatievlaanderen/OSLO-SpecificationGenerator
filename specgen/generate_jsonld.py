@@ -110,7 +110,7 @@ def readFile(input_file):
                 attribute += ("\t\t\t\"@id\":\"" +
                               namespace + localname + "\",\n")
                 # e.g. "@type":"http://example.com#literal"
-                if var_range != ""
+                if var_range != "":
                     attribute += ("\t\t\t\"@type\":\"" + var_range + "\"")
 
                 if cardinality == '*':
