@@ -12,10 +12,11 @@ def main(argv):
 
 	input_file = ''
 	output_file = ''
+	name = ''
 
 	# check arguments
 	try: 
-		opts, args = getopt.getopt(argv,"hi:",["help","input=","output="])
+		opts, args = getopt.getopt(argv,"hi:",["help","input=","output=","name="])
 	except getopt.GetoptError:
 		print("ERROR - Incorrect arguments")
 		print(HELP)
@@ -32,24 +33,27 @@ def main(argv):
                         input_file = arg
                 elif opt in ("-o", "--output"):
                         output_file = arg
+                elif opt in ("-n", "--name"):
+                        name = arg
                 else:
                         print(HELP)
 
 	# create SHACL from inputfile
-	generateSHACL(input_file,output_file)
+	generateSHACL(input_file,output_file,name)
 
 
-def generateSHACL(input_file,output_file):
-	content = readFile(input_file) # returns tuple with classes and attributes/connectors
+def generateSHACL(input_file,output_file,name):
+	content = readFile(input_file,name) # returns tuple with classes and attributes/connectors
 	result = processInput(content) # returns the SHACL
 	writeOutput(input_file,result,output_file) # writes the SHACL to file
 
 
 
 # read file and return tuple with classes and attributes/connectors
-def readFile(input_file):
+def readFile(input_file,name):
 	print('reading file: ' + input_file)
 
+	baseURI = "https://data.vlaanderen.be/shacl/"
 	classes = []
 
 	arr_already_outputted = [] #array to keep track of already outputted classes / attributes to avoid duplicates
@@ -69,7 +73,7 @@ def readFile(input_file):
 
 			if (class_type == "CLASS") or (class_type == "DATATYPE"):
 				classes.append([i])
-				classes[i].append("<"+namespace+localname+"Shape"+">\n")
+				classes[i].append("<"+baseURI+name+"#"+class_name+"Shape"+">\n")
 				classes[i].append("	a sh:NodeShape ;\n")
 				classes[i].append("	sh:targetClass <"+namespace+localname+"> ;\n")
 				with open(input_file) as tsvfile: 
@@ -85,17 +89,23 @@ def readFile(input_file):
 						definition 	= attribute['ap-definition-nl'].replace('\n', ' ')
 						mincard		= attribute['min card']
 						maxcard		= attribute['max card']
+						codelist	= attribute['ap-codelist']
 						if ((ea_type == "attribute") or (ea_type == "connector")) and ea_domain == class_name:
 							classes[i].append("	sh:property [\n")
 							classes[i].append("		sh:name \""+ea_name+"\" ;\n")
 							classes[i].append("		sh:description \""+definition+"\" ;\n")
 							classes[i].append("		sh:path <"+namespace+localname+"> ;\n")
 							if var_range != "":
-								classes[i].append("		sh:class <"+var_range+"> ;\n")
+								if ("XMLSchema" in var_range) or ("Literal" in var_range) or ("langString" in var_range):
+									classes[i].append("		sh:datatype <"+var_range+"> ;\n")
+								else:
+									classes[i].append("		sh:class <"+var_range+"> ;\n")
 							if (mincard != "0") and (mincard != ""):
 								classes[i].append("		sh:minCount "+mincard+" ;\n")
 							if (maxcard != "*") and (maxcard != ""):
 								classes[i].append("		sh:maxCount "+maxcard+" ;\n")
+							if codelist != "":
+								classes[i].append("		qb:codeList <"+codelist+"> ;\n")
 							classes[i].append("	] ;\n")
 				
 				classes[i].append("	sh:closed false .\n")
@@ -112,6 +122,7 @@ def processInput(content):
 	classes = content
 	#SHACL header
 	result += "@prefix sh:      <http://www.w3.org/ns/shacl#> .\n"
+	result += "@prefix qb:      <http://purl.org/linked-data/cube#> .\n"
 
 
 	# classes
