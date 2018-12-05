@@ -2,4 +2,3 @@ click
 Jinja2
 six
 rdflib
-re
