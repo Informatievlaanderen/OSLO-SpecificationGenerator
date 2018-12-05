@@ -3,6 +3,7 @@
 import sys
 import getopt
 import csv
+import re
 
 
 HELP = "USAGE: 	generate_shacl.py -i filename.tsv -o output.ttl \n" \
@@ -67,7 +68,7 @@ def readFile(input_file,name):
 		for row in reader:
 
 			class_type 	= row['EA-Type'] 
-			class_name 	= row['EA-Name']
+			class_name 	= re.sub(r"\W", "", attribute['EA-Name'])
 			namespace	= row['namespace']
 			localname	= row['localname']
 
