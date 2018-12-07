@@ -1,0 +1,30 @@
+const uris = {
+    AFFILIATION: "http://schema.org/affiliation",
+    AUTHORS: "http://xmlns.com/foaf/0.1/maker",
+    CLASS: "http://www.w3.org/2002/07/owl#Class",
+    DATATYPE: "http://www.w3.org/2000/01/rdf-schema#Datatype",
+    CONTRIBUTORS: "http://purl.org/dc/terms/contributor",
+    DESCRIPTION: "http://www.w3.org/2000/01/rdf-schema#comment",
+    DOMAIN: "http://www.w3.org/2000/01/rdf-schema#domain",
+    EDITORS: "http://www.w3.org/2001/02pd/rec54#editor",
+    EXTERNALCLASS: "http://www.w3.org/2000/01/rdf-schema#Class",
+    EXTERNALS: "http://www.w3.org/2000/01/rdf-schema#seeAlso",
+    FIRSTNAME: "http://xmlns.com/foaf/0.1/first_name",
+    FOAFNAME: "http://xmlns.com/foaf/0.1/name",
+    GENERALIZATION: "http://www.w3.org/2000/01/rdf-schema#subPropertyOf",
+    HOMEPAGE: "http://xmlns.com/foaf/0.1/homepage",
+    IS_DEFINED_BY: "http://www.w3.org/2000/01/rdf-schema#isDefinedBy",
+    ISSUED: "http://purl.org/dc/terms/issued",
+    LASTNAME: "http://xmlns.com/foaf/0.1/last_name",
+    MAILBOX: "http://xmlns.com/foaf/0.1/mbox",
+    MODIFIED: "http://purl.org/dc/terms/modified",
+    NAME: "http://www.w3.org/2000/01/rdf-schema#label",
+    ONTOLOGY: "http://www.w3.org/2002/07/owl#Ontology",
+    PERSON: "http://www.w3.org/ns/person#Person",
+    PROPERTY: "http://www.w3.org/2002/07/owl#ObjectProperty",
+    RANGE: "http://www.w3.org/2000/01/rdf-schema#range",
+    CARDINALITY: "http://www.w3.org/2002/07/owl#cardinality",
+    USAGE: "http://purl.org/vocab/vann/usageNote"
+};
+
+module.exports = uris;
