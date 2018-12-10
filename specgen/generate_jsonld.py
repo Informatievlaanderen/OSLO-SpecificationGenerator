@@ -108,10 +108,10 @@ def readFile(input_file):
                               "\":{\n")  # e.g. "label":{
                 # e.g. "@id":"http://example.com#name",
                 attribute += ("\t\t\t\"@id\":\"" +
-                              namespace + localname + "\",\n")
+                              namespace + localname + "\"")
                 # e.g. "@type":"http://example.com#literal"
                 if var_range != "":
-                    attribute += ("\t\t\t\"@type\":\"" + var_range + "\"")
+                    attribute += (",\n\t\t\t\"@type\":\"" + var_range + "\"")
 
                 if cardinality == '*':
                     attribute += (",\n\t\t\t\"@container\":\"@set\"\n")
