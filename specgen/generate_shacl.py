@@ -68,7 +68,7 @@ def readFile(input_file,name):
 		for row in reader:
 
 			class_type 	= row['EA-Type'] 
-			class_name 	= re.sub(r"\W", "", attribute['EA-Name'])
+			class_name 	= re.sub(r"\W", "", row['EA-Name'])
 			namespace	= row['namespace']
 			localname	= row['localname']
 
