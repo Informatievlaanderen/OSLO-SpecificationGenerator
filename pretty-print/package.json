@@ -4,7 +4,7 @@
   "description": "This script takes a file path as input and output, and will sort the input file and write it as the output file based on the provided sorting attributes.",
   "main": "pretty-print.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "sort"
