@@ -31,7 +31,7 @@ function render_template_from_json_ld_file(filename, templatename, output_filena
         const data = new Uint8Array(Buffer.from(html));
         fs.writeFile(output_filename, data, (err) => {
             if (err) {
-		// Set the exit code if there's a problem
+		// Set the exit code if there's a problem so bash sees it
 		process.exitCode = 1
                 throw err;
             }
