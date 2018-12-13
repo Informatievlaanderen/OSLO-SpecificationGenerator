@@ -52,7 +52,7 @@ function render_shacl_from_json_ld_file(filename, output_filename) {
          .catch(error => console.error(error))
        }
    )
-  .catch(error => console.error(error))
+   // .catch(error => console.error(error)) 
 }
 
 
@@ -61,22 +61,24 @@ function render_shacl_from_json_ld_file(filename, output_filename) {
  * grouep the properties per class using the domain
  */
 function group_properties_per_class(json) {
-   var classes = json['@reverse']['classes'];
-   var properties = json['@reverse']['properties'];
-        var grouped = new Map();
+    var classes = json['classes'];
+    var properties = json['properties'];
+//    to be checked    
+//    var classes = json['@reverse']['classes'];
+//    var properties = json['@reverse']['properties'];
+    var grouped = new Map();
 
-     for (key in classes ) {
-             grouped[key]= []
-     };
-     for (key in properties) {
-	      if (grouped.has(properties[key].domain)) {
-       grouped[properties[key].domain].push(properties[key])       
-	      } else {
-       grouped[properties[key].domain] = [properties[key]];
-	      }
-
-     };
-     return grouped ;
+    for (key in classes ) {
+        grouped[key]= []
+    };
+    for (key in properties) {
+	if (grouped.has(properties[key].domain)) {
+	    grouped[properties[key].domain].push(properties[key])       
+	} else {
+	    grouped[properties[key].domain] = [properties[key]];
+	}
+    };
+    return grouped;
 }
 
 
