@@ -94,11 +94,10 @@ function map_class(c) {
 };
 
 function classes(json) {
-   var classes = json['@reverse']['classes'];
-
+// var classes = json['@reverse']['classes'];    
+   var classes = json['classes'];
    var classmapping = new Array();
    classmapping = classes.map(x => map_class(x));
-  
    return classmapping;
 }
 
@@ -142,7 +141,8 @@ function map_properties(prop) {
 }
 
 function properties(json) {
-   var props = json['@reverse']['properties'];
+// var props = json['@reverse']['properties'];    
+   var props = json['properties'];
 
    var propertymapping = new Map();
    propertymapping = props.map(x => map_properties(x));
