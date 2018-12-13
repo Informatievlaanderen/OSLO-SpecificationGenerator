@@ -73,10 +73,10 @@ let sortOnKey = function(hash, key, sortFunction)
 }
 
 //loops through the keys in the keyToSort array and apply the sortOnAttributes function
-for(key in keysToSort)
+for(key in program.sortkeys)
 {
-    parsedData = sortOnKey(parsedData, keysToSort[key], sortOnAttributes);
+    parsedData = sortOnKey(parsedData, program.sortkeys[key], sortOnAttributes);
 }
 
 //Output and write to file
-fs.writeFileSync(outputPath, JSON.stringify(parsedData, null, 4));
+fs.writeFileSync(program.output, JSON.stringify(parsedData, null, 4));
