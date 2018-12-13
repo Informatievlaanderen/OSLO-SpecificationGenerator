@@ -31,6 +31,8 @@ function render_template_from_json_ld_file(filename, templatename, output_filena
         const data = new Uint8Array(Buffer.from(html));
         fs.writeFile(output_filename, data, (err) => {
             if (err) {
+		// Set the exit code if there's a problem
+		process.exitCode = 1
                 throw err;
             }
             console.log('The file has been saved to ' + output_filename);
