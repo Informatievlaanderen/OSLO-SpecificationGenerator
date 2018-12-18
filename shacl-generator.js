@@ -63,20 +63,33 @@ function render_shacl_from_json_ld_file(filename, output_filename) {
 function group_properties_per_class(json) {
     var classes = json['classes'];
     var properties = json['properties'];
-//    to be checked    
-//    var classes = json['@reverse']['classes'];
-//    var properties = json['@reverse']['properties'];
     var grouped = new Map();
+    var domain = [];
+    var v = [];
+    var vv = [];
 
-    for (key in classes ) {
-        grouped[key]= []
+    for (var key in classes ) {
+        grouped.set(classes[key]['@id'],  [])
     };
-    for (key in properties) {
-	if (grouped.has(properties[key].domain)) {
-	    grouped[properties[key].domain].push(properties[key])       
+    for (var key in properties) {
+	domain=[];
+
+	if (!Array.isArray(properties[key].domain)) {
+		domain = [properties[key].domain]
 	} else {
-	    grouped[properties[key].domain] = [properties[key]];
-	}
+		domain = properties[key].domain
+	};
+
+	for (var d in domain) {
+        v = [];
+       
+	if (grouped.has(domain[d])) {
+	    v = grouped.get(domain[d]);
+	    v.push(properties[key]);
+	    grouped.set(domain[d], v)       
+	} else {
+	    grouped.set(domain[d],  [properties[key]]);
+	}}
     };
     return grouped;
 }
@@ -98,16 +111,16 @@ function make_shacl(grouped) {
 
    var shacl = new Map();
    var prop= new Map();
-	var props =[];
+   var props =[];
  
-   for (key in grouped) {
-     shacl['@id'] = key + 'Shacl';
+   grouped.forEach(function(kvalue,kkey,kmap) { 
+     shacl['@id'] = kkey + 'Shacl';
      shacl['@type'] = 'sh:NodeShape';
-     shacl['sh:targetClass'] = key;
+     shacl['sh:targetClass'] = kkey;
      shacl['sh:closed'] = false; 
 	   props=[];
-     Object.entries(grouped[key]).forEach(
-	    ([key, value]) => {
+     Object.entries(kvalue).forEach(
+	    ([pkey, value]) => {
               prop = {
                       'sh:name' : value.name.nl,
                       'sh:description' : value.description.nl,
@@ -120,8 +133,7 @@ function make_shacl(grouped) {
               props.push( prop);
   	  });
      shacl['sh:property'] = props;
-   }
-
+    });
 
    shacl['@context'] = {"sh": "http://www.w3.org/ns/shacl#"} ;
   
