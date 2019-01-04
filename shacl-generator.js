@@ -69,7 +69,7 @@ function group_properties_per_class(json) {
     var vv = [];
 
     for (var key in classes ) {
-        grouped.set(classes[key]['@id'],  [])
+        grouped.set(classes[key]['extra']['EA-Name'],  [])
     };
     for (var key in properties) {
 	domain=[];
@@ -82,13 +82,12 @@ function group_properties_per_class(json) {
 
 	for (var d in domain) {
         v = [];
-       
-	if (grouped.has(domain[d])) {
-	    v = grouped.get(domain[d]);
+	if (grouped.has(domain[d]['EA-Name'])) {
+	    v = grouped.get(domain[d]['EA-Name']);
 	    v.push(properties[key]);
-	    grouped.set(domain[d], v)       
+	    grouped.set(domain[d]['EA-Name'], v)       
 	} else {
-	    grouped.set(domain[d],  [properties[key]]);
+	    grouped.set(domain[d]['EA-Name'],  [properties[key]]);
 	}}
     };
     return grouped;
@@ -109,16 +108,19 @@ function make_shacl(grouped) {
 
    console.log('make shacl');
 
+   var shaclTemplates = [];
    var shacl = new Map();
    var prop= new Map();
    var props =[];
  
    grouped.forEach(function(kvalue,kkey,kmap) { 
+     
+     shacl = new Map();
      shacl['@id'] = kkey + 'Shacl';
      shacl['@type'] = 'sh:NodeShape';
      shacl['sh:targetClass'] = kkey;
      shacl['sh:closed'] = false; 
-	   props=[];
+     props=[];
      Object.entries(kvalue).forEach(
 	    ([pkey, value]) => {
               prop = {
@@ -133,12 +135,13 @@ function make_shacl(grouped) {
               props.push( prop);
   	  });
      shacl['sh:property'] = props;
+     shaclTemplates.push(shacl);
     });
 
    shacl['@context'] = {"sh": "http://www.w3.org/ns/shacl#"} ;
   
  
-   return shacl;
+   return shaclTemplates;
 }
 
 
