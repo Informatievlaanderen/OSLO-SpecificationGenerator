@@ -40,8 +40,8 @@ function render_shacl_from_json_ld_file(filename, output_filename) {
         console.log('start processing');
        
         var grouped = group_properties_per_class(obj);
-        console.log(grouped);
-        var shacl = make_shacl(grouped); 
+        var entitymap = entity_map(obj);
+        var shacl = make_shacl(grouped, entitymap); 
 
         console.log('start writing');
        
@@ -58,7 +58,7 @@ function render_shacl_from_json_ld_file(filename, output_filename) {
 
 
 /*
- * grouep the properties per class using the domain
+ * group the properties per class using the domain
  */
 function group_properties_per_class(json) {
     var classes = json['classes'];
@@ -93,18 +93,35 @@ function group_properties_per_class(json) {
     return grouped;
 }
 
+/*
+ * entity-map: EA-Name -> Entity
+ */
+function entity_map(json) {
+    var classes = json['classes'];
+    var properties = json['properties'];
+    var entitymap = new Map();
+
+    for (var key in classes ) {
+        entitymap.set(classes[key]['extra']['EA-Name'],  classes[key])
+    };
+    for (var key in properties) {
+        entitymap.set(properties[key]['extra']['EA-Name'],  properties[key])
+    }
+    return entitymap;
+}
+
+
 
 
 
 /*
- * TODO: create a common context
- * switch on range for objectproperty/dataproperty => class/datatype
- * support cardinality
+ * TODO: 
+ *   remove empty shacltemplates and inconsistent shacl template
  */
 /* future todo:
  * make shape per property
  */
-function make_shacl(grouped) {
+function make_shacl(grouped, entitymap) {
 
    console.log('make shacl');
 
@@ -118,7 +135,9 @@ function make_shacl(grouped) {
      shacl = new Map();
      shacl['@id'] = kkey + 'Shacl';
      shacl['@type'] = 'sh:NodeShape';
-     shacl['sh:targetClass'] = kkey;
+     if (entitymap.get(kkey)) {
+        shacl['sh:targetClass'] = entitymap.get(kkey)['@id'];
+     } else {console.log('ERROR: shacl shape for unknown class: ', kkey)}
      shacl['sh:closed'] = false; 
      props=[];
      Object.entries(kvalue).forEach(
@@ -127,11 +146,18 @@ function make_shacl(grouped) {
                       'sh:name' : value.name.nl,
                       'sh:description' : value.description.nl,
                       'sh:path' :value['@id'],
-                      'sh:class' : value.range,
-                      'sh:datatype' : value.range,
-                      'sh:minCount' : 1,
-                      'sh:maxCount' : 1
               };
+	      if (value.range.length > 1) {
+		      console.log('Error: range has more than one value for property ',  pkey);
+	      } else { if (value.range.length == 1) {
+ 	      if (value['@type'] == "http://www.w3.org/2002/07/owl#DatatypeProperty" ) {
+                      prop['sh:datatype'] = value.range[0].uri
+	      } else { 
+                      prop['sh:class'] = value.range[0].uri
+	      }}};
+
+              if (value.maxCardinality && value.maxCardinality != "*") { prop['sh:maxCount'] = value.maxCardinality}
+              if (value.minCardinality && value.minCardinality != "0") { prop['sh:minCount'] = value.maxCardinality}
               props.push( prop);
   	  });
      shacl['sh:property'] = props;
