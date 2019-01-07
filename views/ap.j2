@@ -223,9 +223,9 @@
                     <dt>Gebruik</dt><dd>{{ entity.usage[language] }}</dd>
                     {% endif %}
                     <dt>Eigenschappen</dt>
-                    {% if entity['properties'] %}
+		    {% if ((entity.properties | length) > 0 ) %} 
                     <dd>Voor deze entiteit zijn de volgende eigenschappen gedefinieerd:
-                    {%- for prop in entity.properties | sort(attribute='name.' + language) %}
+                    {%- for prop in entity['properties'] | sort(attribute='name.' + language) %}
                       <a href="#{{ (entity.name[language] ~ ':' ~ prop.name[language]) | urlencode }}">{{ prop.name[language] }}</a>{% if not loop.last %}, {% endif %}
                     {%- endfor %}.</dd>
                     {% else %}
@@ -233,7 +233,7 @@
                     {% endif %}
                   </dl>
                 </div>
-                {% if entity['properties'] %}
+		{% if ((entity.properties | length) > 0 ) %} 
                 <div class="u-table-overflow">
                   <table class="data-table">
                     <thead>
@@ -258,7 +258,7 @@
                         </td>
                         <td>
                           {% for range in prop.range %}
-                            {{ range }}
+			    <a href="{{ range['range_uri'] }}" data-toggle="tooltip" data-content="{{ range['range_uri'] }}" data-placement="right">{{ range['range_label'] }}</a>
                           {% endfor %}
                         </td>
                         <td>{{ prop.cardinality }}</td>

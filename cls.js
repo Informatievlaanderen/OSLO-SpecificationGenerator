@@ -1,7 +1,7 @@
 const fs = require("fs");
 const nunjucks = require('nunjucks');
 const jsonld = require('jsonld');
-const ldParser = require('./linkeddataparser');
+const ldParser = require('./linkeddataparser2');
 
 
 nunjucks.configure('views', {
