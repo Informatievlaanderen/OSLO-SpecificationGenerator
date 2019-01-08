@@ -89,7 +89,7 @@ function make_context(classes, properties, externals) {
 */
 function map_class(c) {
     var mapping = new Map();
-    mapping[c.name.nl] = c['@id'];
+    mapping[c.extra['EA-Name']] = c['@id'];
     return mapping;
 };
 
@@ -114,10 +114,21 @@ function map_properties(prop) {
       range = prop.range[0];
     } else { range = prop.range[0]}} ;
 
-    mapping[prop.name.nl] = 
-      { '@id' : prop['@id'],
-        '@type': range
+	var propc = {};
+	if (prop.maxCardinality != "0" & prop.maxCardinality != "1") {
+      propc = { 
+	      '@id' : prop['@id'],
+	      '@type': range.uri,
+	      '@container' : '@set'
                   };
+	} else {
+
+       propc=      { '@id' : prop['@id'],
+        '@type': range.uri
+                  };
+	};
+
+    mapping[prop.extra['EA-Name']] = propc
          
 //    mapping['@type'] = prop.range;
 //    If the cardinality is not 1
@@ -151,7 +162,11 @@ function properties(json) {
 
 function map_external(c) {
     var mapping = new Map();
-  mapping[c.label.nl] = c['@id'];
+    if (c.extra && c.extra['EA-Name']) {
+       mapping[c.extra['EA-Name']] = c['@id'];
+    } else {
+       console.log('Error external has no dutch label: ', c)
+    };
     return mapping;
 };
 
