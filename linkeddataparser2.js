@@ -1,4 +1,4 @@
-cconst fs = require("fs");
+const fs = require("fs");
 const jsonld = require('jsonld');
 const uris = require('./uris');
 /**
