@@ -11,10 +11,11 @@ program
   .option('-o, --output <path>', 'output file (shacl)')
 
 program.on('--help', function(){
-  console.log('')
-  console.log('Examples:');
-  console.log('  $ specgen-shacl --help');
-  console.log('  $ specgen-shacl -i <input> -o <output>');
+    console.log('')
+    console.log('Examples:');
+    console.log('  $ specgen-shacl --help');
+    console.log('  $ specgen-shacl -i <input> -o <output>');
+    process.exitCode = 1;
 });
 
 program.parse(process.argv);
