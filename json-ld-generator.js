@@ -41,10 +41,10 @@ function render_context_from_json_ld_file(filename, output_filename) {
          .then(res => {
             console.log('Write complete')
           })
-         .catch(error => console.error(error))
+               .catch(error => { process.exitCode = 1; console.error(error) } )
        }
    )
-  .catch(error => console.error(error))
+    .catch(error => { process.exitCode = 1; console.error(error) } ) 
 }
 
 

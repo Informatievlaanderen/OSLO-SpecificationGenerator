@@ -1,4 +1,4 @@
-const fs = require("fs");
+cconst fs = require("fs");
 const jsonld = require('jsonld');
 const uris = require('./uris');
 /**
@@ -128,8 +128,8 @@ const LinkedDataParser =  {
                     description: value.description,
                     usage: value.usage,
                     domain: value.domain,
-		    range: {label: value.range[0]['EA-Name'], 
-			    uri: value.range[0].uri},
+		  range: {label: value.range[0]['EA-Name'], 
+			  uri: value.range[0].uri},
 		    cardinality: card,
                     codelist_uri: "" // TODO
                     }
