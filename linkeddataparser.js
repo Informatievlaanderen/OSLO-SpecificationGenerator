@@ -19,6 +19,7 @@ const LinkedDataParser =  {
     parse_ontology_from_json_ld_file: async function(json_ld_file) {
         var ld = JSON.parse(fs.readFileSync(json_ld_file, 'utf-8'));
         expanded = await jsonld.expand(ld);
+        console.log(JSON.stringify(expanded));
         for(i in expanded) {
             var vocabularium = expanded[i];
             var nunjucks_json = {

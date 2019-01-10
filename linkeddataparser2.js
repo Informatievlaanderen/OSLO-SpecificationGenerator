@@ -22,11 +22,11 @@ const LinkedDataParser =  {
     parse_ontology_from_json_ld_file: async function(json_ld_file) {
         var ld = JSON.parse(fs.readFileSync(json_ld_file, 'utf-8'));
         expanded = await jsonld.expand(ld);
-        console.log(JSON.stringify(expanded));
+        //console.log(JSON.stringify(expanded));
         
         var grouped = this.group_properties_per_class(ld);
         var nj_classes = this.make_nj_classes(ld.classes, grouped);
-	    console.log(JSON.stringify(nj_classes) );
+	    //console.log(JSON.stringify(nj_classes) );
        
         for(i in expanded) {
             var vocabularium = expanded[i];
@@ -95,7 +95,7 @@ const LinkedDataParser =  {
    var prop= new Map();
    var props =[];
  
-	  console.log(grouped);
+	  //console.log(grouped);
 
    classes.forEach(function(element) { 
     
@@ -106,16 +106,16 @@ const LinkedDataParser =  {
                     description: element.description,
                     usage: element.usage
                 }
-     console.log(nj_class);	   
+     //console.log(nj_class);	   
 
-     console.log(element['extra']['EA-Name']);
+     //console.log(element['extra']['EA-Name']);
      var gindex = element['extra']['EA-Name'];
-	   console.log(gindex);
+	   //console.log(gindex);
      var g= grouped[gindex];
-	   console.log(g);
+	   //console.log(g);
 	   if (g == null) {g = []};
      var g= grouped.get(gindex);
-	   console.log(g);
+	   //console.log(g);
 	   if (g == null) {g = []};
      props=[];
      nj_class.properties = props;
