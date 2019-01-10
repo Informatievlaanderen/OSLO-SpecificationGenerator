@@ -11,10 +11,11 @@ program
   .option('-o, --output <path>', 'output file (shacl)')
 
 program.on('--help', function(){
-  console.log('')
-  console.log('Examples:');
-  console.log('  $ specgen-shacl --help');
-  console.log('  $ specgen-shacl -i <input> -o <output>');
+    console.log('')
+    console.log('Examples:');
+    console.log('  $ specgen-shacl --help');
+    console.log('  $ specgen-shacl -i <input> -o <output>');
+    process.exitCode = 1;
 });
 
 program.parse(process.argv);
@@ -49,7 +50,10 @@ function render_shacl_from_json_ld_file(filename, output_filename) {
          .then(res => {
             console.log('Write complete')
           })
-         .catch(error => console.error(error))
+               .catch(error => {
+		   console.error(error);
+		   process.exitCode = 1;
+	       })
        }
    )
    // .catch(error => console.error(error)) 
@@ -110,10 +114,6 @@ function entity_map(json) {
     return entitymap;
 }
 
-
-
-
-
 /*
  * TODO: 
  *   remove empty shacltemplates and inconsistent shacl template
@@ -137,7 +137,7 @@ function make_shacl(grouped, entitymap) {
      shacl['@type'] = 'sh:NodeShape';
      if (entitymap.get(kkey)) {
         shacl['sh:targetClass'] = entitymap.get(kkey)['@id'];
-     } else {console.log('ERROR: shacl shape for unknown class: ', kkey)}
+     } else {console.log('WARNING: shacl shape for unknown class: ', kkey)}
      shacl['sh:closed'] = false; 
      props=[];
      Object.entries(kvalue).forEach(
