@@ -114,10 +114,6 @@ function entity_map(json) {
     return entitymap;
 }
 
-
-
-
-
 /*
  * TODO: 
  *   remove empty shacltemplates and inconsistent shacl template
@@ -141,7 +137,7 @@ function make_shacl(grouped, entitymap) {
      shacl['@type'] = 'sh:NodeShape';
      if (entitymap.get(kkey)) {
         shacl['sh:targetClass'] = entitymap.get(kkey)['@id'];
-     } else {console.log('ERROR: shacl shape for unknown class: ', kkey)}
+     } else {console.log('WARNING: shacl shape for unknown class: ', kkey)}
      shacl['sh:closed'] = false; 
      props=[];
      Object.entries(kvalue).forEach(

@@ -72,13 +72,13 @@ const LinkedDataParser =  {
 
            for (var d in domain) {
                 v = [];
-           if (grouped.has(domain[d]['EA-Name'])) {
-               v = grouped.get(domain[d]['EA-Name']);
-               v.push(properties[key]);
-               grouped.set(domain[d]['EA-Name'], v)       
-           } else {
-               grouped.set(domain[d]['EA-Name'],  [properties[key]]);
-           }}
+               if (grouped.has(domain[d]['EA-Name'])) {
+		   v = grouped.get(domain[d]['EA-Name']);
+		   v.push(properties[key]);
+		   grouped.set(domain[d]['EA-Name'], v)       
+               } else {
+		   grouped.set(domain[d]['EA-Name'],  [properties[key]]);
+               }}
             };
             return grouped;
         },
@@ -377,7 +377,7 @@ const LinkedDataParser =  {
                 if(uris.AFFILIATION in person) {
                     parsed_person.affiliation = {
                         name: person[uris.AFFILIATION][0][uris.FOAFNAME][0]["@value"],
-                        website: person[uris.AFFILIATION][0][uris.HOMEPAGE][0]["@value"]
+                        website: this._get_affiliation_homepage(person)
                     };
                 }
                 people.push(parsed_person);
@@ -386,7 +386,14 @@ const LinkedDataParser =  {
         return people;
     },
 
-
+    _get_affiliation_homepage: function(person) {
+	// There might not be a HOMEPAGE defined
+	try {
+	    return person[uris.AFFILIATION][0][uris.HOMEPAGE][0]["@value"];
+	} catch(err) {
+	    return null;
+	};
+    },
 
     // extract externals from expanded json
     // Takes an expanded json root object as it is being parsed by jsonld
