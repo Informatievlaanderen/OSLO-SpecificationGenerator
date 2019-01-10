@@ -391,6 +391,7 @@ const LinkedDataParser =  {
 	try {
 	    return person[uris.AFFILIATION][0][uris.HOMEPAGE][0]["@value"];
 	} catch(err) {
+	    console.log('INFO: affiliation homepage is not present');	    
 	    return null;
 	};
     },
