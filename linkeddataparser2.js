@@ -1,6 +1,14 @@
 const fs = require("fs");
 const jsonld = require('jsonld');
 const uris = require('./uris');
+
+var Map = require("collections/map");
+
+require("collections/shim-array");
+
+//
+
+
 /**
  * This is an adapted version of the orginal parser, it uses the json instead of the expanded jsonld representation
  * The purpose is to create the desired nunjuncks_json structure
@@ -11,7 +19,9 @@ const uris = require('./uris');
  *
  * It's main entry points is parse_ontology_from_json_ld_file(json_ld_file, template_file)
  **/
-const LinkedDataParser =  {
+
+
+    //
     // parse ontology from json ld
     // this function takes a reference to a json ld file containing
     // the description of an ontology encoded in json ld format and
@@ -19,44 +29,73 @@ const LinkedDataParser =  {
     // by the nunjucks template.
     //
     // @param filename the name of the file that contains the json ld representation
-    parse_ontology_from_json_ld_file: async function(json_ld_file) {
+async function    parse_ontology_from_json_ld_file(json_ld_file) {
         var ld = JSON.parse(fs.readFileSync(json_ld_file, 'utf-8'));
         expanded = await jsonld.expand(ld);
         //console.log(JSON.stringify(expanded));
         
-        var grouped = this.group_properties_per_class(ld);
-        var nj_classes = this.make_nj_classes(ld.classes, grouped);
+        var grouped0 = group_properties_per_class_all(ld);
+	    console.log(grouped0);
+	    console.log("-----");
+        hier = class_hierarchy_extensional(ld['classes'].concat(ld['externals']))  ;
+	    console.log(hier);
+	    console.log("-----");
+        var gg = group_properties_per_class_using_hierarchy(hier, grouped0);
+	    console.log(gg);
+	    console.log("-----");
+        var nj_classes = make_nj_classes(ld.classes, grouped0);
 	    //console.log(JSON.stringify(nj_classes) );
        
         for(i in expanded) {
             var vocabularium = expanded[i];
             var nunjucks_json = {
-                metadata: this.extract_metadata_from_expanded_json(vocabularium),
+                metadata: extract_metadata_from_expanded_json(vocabularium),
                 classes: nj_classes,
-                properties: this.extract_properties_from_expanded_json(vocabularium),
-                contributors: this.extract_contributors_from_expanded_json(vocabularium),
-                externals: this.extract_externals_from_expanded_json(vocabularium),
+                properties: extract_properties_from_expanded_json(vocabularium),
+                contributors: extract_contributors_from_expanded_json(vocabularium),
+                externals: extract_externals_from_expanded_json(vocabularium),
                 parents: []
             };
-            var datatypes = this.extract_datatypes_from_expanded_json(vocabularium);
+            var datatypes = extract_datatypes_from_expanded_json(vocabularium);
             if(datatypes.length > 0) {
                 nunjucks_json.datatypes = datatypes;
             }
             return nunjucks_json;
         }
-    },
+    };
 
    
     //
     // group the properties per class using the domain
+    //   - variant 1: include only those which are identified as full members of the document
+    //   - variant 2: include all classes and properties
     //
-    group_properties_per_class(json) {
+function     group_properties_per_class(json) {
             var classes = json['classes'];
             var properties = json['properties'];
+            return group_properties_per_class2(classes, properties, json) 
+    };
+
+function     group_properties_per_class_all(json) {
+            var classes = json['classes'];
+            classes = classes.concat(json['externals']);
+            var properties = json['properties'];
+            properties = properties.concat(json['externalproperties']);
+    	    
+            return group_properties_per_class2(classes, properties, json) 
+    };
+
+function     group_properties_per_class2(classes, properties, json) {
+	    console.log("=======");
+	    console.log(classes);
+	    console.log("=======");
+	    console.log(properties);
+	    console.log("=======");
             var grouped = new Map();
             var domain = [];
             var v = [];
             var vv = [];
+
 
             for (var key in classes ) {
                 grouped.set(classes[key]['extra']['EA-Name'],  [])
@@ -81,12 +120,142 @@ const LinkedDataParser =  {
                }}
             };
             return grouped;
-        },
+        };
 
+     // note assumed is that EA-Parents is just a single value
+function      class_hierarchy_parents(classes) { 
+           var hierarchy = new Map(); 
+           var v = [];
+           
+           for (var key in classes) {
+                 push_value_to_map_array(hierarchy, classes[key]['extra']['EA-Name'], classes[key]['extra']['EA-Parents'])
+           }
+        return hierarchy
+	
+     };
+
+     // note assumed is that EA-Parents is just a single value
+function      class_hierarchy_childern(classes) { 
+           var hierarchy = new Map(); 
+           var v = [];
+           
+           for (var key in classes) {
+                push_value_to_map_array(hierarchy, classes[key]['extra']['EA-Parents'], classes[key]['extra']['EA-Name'])
+           }
+        return hierarchy
+	
+     };
+
+     // extensional_hierachy
+function      class_hierarchy_extensional(classes) { 
+           var hierarchy = new Map(); 
+           var ext_hierarchy = new Map(); 
+           var parents = [];
+           
+           for (var key in classes) {
+                push_value_to_map_array(hierarchy, classes[key]['extra']['EA-Name'], classes[key]['extra']['EA-Parents'])
+           };
+
+           // make extensional
+           for (var key in classes) {
+                parents = class_parents(100, hierarchy, classes[key]['extra']['EA-Name'])
+                ext_hierarchy.set(classes[key]['extra']['EA-Name'], parents)
+           };
+              
+        return ext_hierarchy
+	
+     };
+
+function     class_parents(level, hierarchy, c) {
+        if (level < 1) {
+            console.log('ERROR: the derivation of the parents hit the limit for ' + c);
+            return [];
+        } else {
+	    if (hierarchy.has(c)) {
+            let parents0 = hierarchy.get(c);
+	    var parents =[];
+            var ancestors = [];
+            for (var p in parents0)  {
+                ancestors = class_parents(level -1, hierarchy, parents0[p]);
+                parents.push(ancestors);
+		if (parents0[p] !== '') {
+		    parents.push([parents0[p]]);
+			    };
+                 };
+	    } else { 
+		    parents = []
+	    }
+            return parents.flatten();
+        }
+    };
+    
+    //
+    // unique_elements in arrqy
+    //
+function     array_unique_elements(array) {
+        var m = new Map();
+
+        for (var e in array) {
+            m.set(e, 1)
+        };
+ 
+        return m.keys();       
+    };
+
+
+    //
+    // map_array = map(key, [ ... ] )
+    // 
+    // pushes a single value for a key to the map_array
+function     push_value_to_map_array(mamap, key, value) {
+       var v = [];
+       if (mamap.has(key)) {
+       	v = mamap.get(key);
+        v.push(value);
+        mamap.set(key, v)
+       } else {
+        mamap.set(key, [value])
+       }
+    };
+
+    //
+    // looks like order dependent. If the parent has not been handle befor the childern
+    // it gets an incomplete result
+
+    // 
+    // add the classes serialised according to the childeren serialization...
+function     group_properties_per_class_using_hierarchy(hierarchy, grouped) {
+	    console.log(grouped);
+            var hierarchy_grouped = new Map();
+            var v = [];
+            var vv = [];
+
+            hierarchy.forEach(function(hvalue, hkey, hmap) {
+            vv = [];
+		    console.log(hkey);
+		    console.log(hvalue);
+                for (var akey in hvalue) {
+			console.log(hvalue[akey]);
+		   if (grouped.has(hvalue[akey])) {
+                          vv.push([grouped.get(hvalue[akey])]);
+		   };
+                };
+
+                          console.log(grouped.get(hkey));
+		   if (grouped.has(hkey)) {
+                          vv.push([grouped.get(hkey)]);
+		   };
+		    console.log(vv);
+                hierarchy_grouped.set(hkey, vv.flatten().flatten())
+            }); 
+            return hierarchy_grouped;
+  };
+
+        
    //
    // make the classes structure based on the grouping
    //
-   make_nj_classes(classes, grouped) {
+function    make_nj_classes(classes, grouped) {
 
    console.log('make nunjuncks classes');
 
@@ -95,7 +264,6 @@ const LinkedDataParser =  {
    var prop= new Map();
    var props =[];
  
-	  //console.log(grouped);
 
    classes.forEach(function(element) { 
     
@@ -108,15 +276,19 @@ const LinkedDataParser =  {
                 }
      //console.log(nj_class);	   
 
-     //console.log(element['extra']['EA-Name']);
      var gindex = element['extra']['EA-Name'];
-	   //console.log(gindex);
-     var g= grouped[gindex];
+
+     var g = [];
+     if (grouped.has(gindex)) {
+     var g=grouped[gindex];
 	   //console.log(g);
 	   if (g == null) {g = []};
      var g= grouped.get(gindex);
 	   //console.log(g);
 	   if (g == null) {g = []};
+     } else {
+	     g =[]
+     };
      props=[];
      nj_class.properties = props;
      Object.entries(g).forEach(
@@ -141,7 +313,7 @@ const LinkedDataParser =  {
 
  
    return nj_classes;
-},
+};
 
 
 
@@ -154,23 +326,23 @@ const LinkedDataParser =  {
     // For an example please refer to the README.md.
     //
     // @param expanded the root class as it is being read by jsonld
-    extract_classes_from_expanded_json: function(expanded) {
+function    extract_classes_from_expanded_json(expanded) {
         var classes = [];
         reverses = expanded["@reverse"];
         var defined_enitities = reverses[uris.IS_DEFINED_BY];
         for(i in defined_enitities) {
             var defined_entity = defined_enitities[i];
             var type = defined_entity["@type"];
-            if( this.class_in_type(uris.CLASS, type)) {
+            if( class_in_type(uris.CLASS, type)) {
                 var new_class = {
                     uri: defined_entity["@id"],
-                    name: this.extract_language_strings(defined_entity[uris.NAME]),
-                    description: this.extract_language_strings(defined_entity[uris.DESCRIPTION])
+                    name: extract_language_strings(defined_entity[uris.NAME]),
+                    description: extract_language_strings(defined_entity[uris.DESCRIPTION])
                 };
                 if(uris.USAGE in defined_entity) {
-                    new_class.usage = this.extract_language_strings(defined_entity[uris.USAGE]);
+                    new_class.usage = extract_language_strings(defined_entity[uris.USAGE]);
                 }
-                var class_properties = this.extract_all_properties_with_domain_from_expanded_json(expanded, new_class.uri);
+                var class_properties = extract_all_properties_with_domain_from_expanded_json(expanded, new_class.uri);
                 if(class_properties.length > 0) {
                     new_class.properties = class_properties;
                 }
@@ -178,7 +350,7 @@ const LinkedDataParser =  {
             }
         }
         return classes;
-    },
+    };
 
     // extract classes from expanded json
     // Takes an expanded json root object as it is being parsed by jsonld
@@ -188,23 +360,23 @@ const LinkedDataParser =  {
     // For an example please refer to the README.md.
     //
     // @param expanded the root class as it is being read by jsonld
-    extract_classes_from_expanded_json: function(expanded) {
+function     extract_classes_from_expanded_json(expanded) {
         var classes = [];
         reverses = expanded["@reverse"];
         var defined_enitities = reverses[uris.IS_DEFINED_BY];
         for(i in defined_enitities) {
             var defined_entity = defined_enitities[i];
             var type = defined_entity["@type"];
-            if( this.class_in_type(uris.CLASS, type)) {
+            if( class_in_type(uris.CLASS, type)) {
                 var new_class = {
                     uri: defined_entity["@id"],
-                    name: this.extract_language_strings(defined_entity[uris.NAME]),
-                    description: this.extract_language_strings(defined_entity[uris.DESCRIPTION])
+                    name: extract_language_strings(defined_entity[uris.NAME]),
+                    description: extract_language_strings(defined_entity[uris.DESCRIPTION])
                 };
                 if(uris.USAGE in defined_entity) {
-                    new_class.usage = this.extract_language_strings(defined_entity[uris.USAGE]);
+                    new_class.usage = extract_language_strings(defined_entity[uris.USAGE]);
                 }
-                var class_properties = this.extract_all_properties_with_domain_from_expanded_json(expanded, new_class.uri);
+                var class_properties = extract_all_properties_with_domain_from_expanded_json(expanded, new_class.uri);
                 if(class_properties.length > 0) {
                     new_class.properties = class_properties;
                 }
@@ -212,7 +384,7 @@ const LinkedDataParser =  {
             }
         }
         return classes;
-    },
+    };
 
     // extract all the properties with a certain domain from the expanded json
     // takes a class URI and an expanded json root object as it is was parsed
@@ -222,29 +394,29 @@ const LinkedDataParser =  {
     // @param expanded the root class that was parsed by jsonld
     // @param domain a string containing the URI of the class that you want the
     //               domain to be restricted to
-    extract_all_properties_with_domain_from_expanded_json: function(expanded, domain) {
+function     extract_all_properties_with_domain_from_expanded_json(expanded, domain) {
         var properties = [];
         reverses = expanded["@reverse"];
         var defined_enitities = reverses[uris.IS_DEFINED_BY];
         for(i in defined_enitities) {
             var defined_entity = defined_enitities[i];
             var type = defined_entity["@type"];
-            if( this.class_in_type(uris.PROPERTY, type)) {
+            if( class_in_type(uris.PROPERTY, type)) {
                 var parsed_property = {
                     uri: defined_entity["@id"],
-                    name: this.extract_language_strings(defined_entity[uris.NAME]),
-                    description: this.extract_language_strings(defined_entity[uris.DESCRIPTION]),
-                    domain: this.extract_strings(defined_entity[uris.DOMAIN]),
-                    range: this.extract_strings(defined_entity[uris.RANGE])
+                    name: extract_language_strings(defined_entity[uris.NAME]),
+                    description: extract_language_strings(defined_entity[uris.DESCRIPTION]),
+                    domain: extract_strings(defined_entity[uris.DOMAIN]),
+                    range: extract_strings(defined_entity[uris.RANGE])
                 };
                 if(uris.GENERALIZATION in defined_entity) {
-                    parsed_property["parents"] = this.extract_strings(defined_entity[uris.GENERALIZATION]);
+                    parsed_property["parents"] = extract_strings(defined_entity[uris.GENERALIZATION]);
                 }
                 if(uris.CARDINALITY in defined_entity) {
                     parsed_property.cardinality = defined_entity[uris.CARDINALITY][0]['@value'];
                 }
                 if(uris.USAGE in defined_entity) {
-                    parsed_property.usage = this.extract_language_strings(defined_entity[uris.USAGE]);
+                    parsed_property.usage = extract_language_strings(defined_entity[uris.USAGE]);
                 }
                 if(parsed_property.domain.indexOf(domain) > -1) {
                     properties.push(parsed_property);
@@ -252,7 +424,7 @@ const LinkedDataParser =  {
             }
         }
         return properties;
-    },
+    };
 
     // extract datatypes from expanded json
     // Takes an expanded json root object as it is being parsed by jsonld
@@ -262,23 +434,23 @@ const LinkedDataParser =  {
     // For an example please refer to the README.md.
     //
     // @param expanded the root class as it is being read by jsonld
-    extract_datatypes_from_expanded_json: function(expanded) {
+function     extract_datatypes_from_expanded_json(expanded) {
         var datatypes = [];
         reverses = expanded["@reverse"];
         var defined_enitities = reverses[uris.IS_DEFINED_BY];
         for(i in defined_enitities) {
             var defined_entity = defined_enitities[i];
             var type = defined_entity["@type"];
-            if( this.class_in_type(uris.DATATYPE, type)) {
+            if( class_in_type(uris.DATATYPE, type)) {
                 var new_datatype = {
                     uri: defined_entity["@id"],
-                    name: this.extract_language_strings(defined_entity[uris.NAME]),
-                    description: this.extract_language_strings(defined_entity[uris.DESCRIPTION])
+                    name: extract_language_strings(defined_entity[uris.NAME]),
+                    description: extract_language_strings(defined_entity[uris.DESCRIPTION])
                 };
                 if(uris.USAGE in defined_entity) {
-                    new_datatype.usage = this.extract_language_strings(defined_entity[uris.USAGE]);
+                    new_datatype.usage = extract_language_strings(defined_entity[uris.USAGE]);
                 }
-                var datatype_properties = this.extract_all_properties_with_domain_from_expanded_json(expanded, new_datatype.uri);
+                var datatype_properties = extract_all_properties_with_domain_from_expanded_json(expanded, new_datatype.uri);
                 if(datatype_properties.length > 0) {
                     new_datatype.properties = datatype_properties;
                 }
@@ -286,7 +458,7 @@ const LinkedDataParser =  {
             }
         }
         return datatypes;
-    },
+    };
 
     // extract properties from expanded json
     // Takes an expanded json root object as it is being parsed by jsonld
@@ -296,35 +468,35 @@ const LinkedDataParser =  {
     // For an example please refer to the README.md.
     //
     // @param expanded the root class as it is being read by jsonld
-    extract_properties_from_expanded_json: function(expanded) {
+function     extract_properties_from_expanded_json(expanded) {
         var properties = [];
         reverses = expanded["@reverse"];
         var defined_enitities = reverses[uris.IS_DEFINED_BY];
         for(i in defined_enitities) {
             var defined_entity = defined_enitities[i];
             var type = defined_entity["@type"];
-            if( this.class_in_type(uris.PROPERTY, type)) {
+            if( class_in_type(uris.PROPERTY, type)) {
                 var parsed_property = {
                     uri: defined_entity["@id"],
-                    name: this.extract_language_strings(defined_entity[uris.NAME]),
-                    description: this.extract_language_strings(defined_entity[uris.DESCRIPTION]),
-                    domain: this.extract_strings(defined_entity[uris.DOMAIN]),
-                    range: this.extract_strings(defined_entity[uris.RANGE])
+                    name: extract_language_strings(defined_entity[uris.NAME]),
+                    description: extract_language_strings(defined_entity[uris.DESCRIPTION]),
+                    domain: extract_strings(defined_entity[uris.DOMAIN]),
+                    range: extract_strings(defined_entity[uris.RANGE])
                 };
                 if(uris.CARDINALITY in defined_entity) {
                     parsed_property.cardinality = defined_entity[uris.CARDINALITY][0]['@value'];
                 }
                 if(uris.USAGE in defined_entity) {
-                    parsed_property.usage = this.extract_language_strings(defined_entity[uris.USAGE]);
+                    parsed_property.usage = extract_language_strings(defined_entity[uris.USAGE]);
                 }
                 if(uris.GENERALIZATION in defined_entity) {
-                    parsed_property["parents"] = this.extract_strings(defined_entity[uris.GENERALIZATION]);
+                    parsed_property["parents"] = extract_strings(defined_entity[uris.GENERALIZATION]);
                 }
                 properties.push(parsed_property);
             }
         }
         return properties;
-    },
+    };
 
 
     // extract contributors from expanded json
@@ -352,22 +524,22 @@ const LinkedDataParser =  {
     //
     // @param expanded the root class as it is being read by jsonld
 
-    extract_contributors_from_expanded_json: function(expanded) {
+function     extract_contributors_from_expanded_json(expanded) {
         var contributors = [];
-        contributors = contributors.concat(this._extract_contributors_from_expanded_json(expanded[uris.AUTHORS], "A"));
-        contributors = contributors.concat(this._extract_contributors_from_expanded_json(expanded[uris.EDITORS], "E"));
-        contributors = contributors.concat(this._extract_contributors_from_expanded_json(expanded[uris.CONTRIBUTORS], "C"));
+        contributors = contributors.concat(_extract_contributors_from_expanded_json(expanded[uris.AUTHORS], "A"));
+        contributors = contributors.concat(_extract_contributors_from_expanded_json(expanded[uris.EDITORS], "E"));
+        contributors = contributors.concat(_extract_contributors_from_expanded_json(expanded[uris.CONTRIBUTORS], "C"));
         return contributors;
-    },
+    };
 
     // private supporting method for the extract contributors from expanded json
     // function that makes abstractions of the connecting properties and role codes
-    _extract_contributors_from_expanded_json: function(expanded_people, role) {
+function     _extract_contributors_from_expanded_json(expanded_people, role) {
         var people = [];
         for(i in expanded_people) {
             var person = expanded_people[i];
             var type = person["@type"];
-            if( this.class_in_type(uris.PERSON, type)) {
+            if( class_in_type(uris.PERSON, type)) {
                 var parsed_person = {
                     role: role,
                     first_name: person[uris.FIRSTNAME][0]["@value"],
@@ -377,16 +549,16 @@ const LinkedDataParser =  {
                 if(uris.AFFILIATION in person) {
                     parsed_person.affiliation = {
                         name: person[uris.AFFILIATION][0][uris.FOAFNAME][0]["@value"],
-                        website: this._get_affiliation_homepage(person)
+                        website: _get_affiliation_homepage(person)
                     };
                 }
                 people.push(parsed_person);
             }
         }
         return people;
-    },
+    };
 
-    _get_affiliation_homepage: function(person) {
+function     _get_affiliation_homepage(person) {
 	// There might not be a HOMEPAGE defined
 	try {
 	    return person[uris.AFFILIATION][0][uris.HOMEPAGE][0]["@value"];
@@ -394,7 +566,7 @@ const LinkedDataParser =  {
 	    console.log('INFO: affiliation homepage is not present');	    
 	    return null;
 	};
-    },
+    };
 
     // extract externals from expanded json
     // Takes an expanded json root object as it is being parsed by jsonld
@@ -415,21 +587,21 @@ const LinkedDataParser =  {
     // ]
     //
     // @param expanded the root class as it is being read by jsonld
-    extract_externals_from_expanded_json: function(expanded) {
+function     extract_externals_from_expanded_json(expanded) {
         var externals = [];
         var defined_externals = expanded[uris.EXTERNALS];
         for(i in defined_externals) {
             var defined_external = defined_externals[i];
             var type = defined_external["@type"];
-            if( this.class_in_type(uris.EXTERNALCLASS, type)) {
+            if( class_in_type(uris.EXTERNALCLASS, type)) {
                 externals.push({
                     uri: defined_external["@id"],
-                    name: this.extract_language_strings(defined_external[uris.NAME])
+                    name: extract_language_strings(defined_external[uris.NAME])
                 });
             }
         }
         return externals;
-    },
+    };
 
     // extract metadata from expanded json
     // Takes an expanded json root object as it is being parsed by jsonld
@@ -440,9 +612,9 @@ const LinkedDataParser =  {
     // For an example please refer to the README.md.
     //
     // @param expanded the root class as it is being read by jsonld
-    extract_metadata_from_expanded_json: function(expanded) {
+function     extract_metadata_from_expanded_json(expanded) {
         var meta = {
-            title: this.extract_language_strings(expanded[uris.NAME]),
+            title: extract_language_strings(expanded[uris.NAME]),
             uri: expanded["@id"]
         };
 
@@ -450,17 +622,17 @@ const LinkedDataParser =  {
         meta.abstract = [];
         meta.comment = [];
         if(uris.DESCRIPTION in expanded) {
-            meta.description = this.extract_language_strings(expanded[uris.DESCRIPTION]);
+            meta.description = extract_language_strings(expanded[uris.DESCRIPTION]);
         }
         if(uris.ISSUED in expanded) {
-            meta.issued = this.extract_functional_property(expanded[uris.ISSUED]);
+            meta.issued = extract_functional_property(expanded[uris.ISSUED]);
         }
         if(uris.MODIFIED in expanded) {
-            meta.modified = this.extract_functional_property(expanded[uris.MODIFIED]);
+            meta.modified = extract_functional_property(expanded[uris.MODIFIED]);
         }
 
         return meta;
-    },
+    };
 
     // class in type
     // returns true if the passed classname is found within
@@ -474,7 +646,7 @@ const LinkedDataParser =  {
     //
     // @param classname the name of the class that is being checked
     // @param types an array of strings representing types
-    class_in_type: function(classname, types) {
+function     class_in_type(classname, types) {
         for(i in types) {
             var type = types[i];
             if(type.indexOf(classname) > -1) {
@@ -482,7 +654,7 @@ const LinkedDataParser =  {
             }
             return false;
         }
-    },
+    };
 
     // extract language strings
     // Takes a string bag as it is being produced by jsonld when
@@ -496,14 +668,14 @@ const LinkedDataParser =  {
     //
     // @param expanded_string_bags an array of string as they are being
     //                             parsed by jsonld
-    extract_language_strings: function(expanded_string_bag) {
+function     extract_language_strings(expanded_string_bag) {
         var bag = {};
         for(i in expanded_string_bag) {
             var language_string = expanded_string_bag[i];
             bag[language_string["@language"]] = language_string["@value"];
         }
         return bag;
-    },
+    };
 
     // extract strings
     // takes a string bag as it is being produced by jsonld when
@@ -516,14 +688,14 @@ const LinkedDataParser =  {
     //
     // @param expanded_string_bags an array of string as they are being
     //                             parsed by jsonld
-    extract_strings: function(expanded_string_bag) {
+function     extract_strings(expanded_string_bag) {
         var bag = [];
         for(i in expanded_string_bag) {
             var string = expanded_string_bag[i];
             bag.push(string["@value"]);
         }
         return bag;
-    },
+    };
 
     // extract functional property
     // Takes an expanded property as it is being parsed by jsonld
@@ -537,12 +709,11 @@ const LinkedDataParser =  {
     // > "house"
     //
     // @param expanded_property the property whose value is being extracted
-    extract_functional_property: function(expanded_property) {
+function     extract_functional_property(expanded_property) {
         if(expanded_property.length > 0) {
             return expanded_property[0]["@value"];
         }
         return 0;
     }
-};
 
-module.exports = LinkedDataParser;
+module.exports = {parse_ontology_from_json_ld_file };
