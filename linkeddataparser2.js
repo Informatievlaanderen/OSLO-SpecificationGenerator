@@ -29,20 +29,12 @@ require("collections/shim-array");
     // by the nunjucks template.
     //
     // @param filename the name of the file that contains the json ld representation
-async function    parse_ontology_from_json_ld_file(json_ld_file) {
+async function    parse_ontology_from_json_ld_file_voc(json_ld_file) {
         var ld = JSON.parse(fs.readFileSync(json_ld_file, 'utf-8'));
         expanded = await jsonld.expand(ld);
         //console.log(JSON.stringify(expanded));
         
-        var grouped0 = group_properties_per_class_all(ld);
-	    console.log(grouped0);
-	    console.log("-----");
-        hier = class_hierarchy_extensional(ld['classes'].concat(ld['externals']))  ;
-	    console.log(hier);
-	    console.log("-----");
-        var gg = group_properties_per_class_using_hierarchy(hier, grouped0);
-	    console.log(gg);
-	    console.log("-----");
+        var grouped0 = group_properties_per_class(ld);
         var nj_classes = make_nj_classes(ld.classes, grouped0);
 	    //console.log(JSON.stringify(nj_classes) );
        
@@ -64,6 +56,62 @@ async function    parse_ontology_from_json_ld_file(json_ld_file) {
         }
     };
 
+async function    parse_ontology_from_json_ld_file_ap(json_ld_file) {
+        var ld = JSON.parse(fs.readFileSync(json_ld_file, 'utf-8'));
+        expanded = await jsonld.expand(ld);
+        //console.log(JSON.stringify(expanded));
+        
+        var grouped0 = group_properties_per_class_all(ld);
+        var nj_classes = make_nj_classes(ld.classes, grouped0);
+	    //console.log(JSON.stringify(nj_classes) );
+       
+        for(i in expanded) {
+            var vocabularium = expanded[i];
+            var nunjucks_json = {
+                metadata: extract_metadata_from_expanded_json(vocabularium),
+                classes: nj_classes,
+                properties: extract_properties_from_expanded_json(vocabularium),
+                contributors: extract_contributors_from_expanded_json(vocabularium),
+                externals: extract_externals_from_expanded_json(vocabularium),
+                parents: []
+            };
+            var datatypes = extract_datatypes_from_expanded_json(vocabularium);
+            if(datatypes.length > 0) {
+                nunjucks_json.datatypes = datatypes;
+            }
+            return nunjucks_json;
+        }
+    };
+
+async function    parse_ontology_from_json_ld_file_oj(json_ld_file) {
+        var ld = JSON.parse(fs.readFileSync(json_ld_file, 'utf-8'));
+        expanded = await jsonld.expand(ld);
+        //console.log(JSON.stringify(expanded));
+        
+        var grouped0 = group_properties_per_class_all(ld);
+	    //console.log(grouped0);
+        hier = class_hierarchy_extensional(ld['classes'].concat(ld['externals']))  ;
+        var grouped2 = group_properties_per_class_using_hierarchy(hier, grouped0);
+        var nj_classes = make_nj_classes(ld.classes, grouped2);
+	    //console.log(JSON.stringify(nj_classes) );
+       
+        for(i in expanded) {
+            var vocabularium = expanded[i];
+            var nunjucks_json = {
+                metadata: extract_metadata_from_expanded_json(vocabularium),
+                classes: nj_classes,
+                properties: extract_properties_from_expanded_json(vocabularium),
+                contributors: extract_contributors_from_expanded_json(vocabularium),
+                externals: extract_externals_from_expanded_json(vocabularium),
+                parents: []
+            };
+            var datatypes = extract_datatypes_from_expanded_json(vocabularium);
+            if(datatypes.length > 0) {
+                nunjucks_json.datatypes = datatypes;
+            }
+            return nunjucks_json;
+        }
+    };
    
     //
     // group the properties per class using the domain
@@ -86,11 +134,6 @@ function     group_properties_per_class_all(json) {
     };
 
 function     group_properties_per_class2(classes, properties, json) {
-	    console.log("=======");
-	    console.log(classes);
-	    console.log("=======");
-	    console.log(properties);
-	    console.log("=======");
             var grouped = new Map();
             var domain = [];
             var v = [];
@@ -225,27 +268,21 @@ function     push_value_to_map_array(mamap, key, value) {
     // 
     // add the classes serialised according to the childeren serialization...
 function     group_properties_per_class_using_hierarchy(hierarchy, grouped) {
-	    console.log(grouped);
             var hierarchy_grouped = new Map();
             var v = [];
             var vv = [];
 
             hierarchy.forEach(function(hvalue, hkey, hmap) {
             vv = [];
-		    console.log(hkey);
-		    console.log(hvalue);
                 for (var akey in hvalue) {
-			console.log(hvalue[akey]);
 		   if (grouped.has(hvalue[akey])) {
                           vv.push([grouped.get(hvalue[akey])]);
 		   };
                 };
 
-                          console.log(grouped.get(hkey));
 		   if (grouped.has(hkey)) {
                           vv.push([grouped.get(hkey)]);
 		   };
-		    console.log(vv);
                 hierarchy_grouped.set(hkey, vv.flatten().flatten())
             }); 
             return hierarchy_grouped;
@@ -716,4 +753,4 @@ function     extract_functional_property(expanded_property) {
         return 0;
     }
 
-module.exports = {parse_ontology_from_json_ld_file };
+module.exports = {parse_ontology_from_json_ld_file_voc, parse_ontology_from_json_ld_file_ap, parse_ontology_from_json_ld_file_oj };
