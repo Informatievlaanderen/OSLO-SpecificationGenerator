@@ -104,6 +104,7 @@ function map_properties(prop) {
   var mapping = new Map();
 
   var range;
+  var range_uri = '';
    
     if (prop.range.length === 0) {
       console.log('warning: no range for '+ prop.name.nl);
@@ -112,19 +113,23 @@ function map_properties(prop) {
     if (prop.range.length > 1) {
       console.log('warning: more than one type for '+ prop.name.nl + ' : ' + prop.range);
       range = prop.range[0];
-    } else { range = prop.range[0]}} ;
+      range_uri = range.uri;
+    } else { 
+      range = prop.range[0]};
+      range_uri = range.uri;
+    } ;
 
 	var propc = {};
 	if (prop.maxCardinality != "0" & prop.maxCardinality != "1") {
       propc = { 
 	      '@id' : prop['@id'],
-	      '@type': range.uri,
+	      '@type': range_uri,
 	      '@container' : '@set'
                   };
 	} else {
 
        propc=      { '@id' : prop['@id'],
-        '@type': range.uri
+        '@type': range_uri
                   };
 	};
 
