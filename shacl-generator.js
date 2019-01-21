@@ -9,12 +9,13 @@ program
   .usage(' creates shacl template')
   .option('-i, --input <path>', 'input file (a jsonld file)')
   .option('-o, --output <path>', 'output file (shacl)')
+  .option('-d, --domain <path>', 'domain of the shacl shapes')
 
 program.on('--help', function(){
     console.log('')
     console.log('Examples:');
     console.log('  $ specgen-shacl --help');
-    console.log('  $ specgen-shacl -i <input> -o <output>');
+    console.log('  $ specgen-shacl -i <input> -o <output> -d <domain>');
     process.exitCode = 1;
 });
 
@@ -65,8 +66,15 @@ function render_shacl_from_json_ld_file(filename, output_filename) {
  * group the properties per class using the domain
  */
 function group_properties_per_class(json) {
-    var classes = json['classes'];
-    var properties = json['properties'];
+            var classes = json['classes'];
+            classes = classes.concat(json['externals']);
+            var properties = json['properties'];
+            properties = properties.concat(json['externalproperties']);
+	return group_properties_per_class_aux(json, properties, classes);
+};
+
+
+function group_properties_per_class_aux(json, properties, classes) {
     var grouped = new Map();
     var domain = [];
     var v = [];
@@ -101,8 +109,14 @@ function group_properties_per_class(json) {
  * entity-map: EA-Name -> Entity
  */
 function entity_map(json) {
-    var classes = json['classes'];
-    var properties = json['properties'];
+            var classes = json['classes'];
+            classes = classes.concat(json['externals']);
+            var properties = json['properties'];
+            properties = properties.concat(json['externalproperties']);
+	return entity_map_aux(json, classes, properties );
+};
+
+function entity_map_aux(json, classes, properties ) {
     var entitymap = new Map();
 
     for (var key in classes ) {
@@ -127,13 +141,14 @@ function make_shacl(grouped, entitymap) {
 
    var shaclTemplates = [];
    var shacl = new Map();
+   var shaclDoc = new Map();
    var prop= new Map();
    var props =[];
  
    grouped.forEach(function(kvalue,kkey,kmap) { 
      
      shacl = new Map();
-     shacl['@id'] = kkey + 'Shacl';
+     shacl['@id'] = program.domain + kkey + 'Shacl';
      shacl['@type'] = 'sh:NodeShape';
      if (entitymap.get(kkey)) {
         shacl['sh:targetClass'] = entitymap.get(kkey)['@id'];
@@ -164,10 +179,18 @@ function make_shacl(grouped, entitymap) {
      shaclTemplates.push(shacl);
     });
 
-   shacl['@context'] = {"sh": "http://www.w3.org/ns/shacl#"} ;
+   shaclDoc['@context'] = {
+    	"sh": "http://www.w3.org/ns/shacl#",
+    	"sh:class" : {"@type": "@id"},
+    	"sh:path" : {"@type": "@id"},
+    	"sh:property" : {"@type": "@id"},
+    	"shapes" : {"@type": "@id"},
+	"@vocab" : program.domain,
+	} ;
+   shaclDoc['shapes'] = shaclTemplates;
   
  
-   return shaclTemplates;
+   return shaclDoc;
 }
 
 
