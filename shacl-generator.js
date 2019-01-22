@@ -9,7 +9,7 @@ program
   .usage(' creates shacl template')
   .option('-i, --input <path>', 'input file (a jsonld file)')
   .option('-o, --output <path>', 'output file (shacl)')
-  .option('-d, --domain <path>', 'domain of the shacl shapes')
+  .option('-d, --domain <path>', 'domain of the shacl shapes, without #')
 
 program.on('--help', function(){
     console.log('')
@@ -74,6 +74,8 @@ function group_properties_per_class(json) {
 };
 
 
+
+
 function group_properties_per_class_aux(json, properties, classes) {
     var grouped = new Map();
     var domain = [];
@@ -104,6 +106,13 @@ function group_properties_per_class_aux(json, properties, classes) {
     };
     return grouped;
 }
+
+/*
+ * order the properties according nameA
+ *   - iterate over sorted keys? exists?
+ */
+
+
 
 /*
  * entity-map: EA-Name -> Entity
@@ -144,18 +153,20 @@ function make_shacl(grouped, entitymap) {
    var shaclDoc = new Map();
    var prop= new Map();
    var props =[];
+   var sorted = [];
  
    grouped.forEach(function(kvalue,kkey,kmap) { 
      
      shacl = new Map();
-     shacl['@id'] = program.domain + kkey + 'Shacl';
+     shacl['@id'] = program.domain + '#' + kkey + 'Shape';
      shacl['@type'] = 'sh:NodeShape';
      if (entitymap.get(kkey)) {
         shacl['sh:targetClass'] = entitymap.get(kkey)['@id'];
      } else {console.log('WARNING: shacl shape for unknown class: ', kkey)}
      shacl['sh:closed'] = false; 
      props=[];
-     Object.entries(kvalue).forEach(
+     sorted = kvalue.sort(function(a,b) {if (a['extra']['EA-Name'] < b['extra']['EA-Name']) {return -1}; if (a['extra']['EA-Name'] > b['extra']['EA-Name']) {return 1}; return 0;});
+     Object.entries(sorted).forEach(
 	    ([pkey, value]) => {
               prop = {
                       'sh:name' : value.name.nl,
@@ -182,11 +193,14 @@ function make_shacl(grouped, entitymap) {
    shaclDoc['@context'] = {
     	"sh": "http://www.w3.org/ns/shacl#",
     	"sh:class" : {"@type": "@id"},
+    	"sh:datatype" : {"@type": "@id"},
     	"sh:path" : {"@type": "@id"},
     	"sh:property" : {"@type": "@id"},
+    	"sh:targetClass" : {"@type": "@id"},
     	"shapes" : {"@type": "@id"},
 	"@vocab" : program.domain,
 	} ;
+   shaclDoc['@id'] = program.domain;
    shaclDoc['shapes'] = shaclTemplates;
   
  
