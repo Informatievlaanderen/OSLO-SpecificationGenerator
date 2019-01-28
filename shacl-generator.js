@@ -183,7 +183,7 @@ function make_shacl(grouped, entitymap) {
 	      }}};
 
               if (value.maxCardinality && value.maxCardinality != "*") { prop['sh:maxCount'] = value.maxCardinality}
-              if (value.minCardinality && value.minCardinality != "0") { prop['sh:minCount'] = value.maxCardinality}
+              if (value.minCardinality && value.minCardinality != "0") { prop['sh:minCount'] = value.minCardinality}
               props.push( prop);
   	  });
      shacl['sh:property'] = props;
