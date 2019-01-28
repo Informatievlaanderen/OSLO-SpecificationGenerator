@@ -169,7 +169,7 @@ function make_shacl(grouped, entitymap) {
      Object.entries(sorted).forEach(
 	    ([pkey, value]) => {
               prop = {
-                      'sh:name' : value.name.nl,
+                      'sh:name' : value['extra']['EA-Name'],
                       'sh:description' : value.description.nl,
                       'sh:path' :value['@id'],
               };

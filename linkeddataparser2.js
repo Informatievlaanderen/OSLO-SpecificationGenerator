@@ -331,6 +331,7 @@ function    make_nj_classes(classes, grouped) {
      Object.entries(g).forEach(
 	    ([pkey, value]) => {
 	      var card = value.minCardinality + ".." + value.maxCardinality;
+	      // TODO: bug if no range is given
               prop = {
                     uri: value["@id"],
                     name: value.name,
