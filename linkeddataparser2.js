@@ -327,19 +327,24 @@ function    make_nj_classes(classes, grouped) {
 	     g =[]
      };
      props=[];
+     var range = {};
      nj_class.properties = props;
      Object.entries(g).forEach(
 	    ([pkey, value]) => {
 	      var card = value.minCardinality + ".." + value.maxCardinality;
 	      // TODO: bug if no range is given
+              if (value.range && value.range[0] && value.range[0]['EA-Name']) {
+		  range = {label: value.range[0]['EA-Name'], uri: value.range[0].uri}
+              } else {
+		  range = {}
+	      };
               prop = {
                     uri: value["@id"],
                     name: value.name,
                     description: value.description,
                     usage: value.usage,
                     domain: value.domain,
-		  range: {label: value.range[0]['EA-Name'], 
-			  uri: value.range[0].uri},
+		    range: range,
 		    cardinality: card,
                     codelist_uri: "" // TODO
                     }
