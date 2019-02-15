@@ -184,6 +184,7 @@ function make_shacl(grouped, entitymap) {
 
               if (value.maxCardinality && value.maxCardinality != "*") { prop['sh:maxCount'] = value.maxCardinality}
               if (value.minCardinality && value.minCardinality != "0") { prop['sh:minCount'] = value.minCardinality}
+              if (value['extra']['ap-codelist']) { prop['qb:codeList'] = value['extra']['ap-codelist'] }
               props.push( prop);
   	  });
      shacl['sh:property'] = props;
@@ -192,12 +193,19 @@ function make_shacl(grouped, entitymap) {
 
    shaclDoc['@context'] = {
     	"sh": "http://www.w3.org/ns/shacl#",
+        "qb": "http://purl.org/linked-data/cube#",
     	"sh:class" : {"@type": "@id"},
     	"sh:datatype" : {"@type": "@id"},
     	"sh:path" : {"@type": "@id"},
     	"sh:property" : {"@type": "@id"},
     	"sh:targetClass" : {"@type": "@id"},
     	"shapes" : {"@type": "@id"},
+        "sh:minCount" : {
+            "@type": "http://www.w3.org/2001/XMLSchema#integer"
+         },
+        "sh:maxCount" : {
+            "@type": "http://www.w3.org/2001/XMLSchema#integer"
+         },
 	"@vocab" : program.domain,
 	} ;
    shaclDoc['@id'] = program.domain;
