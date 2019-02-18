@@ -33,7 +33,7 @@ function render_context_from_json_ld_file(filename, output_filename) {
        function(obj) { 
         console.log('start processing');
        
-        var context = make_context(classes(obj), properties(obj), externals(obj)); 
+        var context = make_context(classes(obj), properties(obj), externals(obj), externalproperties(obj)); 
 
         console.log('start wrinting');
        
@@ -64,7 +64,7 @@ function join_contexts(context, value, key, map) {
 
 
 
-function make_context(classes, properties, externals) {
+function make_context(classes, properties, externals, externalproperties) {
 
    console.log('make context');
 
@@ -74,6 +74,7 @@ function make_context(classes, properties, externals) {
    if (classes !== null) {classes.forEach(function (e) { for (var key in e) {join_contexts(contextbody, e[key], key, e)  }})};
    if (properties !== null) {properties.forEach(function (e) { for (var key in e) {join_contexts(contextbody, e[key], key, e)  }})};
    if (externals !== null) {externals.forEach(function (e) { for (var key in e) {join_contexts(contextbody, e[key], key, e)  }})};
+   if (externalproperties !== null) {externalproperties.forEach(function (e) { for (var key in e) {join_contexts(contextbody, e[key], key, e)  }})};
 
 
    context['@context'] = contextbody;
@@ -180,6 +181,16 @@ function externals(json) {
 
    var externalmapping = new Map();
    externalmapping = externs.map(x => map_external(x));
+
+  
+   return externalmapping;
+}
+
+function externalproperties(json) {
+   var externs = json['externalproperties'];
+
+   var externalmapping = new Map();
+   externalmapping = externs.map(x => map_properties(x));
 
   
    return externalmapping;
