@@ -63,6 +63,31 @@ async function    parse_ontology_from_json_ld_file_ap(json_ld_file) {
         
         var grouped0 = group_properties_per_class_all(ld);
         var nj_classes = make_nj_classes(ld.classes, grouped0);
+        var nj_datatypes = make_nj_datatypes(ld.classes, grouped0);
+       
+        for(i in expanded) {
+            var vocabularium = expanded[i];
+            var nunjucks_json = {
+                metadata: extract_metadata_from_expanded_json(vocabularium),
+                classes: nj_classes,
+                properties: extract_properties_from_expanded_json(vocabularium),
+                contributors: extract_contributors_from_expanded_json(vocabularium),
+                externals: extract_externals_from_expanded_json(vocabularium),
+		datatypes: nj_datatypes,
+                parents: []
+            };
+            return nunjucks_json;
+        }
+    };
+
+async function    parse_ontology_from_json_ld_file_all(json_ld_file) {
+        var ld = JSON.parse(fs.readFileSync(json_ld_file, 'utf-8'));
+        expanded = await jsonld.expand(ld);
+        //console.log(JSON.stringify(expanded));
+        
+        var grouped0 = group_properties_per_class_all(ld);
+        var nj_classes = make_nj_classes(ld.classes.concat(ld.externals), grouped0);
+        var nj_datatypes = make_nj_datatypes(ld.classes.concat(ld.externals), grouped0);
 	    //console.log(JSON.stringify(nj_classes) );
        
         for(i in expanded) {
@@ -73,12 +98,9 @@ async function    parse_ontology_from_json_ld_file_ap(json_ld_file) {
                 properties: extract_properties_from_expanded_json(vocabularium),
                 contributors: extract_contributors_from_expanded_json(vocabularium),
                 externals: extract_externals_from_expanded_json(vocabularium),
+		datatypes: nj_datatypes,
                 parents: []
             };
-            var datatypes = extract_datatypes_from_expanded_json(vocabularium);
-            if(datatypes.length > 0) {
-                nunjucks_json.datatypes = datatypes;
-            }
             return nunjucks_json;
         }
     };
@@ -94,6 +116,7 @@ async function    parse_ontology_from_json_ld_file_oj(json_ld_file) {
         var grouped2 = group_properties_per_class_using_hierarchy(hier, grouped0);
         var nj_classes = make_nj_classes(ld.classes, grouped2);
 	    //console.log(JSON.stringify(nj_classes) );
+        var nj_datatypes = make_nj_datatypes(ld.classes, grouped2);
        
         for(i in expanded) {
             var vocabularium = expanded[i];
@@ -103,12 +126,9 @@ async function    parse_ontology_from_json_ld_file_oj(json_ld_file) {
                 properties: extract_properties_from_expanded_json(vocabularium),
                 contributors: extract_contributors_from_expanded_json(vocabularium),
                 externals: extract_externals_from_expanded_json(vocabularium),
+		datatypes: nj_datatypes,
                 parents: []
             };
-            var datatypes = extract_datatypes_from_expanded_json(vocabularium);
-            if(datatypes.length > 0) {
-                nunjucks_json.datatypes = datatypes;
-            }
             return nunjucks_json;
         }
     };
@@ -292,7 +312,7 @@ function     group_properties_per_class_using_hierarchy(hierarchy, grouped) {
    //
    // make the classes structure based on the grouping
    //
-function    make_nj_classes(classes, grouped) {
+function    make_nj_classes2(classes, grouped) {
 
    console.log('make nunjuncks classes');
 
@@ -358,7 +378,90 @@ function    make_nj_classes(classes, grouped) {
    return nj_classes;
 };
 
+function make_nj_classes(classes, grouped) {
 
+   console.log('make nunjuncks classes');
+
+   var nj_classes= [];
+
+   nj_classes = classes.reduce(function(accumulator, element) { 
+	   if ((element['extra']['EA-Type'] !== 'DATATYPE') && (element['extra']['EA-Type'] !== 'ENUMERATION')) {
+	   accumulator.push(make_nj_class(element, grouped));
+	   };
+	   return accumulator;
+   }, []);
+	return nj_classes;
+};
+
+function make_nj_datatypes(classes, grouped) {
+
+   console.log('make nunjuncks classes');
+
+   var nj_classes= [];
+
+   nj_classes = classes.reduce(function(accumulator, element) { 
+	   if (element['extra']['EA-Type'] === 'DATATYPE') {
+	   accumulator.push(make_nj_class(element, grouped));
+	   };
+	   return accumulator;
+   }, []);
+	return nj_classes;
+};
+
+
+function make_nj_class(element, grouped) {
+   var prop= new Map();
+   var props =[];
+     
+   var  nj_class = {
+                    uri: element["@id"],
+                    name: element.name,
+                    description: element.description,
+                    usage: element.usage
+                }
+     //console.log(nj_class);	   
+
+     var gindex = element['extra']['EA-Name'];
+
+     var g = [];
+     if (grouped.has(gindex)) {
+     var g=grouped[gindex];
+	   //console.log(g);
+	   if (g == null) {g = []};
+     var g= grouped.get(gindex);
+	   //console.log(g);
+	   if (g == null) {g = []};
+     } else {
+	     g =[]
+     };
+     props=[];
+     var range = {};
+     nj_class.properties = props;
+     Object.entries(g).forEach(
+	    ([pkey, value]) => {
+	      var card = value.minCardinality + ".." + value.maxCardinality;
+	      // TODO: bug if no range is given
+              if (value.range && value.range[0] && value.range[0]['EA-Name']) {
+		  range = {label: value.range[0]['EA-Name'], uri: value.range[0].uri}
+              } else {
+		  range = {}
+	      };
+              prop = {
+                    uri: value["@id"],
+                    name: value.name,
+                    description: value.description,
+                    usage: value.usage,
+                    domain: value.domain,
+		    range: range,
+		    cardinality: card,
+                    codelist_uri: value.extra["ap-codelist"] 
+                    }
+              props.push( prop);
+  	  });
+     nj_class.properties = props;
+
+     return nj_class;
+};
 
 
     // extract classes from expanded json
@@ -469,6 +572,8 @@ function     extract_all_properties_with_domain_from_expanded_json(expanded, dom
         return properties;
     };
 
+
+
     // extract datatypes from expanded json
     // Takes an expanded json root object as it is being parsed by jsonld
     // together with the context such as it is being defined in the root of
@@ -540,6 +645,7 @@ function     extract_properties_from_expanded_json(expanded) {
         }
         return properties;
     };
+
 
 
     // extract contributors from expanded json
@@ -759,4 +865,4 @@ function     extract_functional_property(expanded_property) {
         return 0;
     }
 
-module.exports = {parse_ontology_from_json_ld_file_voc, parse_ontology_from_json_ld_file_ap, parse_ontology_from_json_ld_file_oj };
+module.exports = {parse_ontology_from_json_ld_file_voc, parse_ontology_from_json_ld_file_ap, parse_ontology_from_json_ld_file_oj, parse_ontology_from_json_ld_file_all };

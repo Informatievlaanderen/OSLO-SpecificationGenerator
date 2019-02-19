@@ -10,7 +10,7 @@ var program = require('commander');
 program
   .version('0.8.0')
   .usage('node html-generator.js creates html pages for jsonld files ')
-  .option('-s, --style <target>', 'target style html forms. One of {voc,ap, oj}', /^(voc|ap|oj)$/i)
+  .option('-s, --style <target>', 'target style html forms. One of {voc,ap, oj}', /^(voc|ap|oj|all)$/i)
   .option('-t, --template <template>', 'html template to render')
   .option('-d, --templatedir [directory]', 'the directory containing all templates')
   .option('-i, --input <path>', 'input file (a jsonld file)')
@@ -49,6 +49,9 @@ function render_html_from_json_ld_file(target, template, filename, output_filena
                 break;
             case "ap": 
                 promise = ldParser.parse_ontology_from_json_ld_file_ap(filename);
+                break;
+            case "all": 
+                promise = ldParser.parse_ontology_from_json_ld_file_all(filename);
                 break;
             case "oj": 
                 promise = ldParser.parse_ontology_from_json_ld_file_oj(filename);
