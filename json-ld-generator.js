@@ -32,8 +32,10 @@ function render_context_from_json_ld_file(filename, output_filename) {
   .then(
        function(obj) { 
         console.log('start processing');
-       
-        var context = make_context(classes(obj), properties(obj), externals(obj), externalproperties(obj)); 
+        
+        var duplicates = identify_duplicates(obj['properties'].concat(obj['externalproperties']));
+        console.log(duplicates);
+        var context = make_context(classes(obj), properties(duplicates, obj), externals(obj), externalproperties(duplicates, obj)); 
 
         console.log('start wrinting');
        
@@ -45,6 +47,64 @@ function render_context_from_json_ld_file(filename, output_filename) {
        }
    )
 	.catch(error => { console.error(error); process.exitCode = 1; } ) 
+}
+
+
+/*
+ * identify duplicates
+ */
+function identify_duplicates(properties) {
+	/*
+   var listnames = [];
+   listnames = properties.map(x => map_identifier(x));
+   var countnames = new Map(); 
+   for (var p in listnames) {
+      if (countnames.has(listnames[p])) {
+          countnames.set(listnames[p], countnames.get(listnames[p]) +1);
+      } else {
+	  countnames.set(listnames[p],1);
+       }
+   }
+   */
+ 
+ var acc = new Map(); 
+  acc = properties.reduce(function(accumulator, currentValue, currentIndex, array) {
+
+	    return urireducer(accumulator, currentValue, currentIndex, array)
+  },acc);
+
+	var acc2 = new Map();
+	acc.forEach(function(value, key, map) {
+		if (value.length > 1) {
+			acc2.set(key,value)
+		}
+
+	});
+
+  return acc2; 
+   
+};
+
+
+function map_identifier(prop) {
+  return prop.extra['EA-Name'];
+};
+
+function urireducer(accumulator, currentValue, currentIndex, array) {
+	  var currentlist = [];
+	  if (accumulator.has(currentValue.extra['EA-Name']))  {
+		  currentlist = accumulator.get(currentValue.extra['EA-Name']);
+		  currentlist.push(currentValue['@id']);
+		  accumulator.set(currentValue.extra['EA-Name'], currentlist);
+	  } else {
+		  accumulator.set(currentValue.extra['EA-Name'],  [currentValue['@id']]);
+	  }
+	  return accumulator;
+};
+
+function has_duplicates(count, prop) {
+
+   if (count[prop] > 1) { return true } else {return false}
 }
 
 
@@ -101,7 +161,7 @@ function classes(json) {
    return classmapping;
 }
 
-function map_properties(prop) {
+function map_properties(duplicates, prop) {
   var mapping = new Map();
 
   var range;
@@ -119,8 +179,22 @@ function map_properties(prop) {
       range = prop.range[0]};
       range_uri = range.uri;
     } ;
-
+	
+   key=prop.extra['EA-Name'] 
 	var propc = {};
+	if (duplicates.has(key)) {
+	// duplicate
+	domain = prop.extra['EA-Domain'];
+		if (domain === "") {
+			console.log("ERROR: no domain for duplicate property " + key);
+			console.log("An overwrite will happen");
+		} else {
+		key=domain+"."+prop.extra['EA-Name'];
+		}
+	
+	} else {
+        // no duplicate
+	};
 	if (prop.maxCardinality != "0" & prop.maxCardinality != "1") {
       propc = { 
 	      '@id' : prop['@id'],
@@ -133,8 +207,12 @@ function map_properties(prop) {
         '@type': range_uri
                   };
 	};
-
-    mapping[prop.extra['EA-Name']] = propc
+  // add to the map, only if it is not yet present  
+  if (mapping.has(key)) {
+    console.log('warning: duplicate key ' + key + ' value ' + mapping[key])
+  } else {
+    mapping[key] = propc
+  };
          
 //    mapping['@type'] = prop.range;
 //    If the cardinality is not 1
@@ -156,11 +234,11 @@ function map_properties(prop) {
     return mapping;
 }
 
-function properties(json) {
+function properties(duplicates, json) {
    var props = json['properties'];
 
    var propertymapping = new Map();
-   propertymapping = props.map(x => map_properties(x));
+   propertymapping = props.map(x => map_properties(duplicates, x));
   
    return propertymapping;
 }
@@ -186,11 +264,11 @@ function externals(json) {
    return externalmapping;
 }
 
-function externalproperties(json) {
+function externalproperties(duplicates, json) {
    var externs = json['externalproperties'];
 
    var externalmapping = new Map();
-   externalmapping = externs.map(x => map_properties(x));
+   externalmapping = externs.map(x => map_properties(duplicates,x));
 
   
    return externalmapping;
