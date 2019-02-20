@@ -13,8 +13,9 @@ program
   .option('-s, --style <target>', 'target style html forms. One of {voc,ap, oj}', /^(voc|ap|oj|all)$/i)
   .option('-t, --template <template>', 'html template to render')
   .option('-d, --templatedir [directory]', 'the directory containing all templates')
+  .option('-r, --documentpath <path>', 'the document path on which the html is published')
   .option('-i, --input <path>', 'input file (a jsonld file)')
-  .option('-o, --output <path>', 'output file (the context)')
+  .option('-o, --output <path>', 'output file (the html file)')
 
 program.on('--help', function(){
   console.log('')
@@ -61,6 +62,7 @@ function render_html_from_json_ld_file(target, template, filename, output_filena
         };
 
         promise.then(function(parsed_json) {
+          parsed_json.documentroot = program.documentpath;
           var html = nunjucks.render(template, parsed_json);
           const data = new Uint8Array(Buffer.from(html));
 
