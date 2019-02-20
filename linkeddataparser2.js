@@ -416,6 +416,7 @@ function make_nj_class(element, grouped) {
    var  nj_class = {
                     uri: element["@id"],
                     name: element.name,
+                    sort_nl: element.name.nl,
                     description: element.description,
                     usage: element.usage
                 }
@@ -441,14 +442,16 @@ function make_nj_class(element, grouped) {
 	    ([pkey, value]) => {
 	      var card = value.minCardinality + ".." + value.maxCardinality;
 	      // TODO: bug if no range is given
-              if (value.range && value.range[0] && value.range[0]['EA-Name']) {
-		  range = {label: value.range[0]['EA-Name'], uri: value.range[0].uri}
-              } else {
-		  range = {}
-	      };
+              range = value.range.reduce(function(racc, relem) { 
+              if (relem['EA-Name']) {
+		  racc.push({range_label: relem['EA-Name'], range_uri: relem.uri});
+                  } 
+  		  return racc;
+               }, []);
               prop = {
                     uri: value["@id"],
                     name: value.name,
+  		    sort_nl: value.name.nl,
                     description: value.description,
                     usage: value.usage,
                     domain: value.domain,
