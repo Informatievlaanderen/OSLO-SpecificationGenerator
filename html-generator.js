@@ -14,6 +14,7 @@ program
   .option('-t, --template <template>', 'html template to render')
   .option('-d, --templatedir [directory]', 'the directory containing all templates')
   .option('-r, --documentpath <path>', 'the document path on which the html is published')
+  .option('-x, --debug <path>', 'the intermediate json which will be used by the templaterenderer')
   .option('-i, --input <path>', 'input file (a jsonld file)')
   .option('-o, --output <path>', 'output file (the html file)')
 
@@ -63,6 +64,14 @@ function render_html_from_json_ld_file(target, template, filename, output_filena
 
         promise.then(function(parsed_json) {
           parsed_json.documentroot = program.documentpath;
+          if (program.debug) { 
+		jsonfile.writeFile(program.debug, parsed_json, function (err) {
+		if (err) {
+		   process.exitCode = 1;
+                   console.error(err);
+                   throw err;
+                   }
+		})
           var html = nunjucks.render(template, parsed_json);
           const data = new Uint8Array(Buffer.from(html));
 
