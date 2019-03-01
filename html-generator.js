@@ -71,7 +71,7 @@ function render_html_from_json_ld_file(target, template, filename, output_filena
                    console.error(err);
                    throw err;
                    }
-		})
+		})};
           var html = nunjucks.render(template, parsed_json);
           const data = new Uint8Array(Buffer.from(html));
 
