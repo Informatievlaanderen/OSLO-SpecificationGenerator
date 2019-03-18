@@ -50,7 +50,7 @@ function render_html_from_json_ld_file(target, template, filename, output_filena
                 promise = ldParser.parse_ontology_from_json_ld_file_voc(filename);
                 break;
             case "ap": 
-                promise = ldParser.parse_ontology_from_json_ld_file_ap(filename);
+                promise = ldParser.parse_ontology_from_json_ld_file_all(filename);
                 break;
             case "all": 
                 promise = ldParser.parse_ontology_from_json_ld_file_all(filename);
