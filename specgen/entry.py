@@ -314,7 +314,7 @@ def add_contributors_to_rdf(csv, column, voc):
         else:
             continue
         g.add((ontology, contributor_type, cnode))
-        g.add((cnode, RDF.type, FOAF.person))
+        g.add((cnode, RDF.type, FOAF.Person))
         g.add((cnode, FOAF.firstName, Literal(contributor['first_name'])))
         g.add((cnode, FOAF.lastName, Literal(contributor['last_name'])))
         g.add((cnode, affiliationPredicate, affiliation))
