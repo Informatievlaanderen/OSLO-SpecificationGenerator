@@ -35,7 +35,8 @@ async function    parse_ontology_from_json_ld_file_voc(json_ld_file) {
         //console.log(JSON.stringify(expanded));
         
         var grouped0 = group_properties_per_class(ld);
-        var nj_classes = make_nj_classes(ld.classes, grouped0);
+        var codelist = getcodelist(ld);
+        var nj_classes = make_nj_classes(ld.classes, grouped0, codelist);
 	    //console.log(JSON.stringify(nj_classes) );
        
         for(i in expanded) {
@@ -62,8 +63,9 @@ async function    parse_ontology_from_json_ld_file_ap(json_ld_file) {
         //console.log(JSON.stringify(expanded));
         
         var grouped0 = group_properties_per_class_all(ld);
-        var nj_classes = make_nj_classes(ld.classes, grouped0);
-        var nj_datatypes = make_nj_datatypes(ld.classes, grouped0);
+        var codelist = getcodelist(ld);
+        var nj_classes = make_nj_classes(ld.classes, grouped0, codelist);
+        var nj_datatypes = make_nj_datatypes(ld.classes, grouped0, codelist);
        
         for(i in expanded) {
             var vocabularium = expanded[i];
@@ -86,8 +88,9 @@ async function    parse_ontology_from_json_ld_file_all(json_ld_file) {
         //console.log(JSON.stringify(expanded));
         
         var grouped0 = group_properties_per_class_all(ld);
-        var nj_classes = make_nj_classes(ld.classes.concat(ld.externals), grouped0);
-        var nj_datatypes = make_nj_datatypes(ld.classes.concat(ld.externals), grouped0);
+        var codelist = getcodelist(ld);
+        var nj_classes = make_nj_classes(ld.classes.concat(ld.externals), grouped0, codelist);
+        var nj_datatypes = make_nj_datatypes(ld.classes.concat(ld.externals), grouped0, codelist);
 	    //console.log(JSON.stringify(nj_classes) );
        
         for(i in expanded) {
@@ -308,6 +311,20 @@ function     group_properties_per_class_using_hierarchy(hierarchy, grouped) {
             return hierarchy_grouped;
   };
 
+   //
+   // map EA-classnames to codelists
+function    getcodelist(json) {
+      var classes = json['classes'];
+      classes = classes.concat(json['externals']);
+
+      var codelistmap = new Map();
+      for (var c in classes) {
+	if (classes[c]['ap-codelist'] && classes[c]['ap-codelist'] !== "") {
+	    codelistmap.set(classes[c]['extra']['EA-Name'], classes[c]['ap-codelist'])
+	}
+      }
+      return codelistmap;
+    };
         
    //
    // make the classes structure based on the grouping
@@ -378,7 +395,7 @@ function    make_nj_classes2(classes, grouped) {
    return nj_classes;
 };
 
-function make_nj_classes(classes, grouped) {
+function make_nj_classes(classes, grouped, codelist) {
 
    console.log('make nunjuncks classes');
 
@@ -386,14 +403,14 @@ function make_nj_classes(classes, grouped) {
 
    nj_classes = classes.reduce(function(accumulator, element) { 
 	   if ((element['extra']['EA-Type'] !== 'DATATYPE') && (element['extra']['EA-Type'] !== 'ENUMERATION')) {
-	   accumulator.push(make_nj_class(element, grouped));
+	   accumulator.push(make_nj_class(element, grouped, codelist));
 	   };
 	   return accumulator;
    }, []);
 	return nj_classes;
 };
 
-function make_nj_datatypes(classes, grouped) {
+function make_nj_datatypes(classes, grouped, codelist) {
 
    console.log('make nunjuncks classes');
 
@@ -401,7 +418,7 @@ function make_nj_datatypes(classes, grouped) {
 
    nj_classes = classes.reduce(function(accumulator, element) { 
 	   if (element['extra']['EA-Type'] === 'DATATYPE') {
-	   accumulator.push(make_nj_class(element, grouped));
+	   accumulator.push(make_nj_class(element, grouped, codelist));
 	   };
 	   return accumulator;
    }, []);
@@ -409,7 +426,7 @@ function make_nj_datatypes(classes, grouped) {
 };
 
 
-function make_nj_class(element, grouped) {
+function make_nj_class(element, grouped, codelist) {
    var prop= new Map();
    var props =[];
      
@@ -437,17 +454,28 @@ function make_nj_class(element, grouped) {
      };
      props=[];
      var range = {};
+     var codelisturi = "";
      nj_class.properties = props;
      Object.entries(g).forEach(
 	    ([pkey, value]) => {
 	      var card = value.minCardinality + ".." + value.maxCardinality;
 	      // TODO: bug if no range is given
               range = value.range.reduce(function(racc, relem) { 
-              if (relem['EA-Name']) {
+               if (relem['EA-Name']) {
 		  racc.push({range_label: relem['EA-Name'], range_uri: relem.uri});
                   } 
   		  return racc;
                }, []);
+              codelisturi = value.range.reduce(function(racc, relem) { 
+               	  if (relem['EA-Name']) {
+		      if (codelist.get(relem['EA-Name'])) {
+	                if (racc && racc !== "") { console.log('INFO: overwrite codelist reference: ' + racc)};	    
+			racc = codelist.get(relem['EA-Name']);
+		      }
+                  } 
+  		  return racc;
+               }, value.extra["ap-codelist"] );
+              
               prop = {
                     uri: value["@id"],
                     name: value.name,
@@ -457,7 +485,7 @@ function make_nj_class(element, grouped) {
                     domain: value.domain,
 		    range: range,
 		    cardinality: card,
-                    codelist_uri: value.extra["ap-codelist"] 
+                    codelist_uri: codelisturi
                     }
               props.push( prop);
   	  });
