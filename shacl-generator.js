@@ -184,7 +184,7 @@ function make_shacl(grouped, entitymap) {
 
               if (value.maxCardinality && value.maxCardinality != "*") { prop['sh:maxCount'] = value.maxCardinality}
               if (value.minCardinality && value.minCardinality != "0") { prop['sh:minCount'] = value.minCardinality}
-              if (value['extra']['ap-codelist']) { prop['qb:codeList'] = value['extra']['ap-codelist'] }
+              if (value['extra']['ap-codelist']) { prop['qb:codeList'] = value['extra']['ap-codelist'] } // requires the same codelist reasoning as for the html
               props.push( prop);
   	  });
      shacl['sh:property'] = props;
@@ -205,6 +205,9 @@ function make_shacl(grouped, entitymap) {
          },
         "sh:maxCount" : {
             "@type": "http://www.w3.org/2001/XMLSchema#integer"
+         },
+        "qb:codeList" : {
+            "@type": "@id"
          },
 	"@vocab" : program.domain,
 	} ;

@@ -3,6 +3,7 @@ const jsonld = require('jsonld');
 const uris = require('./uris');
 
 var Map = require("collections/map");
+var Set = require("collections/set");
 
 require("collections/shim-array");
 
@@ -34,20 +35,47 @@ async function    parse_ontology_from_json_ld_file_voc(json_ld_file) {
         expanded = await jsonld.expand(ld);
         //console.log(JSON.stringify(expanded));
         
-        var grouped0 = group_properties_per_class(ld);
         var codelist = getcodelist(ld);
-        var nj_classes = make_nj_classes(ld.classes, grouped0, codelist);
+        var nj_classes = ld.classes.reduce(function (acc, elem) {
+		acc.push(make_nj_class_voc(elem));
+		return acc;
+            }, []);
+        var nj_properties = ld.properties.reduce(function (acc, elem) {
+		acc.push(make_nj_prop_voc(elem,codelist));
+		return acc;
+            }, []);
+        var nj_ext_classes = ld.externals.reduce(function (acc, elem) {
+	        var candidate = make_nj_ext_class_voc(elem);
+		if (candidate.name && candidate.name.nl) { acc.push(candidate) };
+		return acc;
+            }, []);
+        var nj_ext_properties = ld.externalproperties.reduce(function (acc, elem) {
+	        var candidate = make_nj_ext_prop_voc(elem, codelist);
+		if (candidate.name && candidate.name.nl) { acc.push(candidate) };
+		return acc;
+            }, []);
 	    //console.log(JSON.stringify(nj_classes) );
+	var nj_editors = ld.editors.reduce(function(acc, elem) {
+		acc.push(make_nj_person(elem, "E"));
+		return acc;
+		}, []);
+	var nj_contributors = ld.contributors.reduce(function(acc, elem) {
+		acc.push(make_nj_person(elem, "C"));
+		return acc;
+		}, []);
+	var nj_authors = ld.authors.reduce(function(acc, elem) {
+		acc.push(make_nj_person(elem, "A"));
+		return acc;
+		}, []);
        
         for(i in expanded) {
             var vocabularium = expanded[i];
             var nunjucks_json = {
                 metadata: extract_metadata_from_expanded_json(vocabularium),
                 classes: nj_classes,
-                properties: extract_properties_from_expanded_json(vocabularium),
-                contributors: extract_contributors_from_expanded_json(vocabularium),
-                externals: extract_externals_from_expanded_json(vocabularium),
-                parents: []
+                properties: nj_properties,
+                contributors: nj_authors.concat(nj_editors).concat(nj_contributors),
+                external_terms: nj_ext_classes.concat(nj_ext_properties)
             };
             var datatypes = extract_datatypes_from_expanded_json(vocabularium);
             if(datatypes.length > 0) {
@@ -56,6 +84,7 @@ async function    parse_ontology_from_json_ld_file_voc(json_ld_file) {
             return nunjucks_json;
         }
     };
+
 
 async function    parse_ontology_from_json_ld_file_ap(json_ld_file) {
         var ld = JSON.parse(fs.readFileSync(json_ld_file, 'utf-8'));
@@ -67,14 +96,25 @@ async function    parse_ontology_from_json_ld_file_ap(json_ld_file) {
         var nj_classes = make_nj_classes(ld.classes, grouped0, codelist);
         var nj_datatypes = make_nj_datatypes(ld.classes, grouped0, codelist);
        
+	var nj_editors = ld.editors.reduce(function(acc, elem) {
+		acc.push(make_nj_person(elem, "E"));
+		return acc;
+		}, []);
+	var nj_contributors = ld.contributors.reduce(function(acc, elem) {
+		acc.push(make_nj_person(elem, "C"));
+		return acc;
+		}, []);
+	var nj_authors = ld.authors.reduce(function(acc, elem) {
+		acc.push(make_nj_person(elem, "A"));
+		return acc;
+		}, []);
         for(i in expanded) {
             var vocabularium = expanded[i];
             var nunjucks_json = {
                 metadata: extract_metadata_from_expanded_json(vocabularium),
                 classes: nj_classes,
                 properties: extract_properties_from_expanded_json(vocabularium),
-                contributors: extract_contributors_from_expanded_json(vocabularium),
-                externals: extract_externals_from_expanded_json(vocabularium),
+                contributors: nj_authors.concat(nj_editors).concat(nj_contributors),
 		datatypes: nj_datatypes,
                 parents: []
             };
@@ -92,6 +132,18 @@ async function    parse_ontology_from_json_ld_file_all(json_ld_file) {
         var nj_classes = make_nj_classes(ld.classes.concat(ld.externals), grouped0, codelist);
         var nj_datatypes = make_nj_datatypes(ld.classes.concat(ld.externals), grouped0, codelist);
 	    //console.log(JSON.stringify(nj_classes) );
+	var nj_editors = ld.editors.reduce(function(acc, elem) {
+		acc.push(make_nj_person(elem, "E"));
+		return acc;
+		}, []);
+	var nj_contributors = ld.contributors.reduce(function(acc, elem) {
+		acc.push(make_nj_person(elem, "C"));
+		return acc;
+		}, []);
+	var nj_authors = ld.authors.reduce(function(acc, elem) {
+		acc.push(make_nj_person(elem, "A"));
+		return acc;
+		}, []);
        
         for(i in expanded) {
             var vocabularium = expanded[i];
@@ -99,8 +151,7 @@ async function    parse_ontology_from_json_ld_file_all(json_ld_file) {
                 metadata: extract_metadata_from_expanded_json(vocabularium),
                 classes: nj_classes,
                 properties: extract_properties_from_expanded_json(vocabularium),
-                contributors: extract_contributors_from_expanded_json(vocabularium),
-                externals: extract_externals_from_expanded_json(vocabularium),
+                contributors: nj_authors.concat(nj_editors).concat(nj_contributors),
 		datatypes: nj_datatypes,
                 parents: []
             };
@@ -117,18 +168,31 @@ async function    parse_ontology_from_json_ld_file_oj(json_ld_file) {
 	    //console.log(grouped0);
         hier = class_hierarchy_extensional(ld['classes'].concat(ld['externals']))  ;
         var grouped2 = group_properties_per_class_using_hierarchy(hier, grouped0);
-        var nj_classes = make_nj_classes(ld.classes, grouped2);
+        var codelist = getcodelist(ld);
+        var nj_classes = make_nj_classes(ld.classes, grouped2, codelist);
 	    //console.log(JSON.stringify(nj_classes) );
-        var nj_datatypes = make_nj_datatypes(ld.classes, grouped2);
+        var nj_datatypes = make_nj_datatypes(ld.classes, grouped2, codelist);
        
+	var nj_editors = ld.editors.reduce(function(acc, elem) {
+		acc.push(make_nj_person(elem, "E"));
+		return acc;
+		}, []);
+	var nj_contributors = ld.contributors.reduce(function(acc, elem) {
+		acc.push(make_nj_person(elem, "C"));
+		return acc;
+		}, []);
+	var nj_authors = ld.authors.reduce(function(acc, elem) {
+		acc.push(make_nj_person(elem, "A"));
+		return acc;
+		}, []);
+
         for(i in expanded) {
             var vocabularium = expanded[i];
             var nunjucks_json = {
                 metadata: extract_metadata_from_expanded_json(vocabularium),
                 classes: nj_classes,
                 properties: extract_properties_from_expanded_json(vocabularium),
-                contributors: extract_contributors_from_expanded_json(vocabularium),
-                externals: extract_externals_from_expanded_json(vocabularium),
+                contributors: nj_authors.concat(nj_editors).concat(nj_contributors),
 		datatypes: nj_datatypes,
                 parents: []
             };
@@ -494,6 +558,98 @@ function make_nj_class(element, grouped, codelist) {
      return nj_class;
 };
 
+function make_nj_class_voc(element) {
+     
+   var  nj_class = {
+                    uri: element["@id"],
+                    name: element.name,
+                    sort_nl: element.name.nl,
+                    description: element.description,
+                    usage: element.usage,
+                    equivalent:  [],
+                    parents: element.parents
+                }
+
+
+     return nj_class;
+};
+
+function make_nj_ext_class_voc(element) {
+     
+   var  nj_class = {
+                    uri: element["@id"],
+                    name: element.name,
+                    sort_nl: element.name.nl
+                }
+
+
+     return nj_class;
+};
+
+
+function make_nj_prop_voc(element, codelist) {
+
+              var domain = element.domain.reduce(function(racc, relem) { 
+               if (relem['EA-Name']) {
+		  racc.push(relem.uri);
+                  } 
+  		  return racc;
+               }, []);
+              var range = element.range.reduce(function(racc, relem) { 
+               if (relem['EA-Name']) {
+		  racc.push(relem.uri);
+                  } 
+  		  return racc;
+               }, []);
+              var codelisturi = element.range.reduce(function(racc, relem) { 
+               	  if (relem['EA-Name']) {
+		      if (codelist.get(relem['EA-Name'])) {
+	                if (racc && racc !== "") { console.log('INFO: overwrite codelist reference: ' + racc)};	    
+			racc = codelist.get(relem['EA-Name']);
+		      }
+                  } 
+  		  return racc;
+               }, element.extra["ap-codelist"] );
+              
+              var nj_prop = {
+                    uri: element["@id"],
+                    name: element.name,
+  		    sort_nl: element.name.nl,
+                    description: element.description,
+                    usage: element.usage,
+                    domain: domain,
+		    range: range,
+		    parents: element.generalization
+
+                    }
+
+
+     return nj_prop;
+};
+
+function make_nj_ext_prop_voc(element, codelist) {
+
+              
+              var nj_prop = {
+                    uri: element["@id"],
+                    name: element.name,
+  		    sort_nl: element.name.nl,
+
+                    }
+
+
+     return nj_prop;
+};
+
+
+function    make_nj_properties_from_classes(nj_classes) {
+	var mylist = nj_classes.reduce(function(acc, elem) {
+	 acc.push(elem.properties);  
+         return acc;
+	}, []);
+        var myset = new Set(mylist);
+        return myset.toArray();
+}
 
     // extract classes from expanded json
     // Takes an expanded json root object as it is being parsed by jsonld
@@ -703,6 +859,24 @@ function     extract_properties_from_expanded_json(expanded) {
     // ]
     //
     // @param expanded the root class as it is being read by jsonld
+function make_nj_person(element, type) {
+	var nj_person = {
+		role : type,
+		first_name: element["foaf:firstName"],
+		last_name: element["foaf:lastName"],
+	        affiliation: {}
+
+	};
+	if (element.affiliation && element.affiliation["foaf:name"]) {
+		nj_person.affiliation.name =  element.affiliation["foaf:name"];
+	};
+	if (element.affiliation && element.affiliation["foaf:homepage"]) {
+		nj_person.affiliation.website =  element.affiliation["foaf:homepage"]
+	};
+	if (element["foaf:mbox"]) {nj_person.email =  element["foaf:mbox"]};
+	return nj_person;
+}
+
 
 function     extract_contributors_from_expanded_json(expanded) {
         var contributors = [];
