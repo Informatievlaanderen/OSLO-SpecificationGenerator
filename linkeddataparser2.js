@@ -517,19 +517,31 @@ function make_nj_class(element, grouped, codelist) {
 	     g =[]
      };
      props=[];
-     var range = {};
+     var range = [];
      var codelisturi = "";
+     var card = "";
      nj_class.properties = props;
      Object.entries(g).forEach(
 	    ([pkey, value]) => {
-	      var card = value.minCardinality + ".." + value.maxCardinality;
-	      // TODO: bug if no range is given
+              card = "";
+	      if (value.minCardinality && value.maxCardinality) {
+		  if (value.minCardinality == value.maxCardinality) {
+			card = value.minCardinality;
+		  } else {
+	          card = value.minCardinality + ".." + value.maxCardinality;
+		  }
+		} 
+			
+	      if (value.range) {
               range = value.range.reduce(function(racc, relem) { 
                if (relem['EA-Name']) {
 		  racc.push({range_label: relem['EA-Name'], range_uri: relem.uri});
                   } 
   		  return racc;
                }, []);
+	      } else {
+		range = []
+	      };
               codelisturi = value.range.reduce(function(racc, relem) { 
                	  if (relem['EA-Name']) {
 		      if (codelist.get(relem['EA-Name'])) {

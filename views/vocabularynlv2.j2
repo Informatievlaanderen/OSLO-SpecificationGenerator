@@ -198,10 +198,10 @@
                                 <div class="region region--no-space-top">
                                     <p>Deze sectie somt alle klassen en eigenschappen van het vocabularium op.</p>
                                     <p>
-                                    {% if parents %}
+                                    {% if externalvocs %}
                                     Dit vocabularium verwijst verder naar termen uit de volgende vocabularia:
                                     <ul>
-                                    {% for term in parents|sort %}
+                                    {% for term in externalvocs |sort %}
                                         <li><a href="{{ term.uri }}">{{ term.uri }}</a></li>
                                     {% endfor %}
                                     </ul>
@@ -211,7 +211,7 @@
                                     <p><a href="http://visualdataweb.de/webvowl/#iri={{ metadata.uri }}.ttl">Verken het vocabularium</a></p>
                                 </div>
 
-                                {% if classes %}
+                                {% if ( ( classes | length) > 0 )%}
                                 <div class="region region--no-space-top">
                                     <h3 class="h3" >Klassen</h3>
                                     <div class="grid">
@@ -225,7 +225,7 @@
                                 </div>
                                 {% endif %}
 
-                                {% if properties %}
+                                {% if ( ( properties | length ) > 0 ) %}
                                 <div class="region region--no-space-top">
                                     <h3 class="h3" >Eigenschappen</h3>
                                     <div class="grid">
@@ -249,7 +249,7 @@
                                 <div class="region region--no-space-top">
                                     <p>Deze sectie geeft een formele definitie aan elke klasse.</p>
                                 </div>
-                                {% for class in classes %}
+                                {% for class in classes | sort(attribute=sortattr) %}
                                 <div class="region region--no-space-top">
                                     <h3 class="h3"  id="{{ class.uri | replace(metadata.uri + '#', '') }}">Klasse <em>{{ class.name[language] }}</em></h3>
                                     <table class="definition">
@@ -313,26 +313,20 @@
                                     <p>Deze sectie geeft een formele definitie aan elke eigenschap.</p>
                                 </div>
 
-                                {% for property in properties %}
+                                {% for property in properties | sort(attribute=sortattr) %}
                                 <div class="region region--no-space-top">
-                                    <h3 class="h3"  id="{{ prop_uri | replace(metadata.uri + '#', '') }}">Eigenschap <em>{{  eigenschap['label'] }}</em></h3>
+                                    <h3 class="h3"  id="{{ property.uri | replace(metadata.uri + '#', '') }}">Eigenschap <em>{{  property.name[language] }}</em></h3>
                                     <table class="definition">
                                         <tbody>
                                           <tr>
                                             <th>Type</th>
                                             <td>Eigenschap</td>
                                           </tr>
-                                          {% if property.name %}
-                                          <tr>
-                                            <th>Naam</th>
-                                            <td><code>{{ property.name[language] }}</code></td>
-                                          </tr>
-                                          {% endif %}
                                           <tr>
                                             <th>URI</th>
                                             <td><code>{{ property.uri }}</code></td>
                                           </tr>
-                                          {% if property.domain %} 
+                                          {% if ( ( property.domain  | length ) > 0 )%} 
                                           <tr>
                                             <th>Domein</th>
                                             <td><code>
@@ -342,7 +336,7 @@
                                             </code></td>
                                           </tr>
                                           {% endif %} 
-                                          {% if property.range %}
+                                          {% if (( property.range  | length ) > 0)%}
                                           <tr>
                                             <th>Bereik</th>
                                             <td><code>
@@ -352,7 +346,7 @@
                                             </code></td>
                                           </tr>
                                           {% endif %}
-                                          {% if property.parents %}
+                                          {% if ( ( property.parents | length ) > 0 )  %}
 										                      <tr>
                                             <th>Specialisatie van</th>
 											                      <td><ul>
@@ -366,7 +360,7 @@
                                             <th>Definitie</th>
                                             <td>{{ property.description[language] }}</td>
                                           </tr>
-                                          {% if property.usage[lanugage] %}
+                                          {% if property.usage[language] %}
                                           <tr>
                                             <th>Gebruik</th>
                                             <td>{{ property.usage[language] }}</td>

@@ -181,7 +181,7 @@
               <h2 class="h2">Overzicht</h2>
               <div class="grid">
                 <div class="col--9-12 col--1-1--s typography">
-                  {% if classes %}
+                  {% if ( ( classes | length > 0)   ) %}
                   <div class="region region--no-space-top">
                     <p>In dit document wordt correct gebruik van de volgende entiteiten toegelicht:
                       <br />
@@ -192,7 +192,7 @@
                     </p>
                   </div>
                   {% endif %}
-                  {% if datatypes %}
+                  {% if ( ( datatypes | length ) > 0 ) %}
                   <div class="region region--no-space-top">
                     <p> In dit document worden de volgende datatypes toegelicht:
                       <br />
@@ -290,7 +290,7 @@
                     <dt>Gebruik</dt><dd>{{ entity.usage[language] }}</dd>
                     {% endif %}
                     <dt>Eigenschappen</dt>
-                    {% if entity['properties'] %}
+		    {% if ((entity.properties | length) > 0 ) %} 
                     <dd>Voor dit datatype zijn de volgende eigenschappen gedefinieerd:
                     {%- for prop in entity['properties'] | sort(attribute=sortattr) %}
                       <a href="#{{ (entity.name[language] ~ ':' ~ prop.name[language]) | urlencode }}">{{ prop.name[language] }}</a>{% if not loop.last %}, {% endif %}
@@ -300,7 +300,7 @@
                     {% endif %}
                   </dl>
                 </div>
-                {% if entity['properties'] %}
+		{% if ((entity.properties | length) > 0 ) %} 
                 <div class="u-table-overflow">
                   <table class="data-table">
                     <thead>
@@ -343,7 +343,7 @@
             <div class="region region--no-space-top" id="jsonld">
                 <h2 class="h2" aria-level="1" role="heading" id="h2_sotd">JSON-LD context</h2>
                 {% block jsonld %}
-                <p>Een herbruikbare JSON-LD context definitie voor dit applicatieprofiel is terug te vinden op: <a href="http://data.vlaanderen.be/context/" target="_blank">http://data.vlaanderen.be/context/</a></p>
+                <p>Een herbruikbare JSON-LD context definitie voor dit applicatieprofiel is terug te vinden op: <a href="https://data.vlaanderen.be/context/" target="_blank">https://data.vlaanderen.be/context/</a></p>
                 {% endblock %}
             </div>
           </div>
