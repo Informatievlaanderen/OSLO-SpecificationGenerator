@@ -168,7 +168,7 @@
               <h2 class="h2">Overzicht</h2>
               <div class="grid">
                 <div class="col--9-12 col--1-1--s typography">
-                  {% if classes %}
+                  {% if ( ( classes | length > 0)   ) %}
                   <div class="region region--no-space-top">
                     <p>In dit document wordt correct gebruik van de volgende entiteiten toegelicht:
                       <br />
@@ -179,12 +179,12 @@
                     </p>
                   </div>
                   {% endif %}
-                  {% if datatypes %}
+                  {% if ( ( datatypes | length ) > 0 ) %}
                   <div class="region region--no-space-top">
                     <p> In dit document worden de volgende datatypes toegelicht:
                       <br />
                       |
-                      {%- for datatype in datatypes %}
+                      {%- for datatype in datatypes |sort(attribute=sortattr) %}
                       <a href="#{{ datatype.name[language] }}">{{ datatype.name[language] }}</a> |
                       {%- endfor %}
                     </p>
@@ -293,7 +293,7 @@
                     <dt>Gebruik</dt><dd>{{ entity.usage[language] }}</dd>
                     {% endif %}
                     <dt>Eigenschappen</dt>
-                    {% if entity['properties'] %}
+		    {% if ((entity.properties | length) > 0 ) %} 
                     <dd>Voor dit datatype zijn de volgende eigenschappen gedefinieerd:
                     {%- for prop in entity['properties'] | sort(attribute=sortattr) %}
                       <a href="#{{ (entity.name[language] ~ ':' ~ prop.name[language]) | urlencode }}">{{ prop.name[language] }}</a>{% if not loop.last %}, {% endif %}
@@ -303,7 +303,7 @@
                     {% endif %}
                   </dl>
                 </div>
-                {% if entity['properties'] %}
+		{% if ((entity.properties | length) > 0 ) %} 
                 <div class="u-table-overflow">
                   <table class="data-table">
                     <thead>
