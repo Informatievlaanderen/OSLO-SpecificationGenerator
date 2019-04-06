@@ -214,23 +214,6 @@ function map_properties(duplicates, prop) {
     mapping[key] = propc
   };
          
-//    mapping['@type'] = prop.range;
-//    If the cardinality is not 1
-//    mapping['@container'] = '@set';
-
-// handle language tag literall correctly
-/*
-    switch (prop.range) {
-      case 'http://' : 
-        break;
-      case '' : 
-        mapping[prop.name.nl] = prop['@id'];
-        break;
-      default :
-        mapping[prop.name.nl] = prop['@id'];
-    }
-*/
-     
     return mapping;
 }
 
@@ -273,28 +256,3 @@ function externalproperties(duplicates, json) {
   
    return externalmapping;
 }
-
-/*
-    var contents = fs.readFileSync(filename);
-    var jsonContent = JSON.parse(contents);
-
-        const data = new Uint8Array(Buffer.from(parsed_json));
-        fs.writeFile(output_filename, data, (err) => {
-            if (err) throw err;
-            console.log('The file has been saved to ' + output_filename);
-        });
-
-*/
-    
-/*
-    var promise = ldParser.parse_ontology_from_json_ld_file(filename);
-    promise.then(function(parsed_json){
-        var context = 'the context' 
-        const data = new Uint8Array(Buffer.from(parsed_json));
-        fs.writeFile(output_filename, data, (err) => {
-            if (err) throw err;
-            console.log('The file has been saved to ' + output_filename);
-        });
-    });
-*/
-
