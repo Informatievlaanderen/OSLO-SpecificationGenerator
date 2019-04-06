@@ -71,7 +71,7 @@ async function    parse_ontology_from_json_ld_file_voc(json_ld_file) {
         for(i in expanded) {
             var vocabularium = expanded[i];
             var nunjucks_json = {
-                metadata: extract_metadata_from_expanded_json(vocabularium),
+                metadata: make_nj_metadata(ld),
                 classes: nj_classes,
                 properties: nj_properties,
                 contributors: nj_authors.concat(nj_editors).concat(nj_contributors),
@@ -111,7 +111,7 @@ async function    parse_ontology_from_json_ld_file_ap(json_ld_file) {
         for(i in expanded) {
             var vocabularium = expanded[i];
             var nunjucks_json = {
-                metadata: extract_metadata_from_expanded_json(vocabularium),
+                metadata: make_nj_metadata(ld),
                 classes: nj_classes,
                 properties: extract_properties_from_expanded_json(vocabularium),
                 contributors: nj_authors.concat(nj_editors).concat(nj_contributors),
@@ -148,7 +148,7 @@ async function    parse_ontology_from_json_ld_file_all(json_ld_file) {
         for(i in expanded) {
             var vocabularium = expanded[i];
             var nunjucks_json = {
-                metadata: extract_metadata_from_expanded_json(vocabularium),
+                metadata: make_nj_metadata(ld),
                 classes: nj_classes,
                 properties: extract_properties_from_expanded_json(vocabularium),
                 contributors: nj_authors.concat(nj_editors).concat(nj_contributors),
@@ -189,7 +189,7 @@ async function    parse_ontology_from_json_ld_file_oj(json_ld_file) {
         for(i in expanded) {
             var vocabularium = expanded[i];
             var nunjucks_json = {
-                metadata: extract_metadata_from_expanded_json(vocabularium),
+                metadata: make_nj_metadata(ld),
                 classes: nj_classes,
                 properties: extract_properties_from_expanded_json(vocabularium),
                 contributors: nj_authors.concat(nj_editors).concat(nj_contributors),
@@ -978,6 +978,26 @@ function     extract_externals_from_expanded_json(expanded) {
     // For an example please refer to the README.md.
     //
     // @param expanded the root class as it is being read by jsonld
+
+function     make_nj_metadata(json) {
+        var meta = {
+            title: json.title,
+            uri: json['@id'],
+	    issued:  json.issued,
+	    baseURI: json.baseURI,
+	    baseURIabbrev: json.baseURIabbrev,
+ 	    navigation: json.navigation,
+	    license: json.license,
+	    status: json.publication_state,
+	    standaardregister: json.standaardregisterurl,
+	    feedbackurl: json.feedbackurl,
+	    usesVocs : [],
+	    usesAPs: []
+        };
+	return meta;
+	
+};
+
 function     extract_metadata_from_expanded_json(expanded) {
         var meta = {
             title: extract_language_strings(expanded[uris.NAME]),
