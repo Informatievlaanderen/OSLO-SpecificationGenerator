@@ -980,6 +980,7 @@ function     extract_externals_from_expanded_json(expanded) {
     // @param expanded the root class as it is being read by jsonld
 
 function     make_nj_metadata(json) {
+	json.navigation.self = "https://data.vlaanderen.be" + json.urlref;
         var meta = {
             title: json.title,
             uri: json['@id'],
@@ -988,9 +989,11 @@ function     make_nj_metadata(json) {
 	    baseURIabbrev: json.baseURIabbrev,
  	    navigation: json.navigation,
 	    license: json.license,
-	    status: json.publication_state,
-	    standaardregister: json.standaardregisterurl,
+	    status: json['publication-state'],
+            repositoryurl: json.repository + "/tree/" + json.documentcommit,
+            changelogurl: json.repository + "/blob/" + json.documentcommit + "/CHANGELOG",
 	    feedbackurl: json.feedbackurl,
+	    standaardregister: json.standaardregisterurl,
 	    usesVocs : [],
 	    usesAPs: []
         };
