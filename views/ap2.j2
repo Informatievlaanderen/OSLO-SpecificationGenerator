@@ -52,10 +52,10 @@
               <a href="{{metadata.status }}">{{ metadata.status }}</a> uitgegeven op {{ metadata.issued }}
               <dl>
               <dt>deze versie</dt><dd><a href="{{metadata.navigation.self}}">{{metadata.navigation.self}}</a></dd>
-              {% if metadata.navigation.next }
+              {% if metadata.navigation.next %}
               <dt>volgende versie</dt><dd><a href="{{metadata.navigation.next}}">{{metadata.navigation.next}}</a></dd>
               {% endif %}
-              {% if metadata.navigation.prev}
+              {% if metadata.navigation.prev %}
               <dt>vorige versie</dt><dd><a href="{{metadata.navigation.prev}}">{{metadata.navigation.prev}}</a></dd>
               {% endif %}
               </dl>
