@@ -978,22 +978,45 @@ function     extract_externals_from_expanded_json(expanded) {
     // For an example please refer to the README.md.
     //
     // @param expanded the root class as it is being read by jsonld
-
+   
+   // the values in this config will be always Dutch 
+   // translation (EN, FR, ...) are collected from other sources
 function     make_nj_metadata(json) {
 	json.navigation.self = "https://data.vlaanderen.be" + json.urlref;
+        
+        var docstatus = json['publication-state'];
+	
+        switch (docstatus) {
+          case "https://data.vlaanderen.be/id/concept/StandaardStatus/Kandidaat-standaard":
+		docstatuslabel = "Kandidaat-standaard";
+		break;
+          case "https://data.vlaanderen.be/id/concept/StandaardStatus/Standaard":
+		docstatuslabel = "Standaard";
+		break;
+	  case "https://data.vlaanderen.be/id/concept/StandaardStatus/HerroepenStandaard":
+		docstatuslabel = "Herroepen Standaard";
+		break;
+	  case "https://data.vlaanderen.be/id/concept/StandaardStatus/OntwerpdocumentInOntwikkeling":
+    		docstatuslabel = "Ontwerpdocument";
+		break;
+          default: 
+		docstatuslabel = "Onbekend"
+        };
+
         var meta = {
-            title: json.title,
+            title: {nl: json.title},
             uri: json['@id'],
-	    issued:  json.issued,
+	    issued:  json['publication-date'],
 	    baseURI: json.baseURI,
 	    baseURIabbrev: json.baseURIabbrev,
  	    navigation: json.navigation,
 	    license: json.license,
-	    status: json['publication-state'],
+	    status: docstatus,
+	    statuslabel: docstatuslabel,
             repositoryurl: json.repository + "/tree/" + json.documentcommit,
             changelogurl: json.repository + "/blob/" + json.documentcommit + "/CHANGELOG",
 	    feedbackurl: json.feedbackurl,
-	    standaardregister: json.standaardregisterurl,
+	    standaardregisterurl: json.standaardregisterurl,
 	    usesVocs : [],
 	    usesAPs: []
         };
