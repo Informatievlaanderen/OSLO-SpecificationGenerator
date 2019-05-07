@@ -558,7 +558,7 @@ function make_nj_class(element, grouped, codelist, dependencies, package_map ) {
    var scoped_class_uri = dependencies.reduce(function(acc, elem) {
 		if (elem.package === element.extra['EA-Package']) {
 		  // a dependency has been defined for this class
-		  acc = elem.packageurl + "#" + element.extra['EA-Name'],
+		  acc = elem.packageurl + "#" + element.extra['EA-Name']
 		}
 		return acc;
 		}, 
