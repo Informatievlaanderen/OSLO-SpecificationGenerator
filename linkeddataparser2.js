@@ -96,7 +96,7 @@ async function    parse_ontology_from_json_ld_file_ap(json_ld_file) {
         var package_map = get_package_map(ld);
         var dependencies = ld['dependencies'];
         var nj_classes = make_nj_classes(ld.classes, grouped0, codelist, dependencies, package_map);
-        var nj_datatypes = make_nj_datatypes(ld.classes, grouped0, codelist, dependencies, package_map );
+        var nj_datatypes = make_nj_datatypes(ld.classes, grouped0, codelist, dependencies, package_map);
        
 	var nj_editors = ld.editors.reduce(function(acc, elem) {
 		acc.push(make_nj_person(elem, "E"));
@@ -177,7 +177,7 @@ async function    parse_ontology_from_json_ld_file_oj(json_ld_file) {
         var dependencies = ld['dependencies'];
         var nj_classes = make_nj_classes(ld.classes, grouped2, codelist, dependencies, package_map);
 	    //console.log(JSON.stringify(nj_classes) );
-        var nj_datatypes = make_nj_datatypes(ld.classes, grouped2, codelist, dependencies, package_map );
+        var nj_datatypes = make_nj_datatypes(ld.classes, grouped2, codelist, dependencies, package_map);
        
 	var nj_editors = ld.editors.reduce(function(acc, elem) {
 		acc.push(make_nj_person(elem, "E"));
@@ -393,23 +393,28 @@ function     group_properties_per_class_using_hierarchy(hierarchy, grouped) {
   //    scoped_range = 
 function map_range(dependencies, package_map, property_range, property_range_uri) {
 	if ( package_map.has(property_range) ) {
+               // if it has a package then it is at least defined in the local space
 	       scoped_range = dependencies.reduce(function(acc, elem) {
 		if (elem.package === package_map.get(property_range)) {
 		  // a dependency has been defined for this range
 		  acc = {
-			range_uri : elem.packageurl + "#" + property_range,
+//			range_uri : elem.packageurl + "#" + property_range,
+		        range_uri : "#" + property_range,
+			range_puri : property_range_uri,
 			range_label : property_range
 			}
 		}
 		return acc;
 		}, 
-		  { range_uri : property_range_uri,
+		  { range_uri : "#" + property_range,
+		    range_puri : property_range_uri,
 		    range_label : property_range }
                  );
 	} else {
         // not part of any package
 		  scoped_range = {
 			range_uri : property_range_uri,
+		        range_puri : property_range_uri,
 			range_label : property_range
 			}
 	}
@@ -550,6 +555,15 @@ function make_nj_datatypes(classes, grouped, codelist, dependencies, package_map
 function make_nj_class(element, grouped, codelist, dependencies, package_map ) {
    var prop= new Map();
    var props =[];
+   var scoped_class_uri = dependencies.reduce(function(acc, elem) {
+		if (elem.package === element.extra['EA-Package']) {
+		  // a dependency has been defined for this class
+		  acc = elem.packageurl + "#" + element.extra['EA-Name'],
+		}
+		return acc;
+		}, 
+		""
+		);
      
    var  nj_class = {
                     uri: element["@id"],
@@ -558,6 +572,9 @@ function make_nj_class(element, grouped, codelist, dependencies, package_map ) {
                     description: element.description,
                     usage: element.usage
                 }
+    if (scoped_class_uri !== "") {
+	nj_class.scopeduri = scoped_class_uri
+	};
      //console.log(nj_class);	   
 
      var gindex = element['extra']['EA-Name'];
