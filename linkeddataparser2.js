@@ -93,8 +93,10 @@ async function    parse_ontology_from_json_ld_file_ap(json_ld_file) {
         
         var grouped0 = group_properties_per_class_all(ld);
         var codelist = getcodelist(ld);
-        var nj_classes = make_nj_classes(ld.classes, grouped0, codelist);
-        var nj_datatypes = make_nj_datatypes(ld.classes, grouped0, codelist);
+        var package_map = get_package_map(ld);
+        var dependencies = ld['dependencies'];
+        var nj_classes = make_nj_classes(ld.classes, grouped0, codelist, dependencies, package_map);
+        var nj_datatypes = make_nj_datatypes(ld.classes, grouped0, codelist, dependencies, package_map );
        
 	var nj_editors = ld.editors.reduce(function(acc, elem) {
 		acc.push(make_nj_person(elem, "E"));
@@ -129,8 +131,10 @@ async function    parse_ontology_from_json_ld_file_all(json_ld_file) {
         
         var grouped0 = group_properties_per_class_all(ld);
         var codelist = getcodelist(ld);
-        var nj_classes = make_nj_classes(ld.classes.concat(ld.externals), grouped0, codelist);
-        var nj_datatypes = make_nj_datatypes(ld.classes.concat(ld.externals), grouped0, codelist);
+        var package_map = get_package_map(ld);
+        var dependencies = ld['dependencies'];
+        var nj_classes = make_nj_classes(ld.classes.concat(ld.externals), grouped0, codelist, dependencies, package_map);
+        var nj_datatypes = make_nj_datatypes(ld.classes.concat(ld.externals), grouped0, codelist, dependencies, package_map );
 	    //console.log(JSON.stringify(nj_classes) );
 	var nj_editors = ld.editors.reduce(function(acc, elem) {
 		acc.push(make_nj_person(elem, "E"));
@@ -169,9 +173,11 @@ async function    parse_ontology_from_json_ld_file_oj(json_ld_file) {
         hier = class_hierarchy_extensional(ld['classes'].concat(ld['externals']))  ;
         var grouped2 = group_properties_per_class_using_hierarchy(hier, grouped0);
         var codelist = getcodelist(ld);
-        var nj_classes = make_nj_classes(ld.classes, grouped2, codelist);
+        var package_map = get_package_map(ld);
+        var dependencies = ld['dependencies'];
+        var nj_classes = make_nj_classes(ld.classes, grouped2, codelist, dependencies, package_map);
 	    //console.log(JSON.stringify(nj_classes) );
-        var nj_datatypes = make_nj_datatypes(ld.classes, grouped2, codelist);
+        var nj_datatypes = make_nj_datatypes(ld.classes, grouped2, codelist, dependencies, package_map );
        
 	var nj_editors = ld.editors.reduce(function(acc, elem) {
 		acc.push(make_nj_person(elem, "E"));
@@ -182,6 +188,10 @@ async function    parse_ontology_from_json_ld_file_oj(json_ld_file) {
 		return acc;
 		}, []);
 	var nj_authors = ld.authors.reduce(function(acc, elem) {
+	var nj_authors = ld.authors.reduce(function(acc, elem) {
+		acc.push(make_nj_person(elem, "A"));
+		return acc;
+		}, []);
 		acc.push(make_nj_person(elem, "A"));
 		return acc;
 		}, []);
@@ -375,6 +385,53 @@ function     group_properties_per_class_using_hierarchy(hierarchy, grouped) {
             return hierarchy_grouped;
   };
 
+  //
+  // map the range for each property to its document scoped version
+  //    * dependencies as given by the user
+  //    * package_map = {EA-class -> EA-Package}
+  //    * property_range = the EA-range of the property
+  //    scoped_range = 
+function map_range(dependencies, package_map, property_range, property_range_uri) {
+	if ( package_map.has(property_range) ) {
+	       scoped_range = dependencies.reduce(function(acc, elem) {
+		if (elem.package === package_map.get(property_range)) {
+		  // a dependency has been defined for this range
+		  acc = {
+			range_uri : elem.packageurl + "#" + property_range,
+			range_label : property_range
+			}
+		}
+		return acc;
+		}, 
+		  { range_uri : property_range_uri,
+		    range_label : property_range }
+                 );
+	} else {
+        // not part of any package
+		  scoped_range = {
+			range_uri : property_range_uri,
+			range_label : property_range
+			}
+	}
+
+   	return scoped_range;
+}
+
+
+     // note assumed is that EA-Parents is just a single value
+function  get_package_map(json) { 
+           var classes = json['classes'].concat(json['externals']);
+           var package_map = new Map(); 
+           
+           for (var key in classes) {
+                 package_map.set( classes[key]['extra']['EA-Name'], classes[key]['extra']['EA-Package'])
+           }
+        return package_map
+	
+     };
+
+
+
    //
    // map EA-classnames to codelists
 function    getcodelist(json) {
@@ -459,7 +516,7 @@ function    make_nj_classes2(classes, grouped) {
    return nj_classes;
 };
 
-function make_nj_classes(classes, grouped, codelist) {
+function make_nj_classes(classes, grouped, codelist, dependencies, package_map ) {
 
    console.log('make nunjuncks classes');
 
@@ -467,14 +524,14 @@ function make_nj_classes(classes, grouped, codelist) {
 
    nj_classes = classes.reduce(function(accumulator, element) { 
 	   if ((element['extra']['EA-Type'] !== 'DATATYPE') && (element['extra']['EA-Type'] !== 'ENUMERATION')) {
-	   accumulator.push(make_nj_class(element, grouped, codelist));
+	   accumulator.push(make_nj_class(element, grouped, codelist, dependencies, package_map ));
 	   };
 	   return accumulator;
    }, []);
 	return nj_classes;
 };
 
-function make_nj_datatypes(classes, grouped, codelist) {
+function make_nj_datatypes(classes, grouped, codelist, dependencies, package_map ) {
 
    console.log('make nunjuncks classes');
 
@@ -482,7 +539,7 @@ function make_nj_datatypes(classes, grouped, codelist) {
 
    nj_classes = classes.reduce(function(accumulator, element) { 
 	   if (element['extra']['EA-Type'] === 'DATATYPE') {
-	   accumulator.push(make_nj_class(element, grouped, codelist));
+	   accumulator.push(make_nj_class(element, grouped, codelist, dependencies, package_map ));
 	   };
 	   return accumulator;
    }, []);
@@ -490,7 +547,7 @@ function make_nj_datatypes(classes, grouped, codelist) {
 };
 
 
-function make_nj_class(element, grouped, codelist) {
+function make_nj_class(element, grouped, codelist, dependencies, package_map ) {
    var prop= new Map();
    var props =[];
      
@@ -539,9 +596,17 @@ function make_nj_class(element, grouped, codelist) {
                   } 
   		  return racc;
                }, []);
+              scoped_range = value.range.reduce(function(racc, relem) { 
+               if (relem['EA-Name']) {
+		  racc.push(map_range(dependencies, package_map, relem['EA-Name'], relem.uri));
+                  } 
+  		  return racc;
+               }, []);
 	      } else {
 		range = []
+		scoped_range = []
 	      };
+
               codelisturi = value.range.reduce(function(racc, relem) { 
                	  if (relem['EA-Name']) {
 		      if (codelist.get(relem['EA-Name'])) {
@@ -560,6 +625,7 @@ function make_nj_class(element, grouped, codelist) {
                     usage: value.usage,
                     domain: value.domain,
 		    range: range,
+		    scopedrange: scoped_range,
 		    cardinality: card,
                     codelist_uri: codelisturi
                     }
@@ -1017,6 +1083,7 @@ function     make_nj_metadata(json) {
             changelogurl: json.repository + "/blob/" + json.documentcommit + "/CHANGELOG",
 	    feedbackurl: json.feedbackurl,
 	    standaardregisterurl: json.standaardregisterurl,
+            dependencies: json.dependencies,
 	    usesVocs : [],
 	    usesAPs: []
         };

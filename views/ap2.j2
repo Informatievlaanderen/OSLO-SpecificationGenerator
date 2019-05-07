@@ -139,7 +139,11 @@
               <dt>Opmerkingen en feedback</dt><dd><a href="{{metadata.feedbackurl}}">{{metadata.feedbackurl}}</a></dd>
               <dt>standaardregister</dt><dd><a href="{{metadata.standaardregisterurl}}">{{metadata.standaardregisterurl}}</a></dd>
 
-              <dt>afhankelijkheden</dt><dd>{{metadata.usesVocs}}</dd>
+              <dt>afhankelijkheden</dt><dd>
+                {% for dep in metadata.dependencies %}
+		<a href="{{ dep.packageurl }}">{{ dep.packagelabel }}</a>
+                {% endfor %}
+		</dd>
               </dl>
               </div>
 
@@ -285,8 +289,8 @@
                           </code>
                         </td>
                         <td>
-                          {% for range in prop.range %}
-			    <a href="{{ range['range_uri'] }}" data-toggle="tooltip" data-content="{{ range['range_uri'] }}" data-placement="right">{{ range['range_label'] }}</a>
+                          {% for range in prop.scopedrange %}
+			    <a href="{{ range['range_uri'] }}" data-toggle="tooltip" data-content="{{ range['range_puri'] }}" data-placement="right">{{ range['range_label'] }}</a>
                           {% endfor %}
                         </td>
                         <td>{{ prop.cardinality }}</td>
@@ -349,8 +353,8 @@
                           </code>
                         </td>
                         <td>
-                          {% for range in prop.range %}
-			    <a href="{{ range['range_uri'] }}" data-toggle="tooltip" data-content="{{ range['range_uri'] }}" data-placement="right">{{ range['range_label'] }}</a>
+                          {% for range in prop.scopedrange %}
+			    <a href="{{ range['range_uri'] }}" data-toggle="tooltip" data-content="{{ range['range_puri'] }}" data-placement="right">{{ range['range_label'] }}</a>
                           {% endfor %}
                         </td>
                         <td>{{ prop['cardinality'] }}</td>
