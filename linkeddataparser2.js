@@ -466,7 +466,8 @@ function  get_classid_map(json) {
            var classid_map = new Map(); 
            
            for (var key in classes) {
-                 classid_map.set( classes[key]['extra']['EA-Name'], classes.label)
+
+                 classid_map.set( classes[key]['extra']['EA-Name'], classes[key].label)
            }
         return classid_map 
 	
@@ -666,7 +667,7 @@ function make_nj_class(element, grouped, aux ) {
               var rlabel="";
               scoped_range = value.range.reduce(function(racc, relem) { 
                if (relem['EA-Name']) {
-		  rlabel = get_classid(classid_map, relem['EA-Name']);
+		  rlabel = get_classid(classid_map,relem['EA-Name']);
 		  racc.push(map_range(dependencies, package_map, relem['EA-Name'], relem.uri, rlabel));
                   } 
   		  return racc;
