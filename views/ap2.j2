@@ -293,7 +293,7 @@
                         </td>
                         <td>
                           {% for range in prop.scopedrange %}
-			    <a href="{{ range['range_uri'] }}" data-toggle="tooltip" data-content="{{ range['range_puri'] }}" data-placement="right">{{ range['range_label'] }}</a>
+			    <a href="{{ range['range_uri'] }}" data-toggle="tooltip" data-content="{{ range['range_puri'] }}" data-placement="right">{{ range['range_label'][language] }}</a>
                           {% endfor %}
                         </td>
                         <td>{{ prop.cardinality }}</td>
@@ -360,7 +360,7 @@
                         </td>
                         <td>
                           {% for range in prop.scopedrange %}
-			    <a href="{{ range['range_uri'] }}" data-toggle="tooltip" data-content="{{ range['range_puri'] }}" data-placement="right">{{ range['range_label'] }}</a>
+			    <a href="{{ range['range_uri'] }}" data-toggle="tooltip" data-content="{{ range['range_puri'] }}" data-placement="right">{{ range['range_label'][language] }}</a>
                           {% endfor %}
                         </td>
                         <td>{{ prop['cardinality'] }}</td>

@@ -94,10 +94,17 @@ async function    parse_ontology_from_json_ld_file_ap(json_ld_file) {
         var grouped0 = group_properties_per_class_all(ld);
         var codelist = getcodelist(ld);
         var package_map = get_package_map(ld);
+        var classid_map = get_classid_map(ld);
         var dependencies = ld['dependencies'];
         if (dependencies) { dependencies = []};
-        var nj_classes = make_nj_classes(ld.classes, grouped0, codelist, dependencies, package_map);
-        var nj_datatypes = make_nj_datatypes(ld.classes, grouped0, codelist, dependencies, package_map);
+        var aux = {
+		codelist: codelist,
+		dependencies: dependencies,
+		package_map: package_map,
+		classid_map: classid_map
+		};
+        var nj_classes = make_nj_classes(ld.classes, grouped0, aux);
+        var nj_datatypes = make_nj_datatypes(ld.classes, grouped0, aux);
        
 	var nj_editors = ld.editors.reduce(function(acc, elem) {
 		acc.push(make_nj_person(elem, "E"));
@@ -133,10 +140,17 @@ async function    parse_ontology_from_json_ld_file_all(json_ld_file) {
         var grouped0 = group_properties_per_class_all(ld);
         var codelist = getcodelist(ld);
         var package_map = get_package_map(ld);
+        var classid_map = get_classid_map(ld);
         var dependencies = ld['dependencies'];
         if (dependencies) { dependencies = []};
-        var nj_classes = make_nj_classes(ld.classes.concat(ld.externals), grouped0, codelist, dependencies, package_map);
-        var nj_datatypes = make_nj_datatypes(ld.classes.concat(ld.externals), grouped0, codelist, dependencies, package_map );
+        var aux = {
+		codelist: codelist,
+		dependencies: dependencies,
+		package_map: package_map,
+		classid_map: classid_map
+		};
+        var nj_classes = make_nj_classes(ld.classes.concat(ld.externals), grouped0, aux);
+        var nj_datatypes = make_nj_datatypes(ld.classes.concat(ld.externals), grouped0, aux);
 	    //console.log(JSON.stringify(nj_classes) );
 	var nj_editors = ld.editors.reduce(function(acc, elem) {
 		acc.push(make_nj_person(elem, "E"));
@@ -176,11 +190,18 @@ async function    parse_ontology_from_json_ld_file_oj(json_ld_file) {
         var grouped2 = group_properties_per_class_using_hierarchy(hier, grouped0);
         var codelist = getcodelist(ld);
         var package_map = get_package_map(ld);
+        var classid_map = get_classid_map(ld);
         var dependencies = ld['dependencies'];
         if (dependencies) { dependencies = []};
-        var nj_classes = make_nj_classes(ld.classes, grouped2, codelist, dependencies, package_map);
+        var aux = {
+		codelist: codelist,
+		dependencies: dependencies,
+		package_map: package_map,
+		classid_map: classid_map
+		};
+        var nj_classes = make_nj_classes(ld.classes, grouped2, aux);
 	    //console.log(JSON.stringify(nj_classes) );
-        var nj_datatypes = make_nj_datatypes(ld.classes, grouped2, codelist, dependencies, package_map);
+        var nj_datatypes = make_nj_datatypes(ld.classes, grouped2, aux);
        
 	var nj_editors = ld.editors.reduce(function(acc, elem) {
 		acc.push(make_nj_person(elem, "E"));
@@ -394,7 +415,7 @@ function     group_properties_per_class_using_hierarchy(hierarchy, grouped) {
   //    * package_map = {EA-class -> EA-Package}
   //    * property_range = the EA-range of the property
   //    scoped_range = 
-function map_range(dependencies, package_map, property_range, property_range_uri) {
+function map_range(dependencies, package_map, property_range, property_range_uri, range_label) {
 	if ( package_map.has(property_range) ) {
                // if it has a package then it is at least defined in the local space
 	       scoped_range = dependencies.reduce(function(acc, elem) {
@@ -404,21 +425,21 @@ function map_range(dependencies, package_map, property_range, property_range_uri
 //			range_uri : elem.packageurl + "#" + property_range,
 		        range_uri : "#" + property_range,
 			range_puri : property_range_uri,
-			range_label : property_range
+			range_label : range_label
 			}
 		}
 		return acc;
 		}, 
 		  { range_uri : "#" + property_range,
 		    range_puri : property_range_uri,
-		    range_label : property_range }
+		    range_label : range_label}
                  );
 	} else {
         // not part of any package
 		  scoped_range = {
 			range_uri : property_range_uri,
 		        range_puri : property_range_uri,
-			range_label : property_range
+			range_label : range_label
 			}
 	}
 
@@ -427,6 +448,7 @@ function map_range(dependencies, package_map, property_range, property_range_uri
 
 
      // note assumed is that EA-Parents is just a single value
+     // map: EA-Name -> EA-Package
 function  get_package_map(json) { 
            var classes = json['classes'].concat(json['externals']);
            var package_map = new Map(); 
@@ -437,6 +459,27 @@ function  get_package_map(json) {
         return package_map
 	
      };
+
+     // map: EA-Name -> label
+function  get_classid_map(json) { 
+           var classes = json['classes'].concat(json['externals']);
+           var classid_map = new Map(); 
+           
+           for (var key in classes) {
+                 classid_map.set( classes[key]['extra']['EA-Name'], classes.label)
+           }
+        return classid_map 
+	
+     };
+
+function get_classid(classid_map, eaname) {
+	var classid = { nl: eaname };
+	if (classid_map.has(eaname)) {
+		classid =  classid_map.get(eaname)
+	}; 
+	return classid;
+	};
+
 
 
 
@@ -524,7 +567,7 @@ function    make_nj_classes2(classes, grouped) {
    return nj_classes;
 };
 
-function make_nj_classes(classes, grouped, codelist, dependencies, package_map ) {
+function make_nj_classes(classes, grouped, aux) {
 
    console.log('make nunjuncks classes');
 
@@ -532,14 +575,14 @@ function make_nj_classes(classes, grouped, codelist, dependencies, package_map )
 
    nj_classes = classes.reduce(function(accumulator, element) { 
 	   if ((element['extra']['EA-Type'] !== 'DATATYPE') && (element['extra']['EA-Type'] !== 'ENUMERATION')) {
-	   accumulator.push(make_nj_class(element, grouped, codelist, dependencies, package_map ));
+	   accumulator.push(make_nj_class(element, grouped, aux ));
 	   };
 	   return accumulator;
    }, []);
 	return nj_classes;
 };
 
-function make_nj_datatypes(classes, grouped, codelist, dependencies, package_map ) {
+function make_nj_datatypes(classes, grouped, aux) {
 
    console.log('make nunjuncks classes');
 
@@ -547,7 +590,7 @@ function make_nj_datatypes(classes, grouped, codelist, dependencies, package_map
 
    nj_classes = classes.reduce(function(accumulator, element) { 
 	   if (element['extra']['EA-Type'] === 'DATATYPE') {
-	   accumulator.push(make_nj_class(element, grouped, codelist, dependencies, package_map ));
+	   accumulator.push(make_nj_class(element, grouped, aux ));
 	   };
 	   return accumulator;
    }, []);
@@ -555,7 +598,11 @@ function make_nj_datatypes(classes, grouped, codelist, dependencies, package_map
 };
 
 
-function make_nj_class(element, grouped, codelist, dependencies, package_map ) {
+function make_nj_class(element, grouped, aux ) {
+   var codelist = aux.codelist;
+   var dependencies = aux.dependencies;
+   var package_map = aux.package_map;
+   var classid_map = aux.classid_map;
    var prop= new Map();
    var props =[];
    var scoped_class_uri = dependencies.reduce(function(acc, elem) {
@@ -616,9 +663,11 @@ function make_nj_class(element, grouped, codelist, dependencies, package_map ) {
                   } 
   		  return racc;
                }, []);
+              var rlabel="";
               scoped_range = value.range.reduce(function(racc, relem) { 
                if (relem['EA-Name']) {
-		  racc.push(map_range(dependencies, package_map, relem['EA-Name'], relem.uri));
+		  rlabel = get_classid(classid_map, relem['EA-Name']);
+		  racc.push(map_range(dependencies, package_map, relem['EA-Name'], relem.uri, rlabel));
                   } 
   		  return racc;
                }, []);
