@@ -96,7 +96,7 @@ async function    parse_ontology_from_json_ld_file_ap(json_ld_file) {
         var package_map = get_package_map(ld);
         var classid_map = get_classid_map(ld);
         var dependencies = ld['dependencies'];
-        if (dependencies) { dependencies = []};
+        if (! dependencies) { dependencies = []};
         var aux = {
 		codelist: codelist,
 		dependencies: dependencies,
@@ -142,7 +142,7 @@ async function    parse_ontology_from_json_ld_file_all(json_ld_file) {
         var package_map = get_package_map(ld);
         var classid_map = get_classid_map(ld);
         var dependencies = ld['dependencies'];
-        if (dependencies) { dependencies = []};
+        if (! dependencies) { dependencies = []};
         var aux = {
 		codelist: codelist,
 		dependencies: dependencies,
@@ -192,7 +192,7 @@ async function    parse_ontology_from_json_ld_file_oj(json_ld_file) {
         var package_map = get_package_map(ld);
         var classid_map = get_classid_map(ld);
         var dependencies = ld['dependencies'];
-        if (dependencies) { dependencies = []};
+        if (! dependencies) { dependencies = []};
         var aux = {
 		codelist: codelist,
 		dependencies: dependencies,
