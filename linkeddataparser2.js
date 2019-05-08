@@ -415,6 +415,7 @@ function     group_properties_per_class_using_hierarchy(hierarchy, grouped) {
   //    * package_map = {EA-class -> EA-Package}
   //    * property_range = the EA-range of the property
   //    scoped_range = 
+//    HARDCODED SELECTION OF .nl label
 function map_range(dependencies, package_map, property_range, property_range_uri, range_label) {
 	if ( package_map.has(property_range) ) {
                // if it has a package then it is at least defined in the local space
@@ -423,14 +424,14 @@ function map_range(dependencies, package_map, property_range, property_range_uri
 		  // a dependency has been defined for this range
 		  acc = {
 //			range_uri : elem.packageurl + "#" + property_range,
-		        range_uri : "#" + property_range,
+		        range_uri : "#" + range_label.nl,
 			range_puri : property_range_uri,
 			range_label : range_label
 			}
 		}
 		return acc;
 		}, 
-		  { range_uri : "#" + property_range,
+		  { range_uri : "#" + range_label.nl,
 		    range_puri : property_range_uri,
 		    range_label : range_label}
                  );
