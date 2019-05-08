@@ -466,8 +466,9 @@ function  get_classid_map(json) {
            var classid_map = new Map(); 
            
            for (var key in classes) {
-
+		if (classes[key].label) {
                  classid_map.set( classes[key]['extra']['EA-Name'], classes[key].label)
+		}
            }
         return classid_map 
 	
