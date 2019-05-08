@@ -95,6 +95,7 @@ async function    parse_ontology_from_json_ld_file_ap(json_ld_file) {
         var codelist = getcodelist(ld);
         var package_map = get_package_map(ld);
         var dependencies = ld['dependencies'];
+        if (dependencies) { dependencies = []};
         var nj_classes = make_nj_classes(ld.classes, grouped0, codelist, dependencies, package_map);
         var nj_datatypes = make_nj_datatypes(ld.classes, grouped0, codelist, dependencies, package_map);
        
@@ -133,6 +134,7 @@ async function    parse_ontology_from_json_ld_file_all(json_ld_file) {
         var codelist = getcodelist(ld);
         var package_map = get_package_map(ld);
         var dependencies = ld['dependencies'];
+        if (dependencies) { dependencies = []};
         var nj_classes = make_nj_classes(ld.classes.concat(ld.externals), grouped0, codelist, dependencies, package_map);
         var nj_datatypes = make_nj_datatypes(ld.classes.concat(ld.externals), grouped0, codelist, dependencies, package_map );
 	    //console.log(JSON.stringify(nj_classes) );
@@ -175,6 +177,7 @@ async function    parse_ontology_from_json_ld_file_oj(json_ld_file) {
         var codelist = getcodelist(ld);
         var package_map = get_package_map(ld);
         var dependencies = ld['dependencies'];
+        if (dependencies) { dependencies = []};
         var nj_classes = make_nj_classes(ld.classes, grouped2, codelist, dependencies, package_map);
 	    //console.log(JSON.stringify(nj_classes) );
         var nj_datatypes = make_nj_datatypes(ld.classes, grouped2, codelist, dependencies, package_map);
