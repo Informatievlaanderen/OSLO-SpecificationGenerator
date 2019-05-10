@@ -297,6 +297,19 @@ function      class_hierarchy_parents(classes) {
         return hierarchy
 	
      };
+    // support EA-Parents2 which is a list
+function     class_hierarchy_parents2(classes) { 
+           var hierarchy = new Map(); 
+           var v = [];
+           
+           for (var key in classes) {
+		 for (var p in classes[key]['extra']['EA-Parents2'] ) {
+                 	push_value_to_map_array(hierarchy, classes[key]['extra']['EA-Name'], p.name)
+		}
+           }
+        return hierarchy
+	
+     };
 
      // note assumed is that EA-Parents is just a single value
 function      class_hierarchy_childern(classes) { 
@@ -305,6 +318,19 @@ function      class_hierarchy_childern(classes) {
            
            for (var key in classes) {
                 push_value_to_map_array(hierarchy, classes[key]['extra']['EA-Parents'], classes[key]['extra']['EA-Name'])
+           }
+        return hierarchy
+	
+     };
+
+function      class_hierarchy_childern2(classes) { 
+           var hierarchy = new Map(); 
+           var v = [];
+           
+           for (var key in classes) {
+		 for (var p in classes[key]['extra']['EA-Parents2'] ) {
+                	push_value_to_map_array(hierarchy, p.name, classes[key]['extra']['EA-Name'])
+		}
            }
         return hierarchy
 	
@@ -329,6 +355,28 @@ function      class_hierarchy_extensional(classes) {
         return ext_hierarchy
 	
      };
+
+function      class_hierarchy_extensional2(classes) { 
+           var hierarchy = new Map(); 
+           var ext_hierarchy = new Map(); 
+           var parents = [];
+           
+           for (var key in classes) {
+		 for (var p in classes[key]['extra']['EA-Parents2'] ) {
+                	push_value_to_map_array(hierarchy, classes[key]['extra']['EA-Name'], p);
+		}
+           };
+
+           // make extensional
+           for (var key in classes) {
+                parents = class_parents(100, hierarchy, classes[key]['extra']['EA-Name'])
+                ext_hierarchy.set(classes[key]['extra']['EA-Name'], parents)
+           };
+              
+        return ext_hierarchy
+	
+     };
+
 
 function     class_parents(level, hierarchy, c) {
         if (level < 1) {
@@ -445,6 +493,29 @@ function map_range(dependencies, package_map, property_range, property_range_uri
 	}
 
    	return scoped_range;
+}
+
+   // if the class is member of the package_map (means the class is mentioned on the document)
+   // then it gets a scoped url, otherwise it uses the default.
+function get_scoped_class_uri(dependencies, package_map, myname, mypackage, mylabel, mydefault) {
+
+	// start with the default
+   var scoped_class_uri = mydefault;
+	// if part of the published classes use relative scoped url
+   if ( package_map.has(myname) ) {
+      scoped_class_uri = "#" + mylabel;
+    };
+	// overwrite with the package dependencies resolution
+      scoped_class_uri = dependencies.reduce(function(acc, elem) {
+		if (elem.package === mypackage) {
+		    acc = elem.packageurl + "#" + mylabel
+		}
+		return acc;
+		}, 
+		scoped_class_uri
+		);
+
+    return scoped_class_uri;
 }
 
 
@@ -601,6 +672,11 @@ function make_nj_datatypes(classes, grouped, aux) {
 };
 
 
+/* create all info aof a class
+   element = the EA-element which is a class
+   grouped = an auxiliary structure which contains all properties per class
+   aux = an auxiliary structure consisting of a codelists, package_map, dependency information
+*/
 function make_nj_class(element, grouped, aux ) {
    var codelist = aux.codelist;
    var dependencies = aux.dependencies;
@@ -608,6 +684,16 @@ function make_nj_class(element, grouped, aux ) {
    var classid_map = aux.classid_map;
    var prop= new Map();
    var props =[];
+     
+   // basic class data
+   var  nj_class = {
+                    uri: element["@id"],
+                    name: element.name,
+                    sort_nl: element.name.nl,
+                    description: element.description,
+                    usage: element.usage
+                }
+   // if the class is actually a reuse of an class from another applicationprofile
    var scoped_class_uri = dependencies.reduce(function(acc, elem) {
 		if (elem.package === element.extra['EA-Package']) {
 		  // a dependency has been defined for this class
@@ -617,17 +703,27 @@ function make_nj_class(element, grouped, aux ) {
 		}, 
 		""
 		);
-     
-   var  nj_class = {
-                    uri: element["@id"],
-                    name: element.name,
-                    sort_nl: element.name.nl,
-                    description: element.description,
-                    usage: element.usage
-                }
     if (scoped_class_uri !== "") {
 	nj_class.scopeduri = scoped_class_uri
 	};
+
+    // the superclasses of the class
+    var parents = element.extra['EA-Parents2'];
+    var scoped_parents = parents.reduce(function(acc, elem) {
+		if (elem.label !== "") {
+		   elem.scoped_uri = get_scoped_class_uri(dependencies, package_map, elem.name, elem.package, elem.label, elem.uri) 
+		} else {
+		   console.log("ERROR: a parent of " + element.name + " has no label, use EA-Name");
+		   elem.scoped_uri = get_scoped_class_uri(dependencies, package_map, elem.name, elem.package, elem.name, elem.uri) 
+                   elem.label = elem.name
+		}
+		acc.push(elem)
+		return acc;
+		},
+		[]
+		);
+    nj_class.parents = scoped_parents;
+
      //console.log(nj_class);	   
 
      var gindex = element['extra']['EA-Name'];

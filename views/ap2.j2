@@ -247,15 +247,23 @@
             </div>
             {% for entity in classes | sort(attribute=sortattr) %}
               <div class="region region--no-space-top">
+              {% if entity.scopeduri %}
+              <h3 class="h3" id="{{ entity.name[language] }}"><a href="{{ entity.scopeduri }}" data-toggle="tooltip" data-content="{{ entity.uri }}" data-placement="right">{{ entity.name[language] }}</a></h3>
+	      {% else %}
               <h3 class="h3" id="{{ entity.name[language] }}"><a href="{{ entity.uri }}" data-toggle="tooltip" data-content="{{ entity.uri }}" data-placement="right">{{ entity.name[language] }}</a></h3>
+	      {% endif %}
                 <div class="region region--no-space-top">
                   <dl>
                     <dt>Beschrijving</dt><dd>{{ entity.description[language] }}</dd>
                     {% if entity.usage[language] %}
                     <dt>Gebruik</dt><dd>{{ entity.usage[language] }}</dd>
                     {% endif %}
-                    {% if entity.scopeduri %}
-		    <dt>Gebaseerd op<dt><dd>{{ entity.scopeduri }}</dd>
+		    {% if ((entity.parents | length) > 0 ) %} 
+		    <dt>Subklasse van <dt><dd>
+                        {%- for parent in entity['parents'] %}
+                        <a href="{{ parent.scoped_uri}}">{{ parent.label }}</a>{% if not loop.last %}, {% endif %}
+                    	{%- endfor %}
+		   </dd>
                     {% endif %}
                     <dt>Eigenschappen</dt>
 		    {% if ((entity.properties | length) > 0 ) %} 
@@ -315,15 +323,23 @@
             </div>
             {% for entity in datatypes | sort(attribute=sortattr)%}
             <div class="region region--no-space-top">
+              {% if entity.scopeduri %}
+              <h3 class="h3" id="{{ entity.name[language] }}"><a href="{{ entity.scopeduri }}" data-toggle="tooltip" data-content="{{ entity.uri }}" data-placement="right">{{ entity.name[language] }}</a></h3>
+	      {% else %}
               <h3 class="h3" id="{{ entity.name[language] }}"><a href="{{ entity.uri }}" data-toggle="tooltip" data-content="{{ entity.uri }}" data-placement="right">{{ entity.name[language] }}</a></h3>
+	      {% endif %}
                 <div class="region region--no-space-top">
                   <dl>
                     <dt>Beschrijving</dt><dd>{{ entity.description[language] }}</dd>
                     {% if entity.usage[language] %}
                     <dt>Gebruik</dt><dd>{{ entity.usage[language] }}</dd>
                     {% endif %}
-                    {% if entity.scopeduri %}
-		    <dt>Gebaseerd op<dt><dd>{{ entity.scopeduri }}</dd>
+		    {% if ((entity.parents | length) > 0 ) %} 
+		    <dt>Subklasse van <dt><dd>
+                        {%- for parent in entity['parents'] %}
+                        <a href="{{ parent.scoped_uri}}">{{ parent.label }}</a>{% if not loop.last %}, {% endif %}
+                    	{%- endfor %}
+		   </dd>
                     {% endif %}
                     <dt>Eigenschappen</dt>
 		    {% if ((entity.properties | length) > 0 ) %} 
