@@ -825,6 +825,7 @@ function make_nj_ext_class_voc(element) {
    var  nj_class = {
                     uri: element["@id"],
                     name: element.name,
+                    description: element.description,
                     sort_nl: element.name.nl
                 }
 
@@ -879,6 +880,7 @@ function make_nj_ext_prop_voc(element, codelist) {
               var nj_prop = {
                     uri: element["@id"],
                     name: element.name,
+                    description: element.description,
   		    sort_nl: element.name.nl,
 
                     }
