@@ -44,14 +44,15 @@
                     {% endif %}
 
               <div class="head" role="status" id="status">
-              <a href="{{metadata.status }}">{{ metadata.statuslabel }}</a> uitgegeven op {{ metadata.issued }}
               <dl>
-              <dt>deze versie</dt><dd><a href="{{metadata.navigation.self}}">{{metadata.navigation.self}}</a></dd>
+              <dt>Status</dt><dd><a href="{{metadata.status}}">{{metadata.status}}</a></dd>
+              <dt>Uitgegeven op</dt><dd>{{metadata.issued}}</dd>
+              <dt>Deze versie</dt><dd><a href="{{metadata.navigation.self}}">{{metadata.navigation.self}}</a></dd>
               {% if metadata.navigation.next %}
-              <dt>volgende versie</dt><dd><a href="{{metadata.navigation.next}}">{{metadata.navigation.next}}</a></dd>
+              <dt>Volgende versie</dt><dd><a href="{{metadata.navigation.next}}">{{metadata.navigation.next}}</a></dd>
               {% endif %}
               {% if metadata.navigation.prev %}
-              <dt>vorige versie</dt><dd><a href="{{metadata.navigation.prev}}">{{metadata.navigation.prev}}</a></dd>
+              <dt>Vorige versie</dt><dd><a href="{{metadata.navigation.prev}}">{{metadata.navigation.prev}}</a></dd>
               {% endif %}
               </dl>
               </div>
@@ -149,6 +150,16 @@
             <div class="layout layout--wide">
                 <div class="grid">
                     <div class="col--8-12 col--12-12--s">
+            <div class="region" id="introduction">
+              <div class="introduction typography">
+              {% block introduction %}
+                <p>Dit document beschrijft een <strong>vocabularium</strong>, in dit geval <strong>{{ metadata.title[language] }}</strong>.
+		Een vocabularium is een verzameling van herbruikbare termen, namelijk klassen en eigenschappen, waarvan hun betekenis is vastgelegd door middel van een label en definitie. 
+                Voor termen gedefinieerd in dit domein zijn er nog bijkomende formele afspraken beschikbaar. Voor externe termen worden de formele afspraken overgenomen van de externe bron. 
+                </p>
+              {% endblock %}
+              </div>
+            </div>
                         <div class="region region">
                             <section id="abstract" class="introductory" property="dcterms:abstract" datatype="" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter">
                                 <h2 class="h2" aria-level="1" role="heading" id="h2_abstract">Samenvatting</h2>
@@ -409,6 +420,16 @@
                                             <th>URI</th>
                                             <td><code>{{ external.uri }}</code></td>
                                           </tr>
+                                          <tr>
+                                            <th>Definitie</th>
+                                            <td>{{ external.description[language] }}</td>
+                                          </tr>
+                                          {% if external.usage[language] %}
+                                          <tr>
+                                            <th>Gebruik</th>
+                                            <td>{{ external.usage[language] }}</td>
+                                          </tr>
+                                          {% endif %}
                                           
                                         </tbody>
                                     </table>

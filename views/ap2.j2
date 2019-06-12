@@ -49,14 +49,15 @@
               <h1 class="h1">{{ metadata.title[language] }}</h1>
 
               <div class="head" role="status" id="status">
-              <a href="{{metadata.status }}">{{ metadata.statuslabel }}</a> uitgegeven op {{ metadata.issued }}
               <dl>
-              <dt>deze versie</dt><dd><a href="{{metadata.navigation.self}}">{{metadata.navigation.self}}</a></dd>
+              <dt>Status</dt><dd><a href="{{metadata.status}}">{{metadata.status}}</a></dd>
+              <dt>Uitgegeven op</dt><dd>{{metadata.issued}}</dd>
+              <dt>Deze versie</dt><dd><a href="{{metadata.navigation.self}}">{{metadata.navigation.self}}</a></dd>
               {% if metadata.navigation.next %}
-              <dt>volgende versie</dt><dd><a href="{{metadata.navigation.next}}">{{metadata.navigation.next}}</a></dd>
+              <dt>Volgende versie</dt><dd><a href="{{metadata.navigation.next}}">{{metadata.navigation.next}}</a></dd>
               {% endif %}
               {% if metadata.navigation.prev %}
-              <dt>vorige versie</dt><dd><a href="{{metadata.navigation.prev}}">{{metadata.navigation.prev}}</a></dd>
+              <dt>Vorige versie</dt><dd><a href="{{metadata.navigation.prev}}">{{metadata.navigation.prev}}</a></dd>
               {% endif %}
               </dl>
               </div>
@@ -161,7 +162,7 @@
             <div class="region" id="introduction">
               <div class="introduction typography">
               {% block introduction %}
-                <p>Dit document beschrijft een <strong>applicatieprofiel</strong>, in dit geval <strong>{{ title }}</strong>.
+                <p>Dit document beschrijft een <strong>applicatieprofiel</strong>, in dit geval <strong>{{ metadata.title[language] }}</strong>.
                 <!--Een applicatieprofiel is een specificatie die bestaande termen hergebruikt van verschillende basis-standaarden en daar meer specificiteit aan toevoegt.-->
                 <!-- Daarbij wordt het gebruik van de termen toegelicht voor de interbestuurlijke uitwisseling van overheidsinformatie.-->
                 Dit applicatieprofiel beantwoordt de vraag over hoe het corresponderende domeinmodel in de praktijk kan toegepast worden.
@@ -185,12 +186,11 @@
                 <h2 class="h2" aria-level="1" role="heading" id="h2_sotd">Status van dit document</h2>
                 {% block status %}
                 <p>
-                  Dit applicatieprofiel dient om het specifieke gebruik van de entiteiten relevant voor de beschreven applicatie te verduidelijken.
+                  Dit applicatieprofiel <a href="{{metadata.status }}">{{ metadata.statuslabel }}</a> werd uitgegeven op {{ metadata.issued }}.
+	        </p><p>
+                  Informatie over het gevolgde proces en de beslissingen om tot deze specificatie te komen zijn beschikbaar in het 
+                  <a href="{{metadata.standaardregisterurl}}">standaardenregister<a>.
                 </p>
-                <p>
-                Dit document werd als Kandidaat-standaard gepubliceerd door de werkgroep semantiek en bevindt zich in een evaluatieperiode. Indien de evaluatie positief beoordeeld wordt door het stuurorgaan Vlaams Informatie- en ICT-beleid op basis van een aantal referentie implementaties en het behandelen van eventuele feedback wordt dit document gepromoot tot Standaard in het beschreven domein.
-                </p>
-                <p>Feedback op deze specificatie kan gegeven worden via de <a href="mailto:oslo@kb.vlaanderen.be">mailing lijst</a> of als een topic in onze <a href="https://github.com/Informatievlaanderen/OSLO-Public-Discussion">publieke reviewdiscussielijst</a>.</p>
                 {% endblock %}
               </section>
             </div>
@@ -247,11 +247,7 @@
             </div>
             {% for entity in classes | sort(attribute=sortattr) %}
               <div class="region region--no-space-top">
-              {% if entity.scopeduri %}
-              <h3 class="h3" id="{{ entity.name[language] }}"><a href="{{ entity.scopeduri }}" data-toggle="tooltip" data-content="{{ entity.uri }}" data-placement="right">{{ entity.name[language] }}</a></h3>
-	      {% else %}
               <h3 class="h3" id="{{ entity.name[language] }}"><a href="{{ entity.uri }}" data-toggle="tooltip" data-content="{{ entity.uri }}" data-placement="right">{{ entity.name[language] }}</a></h3>
-	      {% endif %}
                 <div class="region region--no-space-top">
                   <dl>
                     <dt>Beschrijving</dt><dd>{{ entity.description[language] }}</dd>
@@ -294,10 +290,16 @@
                     {% for prop in entity['properties'] | sort(attribute=sortattr) %}
                       <tr id="{{ (entity.name[language] ~ ':' ~ prop.name[language]) | urlencode }}" typeof="rdfs:Property" resource="{{ prop.uri }}">
                         <td>
+			  {% if prop['codelist_uri'] %}
+                          <code property="rdfs:label" data-toggle="tooltip" data-content="{{ prop.uri }}" data-placement="right">
+                            {{ prop.name[language] }}
+                          </code>
+			  {% else %}
                           <code property="rdfs:label">
                             <a href="{{ prop.uri }}" data-toggle="tooltip" data-content="{{ prop.uri }}" data-placement="right">
                             {{ prop.name[language] }}</a>
                           </code>
+                          {% endif %}
                         </td>
                         <td>
                           {% for range in prop.scopedrange %}
@@ -394,8 +396,16 @@
             {% endif %}
             <div class="region region--no-space-top" id="jsonld">
                 <h2 class="h2" aria-level="1" role="heading" id="h2_sotd">JSON-LD context</h2>
+                (niet normatief)
                 {% block jsonld %}
-                <p>Een herbruikbare JSON-LD context definitie voor dit applicatieprofiel is terug te vinden op: <a href="https://data.vlaanderen.be/context/" target="_blank">https://data.vlaanderen.be/context/</a></p>
+                <p>Een herbruikbare JSON-LD context definitie voor dit applicatieprofiel is terug te vinden op: <a href="{{ documentroot }}/context/{{ metatdata.filename }}.jsonld" target="_blank">{{ documentroot }}/context/{{ metatdata.filename }}.jsonld</a></p>
+                {% endblock %}
+            </div>
+            <div class="region region--no-space-top" id="shacl">
+                <h2 class="h2" aria-level="1" role="heading" id="h2_sotd">SHACL template</h2>
+                (niet normatief)
+                {% block shacl%}
+                <p>Een herbruikbare SHACL template definitie voor dit applicatieprofiel is terug te vinden op: <a href="{{ documentroot }}/shacl/{{ metatdata.filename }}-SHACL.ttl" target="_blank">{{ documentroot }}/context/{{ metatdata.filename }}-SHACL.ttl</a></p>
                 {% endblock %}
             </div>
           </div>

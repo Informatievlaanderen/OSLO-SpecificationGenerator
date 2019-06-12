@@ -44,17 +44,21 @@ async function    parse_ontology_from_json_ld_file_voc(json_ld_file) {
 		acc.push(make_nj_prop_voc(elem,codelist));
 		return acc;
             }, []);
-        var nj_ext_classes = ld.externals.reduce(function (acc, elem) {
+        var nj_ext_classes_list = ld.externals.reduce(function (acc, elem) {
 	        var candidate = make_nj_ext_class_voc(elem);
-		if (candidate.name && candidate.name.nl) { acc.push(candidate) };
+		if (candidate.name && candidate.name.nl && candidate.show ) { acc.push(candidate) };
 		return acc;
             }, []);
-        var nj_ext_properties = ld.externalproperties.reduce(function (acc, elem) {
+        var nj_ext_classes_set= new Set(nj_ext_classes_list);
+        var nj_ext_classes = nj_ext_classes_set.toArray();
+        var nj_ext_properties_list = ld.externalproperties.reduce(function (acc, elem) {
 	        var candidate = make_nj_ext_prop_voc(elem, codelist);
-		if (candidate.name && candidate.name.nl) { acc.push(candidate) };
+		if (candidate.name && candidate.name.nl && candidate.show ) { acc.push(candidate) };
 		return acc;
             }, []);
 	    //console.log(JSON.stringify(nj_classes) );
+        var nj_ext_properties_set= new Set(nj_ext_properties_list);
+        var nj_ext_properties = nj_ext_properties_set.toArray();
 	var nj_editors = ld.editors.reduce(function(acc, elem) {
 		acc.push(make_nj_person(elem, "E"));
 		return acc;
@@ -821,14 +825,40 @@ function make_nj_class_voc(element) {
 };
 
 function make_nj_ext_class_voc(element) {
+   
      
    var  nj_class = {
                     uri: element["@id"],
                     name: element.name,
                     description: element.description,
+		    usage: element.usage,
                     sort_nl: element.name.nl
                 }
 
+   if (nj_class.uri.startsWith("https://data.vlaanderen.be")) {
+        nj_class.indvl = true
+   } else {
+        nj_class.indvl = false
+   };
+   if (nj_class.inpackage == "ACTIVE_PACKAGE") {
+        nj_class.inpackage = true
+   } else {
+        nj_class.inpackage = false
+   };
+
+   if (element.extra.Scope) {
+      if (element.extra.Scope == "TRANSLATIONS_ONLY") {
+	 nj_class.inscope = true
+      } else {
+         nj_class.inscope = false
+      }
+   }
+
+   if (! nj_class.indvl && nj_class.inscope) {
+      nj_class.show = true
+   } else {
+      nj_class.show = false
+   }
 
      return nj_class;
 };
@@ -881,12 +911,38 @@ function make_nj_ext_prop_voc(element, codelist) {
                     uri: element["@id"],
                     name: element.name,
                     description: element.description,
+		    usage: element.usage,
   		    sort_nl: element.name.nl,
 
                     }
+   if (element.extra.Scope) {
+      if (element.extra.Scope == "TRANSLATIONS_ONLY") {
+	 nj_prop.inscope = true
+      } else {
+         nj_prop.inscope = false
+      }
+   }
 
+   if (nj_prop.uri.startsWith("https://data.vlaanderen.be")) {
+        nj_prop.indvl = true
+   } else {
+        nj_prop.indvl = false
+   };
 
-     return nj_prop;
+   if (nj_prop.inpackage == "ACTIVE_PACKAGE") {
+        nj_prop.inpackage = true
+   } else {
+        nj_prop.inpackage = false
+   };
+
+   if (! nj_prop.indvl && nj_prop.inscope) {
+      nj_prop.show = true
+   } else {
+      nj_prop.show = false
+   }
+   
+   return nj_prop;
+
 };
 
 
@@ -1245,6 +1301,7 @@ function     make_nj_metadata(json) {
 	    issued:  json['publication-date'],
 	    baseURI: json.baseURI,
 	    baseURIabbrev: json.baseURIabbrev,
+            filename: json.name,
  	    navigation: json.navigation,
 	    license: json.license,
 	    status: docstatus,
