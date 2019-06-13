@@ -1294,6 +1294,10 @@ function     make_nj_metadata(json) {
           default: 
 		docstatuslabel = "Onbekend"
         };
+	if (! json.license || json.license == "") {
+	  // set default value
+	  json.license="https://data.vlaanderen.be/id/licentie/modellicentie-gratis-hergebruik/v1.0"
+        }
 
         var meta = {
             title: {nl: json.title},
