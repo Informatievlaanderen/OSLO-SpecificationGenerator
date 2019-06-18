@@ -468,7 +468,7 @@ function     group_properties_per_class_using_hierarchy(hierarchy, grouped) {
   //    * property_range = the EA-range of the property
   //    scoped_range = 
 //    HARDCODED SELECTION OF .nl label
-function map_range(dependencies, package_map, property_range, property_range_uri, range_label) {
+function map_range(dependencies, package_map, property_range, property_range_uri, range_label, range_package) {
 	if ( package_map.has(property_range) ) {
                // if it has a package then it is at least defined in the local space
 	       scoped_range = dependencies.reduce(function(acc, elem) {
@@ -489,11 +489,23 @@ function map_range(dependencies, package_map, property_range, property_range_uri
                  );
 	} else {
         // not part of any package
-		  scoped_range = {
+	       scoped_range = dependencies.reduce(function(acc, elem) {
+		if (elem.package === range_package) {
+		  // a dependency has been defined for this range
+		  acc = {
+			range_uri : elem.packageurl + "#" + property_range,
+			range_puri : property_range_uri,
+			range_label : range_label
+			}
+		}
+		return acc;
+		}, 
+                    {
 			range_uri : property_range_uri,
 		        range_puri : property_range_uri,
 			range_label : range_label
 			}
+                 );
 	}
 
    	return scoped_range;
@@ -770,7 +782,7 @@ function make_nj_class(element, grouped, aux ) {
               scoped_range = value.range.reduce(function(racc, relem) { 
                if (relem['EA-Name']) {
 		  rlabel = get_classid(classid_map,relem['EA-Name']);
-		  racc.push(map_range(dependencies, package_map, relem['EA-Name'], relem.uri, rlabel));
+		  racc.push(map_range(dependencies, package_map, relem['EA-Name'], relem.uri, rlabel, relem['EA-Package']));
                   } 
   		  return racc;
                }, []);
