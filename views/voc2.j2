@@ -290,11 +290,11 @@
                                             <th>URI</th>
                                             <td><code>{{ class.uri }}</code></td>
                                           </tr>
-                                          {% if class.parents %}
+                                          {% if ( ( class.parents | length ) > 0)  %}
 										  <tr>
                                             <th>Specialisatie van</th>
 											<td><ul>
-											{% for parent in parents|sort %}
+											{% for parent in class.parents|sort %}
                                               <li><a href="{{ parent }}"><code>{{ parent }}</code></a></li>
 											{% endfor %}
                                             </ul></td>
