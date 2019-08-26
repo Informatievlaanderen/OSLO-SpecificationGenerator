@@ -422,10 +422,12 @@
                                             <th>URI</th>
                                             <td><code>{{ external.uri }}</code></td>
                                           </tr>
+					 {% if external.definition[language] %}
                                           <tr>
                                             <th>Definitie</th>
                                             <td>{{ external.description[language] }}</td>
                                           </tr>
+                                          {% endif %}
                                           {% if external.usage[language] %}
                                           <tr>
                                             <th>Gebruik</th>
