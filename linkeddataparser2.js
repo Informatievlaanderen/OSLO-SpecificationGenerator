@@ -238,6 +238,42 @@ async function    parse_ontology_from_json_ld_file_oj(json_ld_file, hostname) {
         }
     };
    
+
+async function    parse_json_ld_file_to_exampletemplates(json_ld_file, hostname) {
+        var ld = JSON.parse(fs.readFileSync(json_ld_file, 'utf-8'));
+        expanded = await jsonld.expand(ld);
+        //console.log(JSON.stringify(expanded));
+        
+        var grouped0 = group_properties_per_class_all(ld);
+        var codelist = getcodelist(ld);
+        var package_map = get_package_map(ld);
+        var classid_map = get_classid_map(ld);
+        var dependencies = ld['dependencies'];
+        if (! dependencies) { dependencies = []};
+
+        var aux = {
+		codelist: codelist,
+		dependencies: dependencies,
+		package_map: package_map,
+		classid_map: classid_map
+		};
+        var nj_classes = make_nj_classes(ld.classes.concat(ld.externals), grouped0, aux);
+        var nj_datatypes = make_nj_datatypes(ld.classes.concat(ld.externals), grouped0, aux);
+	    //console.log(JSON.stringify(nj_classes) );
+       
+        for(i in expanded) {
+            var vocabularium = expanded[i];
+            var classes_json = {
+                metadata: make_nj_metadata(ld,hostname),
+                classes: nj_classes,
+		datatypes: nj_datatypes,
+                parents: []
+            };
+            return classes_json;
+        }
+    };
+
+
     //
     // group the properties per class using the domain
     //   - variant 1: include only those which are identified as full members of the document
@@ -1472,4 +1508,4 @@ function     extract_functional_property(expanded_property) {
         return 0;
     }
 
-module.exports = {parse_ontology_from_json_ld_file_voc, parse_ontology_from_json_ld_file_ap, parse_ontology_from_json_ld_file_oj, parse_ontology_from_json_ld_file_all };
+module.exports = {parse_ontology_from_json_ld_file_voc, parse_ontology_from_json_ld_file_ap, parse_ontology_from_json_ld_file_oj, parse_ontology_from_json_ld_file_all, parse_json_ld_file_to_exampletemplates };
