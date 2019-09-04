@@ -75,6 +75,7 @@ function render_html_from_json_ld_file(target, template, filename, output_filena
                    }
 		})};
           var html = nunjucks.render(template, parsed_json);
+
           const data = new Uint8Array(Buffer.from(html));
 
           console.log('start writing');
@@ -87,7 +88,7 @@ function render_html_from_json_ld_file(target, template, filename, output_filena
             console.log('The file has been saved to ' + output_filename);
             });
 
-          });
+          }).catch(error => { console.error(error); process.exitCode = 1; } ) ;
          })
 	.catch(error => { console.error(error); process.exitCode = 1; } ) 
 }
