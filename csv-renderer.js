@@ -51,8 +51,9 @@ function render_csv(templatefile, csvfilename, output) {
   var pt = parse_template(template);
 //  var ren = render_template(pt, {'ID':'een identifier', 'STRING' : 'een string waarde', 'BOOLEAN': 'true', 'VAL' : 'I do not know'});
   var ren = render_template(pt, csv.data);
-  console.log(ren);
+//  console.log(ren);
 
+/*
   jsonfile.writeFile(output, ren, function (err) {
 		if (err) {
 		   // Set the exit code if there's a problem so bash sees it
@@ -61,7 +62,19 @@ function render_csv(templatefile, csvfilename, output) {
                    throw err;
                    }
 		});
-  console.log('finished rendering to ' + output);
+*/
+
+  let writeStream = fs.createWriteStream(output);
+
+write_data(writeStream, ren);	
+  writeStream.on('finish', () => {
+	      console.log('wrote all data to file');
+  });
+
+	// close the stream
+   writeStream.end();
+	
+	console.log('finished rendering to ' + output);
 };
 
 
@@ -105,3 +118,45 @@ function render_template_single(parsed_template, data){
 	}
 	return render;
 }
+
+function write_data(stream, data){
+        stream.write("[");
+	for (i in data) {
+	  stream.write(data[i]);
+          stream.write(",")
+	}
+        stream.write("]");
+	return true;
+};
+
+/*
+const { Transform } = require('stream');
+
+const transformRow2Json = new Transform({
+  transform(chunk, encoding, callback) {
+    process.stdout.write('.');
+    callback(null, chunk);
+  }
+});
+*/
+
+function streamcsv(template, input, output) {
+
+   var out = Papa.parse(input, {
+	header: true,
+	skipEmptyLines: true,
+	step: function(row) {
+		console.log("Row:", row.data);
+		console.log(render_template_single(template, data));
+		console.log("--------");
+                
+	},
+	complete: function() {
+		console.log("All done!");
+	}
+});
+   console.log(out);
+
+}
+
+

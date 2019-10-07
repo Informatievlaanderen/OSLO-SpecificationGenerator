@@ -117,12 +117,18 @@ function make_exampletemplate(cj_class_desc) {
 	      };
 	for (p in cj_class_desc.properties) {
 		var rp = range_repr(cj_class_desc.properties[p].scopedrange);
+		//console.log(cj_class_desc.properties[p]);
+		// console.log(cj_class_desc.properties[p].name);
+		// console.log(cj_class_desc.properties[p].name.nl);
+		if ((cj_class_desc.properties[p].name.nl != null ) && (cj_class_desc.properties[p].name.nl != "")) {
+	 
 		cj_class[camelCase(cj_class_desc.properties[p].name.nl)] = rp ;
+			   }
 	}
 	
 	var pt = parse_template(JSON.stringify(cj_class));
 	var ren = render_template(pt, {'ID':'een identifier', 'STRING' : 'een string waarde', 'BOOLEAN': 'true', 'VAL' : 'I do not know'});
-	console.log(ren);
+	//console.log(ren);
 	return cj_class;
 }
 
@@ -132,7 +138,9 @@ function make_exampletemplate_context(cj_class_desc) {
 
 	for (p in cj_class_desc.properties) {
 		var rp = range_repr_context(cj_class_desc.properties[p].uri, cj_class_desc.properties[p].scopedrange);
+		if ((cj_class_desc.properties[p].name.nl != null ) && (cj_class_desc.properties[p].name.nl != "")) {
 		cj_class_context[camelCase(cj_class_desc.properties[p].name.nl)] = rp;
+		};
 	}
 	return cj_class_context;
 }
@@ -140,7 +148,9 @@ function make_exampletemplate_context(cj_class_desc) {
 
 
 function range_repr(prop_range) {
-	var pru = prop_range[0].range_puri;
+	var pru = "";
+	if ((prop_range[0] != null) && (prop_range[0].range_puri != null)) {
+	pru = prop_range[0].range_puri;
         if ( pru == 'http://www.w3.org/1999/02/22-rdf-syntax-ns#langString' ) {
 	   return pr_represention = { 'nl' : '{{STRING}}'}
 	};
@@ -150,9 +160,13 @@ function range_repr(prop_range) {
 	   pr_represention = '{{' + pru.substring(33,pru.length).toUpperCase() + '}}';
 	}
 	return pr_represention;
+        } else {
+		return '{{ANY}}';
+        };
 };
 
 function range_repr_context(prop, prop_range) {
+	if ((prop_range[0] != null) && (prop_range[0].range_puri != null)) {
 	var pru = prop_range[0].range_puri;
         if ( pru == 'http://www.w3.org/1999/02/22-rdf-syntax-ns#langString' ) {
 	   return pr_represention = { 
@@ -170,6 +184,9 @@ function range_repr_context(prop, prop_range) {
 	};
 	
 	return prop;
+	} else {
+		return ""
+	};
 };
 
 

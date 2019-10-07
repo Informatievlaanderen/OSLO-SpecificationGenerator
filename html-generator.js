@@ -13,6 +13,7 @@ program
   .option('-s, --style <target>', 'target style html forms. One of {voc,ap, oj}', /^(voc|ap|oj|all)$/i)
   .option('-t, --template <template>', 'html template to render')
   .option('-d, --templatedir [directory]', 'the directory containing all templates')
+  .option('-f, --forceskos', 'force the range skos:Concept for enumerated properties, default false')
   .option('-h, --hostname <hostname>', 'the public hostname/domain on which the html is published. The hostname in the input file takes precedence.')
   .option('-r, --documentpath <path>', 'the document path on which the html is published')
   .option('-x, --debug <path>', 'the intermediate json which will be used by the templaterenderer')
@@ -47,18 +48,19 @@ function render_html_from_json_ld_file(target, template, filename, output_filena
         console.log('start processing');
         var promise = {};
         var hostname = program.hostname;
+        const forceskos = program.forceskos ? true : false;
         switch(target) {
             case "voc": 
                 promise = ldParser.parse_ontology_from_json_ld_file_voc(filename, hostname);
                 break;
             case "ap": 
-                promise = ldParser.parse_ontology_from_json_ld_file_all(filename, hostname);
+                promise = ldParser.parse_ontology_from_json_ld_file_all(filename, hostname, forceskos);
                 break;
             case "all": 
-                promise = ldParser.parse_ontology_from_json_ld_file_all(filename, hostname);
+                promise = ldParser.parse_ontology_from_json_ld_file_all(filename, hostname, forceskos);
                 break;
             case "oj": 
-                promise = ldParser.parse_ontology_from_json_ld_file_oj(filename, hostname);
+                promise = ldParser.parse_ontology_from_json_ld_file_oj(filename, hostname, forceskos);
                 break;
             default:
                 console.log("unknown or not provided target for the html rendering");

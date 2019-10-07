@@ -1,15 +1,31 @@
 # Javascript version of the specification generator
 
-## Running this tool
-To run this tool you can simply use the following command:
+## build
+
+This is a node.js project for node >= version 10.
+
 ```
-> node cls.js [JSON-LD FILENAME] [NUNJUCKS TEMPLATE] [OUTPUT HTML]
+npm set unsafe-perm true
+npm install
 ```
+
+The easiest method is the build it as a docker container.
+
+## Running the tools
+To run any of the tools is done on the commandline as:
+```
+> node <tool>.js --help
+```
+which will give a short help about the tool.
+
 An example:
 ```
 > node cls.js gebouw.jsonld gebouw-voc.j2 gebouw.html
 ```
 Running the above example will result in an HTML file that contains the ontology described in gebouw.jsonld and format it using the gebouw-voc.j2nunjucks template.
+
+All tools require as input the json-ld output of the OSLO tool EA-to-RDF. 
+
 
 ## Strucutre of this repository
 This repository contains 2 things:

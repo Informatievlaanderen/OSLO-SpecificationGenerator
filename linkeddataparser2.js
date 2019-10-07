@@ -90,7 +90,7 @@ async function    parse_ontology_from_json_ld_file_voc(json_ld_file, hostname) {
     };
 
 
-async function    parse_ontology_from_json_ld_file_ap(json_ld_file, hostname) {
+async function    parse_ontology_from_json_ld_file_ap(json_ld_file, hostname, forceskos) {
         var ld = JSON.parse(fs.readFileSync(json_ld_file, 'utf-8'));
         expanded = await jsonld.expand(ld);
         //console.log(JSON.stringify(expanded));
@@ -105,7 +105,8 @@ async function    parse_ontology_from_json_ld_file_ap(json_ld_file, hostname) {
 		codelist: codelist,
 		dependencies: dependencies,
 		package_map: package_map,
-		classid_map: classid_map
+		classid_map: classid_map,
+		forceskos: forceskos
 		};
         var nj_classes = make_nj_classes(ld.classes, grouped0, aux);
         var nj_datatypes = make_nj_datatypes(ld.classes, grouped0, aux);
@@ -136,7 +137,7 @@ async function    parse_ontology_from_json_ld_file_ap(json_ld_file, hostname) {
         }
     };
 
-async function    parse_ontology_from_json_ld_file_all(json_ld_file, hostname) {
+async function    parse_ontology_from_json_ld_file_all(json_ld_file, hostname, forceskos) {
         var ld = JSON.parse(fs.readFileSync(json_ld_file, 'utf-8'));
         expanded = await jsonld.expand(ld);
         //console.log(JSON.stringify(expanded));
@@ -151,7 +152,8 @@ async function    parse_ontology_from_json_ld_file_all(json_ld_file, hostname) {
 		codelist: codelist,
 		dependencies: dependencies,
 		package_map: package_map,
-		classid_map: classid_map
+		classid_map: classid_map,
+		forceskos: forceskos
 		};
         var nj_classes = make_nj_classes(ld.classes.concat(ld.externals), grouped0, aux);
         var nj_datatypes = make_nj_datatypes(ld.classes.concat(ld.externals), grouped0, aux);
@@ -183,7 +185,7 @@ async function    parse_ontology_from_json_ld_file_all(json_ld_file, hostname) {
         }
     };
 
-async function    parse_ontology_from_json_ld_file_oj(json_ld_file, hostname) {
+async function    parse_ontology_from_json_ld_file_oj(json_ld_file, hostname, forceskos) {
         var ld = JSON.parse(fs.readFileSync(json_ld_file, 'utf-8'));
         expanded = await jsonld.expand(ld);
         //console.log(JSON.stringify(expanded));
@@ -201,7 +203,8 @@ async function    parse_ontology_from_json_ld_file_oj(json_ld_file, hostname) {
 		codelist: codelist,
 		dependencies: dependencies,
 		package_map: package_map,
-		classid_map: classid_map
+		classid_map: classid_map,
+		forceskos: forceskos
 		};
         var nj_classes = make_nj_classes(ld.classes, grouped2, aux);
 	    //console.log(JSON.stringify(nj_classes) );
@@ -255,7 +258,8 @@ async function    parse_json_ld_file_to_exampletemplates(json_ld_file, hostname)
 		codelist: codelist,
 		dependencies: dependencies,
 		package_map: package_map,
-		classid_map: classid_map
+		classid_map: classid_map,
+		forceskos: false
 		};
         var nj_classes = make_nj_classes(ld.classes.concat(ld.externals), grouped0, aux);
         var nj_datatypes = make_nj_datatypes(ld.classes.concat(ld.externals), grouped0, aux);
@@ -765,6 +769,7 @@ function make_nj_class(element, grouped, aux ) {
    var dependencies = aux.dependencies;
    var package_map = aux.package_map;
    var classid_map = aux.classid_map;
+   let forceskos = aux.forceskos;
    var prop= new Map();
    var props =[];
      
@@ -870,7 +875,11 @@ function make_nj_class(element, grouped, aux ) {
 
 	      if ( codelisturi != "" ) {
 		if ( scoped_range[0].range_uri != "http://www.w3.org/2004/02/skos/core#Concept" ) {
-		    console.log("WARNING: the range of property " + value.name + ": <" + value["@id"] + "> is not skos:Concept")
+		    console.log("WARNING: the range of property " + value.name.nl + ": <" + value["@id"] + "> is not skos:Concept");
+		    if (forceskos) {
+		    	console.log("WARNING: force it");
+			scoped_range[0].range_uri = "http://www.w3.org/2004/02/skos/core#Concept" ;
+			}
 	      }};
               
               prop = {
