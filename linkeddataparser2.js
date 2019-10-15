@@ -874,13 +874,23 @@ function make_nj_class(element, grouped, aux ) {
                }, value.extra["ap-codelist"] );
 
 	      if ( codelisturi != "" ) {
+		if ( scoped_range == null || scoped_range[0] == null || scoped_range[0].range_uri == null ) {
+		    console.log("ERROR: the range of property " + value.name.nl + "is empty and not defined as a skos:Concept, force it");
+	            scoped_range[0] = {
+			range_puri : "http://www.w3.org/2004/02/skos/core#Concept",
+			range_label : "Concept",
+                        range_uri : "http://www.w3.org/2004/02/skos/core#Concept" 
+			}
+		    
+		} else {
+		
 		if ( scoped_range[0].range_uri != "http://www.w3.org/2004/02/skos/core#Concept" ) {
 		    console.log("WARNING: the range of property " + value.name.nl + ": <" + value["@id"] + "> is not skos:Concept");
 		    if (forceskos) {
 		    	console.log("WARNING: force it");
 			scoped_range[0].range_uri = "http://www.w3.org/2004/02/skos/core#Concept" ;
 			}
-	      }};
+	      }}};
               
               prop = {
                     uri: value["@id"],
