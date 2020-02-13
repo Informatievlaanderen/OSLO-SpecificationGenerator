@@ -1397,6 +1397,18 @@ function     make_nj_metadata(json, hostname) {
 	  case "https://data.vlaanderen.be/id/concept/StandaardStatus/OntwerpdocumentInOntwikkeling":
     		docstatuslabel = "Ontwerpdocument";
 		break;
+	  case "https://data.vlaanderen.be/id/concept/StandaardStatus/ErkendeStandaard":
+    		docstatuslabel = "Erkende Standaard";
+		break;
+	  case "https://data.vlaanderen.be/id/concept/StandaardStatus/OntwerpStandaard":
+    		docstatuslabel = "Ontwerp Standaard";
+		break;
+	  case "https://data.vlaanderen.be/id/concept/StandaardStatus/KandidaatStandaard":
+    		docstatuslabel = "Kandidaat Standaard";
+		break;
+	  case "https://data.vlaanderen.be/id/concept/StandaardStatus/NotaWerkgroep":
+    		docstatuslabel = "Nota Werkgroep";
+		break;
           default: 
 		docstatuslabel = "Onbekend"
         };
