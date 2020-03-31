@@ -302,16 +302,10 @@
                     {% for prop in entity['properties'] | sort(attribute=sortattr) %}
                       <tr id="{{ (entity.name[language] ~ ':' ~ prop.name[language]) | urlencode }}" typeof="rdfs:Property" resource="{{ prop.uri }}">
                         <td>
-			  {% if prop['codelist_uri'] %}
-                          <code property="rdfs:label" data-toggle="tooltip" data-content="{{ prop.uri }}" data-placement="right">
-                            {{ prop.name[language] }}
-                          </code>
-			  {% else %}
                           <code property="rdfs:label">
                             <a href="{{ prop.uri }}" data-toggle="tooltip" data-content="{{ prop.uri }}" data-placement="right">
                             {{ prop.name[language] }}</a>
                           </code>
-                          {% endif %}
                         </td>
                         <td>
                           {% for range in prop.scopedrange %}
@@ -454,6 +448,9 @@
                               </li>
                               <li class="side-navigation__item">
                                   <a href="#jsonld">JSON-LD Context</a>
+                              </li>
+                              <li class="side-navigation__item">
+                                  <a href="#shacl">SHACL template</a>
                               </li>
                           </ul>
                       </div>
