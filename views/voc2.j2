@@ -296,8 +296,8 @@
 										  <tr>
                                             <th>Specialisatie van</th>
 											<td><ul>
-											{% for parent in class.parents|sort %}
-                                              <li><a href="{{ parent }}"><code>{{ parent }}</code></a></li>
+					      {% for parent in class.parents|sort %}
+                                              <li><code>{{ parent }}</code></li>
 											{% endfor %}
                                             </ul></td>
 										  </tr>
