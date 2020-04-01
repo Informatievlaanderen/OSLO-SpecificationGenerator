@@ -1,63 +1,64 @@
-const fs = require("fs");
-const jsonfile = require('jsonfile');
-const jsonld = require('jsonld');
-const ldParser = require('./linkeddataparser');
+const fs = require('fs')
+const jsonfile = require('jsonfile')
+const jsonld = require('jsonld')
+const ldParser = require('./linkeddataparser')
 
+var program = require('commander')
 
-var program = require('commander');
- 
 program
   .version('0.8.0')
   .usage('node specgen-context.js creates a json-ld context')
   .option('-i, --input <path>', 'input file (a jsonld file)')
   .option('-o, --output <path>', 'output file (the context)')
+  .option('-l, --useLabels <label>', 'the terms used are { label = the labels in camelCase, uml = the names from the UML},', /^(label|uml)$/i)
 
-program.on('--help', function(){
+program.on('--help', function () {
   console.log('')
-  console.log('Examples:');
-  console.log('  $ specgen-context --help');
-  console.log('  $ specgen-context -i <input> -o <output>');
-});
+  console.log('Examples:')
+  console.log('  $ specgen-context --help')
+  console.log('  $ specgen-context -i <input> -o <output>')
+  console.log('  $ specgen-context -i <input> -o <output> -l label')
+})
 
-program.parse(process.argv);
+program.parse(process.argv)
 
-render_context_from_json_ld_file(program.input, program.output);
-console.log('done');
+console.log(program.useLabels)
+render_context_from_json_ld_file(program.input, program.output)
+console.log('done')
 
-
-function render_context_from_json_ld_file(filename, output_filename) {
-  console.log('start reading');
-  var obj = {};
+function render_context_from_json_ld_file (filename, output_filename) {
+  console.log('start reading')
+  var obj = {}
   jsonfile.readFile(filename)
-  .then(
-       function(obj) { 
-        console.log('start processing');
-        
-        var duplicates = identify_duplicates(obj['properties'].concat(obj['externalproperties']));
-        console.log(duplicates);
-        var context = make_context(classes(obj), properties(duplicates, obj), externals(obj), externalproperties(duplicates, obj)); 
+    .then(
+      function (obj) {
+        console.log('start processing')
 
-        console.log('start wrinting');
-       
+        var duplicates = identify_duplicates(obj.properties.concat(obj.externalproperties))
+        console.log('the following items have for the same term different URIs assigned:')
+        console.log(duplicates)
+        var context = make_context(classes(obj), properties(duplicates, obj), externals(obj), externalproperties(duplicates, obj))
+
+        console.log('start wrinting')
+
         jsonfile.writeFile(output_filename, context)
-         .then(res => {
+          .then(res => {
             console.log('Write complete')
           })
-               .catch(error => { console.error(error) ; process.exitCode = 1; } )
-       }
-   )
-	.catch(error => { console.error(error); process.exitCode = 1; } ) 
+          .catch(error => { console.error(error); process.exitCode = 1 })
+      }
+    )
+    .catch(error => { console.error(error); process.exitCode = 1 })
 }
-
 
 /*
  * identify duplicates
  */
-function identify_duplicates(properties) {
-	/*
+function identify_duplicates (properties) {
+  /*
    var listnames = [];
    listnames = properties.map(x => map_identifier(x));
-   var countnames = new Map(); 
+   var countnames = new Map();
    for (var p in listnames) {
       if (countnames.has(listnames[p])) {
           countnames.set(listnames[p], countnames.get(listnames[p]) +1);
@@ -66,193 +67,210 @@ function identify_duplicates(properties) {
        }
    }
    */
- 
- var acc = new Map(); 
-  acc = properties.reduce(function(accumulator, currentValue, currentIndex, array) {
 
+  var acc = new Map()
+  acc = properties.reduce(function (accumulator, currentValue, currentIndex, array) {
 	    return urireducer(accumulator, currentValue, currentIndex, array)
-  },acc);
+  }, acc)
 
-	var acc2 = new Map();
-	acc.forEach(function(value, key, map) {
-		if (value.length > 1) {
-			acc2.set(key,value)
-		}
+  var acc2 = new Map()
+  acc.forEach(function (value, key, map) {
+    if (value.length > 1) {
+      acc2.set(key, value)
+    }
+  })
 
-	});
-
-  return acc2; 
-   
+  return acc2
 };
 
+const toCamelCase = str =>
+  str.toLowerCase()
+	   .replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase())
 
-function map_identifier(prop) {
-  return prop.extra['EA-Name'];
+// map an entity to its term
+function map_identifier (prop) {
+  let identifier = ''
+  if (program.useLabels == 'label') {
+    if (prop.label && prop.label.nl) {
+      identifier = toCamelCase(prop.label.nl)
+      console.log(identifier)
+    } else {
+      console.log('Warning: no dutch label for entity, using fallback EA-Name')
+      identifier = prop.extra['EA-Name']
+    }
+  } else {
+    identifier = prop.extra['EA-Name']
+  };
+  return identifier
 };
 
-function urireducer(accumulator, currentValue, currentIndex, array) {
-	  var currentlist = [];
-	  if (accumulator.has(currentValue.extra['EA-Name']))  {
-		  currentlist = accumulator.get(currentValue.extra['EA-Name']);
-		  currentlist.push(currentValue['@id']);
-		  accumulator.set(currentValue.extra['EA-Name'], currentlist);
+function urireducer (accumulator, currentValue, currentIndex, array) {
+	  let currentlist = []
+	  const term = map_identifier(currentValue)
+	  if (accumulator.has(term)) {
+		  currentlist = accumulator.get(term)
+		  currentlist.push(currentValue['@id'])
+		  accumulator.set(term, currentlist)
 	  } else {
-		  accumulator.set(currentValue.extra['EA-Name'],  [currentValue['@id']]);
-	  }
-	  return accumulator;
+		  accumulator.set(term, [currentValue['@id']])
+	  };
+	  return accumulator
 };
 
-function has_duplicates(count, prop) {
-
-   if (count[prop] > 1) { return true } else {return false}
+function has_duplicates (count, prop) {
+  if (count[prop] > 1) { return true } else { return false }
 }
-
 
 /* TODO: handle name clash situation
    in adresregister there are multiple status attributes, each mapped to another URI
    ensure that they are disambiguated in the context file
 */
-function join_contexts(context, value, key, map) {
+function join_contexts (context, value, key, map) {
   if (context.has(key)) {
     console.log('warning: duplicate key ' + key + ' value ' + map[key])
   } else {
     context[key] = value
   };
-  return context;
-
+  return context
 };
 
+function make_context (classes, properties, externals, externalproperties) {
+  console.log('make context')
 
+  var context = new Map()
+  var contextbody = new Map()
 
-function make_context(classes, properties, externals, externalproperties) {
+  console.log(classes)
+  if (classes !== null) { classes.forEach(function (e) { for (var key in e) { join_contexts(contextbody, e[key], key, e) } }) };
+  console.log(properties)
+  if (properties !== null) { properties.forEach(function (e) { for (var key in e) { join_contexts(contextbody, e[key], key, e) } }) };
+  console.log(externals)
+  if (externals !== null) { externals.forEach(function (e) { for (var key in e) { join_contexts(contextbody, e[key], key, e) } }) };
+  console.log(externalproperties)
+  if (externalproperties !== null) { externalproperties.forEach(function (e) { for (var key in e) { join_contexts(contextbody, e[key], key, e) } }) };
 
-   console.log('make context');
+  context['@context'] = contextbody
 
-   var context = new Map();
-   var contextbody = new Map();
-  
-   if (classes !== null) {classes.forEach(function (e) { for (var key in e) {join_contexts(contextbody, e[key], key, e)  }})};
-   if (properties !== null) {properties.forEach(function (e) { for (var key in e) {join_contexts(contextbody, e[key], key, e)  }})};
-   if (externals !== null) {externals.forEach(function (e) { for (var key in e) {join_contexts(contextbody, e[key], key, e)  }})};
-   if (externalproperties !== null) {externalproperties.forEach(function (e) { for (var key in e) {join_contexts(contextbody, e[key], key, e)  }})};
-
-
-   context['@context'] = contextbody;
- 
-   return context;
+  return context
 }
-
 
 /* TODO: handle classhierarchy grouping
    it should be possible to based on a class-hierarchy to create
    a context file per applicationprofile per class
    This requires knowledge in the input about the class hierarchy
 */
-function map_class(c) {
-    var mapping = new Map();
-    mapping[c.extra['EA-Name']] = c['@id'];
-    return mapping;
+function map_class (c) {
+  var mapping = new Map()
+  const identifier = map_identifier(c)
+  mapping[identifier] = c['@id']
+  return mapping
 };
 
-function classes(json) {
-   var classes = json['classes'];
-   var classmapping = new Array();
-   classmapping = classes.map(x => map_class(x));
-   return classmapping;
+function classes (json) {
+  var classes = json.classes
+  var classmapping = new Array()
+  classmapping = classes.map(x => map_class(x))
+  return classmapping
 }
 
-function map_properties(duplicates, prop) {
-  var mapping = new Map();
+function map_properties (duplicates, prop) {
+  var mapping = new Map()
 
-  var range;
-  var range_uri = '';
-   
-    if (prop.range.length === 0) {
-      console.log('warning: no range for '+ prop.name.nl);
-    } else {
-    
+  var range
+  var range_uri = ''
+  let identifier = ''
+
+  if (prop.range.length === 0) {
+    console.log('warning: no range for ' + prop.name.nl)
+  } else {
     if (prop.range.length > 1) {
-      console.log('warning: more than one type for '+ prop.name.nl + ' : ' + prop.range);
-      range = prop.range[0];
-      range_uri = range.uri;
-    } else { 
-      range = prop.range[0]};
-      range_uri = range.uri;
-    } ;
-	
-   key=prop.extra['EA-Name'] 
-	var propc = {};
-	if (duplicates.has(key)) {
-	// duplicate
-	domain = prop.extra['EA-Domain'];
-		if (domain === "") {
-			console.log("ERROR: no domain for duplicate property " + key);
-			console.log("An overwrite will happen");
-		} else {
-		key=domain+"."+prop.extra['EA-Name'];
-		}
-	
-	} else {
-        // no duplicate
-	};
-	if (prop.maxCardinality != "0" & prop.maxCardinality != "1") {
-      propc = { 
-	      '@id' : prop['@id'],
-	      '@type': range_uri,
-	      '@container' : '@set'
-                  };
-	} else {
+      console.log('warning: more than one type for ' + prop.name.nl + ' : ' + prop.range)
+      range = prop.range[0]
+      range_uri = range.uri
+    } else {
+      range = prop.range[0]
+    };
+    range_uri = range.uri
+  } ;
+  let atType = ''
+  if (prop['@type'] == 'http://www.w3.org/2002/07/owl#ObjectProperty') {
+    atType = '@id'
+  } else {
+    // assume a literal
+    atType = range_uri
+  };
 
-       propc=      { '@id' : prop['@id'],
-        '@type': range_uri
-                  };
-	};
-  // add to the map, only if it is not yet present  
+  identifier = map_identifier(prop)
+  console.log(identifier)
+  var propc = {}
+  if (duplicates.has(identifier)) {
+    console.log('  > found duplicate')
+    // duplicate
+    domain = prop.extra['EA-Domain']
+    if (domain === '') {
+      console.log('ERROR: no domain for duplicate property ' + key)
+      console.log('An overwrite will happen')
+    } else {
+      key = domain + '.' + identifier
+    }
+  } else {
+    // no duplicate
+    key = identifier
+  };
+  console.log('  > property key: ' + key)
+
+  if (prop.maxCardinality != '0' & prop.maxCardinality != '1') {
+    propc = {
+	      '@id': prop['@id'],
+	      '@type': atType,
+	      '@container': '@set' // support @language case
+    }
+  } else {
+    propc = {
+      '@id': prop['@id'],
+      '@type': atType
+    }
+  };
+  // add to the map, only if it is not yet present
   if (mapping.has(key)) {
     console.log('warning: duplicate key ' + key + ' value ' + mapping[key])
   } else {
     mapping[key] = propc
   };
-         
-    return mapping;
+
+  return mapping
 }
 
-function properties(duplicates, json) {
-   var props = json['properties'];
+function properties (duplicates, json) {
+  var props = json.properties
 
-   var propertymapping = new Map();
-   propertymapping = props.map(x => map_properties(duplicates, x));
-  
-   return propertymapping;
+  var propertymapping = new Map()
+  propertymapping = props.map(x => map_properties(duplicates, x))
+
+  return propertymapping
 }
 
-
-function map_external(c) {
-    var mapping = new Map();
-    if (c.extra && c.extra['EA-Name']) {
-       mapping[c.extra['EA-Name']] = c['@id'];
-    } else {
-       console.log('Error external has no dutch label: ', c)
-    };
-    return mapping;
+function map_external (c) {
+  var mapping = new Map()
+  const identifier = map_identifier(c)
+  mapping[identifier] = c['@id']
+  return mapping
 };
 
-function externals(json) {
-   var externs = json['externals'];
+function externals (json) {
+  var externs = json.externals
 
-   var externalmapping = new Map();
-   externalmapping = externs.map(x => map_external(x));
+  var externalmapping = new Map()
+  externalmapping = externs.map(x => map_external(x))
 
-  
-   return externalmapping;
+  return externalmapping
 }
 
-function externalproperties(duplicates, json) {
-   var externs = json['externalproperties'];
+function externalproperties (duplicates, json) {
+  var externs = json.externalproperties
 
-   var externalmapping = new Map();
-   externalmapping = externs.map(x => map_properties(duplicates,x));
+  var externalmapping = new Map()
+  externalmapping = externs.map(x => map_properties(duplicates, x))
 
-  
-   return externalmapping;
+  return externalmapping
 }
