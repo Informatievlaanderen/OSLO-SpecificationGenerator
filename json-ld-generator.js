@@ -1,7 +1,6 @@
 const fs = require('fs')
 const jsonfile = require('jsonfile')
 const jsonld = require('jsonld')
-const ldParser = require('./linkeddataparser')
 
 var program = require('commander')
 
@@ -28,7 +27,6 @@ console.log('done')
 
 function render_context_from_json_ld_file (filename, output_filename) {
   console.log('start reading')
-  var obj = {}
   jsonfile.readFile(filename)
     .then(
       function (obj) {
@@ -63,14 +61,14 @@ function identify_duplicates (properties) {
       if (countnames.has(listnames[p])) {
           countnames.set(listnames[p], countnames.get(listnames[p]) +1);
       } else {
-	  countnames.set(listnames[p],1);
+   countnames.set(listnames[p],1);
        }
    }
    */
 
   var acc = new Map()
   acc = properties.reduce(function (accumulator, currentValue, currentIndex, array) {
-	    return urireducer(accumulator, currentValue, currentIndex, array)
+     return urireducer(accumulator, currentValue, currentIndex, array)
   }, acc)
 
   var acc2 = new Map()
@@ -85,12 +83,12 @@ function identify_duplicates (properties) {
 
 const toCamelCase = str =>
   str.toLowerCase()
-	   .replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase())
+    .replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase())
 
 // map an entity to its term
 function map_identifier (prop) {
   let identifier = ''
-  if (program.useLabels == 'label') {
+  if (program.useLabels === 'label') {
     if (prop.label && prop.label.nl) {
       identifier = toCamelCase(prop.label.nl)
       console.log(identifier)
@@ -105,16 +103,16 @@ function map_identifier (prop) {
 };
 
 function urireducer (accumulator, currentValue, currentIndex, array) {
-	  let currentlist = []
-	  const term = map_identifier(currentValue)
-	  if (accumulator.has(term)) {
-		  currentlist = accumulator.get(term)
-		  currentlist.push(currentValue['@id'])
-		  accumulator.set(term, currentlist)
-	  } else {
-		  accumulator.set(term, [currentValue['@id']])
-	  };
-	  return accumulator
+   let currentlist = []
+   const term = map_identifier(currentValue)
+   if (accumulator.has(term)) {
+    currentlist = accumulator.get(term)
+    currentlist.push(currentValue['@id'])
+    accumulator.set(term, currentlist)
+   } else {
+    accumulator.set(term, [currentValue['@id']])
+   };
+   return accumulator
 };
 
 function has_duplicates (count, prop) {
@@ -168,7 +166,7 @@ function map_class (c) {
 
 function classes (json) {
   var classes = json.classes
-  var classmapping = new Array()
+  var classmapping = [];
   classmapping = classes.map(x => map_class(x))
   return classmapping
 }
@@ -193,7 +191,7 @@ function map_properties (duplicates, prop) {
     range_uri = range.uri
   } ;
   let atType = ''
-  if (prop['@type'] == 'http://www.w3.org/2002/07/owl#ObjectProperty') {
+  if (prop['@type'] === 'http://www.w3.org/2002/07/owl#ObjectProperty') {
     atType = '@id'
   } else {
     // assume a literal
@@ -203,12 +201,13 @@ function map_properties (duplicates, prop) {
   identifier = map_identifier(prop)
   console.log(identifier)
   var propc = {}
+	let key = ''
   if (duplicates.has(identifier)) {
     console.log('  > found duplicate')
     // duplicate
-    domain = prop.extra['EA-Domain']
+    let domain = prop.extra['EA-Domain']
     if (domain === '') {
-      console.log('ERROR: no domain for duplicate property ' + key)
+      console.log('ERROR: no domain for duplicate property ' + identifier)
       console.log('An overwrite will happen')
     } else {
       key = domain + '.' + identifier
@@ -219,11 +218,11 @@ function map_properties (duplicates, prop) {
   };
   console.log('  > property key: ' + key)
 
-  if (prop.maxCardinality != '0' & prop.maxCardinality != '1') {
+  if (prop.maxCardinality !== '0' & prop.maxCardinality !== '1') {
     propc = {
-	      '@id': prop['@id'],
-	      '@type': atType,
-	      '@container': '@set' // support @language case
+       '@id': prop['@id'],
+       '@type': atType,
+       '@container': '@set' // support @language case
     }
   } else {
     propc = {

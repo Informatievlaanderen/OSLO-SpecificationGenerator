@@ -15,9 +15,20 @@
     "camelcase": "^5.3.1",
     "papaparse": "^5.0.2"
   },
-  "devDependencies": {},
+  "eslintConfig": {
+    "extends": "standard"
+  },
+  "devDependencies": {
+    "eslint": "~6.8.0",
+    "eslint-config-standard": "~14.1.1",
+    "eslint-plugin-promise": "~4.2.1",
+    "eslint-plugin-standard": "~4.0.1",
+    "eslint-plugin-import": "~2.20.0",
+    "eslint-plugin-node": "~11.1.0"
+  },
   "scripts": {
     "start": "node app/cls.js",
+    "lint": "./node_modules/.bin/eslint .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Jonathan Langens <jonathan.langens@tenforce.com>",
