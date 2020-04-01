@@ -21,7 +21,6 @@ program.on('--help', function () {
 
 program.parse(process.argv)
 
-console.log(program.useLabels)
 render_context_from_json_ld_file(program.input, program.output)
 console.log('done')
 
@@ -35,6 +34,7 @@ function render_context_from_json_ld_file (filename, output_filename) {
         var duplicates = identify_duplicates(obj.properties.concat(obj.externalproperties))
         console.log('the following items have for the same term different URIs assigned:')
         console.log(duplicates)
+	console.log('they will be disambiguated')
         var context = make_context(classes(obj), properties(duplicates, obj), externals(obj), externalproperties(duplicates, obj))
 
         console.log('start wrinting')
@@ -91,10 +91,11 @@ function map_identifier (prop) {
   if (program.useLabels === 'label') {
     if (prop.label && prop.label.nl) {
       identifier = toCamelCase(prop.label.nl)
-      console.log(identifier)
+//      console.log(identifier)
     } else {
       console.log('Warning: no dutch label for entity, using fallback EA-Name')
       identifier = prop.extra['EA-Name']
+      console.log('   Fallback applied for ' + identifier)
     }
   } else {
     identifier = prop.extra['EA-Name']
@@ -138,13 +139,9 @@ function make_context (classes, properties, externals, externalproperties) {
   var context = new Map()
   var contextbody = new Map()
 
-  console.log(classes)
   if (classes !== null) { classes.forEach(function (e) { for (var key in e) { join_contexts(contextbody, e[key], key, e) } }) };
-  console.log(properties)
   if (properties !== null) { properties.forEach(function (e) { for (var key in e) { join_contexts(contextbody, e[key], key, e) } }) };
-  console.log(externals)
   if (externals !== null) { externals.forEach(function (e) { for (var key in e) { join_contexts(contextbody, e[key], key, e) } }) };
-  console.log(externalproperties)
   if (externalproperties !== null) { externalproperties.forEach(function (e) { for (var key in e) { join_contexts(contextbody, e[key], key, e) } }) };
 
   context['@context'] = contextbody
@@ -199,11 +196,11 @@ function map_properties (duplicates, prop) {
   };
 
   identifier = map_identifier(prop)
-  console.log(identifier)
+//  console.log(identifier)
   var propc = {}
 	let key = ''
   if (duplicates.has(identifier)) {
-    console.log('  > found duplicate')
+//    console.log('  > found duplicate')
     // duplicate
     let domain = prop.extra['EA-Domain']
     if (domain === '') {
@@ -216,7 +213,7 @@ function map_properties (duplicates, prop) {
     // no duplicate
     key = identifier
   };
-  console.log('  > property key: ' + key)
+//  console.log('  > property key: ' + key)
 
   if (prop.maxCardinality !== '0' & prop.maxCardinality !== '1') {
     propc = {
