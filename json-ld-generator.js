@@ -3,6 +3,7 @@ const jsonfile = require('jsonfile')
 // const jsonld = require('jsonld')
 const Set = require('collections/set')
 const Map = require('collections/map')
+const camelCase = require('camelcase')
 
 var program = require('commander')
 
@@ -82,14 +83,26 @@ function identify_duplicates (properties) {
 };
 
 // auxiliary function to convert a string into CamelCase
+/*
 const toCamelCase = str =>
   str.toLowerCase()
     .replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase())
+    */
 
 const capitalizeFirst = (s) => {
   if (typeof s !== 'string') return ''
   return s.charAt(0).toUpperCase() + s.slice(1)
 }
+
+// auxiliary function to convert to camelcase with dealing special cases
+// TODO: what are the guidelines for contextual scoping in the labels?
+function toCamelCase (str) {
+  str = camelCase(str)
+  // console.log(str)
+  str = str.replace(/\s\(source\)/g, '(source)').replace(/\s\(target\)/g, '(target)')
+  // console.log(' -> ' + str)
+  return str
+};
 
 // map an entity prop to its term
 function map_identifier (prop) {
