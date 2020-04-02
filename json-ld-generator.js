@@ -1,6 +1,8 @@
-const fs = require('fs')
+// const fs = require('fs')
 const jsonfile = require('jsonfile')
-const jsonld = require('jsonld')
+// const jsonld = require('jsonld')
+const Set = require('collections/set')
+const Map = require('collections/map')
 
 var program = require('commander')
 
@@ -26,6 +28,8 @@ const forceDomain = !!program.forceDomain
 render_context_from_json_ld_file(program.input, program.output)
 console.log('done')
 
+/* ---- end of the program --- */
+
 function render_context_from_json_ld_file (filename, output_filename) {
   console.log('start reading')
   jsonfile.readFile(filename)
@@ -40,9 +44,9 @@ function render_context_from_json_ld_file (filename, output_filename) {
         var eanamesclasses = get_EAname(obj.classes.concat(obj.externals))
         var context = make_context(classes(obj), properties(eanamesclasses, duplicates, obj), externals(obj), externalproperties(eanamesclasses, duplicates, obj))
 
-        console.log('start wrinting')
+        console.log('start writing')
 
-        jsonfile.writeFile(output_filename, context)
+        jsonfile.writeFile(output_filename, context.toObject())
           .then(res => {
             console.log('Write complete')
           })
@@ -62,10 +66,15 @@ function identify_duplicates (properties) {
     return urireducer(accumulator, currentValue, currentIndex, array)
   }, acc)
 
+  // search for duplicates
   var acc2 = new Map()
   acc.forEach(function (value, key, map) {
     if (value.length > 1) {
-      acc2.set(key, value)
+      const tempSet = new Set(value)
+      if (tempSet.length > 1) {
+        // duplicate found, because more than one entry
+        acc2.set(key, value)
+      }
     }
   })
 
@@ -139,22 +148,40 @@ function EAname (accumulator, currentValue, currentIndex, array) {
   return accumulator
 };
 
-function has_duplicates (count, prop) {
-  if (count[prop] > 1) { return true } else { return false }
-}
+// TODO: collection.js documentation does not specify
+// if the values get overwritten for existing keys
+//
+const accContext = (accumulator, currentValue) =>
+  accumulator.addEach(currentValue)
 
-/* TODO: handle name clash situation
-   in adresregister there are multiple status attributes, each mapped to another URI
-   ensure that they are disambiguated in the context file
+/* Same implementation as above, but maintained for debugging purposes
+ */
+/*
+function accContextLog(accumulator, currentValue) {
+ console.log('----------------------------');
+ console.log(currentValue);
+ accumulator.addEach(currentValue);
+ console.log(accumulator);
+ return accumulator
+}
 */
+
+/* Obsolete OLD accumulator implementation
+ * but is kept in the source as documentation for the case to add manually
+ * items in the map while checking if the key exists.
+ *
+*/
+/*
 function join_contexts (context, value, key, map) {
+ console.log(key);
   if (context.has(key)) {
-    console.log('warning: duplicate key ' + key + ' value ' + map[key])
+    console.log('warning: duplicate key ' + key + ' value ' + map.get(key))
   } else {
-    context[key] = value
+    context.set(key,value)
   };
   return context
 };
+*/
 
 function make_context (classes, properties, externals, externalproperties) {
   console.log('make context')
@@ -162,12 +189,12 @@ function make_context (classes, properties, externals, externalproperties) {
   var context = new Map()
   var contextbody = new Map()
 
-  if (classes !== null) { classes.forEach(function (e) { for (var key in e) { join_contexts(contextbody, e[key], key, e) } }) };
-  if (properties !== null) { properties.forEach(function (e) { for (var key in e) { join_contexts(contextbody, e[key], key, e) } }) };
-  if (externals !== null) { externals.forEach(function (e) { for (var key in e) { join_contexts(contextbody, e[key], key, e) } }) };
-  if (externalproperties !== null) { externalproperties.forEach(function (e) { for (var key in e) { join_contexts(contextbody, e[key], key, e) } }) };
+  if (classes !== null) { contextbody = classes.reduce(accContext, new Map()) }
+  if (properties !== null) { contextbody = properties.reduce(accContext, contextbody) }
+  if (externals !== null) { contextbody = externals.reduce(accContext, contextbody) }
+  if (externalproperties !== null) { contextbody = externalproperties.reduce(accContext, contextbody) }
 
-  context['@context'] = contextbody
+  context.set('@context', contextbody.toObject())
 
   return context
 }
@@ -178,15 +205,15 @@ function make_context (classes, properties, externals, externalproperties) {
    This requires knowledge in the input about the class hierarchy
 */
 function map_class (c) {
-  var mapping = new Map()
+  const mapping = new Map()
   const identifier = map_identifier(c)
-  mapping[capitalizeFirst(identifier)] = c['@id']
+  mapping.set(capitalizeFirst(identifier), c['@id'])
   return mapping
 };
 
 function classes (json) {
-  var classes = json.classes
-  var classmapping = []
+  const classes = json.classes
+  let classmapping = new Map()
   classmapping = classes.map(x => map_class(x))
   return classmapping
 }
@@ -254,7 +281,7 @@ function map_properties (eanamesclasses, duplicates, prop) {
   if (mapping.has(key)) {
     console.log('warning: duplicate key ' + key + ' value ' + mapping[key])
   } else {
-    mapping[key] = propc
+    mapping.set(key, propc)
   };
 
   return mapping
@@ -270,16 +297,16 @@ function properties (eanamesclasses, duplicates, json) {
 }
 
 function map_external (c) {
-  var mapping = new Map()
+  const mapping = new Map()
   const identifier = map_identifier(c)
-  mapping[capitalizeFirst(identifier)] = c['@id']
+  mapping.set(capitalizeFirst(identifier), c['@id'])
   return mapping
 };
 
 function externals (json) {
-  var externs = json.externals
+  const externs = json.externals
 
-  var externalmapping = new Map()
+  let externalmapping = new Map()
   externalmapping = externs.map(x => map_external(x))
 
   return externalmapping
