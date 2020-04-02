@@ -9,6 +9,7 @@ program
   .usage('node specgen-context.js creates a json-ld context')
   .option('-i, --input <path>', 'input file (a jsonld file)')
   .option('-o, --output <path>', 'output file (the context)')
+  .option('-d, --forceDomain', 'force the domain all the terms, instead only for those that are necessary. Default false')
   .option('-l, --useLabels <label>', 'the terms used are { label = the labels in camelCase, uml = the names from the UML},', /^(label|uml)$/i)
 
 program.on('--help', function () {
@@ -20,6 +21,7 @@ program.on('--help', function () {
 })
 
 program.parse(process.argv)
+const forceDomain = !!program.forceDomain
 
 render_context_from_json_ld_file(program.input, program.output)
 console.log('done')
@@ -34,8 +36,9 @@ function render_context_from_json_ld_file (filename, output_filename) {
         var duplicates = identify_duplicates(obj.properties.concat(obj.externalproperties))
         console.log('the following items have for the same term different URIs assigned:')
         console.log(duplicates)
-	console.log('they will be disambiguated')
-        var context = make_context(classes(obj), properties(duplicates, obj), externals(obj), externalproperties(duplicates, obj))
+        console.log('they will be disambiguated')
+        var eanamesclasses = get_EAname(obj.classes.concat(obj.externals))
+        var context = make_context(classes(obj), properties(eanamesclasses, duplicates, obj), externals(obj), externalproperties(eanamesclasses, duplicates, obj))
 
         console.log('start wrinting')
 
@@ -50,25 +53,13 @@ function render_context_from_json_ld_file (filename, output_filename) {
 }
 
 /*
- * identify duplicates
+ * identify duplicates by iterating over the list and comparing if the same term is
+ * being used to identify multiple values
  */
 function identify_duplicates (properties) {
-  /*
-   var listnames = [];
-   listnames = properties.map(x => map_identifier(x));
-   var countnames = new Map();
-   for (var p in listnames) {
-      if (countnames.has(listnames[p])) {
-          countnames.set(listnames[p], countnames.get(listnames[p]) +1);
-      } else {
-   countnames.set(listnames[p],1);
-       }
-   }
-   */
-
   var acc = new Map()
   acc = properties.reduce(function (accumulator, currentValue, currentIndex, array) {
-     return urireducer(accumulator, currentValue, currentIndex, array)
+    return urireducer(accumulator, currentValue, currentIndex, array)
   }, acc)
 
   var acc2 = new Map()
@@ -81,17 +72,23 @@ function identify_duplicates (properties) {
   return acc2
 };
 
+// auxiliary function to convert a string into CamelCase
 const toCamelCase = str =>
   str.toLowerCase()
     .replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase())
 
-// map an entity to its term
+const capitalizeFirst = (s) => {
+  if (typeof s !== 'string') return ''
+  return s.charAt(0).toUpperCase() + s.slice(1)
+}
+
+// map an entity prop to its term
 function map_identifier (prop) {
   let identifier = ''
   if (program.useLabels === 'label') {
     if (prop.label && prop.label.nl) {
       identifier = toCamelCase(prop.label.nl)
-//      console.log(identifier)
+      //      console.log(identifier)
     } else {
       console.log('Warning: no dutch label for entity, using fallback EA-Name')
       identifier = prop.extra['EA-Name']
@@ -103,17 +100,43 @@ function map_identifier (prop) {
   return identifier
 };
 
+// create a map (term -> list of uri)
 function urireducer (accumulator, currentValue, currentIndex, array) {
-   let currentlist = []
-   const term = map_identifier(currentValue)
-   if (accumulator.has(term)) {
+  let currentlist = []
+  const term = map_identifier(currentValue)
+  if (accumulator.has(term)) {
     currentlist = accumulator.get(term)
     currentlist.push(currentValue['@id'])
     accumulator.set(term, currentlist)
-   } else {
+  } else {
     accumulator.set(term, [currentValue['@id']])
-   };
-   return accumulator
+  };
+  return accumulator
+};
+
+function get_EAname (entities) {
+  let acc = new Map()
+  acc = entities.reduce(function (accumulator, currentValue, currentIndex, array) {
+    return EAname(accumulator, currentValue, currentIndex, array)
+  }, acc)
+
+  return acc
+}
+
+// create a map (EA-Name -> term)
+function EAname (accumulator, currentValue, currentIndex, array) {
+  let currentlist = []
+  const term = map_identifier(currentValue)
+  const eaname = currentValue.extra['EA-Name']
+  if (accumulator.has(eaname)) {
+    currentlist = accumulator.get(eaname)
+    console.log('ERROR: multiple values for the same EA-Name ' + eaname)
+    console.log('       value ' + currentlist + ' will be overwritten with ' + term)
+    accumulator.set(eaname, term)
+  } else {
+    accumulator.set(eaname, term)
+  };
+  return accumulator
 };
 
 function has_duplicates (count, prop) {
@@ -157,18 +180,18 @@ function make_context (classes, properties, externals, externalproperties) {
 function map_class (c) {
   var mapping = new Map()
   const identifier = map_identifier(c)
-  mapping[identifier] = c['@id']
+  mapping[capitalizeFirst(identifier)] = c['@id']
   return mapping
 };
 
 function classes (json) {
   var classes = json.classes
-  var classmapping = [];
+  var classmapping = []
   classmapping = classes.map(x => map_class(x))
   return classmapping
 }
 
-function map_properties (duplicates, prop) {
+function map_properties (eanamesclasses, duplicates, prop) {
   var mapping = new Map()
 
   var range
@@ -196,30 +219,30 @@ function map_properties (duplicates, prop) {
   };
 
   identifier = map_identifier(prop)
-//  console.log(identifier)
+  //  console.log(identifier)
   var propc = {}
-	let key = ''
-  if (duplicates.has(identifier)) {
-//    console.log('  > found duplicate')
+  let key = ''
+  if (duplicates.has(identifier) || forceDomain) {
+    //    console.log('  > found duplicate')
     // duplicate
-    let domain = prop.extra['EA-Domain']
+    const domain = prop.extra['EA-Domain']
     if (domain === '') {
-      console.log('ERROR: no domain for duplicate property ' + identifier)
+      console.log('ERROR: no domain found to disambiguate ' + identifier)
       console.log('An overwrite will happen')
     } else {
-      key = domain + '.' + identifier
+      key = capitalizeFirst(eanamesclasses.get(domain)) + '.' + identifier
     }
   } else {
     // no duplicate
     key = identifier
   };
-//  console.log('  > property key: ' + key)
+  //  console.log('  > property key: ' + key)
 
   if (prop.maxCardinality !== '0' & prop.maxCardinality !== '1') {
     propc = {
-       '@id': prop['@id'],
-       '@type': atType,
-       '@container': '@set' // support @language case
+      '@id': prop['@id'],
+      '@type': atType,
+      '@container': '@set' // support @language case
     }
   } else {
     propc = {
@@ -237,11 +260,11 @@ function map_properties (duplicates, prop) {
   return mapping
 }
 
-function properties (duplicates, json) {
+function properties (eanamesclasses, duplicates, json) {
   var props = json.properties
 
   var propertymapping = new Map()
-  propertymapping = props.map(x => map_properties(duplicates, x))
+  propertymapping = props.map(x => map_properties(eanamesclasses, duplicates, x))
 
   return propertymapping
 }
@@ -249,7 +272,7 @@ function properties (duplicates, json) {
 function map_external (c) {
   var mapping = new Map()
   const identifier = map_identifier(c)
-  mapping[identifier] = c['@id']
+  mapping[capitalizeFirst(identifier)] = c['@id']
   return mapping
 };
 
@@ -262,11 +285,11 @@ function externals (json) {
   return externalmapping
 }
 
-function externalproperties (duplicates, json) {
+function externalproperties (eanamesclasses, duplicates, json) {
   var externs = json.externalproperties
 
   var externalmapping = new Map()
-  externalmapping = externs.map(x => map_properties(duplicates, x))
+  externalmapping = externs.map(x => map_properties(eanamesclasses, duplicates, x))
 
   return externalmapping
 }
