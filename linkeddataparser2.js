@@ -1380,7 +1380,13 @@ function     make_nj_metadata(json, hostname) {
 	var hn = json.hostname
         if (hn == null) { 
 		hn = (hostname != null) ? hostname :  "https://data.vlaanderen.be" }
+	if (json.navigation) {
 	json.navigation.self = hn + json.urlref;
+	} else {
+		console.log('Warning: no navigation defined for this rendering')
+		json.navigation = {
+			'self' : hn + json.urlref
+		}}
         
         var docstatus = json['publication-state'];
 	
