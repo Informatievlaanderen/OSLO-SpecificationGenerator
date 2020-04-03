@@ -766,7 +766,7 @@ function make_nj_class (element, grouped, aux) {
     if (elem.label !== '') {
       elem.scoped_uri = get_scoped_class_uri(dependencies, package_map, elem.name, elem.package, elem.label, elem.uri)
     } else {
-      console.log('ERROR: a parent of ' + element.name + ' has no label, use EA-Name')
+      console.log('ERROR: a parent of ' + element.name.nl + ' has no label, use EA-Name')
       elem.scoped_uri = get_scoped_class_uri(dependencies, package_map, elem.name, elem.package, elem.name, elem.uri)
       elem.label = elem.name
     }
@@ -840,7 +840,7 @@ function make_nj_class (element, grouped, aux) {
 
       if (codelisturi !== '') {
         if (scoped_range == null || scoped_range[0] == null || scoped_range[0].range_uri == null) {
-          console.log('ERROR: the range of property ' + value.name.nl + 'is empty and not defined as a skos:Concept, force it')
+          console.log('ERROR: the range of property ' + value.name.nl + ' is empty and not defined as a skos:Concept, force it')
           scoped_range[0] = {
             range_puri: 'http://www.w3.org/2004/02/skos/core#Concept',
             range_label: 'Concept',
