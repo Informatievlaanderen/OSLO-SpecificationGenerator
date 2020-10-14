@@ -56,9 +56,6 @@ function render_html_from_json_ld_file(target, template, filename, output_filena
             case "ap": 
                 promise = ldParser.parse_ontology_from_json_ld_file_all(filename, hostname, forceskos);
                 break;
-            case "all": 
-                promise = ldParser.parse_ontology_from_json_ld_file_all(filename, hostname, forceskos);
-                break;
             case "oj": 
                 promise = ldParser.parse_ontology_from_json_ld_file_oj(filename, hostname, forceskos);
                 break;
