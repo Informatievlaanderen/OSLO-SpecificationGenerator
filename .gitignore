@@ -85,3 +85,8 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+# Project
+/tempjson.jsonld
+node_modules/
+/package-lock.json
