@@ -78,27 +78,64 @@ function get_shortened_json (input, primeLanguage, goalLanguage) {
 function create_shortened_class (classObject, prime, goal) {
   var shortClass = new Object() 
   shortClass['@id'] = classObject['@id']
-  shortClass.name = classObject.name
-  shortClass.label = classObject.label
-  shortClass.definition = classObject.definition
-  shortClass.description = classObject.description
-  shortClass.name[prime] = getValue(classObject.name)
-  shortClass.label[prime] = getValue(classObject.label)
-  shortClass.definition[prime] = getValue(classObject.definition)
-  shortClass.description[prime] = getValue(classObject.description)
-  shortClass.name[goal] = shortClass.label[goal] = shortClass.definition[goal] 
-    = shortClass.description[goal] = 'Enter your translation here'
+  shortClass = get_Name(shortClass, classObject, prime, goal)
+  shortClass = get_label(shortClass, classObject, prime, goal)
+  shortClass = get_definition(shortClass, classObject, prime, goal)
+  shortClass = get_description(shortClass, classObject, prime, goal)
 
+  return shortClass
+}
+
+function get_definition (shortClass, classObject, prime, goal) {
+  if (!(classObject.definition === undefined)) {
+    shortClass.definition = classObject.definition
+    shortClass.definition[prime] = getValue(classObject.definition, prime)
+    shortClass.definition[goal] = 'Enter your translation here'
+  }
+  return shortClass
+}
+
+function get_description (shortClass, classObject, prime, goal) {
+  if (!(classObject.description === undefined)) {
+    shortClass.description = classObject.description
+    shortClass.description[prime] = getValue(classObject.description, prime)
+    shortClass.description[goal] = 'Enter your translation here'
+  }
+  return shortClass
+}
+
+function get_label (shortClass, classObject, prime, goal) {
+  if (!(classObject.label === undefined)) {
+    shortClass.label = classObject.label
+    shortClass.label[prime] = getValue(classObject.label, prime)
+    shortClass.label[goal] = 'Enter your translation here'
+  }
+  return shortClass
+}
+
+function get_Name (shortClass, classObject, prime, goal) {
+  if (!(classObject.name === undefined)) {
+    shortClass.name = classObject.name
+    shortClass.name[prime] = getValue(classObject.name, prime)
+    shortClass.name[goal] = 'Enter your translation here'
+  }
   return shortClass
 }
 
 //adds 'usage' to the necessary values
 function create_shortened_property (propertiesObject, prime, goal) {
   shortProperty = create_shortened_class(propertiesObject, prime, goal)
-  shortProperty.usage = propertiesObject.usage
-  shortProperty.usage[prime] = getValue(propertiesObject.usage)
-  shortProperty.usage[goal] = 'Enter your translation here'
+  shortProperty = get_usage(shortProperty, propertiesObject, prime, goal)
 
+  return shortProperty
+}
+
+function get_usage (shortProperty, propObject, prime, goal) {
+  if (!(propObject.usage === undefined)) {
+    shortProperty.usage = propObject.usage
+    shortProperty.usage[prime] = getValue(propObject.usage, prime)
+    shortProperty.usage[goal] = 'Enter your translation here'
+  }
   return shortProperty
 }
 
