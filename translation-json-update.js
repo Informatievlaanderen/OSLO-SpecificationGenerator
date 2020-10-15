@@ -28,8 +28,8 @@ program.on('--help', function () {
 program.parse(process.argv)
 const forceDomain = !!program.forceDomain
 
-render_updated_file_from_json_ld_file(program.input, program.primeLanguage, program.goalLanguage, program.updatedFile)
-//render_updated_file_from_json_ld_file('..\\Drafts\\testforupdatecreated.json', 'nl', 'en', '..\\Drafts\\testforupdateoriginal.jsonld')
+//render_updated_file_from_json_ld_file(program.input, program.primeLanguage, program.goalLanguage, program.updatedFile)
+render_updated_file_from_json_ld_file('..\\Drafts\\testforupdatecreated.json', 'nl', 'en', '..\\Drafts\\testforupdateoriginal.jsonld')
 
 console.log('done')
 
@@ -52,11 +52,11 @@ function render_updated_file_from_json_ld_file (filename, primeLanguage, goalLan
             console.log('start processing')
         
             var myJson = compare_files(original, updated, primeLanguage, goalLanguage)
-            var output_filename = get_outputFilename (filename)
+            //var output_filename = get_outputFilename (filename)
             
-            jsonfile.writeFile(output_filename, myJson)
+            jsonfile.writeFile(filename, myJson)
               .then(res => {
-                console.log('Write complete')
+                console.log('Write complete; The original file was updated: ' + filename)
               })
               .catch(error => { console.error(error); process.exitCode = 1 })
 
