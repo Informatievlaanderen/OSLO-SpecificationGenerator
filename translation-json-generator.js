@@ -82,10 +82,10 @@ function create_shortened_class (classObject, prime, goal) {
   shortClass.label = classObject.label
   shortClass.definition = classObject.definition
   shortClass.description = classObject.description
-  shortClass.name[prime] = get_value(classObject.name[prime])
-  shortClass.label[prime] = get_value(classObject.label[prime])
-  shortClass.definition[prime] = get_value(classObject.definition[prime])
-  shortClass.description[prime] = get_value(classObject.description[prime])
+  shortClass.name[prime] = getValue(classObject.name)
+  shortClass.label[prime] = getValue(classObject.label)
+  shortClass.definition[prime] = getValue(classObject.definition)
+  shortClass.description[prime] = getValue(classObject.description)
   shortClass.name[goal] = shortClass.label[goal] = shortClass.definition[goal] 
     = shortClass.description[goal] = 'Enter your translation here'
 
@@ -96,15 +96,15 @@ function create_shortened_class (classObject, prime, goal) {
 function create_shortened_property (propertiesObject, prime, goal) {
   shortProperty = create_shortened_class(propertiesObject, prime, goal)
   shortProperty.usage = propertiesObject.usage
-  shortProperty.usage[prime] = get_value(propertiesObject.usage[prime])
+  shortProperty.usage[prime] = getValue(propertiesObject.usage)
   shortProperty.usage[goal] = 'Enter your translation here'
 
   return shortProperty
 }
 
-function get_value (value) {
-  if (value) {
-    return value
+function getValue (object, prime) {
+  if (!(object === undefined) && !(object[prime] === undefined)) {
+    return object[prime]
   }
   return ""
 }

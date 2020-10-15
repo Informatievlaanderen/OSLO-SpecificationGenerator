@@ -28,8 +28,8 @@ program.on('--help', function () {
 program.parse(process.argv)
 const forceDomain = !!program.forceDomain
 
-//render_updated_file_from_json_ld_file(program.input, program.primeLanguage, program.goalLanguage, program.updatedFile)
-render_updated_file_from_json_ld_file('..\\Drafts\\testforupdatecreated.json', 'nl', 'en', '..\\Drafts\\testforupdateoriginal.jsonld')
+render_updated_file_from_json_ld_file(program.input, program.primeLanguage, program.goalLanguage, program.updatedFile)
+//render_updated_file_from_json_ld_file('..\\Drafts\\testforupdatecreated.json', 'nl', 'en', '..\\Drafts\\testforupdateoriginal.jsonld')
 
 console.log('done')
 
@@ -73,10 +73,17 @@ function compare_files (translatedJson, updatedJson, primeLanguage, goalLanguage
   var classArray = checkClasses(translatedJson, updatedJson, primeLanguage, goalLanguage)
   var propertyArray = checkProperties(translatedJson, updatedJson, primeLanguage, goalLanguage)
 
-  json['baseURI'] = translatedJson['baseURI']
+  json = set_base_URI(json, translatedJson)
   json.classes = classArray
   json.properties = propertyArray
 
+  return json
+}
+
+function set_base_URI (json, translatedJson) {
+  if (!(translatedJson['baseURI'] === undefined)) {
+    json['baseURI'] = translatedJson['baseURI']
+  }
   return json
 }
 
@@ -90,7 +97,7 @@ function checkClasses (translatedJson, updatedJson, primeLanguage, goalLanguage)
     var input = translatedJson.classes[i]
     var elementToCompare = get_matching_class(input, updatedJson)
     if (elementToCompare != null) {
-      classArray.push(compareClass(input, elementToCompare, primeLanguage, goalLanguage, read_exisiting_attributes(input)))
+      classArray.push(compareObject(input, elementToCompare, primeLanguage, goalLanguage, read_exisiting_attributes(input)))
     } // else the element will not be added to the new Array and therefore deleted
   }
   return classArray
@@ -106,7 +113,7 @@ function checkProperties (translatedJson, updatedJson, primeLanguage, goalLangua
     var input = translatedJson.properties[m]
     var elementToCompare = get_matching_property(input, updatedJson)
     if (elementToCompare != null) {
-      propertyArray.push(compareClass(input, elementToCompare, primeLanguage, goalLanguage, read_exisiting_attributes(input)))
+      propertyArray.push(compareObject(input, elementToCompare, primeLanguage, goalLanguage, read_exisiting_attributes(input)))
     }  
   }
   return propertyArray
@@ -116,9 +123,9 @@ function checkProperties (translatedJson, updatedJson, primeLanguage, goalLangua
 iterate through arguments of the inserted objects input and updated. If updated has additional values that require translation (attributes with
 language tags), add those to the input file. If some of the attributes in the existing input are deleted in the updated version, delete them, too.
 */
-function compareClass (input, updated, primeLanguage, goalLanguage, keys) {
+function compareObject (input, updated, primeLanguage, goalLanguage, keys) {
   for (let [key, value] of Object.entries(updated)) {
-    if (!(updated[key] === undefined) && !(updated[key][primeLanguage] === undefined)) {
+    if (!(updated[key] === undefined) && !(updated[key][primeLanguage] === undefined) && !(updated[key]!="")) {
       //valid means that the attribute is not just a modification of an existing attribute (e.g. label - ap-label-nl)
       var valid = value_is_valid(key, keys)
       if (valid == true) {
