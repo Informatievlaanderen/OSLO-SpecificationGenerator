@@ -12,6 +12,7 @@ program
   .version('0.8.0')
   .usage('node specgen-context.js creates a json-ld context')
   .option('-i, --input <path>', 'input file (a jsonld file)')
+  .option('-o, --output <path>', 'output file (a json file)')
   .option('-m, --primeLanguage <language>', 'prime language to translate to a different one (a string)')
   .option('-g, --goalLanguage <language>', 'goal language to translate into (a string)')
   .option('-d, --forceDomain', 'force the domain all the terms, instead only for those that are necessary. Default false')
@@ -21,18 +22,18 @@ program.on('--help', function () {
   console.log('')
   console.log('Examples:')
   console.log('  $ specgen-context --help')
-  console.log('  $ specgen-context -i <input> -m <primeLanguage> -g <goalLanugage>')
+  console.log('  $ specgen-context -i <input> -m <primeLanguage> -g <goalLanugage> -o <outputfile>')
 })
 
 program.parse(process.argv)
 const forceDomain = !!program.forceDomain
 
-transform_json_ld_file_to_translatable_json(program.input, program.primeLanguage, program.goalLanguage)
+transform_json_ld_file_to_translatable_json(program.input, program.primeLanguage, program.goalLanguage, program.output)
 console.log('done')
 
 /* ---- end of the program --- */
 
-function transform_json_ld_file_to_translatable_json (filename, primeLanguage, goalLanguage) {
+function transform_json_ld_file_to_translatable_json (filename, primeLanguage, goalLanguage, outputfile) {
   console.log('Prime Language: ' + primeLanguage)
   console.log('Goal Language: ' + goalLanguage)
   console.log('start reading')
@@ -43,10 +44,11 @@ function transform_json_ld_file_to_translatable_json (filename, primeLanguage, g
         
         var myJson = get_shortened_json(obj, primeLanguage, goalLanguage)
         
-        var output_filename = get_outputFilename (filename, goalLanguage)
-        jsonfile.writeFile(output_filename, myJson)
+        //var output_filename = get_outputFilename (filename, goalLanguage)
+        jsonfile.writeFile(outputfile, myJson)
           .then(res => {
             console.log('Write complete')
+            console.log('the file was saved to: ' + outputfile)
           })
           .catch(error => { console.error(error); process.exitCode = 1 })
       }

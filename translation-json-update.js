@@ -13,6 +13,7 @@ program
   .usage('node specgen-context.js creates a json-ld context')
   .option('-i, --input <path>', 'input file to update (a json file)')
   .option('-f, --updatedFile <path>', 'file to compare input to (a jsonld file)')
+  .option('-o, --output <path>', 'output file (a json file)')
   .option('-m, --primeLanguage <language>', 'prime language to translate to a different one (a string)')
   .option('-g, --goalLanguage <language>', 'goal language to translate into (a string)')
   .option('-d, --forceDomain', 'force the domain all the terms, instead only for those that are necessary. Default false')
@@ -28,14 +29,14 @@ program.on('--help', function () {
 program.parse(process.argv)
 const forceDomain = !!program.forceDomain
 
-render_updated_file_from_json_ld_file(program.input, program.primeLanguage, program.goalLanguage, program.updatedFile)
+render_updated_file_from_json_ld_file(program.input, program.primeLanguage, program.goalLanguage, program.updatedFile, program.output)
 //render_updated_file_from_json_ld_file('..\\Drafts\\testforupdatecreated.json', 'nl', 'en', '..\\Drafts\\testforupdateoriginal.jsonld')
 
 console.log('done')
 
 /* ---- end of the program --- */
 
-function render_updated_file_from_json_ld_file (filename, primeLanguage, goalLanguage, updatedFile) {
+function render_updated_file_from_json_ld_file (filename, primeLanguage, goalLanguage, updatedFile, outputfilename) {
   console.log('Prime Language: ' + primeLanguage)
   console.log('Goal Language: ' + goalLanguage)
   console.log('filename: ' + filename)
@@ -54,9 +55,9 @@ function render_updated_file_from_json_ld_file (filename, primeLanguage, goalLan
             var myJson = compare_files(original, updated, primeLanguage, goalLanguage)
             //var output_filename = get_outputFilename (filename)
             
-            jsonfile.writeFile(filename, myJson)
+            jsonfile.writeFile(outputfilename, myJson)
               .then(res => {
-                console.log('Write complete; The original file was updated: ' + filename)
+                console.log('Write complete; The original file was updated to: ' + outputfilename)
               })
               .catch(error => { console.error(error); process.exitCode = 1 })
 
