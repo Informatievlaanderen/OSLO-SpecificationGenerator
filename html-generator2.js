@@ -22,6 +22,9 @@ program
   .option('-i, --input <path>', 'input file (a jsonld file)')
   .option('-l, --languageinput <path>', 'language input file (a json file)')
   .option('-o, --output <path>', 'output file (the html file)')
+  .option('-e, --tempdir [directory]', 'the directory for intermediate processing')
+
+
 
 program.on('--help', function(){
   console.log('')
@@ -55,7 +58,7 @@ function render_html_from_json_ld_file(target, template, input_filename, input_l
             console.log('start processing');
             var promise = {};
             var hostname = program.hostname;
-            var filename =  "./tempjson.jsonld"
+            var filename =  program.tempdir + "/tempjson.jsonld"
             create_new_input_file(obj, languageinput, filename).then((myJson) => {
               jsonfile.writeFile(filename, myJson)
               .then(res => {
