@@ -40,8 +40,9 @@ nunjucks.configure(templatedir , {
     autoescape: true
 });
 
+//program.tempdir = '.\\'
 render_html_from_json_ld_file(program.style, program.template, program.input, program.languageinput, program.output, program.mainlanguage);
-//render_html_from_json_ld_file('voc', 'voc2.j2', '../Drafts/originalld.jsonld', '../Drafts/originallden.json', '../Drafts/outputhtml.html')
+//render_html_from_json_ld_file('voc', 'voc2_en.j2', '../Drafts/originalld.jsonld', '../Drafts/originallden.json', '../Drafts/outputhtml.html', 'en')
 console.log('done');
 
 
@@ -59,7 +60,7 @@ function render_html_from_json_ld_file(target, template, input_filename, input_l
             var promise = {};
             var hostname = program.hostname;
             var filename =  program.tempdir + "/tempjson.jsonld"
-            create_new_input_file(obj, languageinput, filename).then((myJson) => {
+            create_new_input_file(obj, languageinput, language).then((myJson) => {
               jsonfile.writeFile(filename, myJson)
               .then(res => {
                 console.log('Write mergefile complete');
@@ -115,13 +116,28 @@ function render_html_from_json_ld_file(target, template, input_filename, input_l
 	.catch(error => { console.error(error); process.exitCode = 1; } ) 
 }
 
-async function create_new_input_file(input, languageinput, filename) {
+async function create_new_input_file(input, languageinput, goallanguage) {
   console.log('create merged file')
   var myJson = new Object
   myJson = input
   myJson.classes = getMergedObjects(input.classes, languageinput.classes)
   myJson.properties = getMergedObjects(input.properties, languageinput.properties)
+  if (!(myJson["translation"] === undefined)) {
+    for (var o = 0; o < myJson["translation"].length; o++) {
+      if (myJson["translation"][o]["language"] == goallanguage) {
+        myJson = mergeConfigValues(myJson, myJson["translation"][o])
+      }
+    }
+  }
+  return myJson
+}
 
+function mergeConfigValues (myJson, translationObject) {
+  for (let [key, value] of Object.entries(translationObject)) {
+    if (!(myJson[key] === undefined)) {
+      myJson[key] = value
+    }
+  }
   return myJson
 }
 
