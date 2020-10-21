@@ -31,7 +31,7 @@ console.log('done')
  * template = NodeShape(targetclass, property, closed)
  */
 
-function render_shacl_from_json_ld_file (filename, output_filename, language) {
+function render_shacl_from_json_ld_file(filename, output_filename, language) {
   console.log('start reading')
   jsonfile.readFile(filename)
     .then(
@@ -60,7 +60,7 @@ function render_shacl_from_json_ld_file (filename, output_filename, language) {
 /*
  * group the properties per class using the domain
  */
-function group_properties_per_class (json) {
+function group_properties_per_class(json) {
   var classes = json.classes
   classes = classes.concat(json.externals)
   var properties = json.properties
@@ -68,7 +68,7 @@ function group_properties_per_class (json) {
   return group_properties_per_class_aux(json, properties, classes)
 };
 
-function group_properties_per_class_aux (json, properties, classes) {
+function group_properties_per_class_aux(json, properties, classes) {
   var grouped = new Map()
   var domain = []
   var v = []
@@ -107,7 +107,7 @@ function group_properties_per_class_aux (json, properties, classes) {
 /*
  * entity-map: EA-Name -> Entity
  */
-function entity_map (json) {
+function entity_map(json) {
   var classes = json.classes
   classes = classes.concat(json.externals)
   var properties = json.properties
@@ -115,7 +115,7 @@ function entity_map (json) {
   return entity_map_aux(json, classes, properties)
 };
 
-function entity_map_aux (json, classes, properties) {
+function entity_map_aux(json, classes, properties) {
   var entitymap = new Map()
 
   for (const key in classes) {
@@ -134,7 +134,7 @@ function entity_map_aux (json, classes, properties) {
 /* future todo:
  * make shape per property
  */
-function make_shacl (grouped, entitymap, language) {
+function make_shacl(grouped, entitymap, language) {
   console.log('make shacl')
 
   var shaclTemplates = []
@@ -208,10 +208,13 @@ function make_shacl (grouped, entitymap, language) {
   return shaclDoc
 }
 
-function get_tagged_value (value, language) {
-  if (!(value[language] === undefined)) {
-    return { [language] : value[language] } 
-  } else {
-    return { language : "" }
+function get_tagged_value(value, language) {
+  if (!(value === undefined)) {
+    if (!(value[language] === undefined)) {
+      return { [language]: value[language] }
+    } else {
+      return { [language]: "" }
+    }
   }
+  return null
 }

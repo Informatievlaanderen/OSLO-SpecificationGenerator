@@ -25,12 +25,6 @@ program.parse(process.argv)
 render_merged_jsonld(program.input, program.mergeinput, program.output, program.language)
 console.log('done')
 
-/*
- *
- * shacl
- * template = NodeShape(targetclass, property, closed)
- */
-
 function render_merged_jsonld(input_filename, languageinput_filename, output_filename, language) {
   console.log('start reading');
   jsonfile.readFile(input_filename)
