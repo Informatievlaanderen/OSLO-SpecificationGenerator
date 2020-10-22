@@ -116,7 +116,7 @@ function map_identifier (prop, language) {
       identifier = toCamelCase(prop.label[language])
       //      console.log(identifier)
     } else {
-      console.log('Warning: no dutch label for entity, using fallback EA-Name')
+      console.log('Warning: no ' + language + ' label for entity, using fallback EA-Name')
       identifier = prop.extra['EA-Name']
       console.log('   Fallback applied for ' + identifier)
     }
