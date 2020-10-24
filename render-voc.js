@@ -1,4 +1,4 @@
-const fs = require('fs')
+ const fs = require('fs')
 const jsonfile = require('jsonfile')
 // const jsonld = require('jsonld')
 const Set = require('collections/set')
@@ -43,19 +43,16 @@ function render_voc(filename, language, outputfilename, ontology, ontologydefaul
   jsonfile.readFile(filename)
     .then(
       function (originaljsonld) {
-        myJSON = prepare_jsonld(originaljsonld, language)
-        var printableJson = new Object
-        pick_needed_information_from_jsonld(myJSON).then((myJson) => {
-          myJson = add_information_from_file(myJson, ontology)
-          myJson = add_information_from_file(myJson, ontologydefaults)
-          myJson = add_information_from_file(myJson, context)
+        var myJSON = prepare_jsonld(originaljsonld, language)
+        var printableJson = pick_needed_information_from_jsonld(myJSON)
+        printableJson = add_information_from_file(printableJson, ontology)
+        printableJson = add_information_from_file(printableJson, ontologydefaults)
+        printableJson = add_information_from_file(printableJson, context)
 
-          jsonfile.writeFile(outputfilename, myJSON)
-            .then(res => {
-              console.log('Write complete; The file was saved to: ' + outputfilename)
-            })
-            .catch(error => { console.error(error); process.exitCode = 1 })
-        })
+        jsonfile.writeFile(outputfilename, myJSON)
+          .then(res => {
+            console.log('Write complete; The file was saved to: ' + outputfilename)
+          })
           .catch(error => { console.error(error); process.exitCode = 1 })
       }
     )
@@ -68,7 +65,7 @@ function render_voc(filename, language, outputfilename, ontology, ontologydefaul
 
 function add_information_from_file(myjson, filename) {
   console.log("Checking " + filename)
-  if (fs.existsSync(filename)) {
+  if (!(filename === undefined) && fs.existsSync(filename)) {
     jsonfile.readFile(filename)
       .then(
         function (secondobject) {
