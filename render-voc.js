@@ -1,4 +1,4 @@
-// const fs = require('fs')
+ const fs = require('fs')
 const jsonfile = require('jsonfile')
 // const jsonld = require('jsonld')
 const Set = require('collections/set')
@@ -29,13 +29,13 @@ program.on('--help', function () {
 program.parse(process.argv)
 const forceDomain = !!program.forceDomain
 
-render_voc(program.input, program.language, program.output, program.context)
+render_voc(program.input, program.language, program.output, program.ontology, program.ontologydefaults, program.context)
 //render_voc("..\\workbench\\Drafts\\originalld.jsonld", "nl", "..\\workbench\\Drafts\\voc.jsonld")
 console.log('done')
 
 /* ---- end of the program --- */
-//ontology, ontologydefaults, 
-function render_voc(filename, language, outputfilename, context) {
+// 
+function render_voc(filename, language, outputfilename, ontology, ontologydefaults, context) {
   console.log('Language: ' + language)
   console.log('File: ' + filename)
 
@@ -45,8 +45,8 @@ function render_voc(filename, language, outputfilename, context) {
       function (originaljsonld) {
         myJSON = prepare_jsonld(originaljsonld, language)
         var printableJson = pick_needed_information_from_jsonld(myJSON)
-        //printableJson = add_information_from_file(printableJson, ontology)
-        //printableJson = add_information_from_file(printableJson, ontologydefaults)
+        printableJson = add_information_from_file(printableJson, ontology)
+        printableJson = add_information_from_file(printableJson, ontologydefaults)
         printableJson = add_information_from_file(printableJson, context)
 
         jsonfile.writeFile(outputfilename, myJSON)
@@ -64,15 +64,17 @@ function render_voc(filename, language, outputfilename, context) {
  */
 
 function add_information_from_file(myjson, filename) {
-  jsonfile.readFile(filename)
-    .then(
-      function (secondobject) {
-        for (let [key, value] of Object.entries(secondobject)) {
-          myjson[key] = value
+  if (fs.existsSync(filename)) {
+    jsonfile.readFile(filename)
+      .then(
+        function (secondobject) {
+          for (let [key, value] of Object.entries(secondobject)) {
+            myjson[key] = value
+          }
         }
-      }
-    )
-    .catch(error => { console.error(error); process.exitCode = 1 })
+      )
+      .catch(error => { console.error(error); process.exitCode = 1 })
+  }
 }
 
 function pick_needed_information_from_jsonld(myJsonld, language) {
