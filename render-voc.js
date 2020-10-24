@@ -29,13 +29,13 @@ program.on('--help', function () {
 program.parse(process.argv)
 const forceDomain = !!program.forceDomain
 
-render_voc(program.input, program.language, program.output, program.ontology, program.ontologydefaults, program.context)
+render_voc(program.input, program.language, program.output, program.context)
 //render_voc("..\\workbench\\Drafts\\originalld.jsonld", "nl", "..\\workbench\\Drafts\\voc.jsonld")
 console.log('done')
 
 /* ---- end of the program --- */
-
-function render_voc(filename, language, outputfilename, ontology, ontologydefaults, context) {
+//ontology, ontologydefaults, 
+function render_voc(filename, language, outputfilename, context) {
   console.log('Language: ' + language)
   console.log('File: ' + filename)
 
