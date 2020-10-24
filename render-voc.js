@@ -30,7 +30,7 @@ program.parse(process.argv)
 const forceDomain = !!program.forceDomain
 
 render_voc(program.input, program.language, program.output, program.context)
-//render_voc("..\\workbench\\Drafts\\originalld.jsonld", "nl", "..\\workbench\\Drafts\\voc.jsonld")
+//render_voc("..\\workbench\\Drafts\\originalld.jsonld", "nl", "..\\workbench\\Drafts\\voc.jsonld", null)
 console.log('done')
 
 /* ---- end of the program --- */
@@ -82,10 +82,10 @@ function add_information_from_file(myjson, filename) {
 function pick_needed_information_from_jsonld(myJsonld, language) {
   let myjson = new Object
   myjson = pick_general_information(myjson, myJsonld)
-  myjson.classes = pick_classes(myJsonld, language)
-  myjson.externals = pick_externals(myJsonld, "rdfs:Class")
-  myjson.properties = pick_properties(myJsonld, language)
-  myjson.externalproperties = pick_externals(myJsonld, "rdf:Property")
+  myjson.classes = pick_classes(myJsonld.classes, language)
+  myjson.externals = pick_externals(myJsonld.classes, "rdfs:Class")
+  myjson.properties = pick_properties(myJsonld.properties, language)
+  myjson.externalproperties = pick_externals(myJsonld.properties, "rdf:Property")
   return myjson
 }
 
@@ -116,7 +116,7 @@ function get_values_if_exist(myjson, jsonld, key) {
 }
 
 function pick_classes(myJsonldarray, language) {
-  let array
+  let array = new Array
   for (let x = 0; x < myJsonldarray.length; x++) {
     let newobject = new Object
     let currobject = myJsonldarray[x]
@@ -145,7 +145,7 @@ function pick_externals(myJsonldarray, type) {
 }
 
 function pick_properties(properties, language) {
-  let array
+  let array = new Array
   for (let x = 0; x < properties.length; x++) {
     let newobject = new Object
     let currobject = properties[x]
@@ -164,9 +164,12 @@ function pick_properties(properties, language) {
 function pick_general_attributes(currobject, newobject, language) {
   newobject["@id"] = currobject["@id"]
   newobject["@type"] = currobject["@type"]
-  newobject.name = get_value(newobject.name, currobject.name, language)
-  newobject[description] = get_value(newobject[description], currobject[description], language)
-  newobject.usage = get_value(newobject.usage, currobject.usage, language)
+  newobject.name = new Object
+  newobject["description"] = new Object
+  newobject.usage = new Object
+  newobject.name[language] = get_value(newobject.name, currobject.name, language)
+  newobject["description"][language] = get_value(newobject["description"], currobject["description"], language)
+  newobject.usage = get_value_usage(newobject.usage, currobject.usage, language)
   return newobject
 }
 
@@ -186,11 +189,19 @@ function get_parents(newobject, currobject) {
 
 function get_value(newobject, currobject, language) {
   if (!(currobject[language] === undefined)) {
-    newobject[language] = currobject[language]
+    return currobject[language]
   } else {
-    newobject = currobject
+    return null 
   }
-  return newobject
+}
+
+function get_value_usage(newobject, currobject, language) {
+  if (!(currobject[language] === undefined)) {
+    newobject[language] = currobject[language]
+    return newobject
+  } else {
+    return new Object 
+  }
 }
 
 function prepare_jsonld(json, language) {
