@@ -48,7 +48,7 @@ function render_voc(filename, language, outputfilename, context) {
         printableJson = add_information_from_file(printableJson, context)
         // later same call as above for ontology and ontology defaults
 
-        jsonfile.writeFile(outputfilename, myJSON)
+        jsonfile.writeFile(outputfilename, printableJson)
           .then(res => {
             console.log('Write complete; The file was saved to: ' + outputfilename)
           })
