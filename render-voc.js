@@ -76,6 +76,7 @@ function add_information_from_file(myjson, filename) {
       )
       .catch(error => { console.error(error); process.exitCode = 1 })
   }
+  return myjson
 }
 
 function pick_needed_information_from_jsonld(myJsonld, language) {
