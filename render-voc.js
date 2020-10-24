@@ -44,7 +44,7 @@ function render_voc(filename, language, outputfilename, ontology, ontologydefaul
     .then(
       function (originaljsonld) {
         var myJSON = prepare_jsonld(originaljsonld, language)
-        var printableJson = pick_needed_information_from_jsonld(myJSON)
+        var printableJson = pick_needed_information_from_jsonld(myJSON, language)
         printableJson = add_information_from_file(printableJson, ontology)
         printableJson = add_information_from_file(printableJson, ontologydefaults)
         printableJson = add_information_from_file(printableJson, context)
