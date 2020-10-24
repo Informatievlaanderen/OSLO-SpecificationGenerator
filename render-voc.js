@@ -65,6 +65,7 @@ function render_voc(filename, language, outputfilename, ontology, ontologydefaul
  */
 
 function add_information_from_file(myjson, filename) {
+  console.log("Checking " + filename)
   if (fs.existsSync(filename)) {
     jsonfile.readFile(filename)
       .then(
