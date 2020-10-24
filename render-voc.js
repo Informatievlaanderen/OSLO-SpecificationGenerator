@@ -35,7 +35,7 @@ console.log('done')
 
 /* ---- end of the program --- */
 // 
-function render_voc(filename, language, outputfilename, ontology, ontologydefaults, context) {
+function render_voc(filename, language, outputfilename, context) {
   console.log('Language: ' + language)
   console.log('File: ' + filename)
 
@@ -46,6 +46,7 @@ function render_voc(filename, language, outputfilename, ontology, ontologydefaul
         var myJSON = prepare_jsonld(originaljsonld, language)
         var printableJson = pick_needed_information_from_jsonld(myJSON, language)
         printableJson = add_information_from_file(printableJson, context)
+        // later same call as above for ontology and ontology defaults
 
         jsonfile.writeFile(outputfilename, myJSON)
           .then(res => {
