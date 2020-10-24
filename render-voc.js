@@ -29,7 +29,7 @@ program.on('--help', function () {
 program.parse(process.argv)
 const forceDomain = !!program.forceDomain
 
-render_voc(program.input, program.language, program.output, program.ontology, program.ontologydefaults, program.context)
+render_voc(program.input, program.language, program.output, program.context)
 //render_voc("..\\workbench\\Drafts\\originalld.jsonld", "nl", "..\\workbench\\Drafts\\voc.jsonld")
 console.log('done')
 
@@ -45,8 +45,6 @@ function render_voc(filename, language, outputfilename, ontology, ontologydefaul
       function (originaljsonld) {
         var myJSON = prepare_jsonld(originaljsonld, language)
         var printableJson = pick_needed_information_from_jsonld(myJSON, language)
-        printableJson = add_information_from_file(printableJson, ontology)
-        printableJson = add_information_from_file(printableJson, ontologydefaults)
         printableJson = add_information_from_file(printableJson, context)
 
         jsonfile.writeFile(outputfilename, myJSON)
