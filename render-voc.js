@@ -45,8 +45,8 @@ function render_voc(filename, language, outputfilename, context) {
       function (originaljsonld) {
         myJSON = prepare_jsonld(originaljsonld, language)
         var printableJson = pick_needed_information_from_jsonld(myJSON)
-        printableJson = add_information_from_file(printableJson, ontology)
-        printableJson = add_information_from_file(printableJson, ontologydefaults)
+        //printableJson = add_information_from_file(printableJson, ontology)
+        //printableJson = add_information_from_file(printableJson, ontologydefaults)
         printableJson = add_information_from_file(printableJson, context)
 
         jsonfile.writeFile(outputfilename, myJSON)
@@ -206,8 +206,6 @@ function prepare_jsonld(json, language) {
         json[key] = map_mbox(json[key])
         break;
       default:
-        console.log("current object: " + key)
-        console.log("type of following object: " + typeof json[key])
         if (typeof json[key] == 'object') {
           json[key] = prepare_jsonld(json[key], language)
         }
