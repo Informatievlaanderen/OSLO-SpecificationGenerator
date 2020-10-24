@@ -44,7 +44,8 @@ function render_voc(filename, language, outputfilename, ontology, ontologydefaul
     .then(
       function (originaljsonld) {
         myJSON = prepare_jsonld(originaljsonld, language)
-        var printableJson = pick_needed_information_from_jsonld(myJSON)
+        var printableJson = new Object
+        printableJson = pick_needed_information_from_jsonld(myJSON)
         printableJson = add_information_from_file(printableJson, ontology)
         printableJson = add_information_from_file(printableJson, ontologydefaults)
         printableJson = add_information_from_file(printableJson, context)
@@ -69,6 +70,7 @@ function add_information_from_file(myjson, filename) {
       .then(
         function (secondobject) {
           for (let [key, value] of Object.entries(secondobject)) {
+            myjson[key] = new Object
             myjson[key] = value
           }
         }
