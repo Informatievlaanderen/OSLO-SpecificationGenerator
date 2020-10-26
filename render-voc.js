@@ -1,4 +1,4 @@
- const fs = require('fs')
+const fs = require('fs')
 const jsonfile = require('jsonfile')
 // const jsonld = require('jsonld')
 const Set = require('collections/set')
@@ -66,6 +66,7 @@ function render_voc(filename, language, outputfilename, context, ontology, ontol
 
 function add_information_from_file(myjson, filename) {
   console.log("Checking " + filename)
+  if (!(filename === undefined) && fs.existsSync(filename)) {
     jsonfile.readFile(filename)
       .then(
         function (secondobject) {
@@ -77,7 +78,7 @@ function add_information_from_file(myjson, filename) {
         }
       )
       .catch(error => { console.error(error); process.exitCode = 1 })
-  
+  }
   return myjson
 }
 
@@ -193,7 +194,7 @@ function get_value(newobject, currobject, language) {
   if (!(currobject[language] === undefined)) {
     return currobject[language]
   } else if (currobject[language] == "Enter your translation here") {
-    return "A translation has yet to be added" 
+    return "A translation has yet to be added"
   } else {
     return "this line is not intended for translation"
   }
@@ -204,7 +205,7 @@ function get_value_usage(newobject, currobject, language) {
     newobject[language] = currobject[language]
     return newobject
   } else {
-    return new Object 
+    return new Object
   }
 }
 
