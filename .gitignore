@@ -89,3 +89,4 @@ ENV/
 # Project
 /tempjson.jsonld
 node_modules/
+Drafts/

@@ -72,8 +72,10 @@ function add_information_from_file(myjson, filename) {
         function (secondobject) {
           console.log("Opened: " + filename)
           for (let [key, value] of Object.entries(secondobject)) {
+            console.log ("read values are: " + key + ":" + value )
             myjson[key] = new Object
             myjson[key] = value
+            console.log("myjson[" + key +"]:" + myjson[key] )
           }
         }
       )
