@@ -150,7 +150,7 @@ function get_EAname (entities, language) {
 }
 
 // create a map (EA-Name -> term)
-function EAname (accumulator, currentValue, currentIndex, array) {
+function EAname (accumulator, currentValue, currentIndex, array, language) {
   let currentlist = []
   const term = map_identifier(currentValue, language)
   const eaname = currentValue.extra['EA-Name']
