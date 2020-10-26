@@ -1,4 +1,4 @@
-const fs = require('fs')
+//const fs = require('fs')
 const jsonfile = require('jsonfile')
 // const jsonld = require('jsonld')
 const Set = require('collections/set')
@@ -23,19 +23,19 @@ program.on('--help', function () {
   console.log('')
   console.log('Examples:')
   console.log('  $ specgen-context --help')
-  console.log('  $ specgen-context -i <input> -f <updatedFile> -m <primeLanguage> -g <goalLanguage>')
+  console.log('  $ specgen-context -i <input> -l <languagecode> -o <output>')
 })
 
 program.parse(process.argv)
 const forceDomain = !!program.forceDomain
 
 //render_voc(".\\Drafts\\languagemerged.jsonld", "en", ".\\tempjson.jsonld", ".\\Drafts\\test.jsonld", "", ".\\Drafts\\test3.jsonld")
-render_voc(program.input, program.language, program.output, program.context, program.ontology, program.ontologydefaults)
+render_voc(program.input, program.language, program.output)
 console.log('done')
 
 /* ---- end of the program --- */
 // 
-function render_voc(filename, language, outputfilename, context, ontology, ontologydefaults) {
+function render_voc(filename, language, outputfilename) {
   console.log('Language: ' + language)
   console.log('File: ' + filename)
 
@@ -45,9 +45,9 @@ function render_voc(filename, language, outputfilename, context, ontology, ontol
       function (originaljsonld) {
         var myJSON = prepare_jsonld(originaljsonld, language)
         var printableJson = pick_needed_information_from_jsonld(myJSON, language)
-        printableJson = add_information_from_file(printableJson, context)
-        printableJson = add_information_from_file(printableJson, ontology)
-        printableJson = add_information_from_file(printableJson, ontologydefaults)
+        //printableJson = add_information_from_file(printableJson, context)
+        //printableJson = add_information_from_file(printableJson, ontology)
+        //printableJson = add_information_from_file(printableJson, ontologydefaults)
         // later same call as above for ontology and ontology defaults
 
         jsonfile.writeFile(outputfilename, printableJson)
@@ -64,6 +64,7 @@ function render_voc(filename, language, outputfilename, context, ontology, ontol
     jq -s '.[0] + .[1] +  .[6]' /tmp/${FILE}/ontology ${CONFIGDIR}/ontology.defaults.json ${CONFIGDIR}/context >  ${TARGET}
  */
 
+ /*
 function add_information_from_file(myjson, filename) {
   console.log("Checking " + filename)
   if (!(filename === undefined) && fs.existsSync(filename)) {
@@ -83,6 +84,7 @@ function add_information_from_file(myjson, filename) {
   }
   return myjson
 }
+*/
 
 function pick_needed_information_from_jsonld(myJsonld, language) {
   let myjson = new Object
@@ -137,6 +139,7 @@ function pick_classes(myJsonldarray, language) {
 
 //TODO right match?? 
 function pick_externals(myJsonldarray, type) {
+  var externals = new Array
   for (let y = 0; y < myJsonldarray.length; y++) {
     var currobject = myJsonldarray[y]
     if (!(currobject.extra === undefined) && currobject.extra["Scope"] != "NOTHING") {
@@ -144,9 +147,10 @@ function pick_externals(myJsonldarray, type) {
       newextra.name = get_valid_value(currobject.extra.name)
       newextra["@id"] = get_valid_value(currobject["@id"])
       newextra["@type"] = type
+      externals.push(newextra)
     }
   }
-  return myJsonldarray
+  return externals
 }
 
 function pick_properties(properties, language) {
@@ -172,9 +176,9 @@ function pick_general_attributes(currobject, newobject, language) {
   newobject.name = new Object
   newobject["description"] = new Object
   newobject.usage = new Object
-  newobject.name[language] = get_value(newobject.name, currobject.name, language)
-  newobject["description"][language] = get_value(newobject["description"], currobject["description"], language)
-  newobject.usage = get_value_usage(newobject.usage, currobject.usage, language)
+  newobject.name[language] = get_value(currobject.name, language)
+  newobject["description"][language] = get_value(currobject["description"], language)
+  newobject.usage = get_value_usage(currobject.usage, language)
   return newobject
 }
 
@@ -192,8 +196,8 @@ function get_parents(newobject, currobject) {
   return newobject
 }
 
-function get_value(newobject, currobject, language) {
-  if (!(currobject[language] === undefined)) {
+function get_value(currobject, language) {
+  if (!(currobject[language] === undefined) && currobject[language] != "Enter your translation here") {
     return currobject[language]
   } else if (currobject[language] == "Enter your translation here") {
     return "A translation has yet to be added"
@@ -204,7 +208,7 @@ function get_value(newobject, currobject, language) {
 
 function get_value_usage(newobject, currobject, language) {
   if (!(currobject[language] === undefined)) {
-    newobject[language] = currobject[language]
+    newobject[language] = get_value(currobject[language], language)
     return newobject
   } else {
     return new Object
