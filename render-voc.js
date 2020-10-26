@@ -29,13 +29,13 @@ program.on('--help', function () {
 program.parse(process.argv)
 const forceDomain = !!program.forceDomain
 
-render_voc(program.input, program.language, program.output, program.context)
-//render_voc("..\\workbench\\Drafts\\originalld.jsonld", "nl", "..\\workbench\\Drafts\\voc.jsonld", null)
+//render_voc(".\\Drafts\\languagemerged.jsonld", "en", ".\\tempjson.jsonld", ".\\Drafts\\test.jsonld", "", ".\\Drafts\\test3.jsonld")
+render_voc(program.input, program.language, program.output, program.context, program.ontology, program.ontologydefaults)
 console.log('done')
 
 /* ---- end of the program --- */
 // 
-function render_voc(filename, language, outputfilename, context) {
+function render_voc(filename, language, outputfilename, context, ontology, ontologydefaults) {
   console.log('Language: ' + language)
   console.log('File: ' + filename)
 
@@ -46,6 +46,8 @@ function render_voc(filename, language, outputfilename, context) {
         var myJSON = prepare_jsonld(originaljsonld, language)
         var printableJson = pick_needed_information_from_jsonld(myJSON, language)
         printableJson = add_information_from_file(printableJson, context)
+        printableJson = add_information_from_file(printableJson, ontology)
+        printableJson = add_information_from_file(printableJson, ontologydefaults)
         // later same call as above for ontology and ontology defaults
 
         jsonfile.writeFile(outputfilename, printableJson)
@@ -64,10 +66,10 @@ function render_voc(filename, language, outputfilename, context) {
 
 function add_information_from_file(myjson, filename) {
   console.log("Checking " + filename)
-  if (!(filename === undefined) && fs.existsSync(filename)) {
     jsonfile.readFile(filename)
       .then(
         function (secondobject) {
+          console.log("Opened: " + filename)
           for (let [key, value] of Object.entries(secondobject)) {
             myjson[key] = new Object
             myjson[key] = value
@@ -75,7 +77,7 @@ function add_information_from_file(myjson, filename) {
         }
       )
       .catch(error => { console.error(error); process.exitCode = 1 })
-  }
+  
   return myjson
 }
 
@@ -190,8 +192,10 @@ function get_parents(newobject, currobject) {
 function get_value(newobject, currobject, language) {
   if (!(currobject[language] === undefined)) {
     return currobject[language]
+  } else if (currobject[language] == "Enter your translation here") {
+    return "A translation has yet to be added" 
   } else {
-    return null 
+    return "this line is not intended for translation"
   }
 }
 
