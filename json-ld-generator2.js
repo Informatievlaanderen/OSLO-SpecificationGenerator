@@ -9,7 +9,7 @@ var program = require('commander')
 
 program
   .version('0.8.0')
-  .usage('node specgen-context.js creates a json-ld context')
+  .usage('node specgen-json-ld-geneartor2.js creates a json-ld context based on a chosen language')
   .option('-i, --input <path>', 'input file (a jsonld file)')
   .option('-o, --output <path>', 'output file (the context)')
   .option('-m, --language <languagecode>', 'the language for the context (the languagecode)')
@@ -20,8 +20,8 @@ program.on('--help', function () {
   console.log('')
   console.log('Examples:')
   console.log('  $ specgen-context --help')
-  console.log('  $ specgen-context -i <input> -o <output>')
-  console.log('  $ specgen-context -i <input> -o <output> -l label')
+  console.log('  $ specgen-context -i <input> -o <output> -m <language>')
+  console.log('  $ specgen-context -i <input> -o <output> -l label -m <language>')
 })
 
 program.parse(process.argv)

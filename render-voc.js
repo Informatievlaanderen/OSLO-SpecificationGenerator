@@ -11,13 +11,10 @@ const { usage, description } = require('commander')
 // delete domain & label?
 program
   .version('0.8.0')
-  .usage('node specgen-context.js creates a json-ld context')
+  .usage('node specgen-render-voc.js creates a vocabulary json-ld with regards to a language')
   .option('-i, --input <path>', 'input file to update (a json file)')
   .option('-o, --output <path>', 'output file (a jsonld file)')
   .option('-l, --language <languageCode>', 'the language of the file (a string)')
-  .option('-n, --ontology <path>', 'file with additional ontology information (a jsonld file)')
-  .option('-d, --ontologydefaults <path>', 'file with additional ontology defaults information (a jsonld file)')
-  .option('-c, --context <path>', 'file with additional context information(a jsonld file)')
 
 program.on('--help', function () {
   console.log('')
@@ -45,10 +42,6 @@ function render_voc(filename, language, outputfilename) {
       function (originaljsonld) {
         var myJSON = prepare_jsonld(originaljsonld, language)
         var printableJson = pick_needed_information_from_jsonld(myJSON, language)
-        //printableJson = add_information_from_file(printableJson, context)
-        //printableJson = add_information_from_file(printableJson, ontology)
-        //printableJson = add_information_from_file(printableJson, ontologydefaults)
-        // later same call as above for ontology and ontology defaults
 
         jsonfile.writeFile(outputfilename, printableJson)
           .then(res => {
@@ -239,15 +232,6 @@ function prepare_jsonld(json, language) {
     }
   }
   return json;
-}
-
-function go_on(object) {
-  if (typeof object == String || typeof object === String) {
-    return false
-  } else if (object.length > 0) {
-    return true
-  }
-  return false
 }
 
 function map_only_uris_from_array(array) {

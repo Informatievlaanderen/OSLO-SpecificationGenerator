@@ -10,6 +10,7 @@ require('collections/shim-array')
 //
 
 /**
+ * Pre Description:
  * This is an adapted version of the orginal parser, it uses the json instead of the expanded jsonld representation
  * The purpose is to create the desired nunjuncks_json structure
  *
@@ -18,6 +19,9 @@ require('collections/shim-array')
  * defined on the data.vlaanderen.be repository can process.
  *
  * It's main entry points is parse_ontology_from_json_ld_file(json_ld_file, template_file)
+ * 
+ * New additions:
+ * The Parser now additionally parses the file with regards to a chosen language
  **/
 
 //

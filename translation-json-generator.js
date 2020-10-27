@@ -10,7 +10,7 @@ var program = require('commander')
 // delete domain & label?
 program
   .version('0.8.0')
-  .usage('node specgen-context.js creates a json-ld context')
+  .usage('node specgen-translation-json-generator.js creates a translatable json based on a jsonld and a chosen prime and goallanguage')
   .option('-i, --input <path>', 'input file (a jsonld file)')
   .option('-o, --output <path>', 'output file (a json file)')
   .option('-m, --primeLanguage <language>', 'prime language to translate to a different one (a string)')

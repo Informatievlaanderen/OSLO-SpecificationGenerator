@@ -6,7 +6,7 @@ var program = require('commander')
 
 program
   .version('0.0.1')
-  .usage('Merges translation Json with original jsonld')
+  .usage('node specgen-jsonld-merger.js merges translation Json with original jsonld')
   .option('-i, --input <path>', 'input file (a jsonld file)')
   .option('-m, --mergeinput <path>', 'input of json file to merge with (a json file)')
   .option('-l, --language <languagecode>', 'the language the file shall merge into (languagecode)')
@@ -16,7 +16,7 @@ program.on('--help', function () {
   console.log('')
   console.log('Examples:')
   console.log('  $ specgen-shacl --help')
-  console.log('  $ specgen-shacl -i <input> -o <output> -d <domain>')
+  console.log('  $ specgen-shacl -i <input> -m <mergeinput> -o <output> -l <language>')
   process.exitCode = 1
 })
 

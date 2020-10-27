@@ -6,7 +6,7 @@ var program = require('commander')
 
 program
   .version('0.8.0')
-  .usage(' creates shacl template')
+  .usage(' creates shacl template with regards to a langauge')
   .option('-i, --input <path>', 'input file (a jsonld file)')
   .option('-o, --output <path>', 'output file (shacl)')
   .option('-d, --domain <path>', 'domain of the shacl shapes, without #')
@@ -16,7 +16,7 @@ program.on('--help', function () {
   console.log('')
   console.log('Examples:')
   console.log('  $ specgen-shacl --help')
-  console.log('  $ specgen-shacl -i <input> -o <output> -d <domain>')
+  console.log('  $ specgen-shacl -i <input> -o <output> -d <domain> -l <languageCode>')
   process.exitCode = 1
 })
 

@@ -10,20 +10,18 @@ var program = require('commander')
 // delete domain & label?
 program
   .version('0.8.0')
-  .usage('node specgen-context.js creates a json-ld context')
+  .usage('node specgen-translation-json-update.js updates an existing translatable json based on a jsonld and a chosen prime and goallanguage')
   .option('-i, --input <path>', 'input file to update (a json file)')
   .option('-f, --updatedFile <path>', 'file to compare input to (a jsonld file)')
   .option('-o, --output <path>', 'output file (a json file)')
   .option('-m, --primeLanguage <language>', 'prime language to translate to a different one (a string)')
   .option('-g, --goalLanguage <language>', 'goal language to translate into (a string)')
-  .option('-d, --forceDomain', 'force the domain all the terms, instead only for those that are necessary. Default false')
-  .option('-l, --useLabels <label>', 'the terms used are { label = the labels in camelCase, uml = the names from the UML},', /^(label|uml)$/i)
 
 program.on('--help', function () {
   console.log('')
   console.log('Examples:')
   console.log('  $ specgen-context --help')
-  console.log('  $ specgen-context -i <input> -f <updatedFile> -m <primeLanguage> -g <goalLanguage>')
+  console.log('  $ specgen-context -i <input> -f <updatedFile> -m <primeLanguage> -g <goalLanguage> -o <output>')
 })
 
 program.parse(process.argv)
