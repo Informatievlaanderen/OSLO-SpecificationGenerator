@@ -26,11 +26,10 @@ program.on('--help', function () {
 
 program.parse(process.argv)
 //program.useLabels = 'label'
-const language = program.language
 const forceDomain = !!program.forceDomain
 
 //render_context_from_json_ld_file("..\\workbench\\Drafts\\ldmerged.jsonld", "..\\workbench\\Drafts\\ourputjsonld.json", "en")
-render_context_from_json_ld_file(program.input, program.output, language)
+render_context_from_json_ld_file(program.input, program.output, program.language)
 console.log('done')
 
 /* ---- end of the program --- */
