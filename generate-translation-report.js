@@ -40,12 +40,12 @@ function concat(filename, language, outputfilename) {
                 report.push(" REPORT FOR " + filename + "\n")
                 report = find_errors(myjson, language, report)
 
-                fs.writeFile(outputfilename, report.join("") , function(err) {
-                    if(err) {
+                fs.writeFile(outputfilename, report.join(""), function (err) {
+                    if (err) {
                         return console.log(err);
                     }
                     console.log('Write complete; The report was saved to: ' + outputfilename)
-                }); 
+                });
             }
         )
         .catch(error => { console.error(error); process.exitCode = 1 })
@@ -63,14 +63,16 @@ function find_errors(json, language, report) {
     return report;
 }
 
-function write_report (json, key, language, report) {
-    if (!(json[key][language] === undefined) && (json[key][language] === 'Enter your translation here')) {
-        var line = ` WARNING - for the object with the @id ${ json['@id'] } there is no ${ language } translation for the ${ key }. \n`;
-        report.push(line)
-    }
-    if (!(json[key][language] === undefined) && (json[key][language] === '')) {
-        var line = ` WARNING - for the object with the @id ${ json['@id'] } the ${ language } translation for ${ key } is empty. \n`;
-        report.push(line)
+function write_report(json, key, language, report) {
+    if (!(json[key] === undefined) && json[key] != null) {
+        if (!(json[key][language] === undefined) && (json[key][language] === 'Enter your translation here')) {
+            var line = ` WARNING - for the object with the @id ${json['@id']} there is no ${language} translation for the ${key}. \n`;
+            report.push(line)
+        }
+        if (!(json[key][language] === undefined) && (json[key][language] === '')) {
+            var line = ` WARNING - for the object with the @id ${json['@id']} the ${language} translation for ${key} is empty. \n`;
+            report.push(line)
+        }
     }
     return report
 }
