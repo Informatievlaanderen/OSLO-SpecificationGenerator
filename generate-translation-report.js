@@ -53,7 +53,7 @@ function concat(filename, language, outputfilename) {
 
 function find_errors(json, language, report) {
     for (let key in json) {
-        if (!(json[key] === undefined) && !(json[key][language] === undefined)) {
+        if (!(json[key] === undefined) && json[key] != null && !(json[key][language] === undefined)) {
             report = write_report(json, key, language, report)
         }
         if (!(json[key] === undefined) && typeof json[key] == 'object') {
@@ -64,15 +64,13 @@ function find_errors(json, language, report) {
 }
 
 function write_report(json, key, language, report) {
-    if (!(json[key] === undefined) && json[key] != null) {
-        if (!(json[key][language] === undefined) && (json[key][language] === 'Enter your translation here')) {
-            var line = ` WARNING - for the object with the @id ${json['@id']} there is no ${language} translation for the ${key}. \n`;
-            report.push(line)
-        }
-        if (!(json[key][language] === undefined) && (json[key][language] === '')) {
-            var line = ` WARNING - for the object with the @id ${json['@id']} the ${language} translation for ${key} is empty. \n`;
-            report.push(line)
-        }
+    if (!(json[key][language] === undefined) && (json[key][language] === 'Enter your translation here')) {
+        var line = ` WARNING - for the object with the @id ${json['@id']} there is no ${language} translation for the ${key}. \n`;
+        report.push(line)
+    }
+    if (!(json[key][language] === undefined) && (json[key][language] === '')) {
+        var line = ` WARNING - for the object with the @id ${json['@id']} the ${language} translation for ${key} is empty. \n`;
+        report.push(line)
     }
     return report
 }
