@@ -27,6 +27,7 @@ program.on('--help', function () {
 program.parse(process.argv)
 //program.useLabels = 'label'
 const forceDomain = !!program.forceDomain
+const language = !!program.language
 
 //render_context_from_json_ld_file("..\\workbench\\Drafts\\ldmerged.jsonld", "..\\workbench\\Drafts\\ourputjsonld.json", "en")
 render_context_from_json_ld_file(program.input, program.output, program.language)
@@ -67,7 +68,7 @@ function render_context_from_json_ld_file (filename, output_filename, language) 
 function identify_duplicates (properties, language) {
   var acc = new Map()
   acc = properties.reduce(function (accumulator, currentValue, currentIndex, array) {
-    return urireducer(accumulator, currentValue, currentIndex, array, language)
+    return urireducer(accumulator, currentValue, currentIndex, array, 'nl')
   }, acc)
 
   // search for duplicates
