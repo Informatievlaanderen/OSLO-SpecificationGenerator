@@ -194,50 +194,6 @@ function value_is_valid(key, keys) {
   return true
 }
 
-function get_outputFilename (filename) {
-  var name = new String ()
-  var path = new String ()
-  name = filename 
-  var path = name.split('\\')
-  var splitted = path[path.length-1].split('.')
-
-  var file = name.replace(path[path.length-1], '') + splitted[splitted.length-2] + "updated" + '.json'
-  console.log('new filename: ' + file)
-  return file
-}
-
-/*
- * identify duplicates by iterating over the list and comparing if the same term is
- * being used to identify multiple values
- */
-function identify_duplicates (properties) {
-  var acc = new Map()
-  acc = properties.reduce(function (accumulator, currentValue, currentIndex, array) {
-    return urireducer(accumulator, currentValue, currentIndex, array)
-  }, acc)
-
-  // search for duplicates
-  var acc2 = new Map()
-  acc.forEach(function (value, key, map) {
-    if (value.length > 1) {
-      const tempSet = new Set(value)
-      if (tempSet.length > 1) {
-        // duplicate found, because more than one entry
-        acc2.set(key, value)
-      }
-    }
-  })
-
-  return acc2
-};
-
-// auxiliary function to convert a string into CamelCase
-/*
-const toCamelCase = str =>
-  str.toLowerCase()
-    .replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase())
-    */
-
 const capitalizeFirst = (s) => {
   if (typeof s !== 'string') return ''
   return s.charAt(0).toUpperCase() + s.slice(1)
@@ -285,65 +241,11 @@ function urireducer (accumulator, currentValue, currentIndex, array) {
   return accumulator
 };
 
-function get_EAname (entities) {
-  let acc = new Map()
-  acc = entities.reduce(function (accumulator, currentValue, currentIndex, array) {
-    return EAname(accumulator, currentValue, currentIndex, array)
-  }, acc)
-
-  return acc
-}
-
-// create a map (EA-Name -> term)
-function EAname (accumulator, currentValue, currentIndex, array) {
-  let currentlist = []
-  const term = map_identifier(currentValue)
-  const eaname = currentValue.extra['EA-Name']
-  if (accumulator.has(eaname)) {
-    currentlist = accumulator.get(eaname)
-    console.log('ERROR: multiple values for the same EA-Name ' + eaname)
-    console.log('       value ' + currentlist + ' will be overwritten with ' + term)
-    accumulator.set(eaname, term)
-  } else {
-    accumulator.set(eaname, term)
-  };
-  return accumulator
-};
-
 // TODO: collection.js documentation does not specify
 // if the values get overwritten for existing keys
 //
 const accContext = (accumulator, currentValue) =>
   accumulator.addEach(currentValue)
-
-/* Same implementation as above, but maintained for debugging purposes
- */
-/*
-function accContextLog(accumulator, currentValue) {
- console.log('----------------------------');
- console.log(currentValue);
- accumulator.addEach(currentValue);
- console.log(accumulator);
- return accumulator
-}
-*/
-
-/* Obsolete OLD accumulator implementation
- * but is kept in the source as documentation for the case to add manually
- * items in the map while checking if the key exists.
- *
-*/
-/*
-function join_contexts (context, value, key, map) {
- console.log(key);
-  if (context.has(key)) {
-    console.log('warning: duplicate key ' + key + ' value ' + map.get(key))
-  } else {
-    context.set(key,value)
-  };
-  return context
-};
-*/
 
 function make_context (classes, properties, externals, externalproperties) {
   console.log('make context')
@@ -456,29 +358,4 @@ function properties (eanamesclasses, duplicates, json) {
   propertymapping = props.map(x => map_properties(eanamesclasses, duplicates, x))
 
   return propertymapping
-}
-
-function map_external (c) {
-  const mapping = new Map()
-  const identifier = map_identifier(c)
-  mapping.set(capitalizeFirst(identifier), c['@id'])
-  return mapping
-};
-
-function externals (json) {
-  const externs = json.externals
-
-  let externalmapping = new Map()
-  externalmapping = externs.map(x => map_external(x))
-
-  return externalmapping
-}
-
-function externalproperties (eanamesclasses, duplicates, json) {
-  var externs = json.externalproperties
-
-  var externalmapping = new Map()
-  externalmapping = externs.map(x => map_properties(eanamesclasses, duplicates, x))
-
-  return externalmapping
 }
