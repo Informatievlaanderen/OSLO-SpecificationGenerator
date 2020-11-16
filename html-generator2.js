@@ -49,36 +49,37 @@ function render_html_from_json_ld_file(target, template, filename, output_filena
   console.log('start reading');
   var obj = {};
   jsonfile.readFile(filename)
-  .then(
-       function(obj) { 
+    .then(
+      function (obj) {
         console.log('start processing');
         var promise = {};
         var hostname = program.hostname;
         const forceskos = program.forceskos ? true : false;
-        switch(target) {
-            case "voc": 
-                promise = ldParser.parse_ontology_from_json_ld_file_voc(filename, hostname, language);
-                break;
-            case "ap": 
-                promise = ldParser.parse_ontology_from_json_ld_file_all(filename, hostname, forceskos, language);
-                break;
-            case "oj": 
-                promise = ldParser.parse_ontology_from_json_ld_file_oj(filename, hostname, forceskos, language);
-                break;
-            default:
-                console.log("unknown or not provided target for the html rendering");
+        switch (target) {
+          case "voc":
+            promise = ldParser.parse_ontology_from_json_ld_file_voc(filename, hostname, language);
+            break;
+          case "ap":
+            promise = ldParser.parse_ontology_from_json_ld_file_all(filename, hostname, forceskos, language);
+            break;
+          case "oj":
+            promise = ldParser.parse_ontology_from_json_ld_file_oj(filename, hostname, forceskos, language);
+            break;
+          default:
+            console.log("unknown or not provided target for the html rendering");
         };
 
-        promise.then(function(parsed_json) {
+        promise.then(function (parsed_json) {
           parsed_json.documentroot = program.documentpath;
-          if (program.debug) { 
-		jsonfile.writeFile(program.debug, parsed_json, function (err) {
-		if (err) {
-		   process.exitCode = 1;
-                   console.error(err);
-                   throw err;
-                   }
-		})};
+          if (program.debug) {
+            jsonfile.writeFile(program.debug, parsed_json, function (err) {
+              if (err) {
+                process.exitCode = 1;
+                console.error(err);
+                throw err;
+              }
+            })
+          };
           var html = nunjucks.render(template, parsed_json);
 
           const data = new Uint8Array(Buffer.from(html));
@@ -86,14 +87,14 @@ function render_html_from_json_ld_file(target, template, filename, output_filena
           console.log('start writing');
           fs.writeFile(output_filename, data, (err) => {
             if (err) {
-		        // Set the exit code if there's a problem so bash sees it
-		        process.exitCode = 1
-                throw err;
+              // Set the exit code if there's a problem so bash sees it
+              process.exitCode = 1
+              throw err;
             }
             console.log('The file has been saved to ' + output_filename);
-            });
+          });
 
-          }).catch(error => { console.error(error); process.exitCode = 1; } ) ;
-         })
-	.catch(error => { console.error(error); process.exitCode = 1; } ) 
+        }).catch(error => { console.error(error); process.exitCode = 1; });
+      })
+    .catch(error => { console.error(error); process.exitCode = 1; })
 }

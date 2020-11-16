@@ -35,7 +35,7 @@ console.log('done')
 
 /* ---- end of the program --- */
 
-function render_context_from_json_ld_file (filename, output_filename, language) {
+function render_context_from_json_ld_file(filename, output_filename, language) {
   console.log('start reading')
   jsonfile.readFile(filename)
     .then(
@@ -65,7 +65,7 @@ function render_context_from_json_ld_file (filename, output_filename, language) 
  * identify duplicates by iterating over the list and comparing if the same term is
  * being used to identify multiple values
  */
-function identify_duplicates (properties, language) {
+function identify_duplicates(properties, language) {
   var acc = new Map()
   acc = properties.reduce(function (accumulator, currentValue, currentIndex, array) {
     return urireducer(accumulator, currentValue, currentIndex, array, 'nl')
@@ -100,7 +100,7 @@ const capitalizeFirst = (s) => {
 
 // auxiliary function to convert to camelcase with dealing special cases
 // TODO: what are the guidelines for contextual scoping in the labels?
-function toCamelCase (str) {
+function toCamelCase(str) {
   str = camelCase(str)
   // console.log(str)
   str = str.replace(/\s\(source\)/g, '(source)').replace(/\s\(target\)/g, '(target)')
@@ -109,7 +109,7 @@ function toCamelCase (str) {
 };
 
 // map an entity prop to its term
-function map_identifier (prop, language) {
+function map_identifier(prop, language) {
   let identifier = ''
   if (program.useLabels === 'label') {
     if (prop.label && prop.label[language]) {
@@ -127,7 +127,7 @@ function map_identifier (prop, language) {
 };
 
 // create a map (term -> list of uri)
-function urireducer (accumulator, currentValue, currentIndex, array, language) {
+function urireducer(accumulator, currentValue, currentIndex, array, language) {
   let currentlist = []
   const term = map_identifier(currentValue, language)
   if (accumulator.has(term)) {
@@ -140,7 +140,7 @@ function urireducer (accumulator, currentValue, currentIndex, array, language) {
   return accumulator
 };
 
-function get_EAname (entities, language) {
+function get_EAname(entities, language) {
   let acc = new Map()
   acc = entities.reduce(function (accumulator, currentValue, currentIndex, array) {
     return EAname(accumulator, currentValue, currentIndex, array, language)
@@ -150,7 +150,7 @@ function get_EAname (entities, language) {
 }
 
 // create a map (EA-Name -> term)
-function EAname (accumulator, currentValue, currentIndex, array, language) {
+function EAname(accumulator, currentValue, currentIndex, array, language) {
   let currentlist = []
   const term = map_identifier(currentValue, language)
   const eaname = currentValue.extra['EA-Name']
@@ -200,7 +200,7 @@ function join_contexts (context, value, key, map) {
 };
 */
 
-function make_context (classes, properties, externals, externalproperties) {
+function make_context(classes, properties, externals, externalproperties) {
   console.log('make context')
 
   var context = new Map()
@@ -221,21 +221,21 @@ function make_context (classes, properties, externals, externalproperties) {
    a context file per applicationprofile per class
    This requires knowledge in the input about the class hierarchy
 */
-function map_class (c, language) {
+function map_class(c, language) {
   const mapping = new Map()
   const identifier = map_identifier(c, language)
   mapping.set(capitalizeFirst(identifier), c['@id'])
   return mapping
 };
 
-function classes (json, language) {
+function classes(json, language) {
   const classes = json.classes
   let classmapping = new Map()
   classmapping = classes.map(x => map_class(x, language))
   return classmapping
 }
 
-function map_properties (eanamesclasses, duplicates, prop, language) {
+function map_properties(eanamesclasses, duplicates, prop, language) {
   var mapping = new Map()
 
   var range
@@ -253,7 +253,7 @@ function map_properties (eanamesclasses, duplicates, prop, language) {
       range = prop.range[0]
     };
     range_uri = range.uri
-  } ;
+  };
   let atType = ''
   if (prop['@type'] === 'http://www.w3.org/2002/07/owl#ObjectProperty') {
     atType = '@id'
@@ -304,7 +304,7 @@ function map_properties (eanamesclasses, duplicates, prop, language) {
   return mapping
 }
 
-function properties (eanamesclasses, duplicates, json, language) {
+function properties(eanamesclasses, duplicates, json, language) {
   var props = json.properties
 
   var propertymapping = new Map()
@@ -313,14 +313,14 @@ function properties (eanamesclasses, duplicates, json, language) {
   return propertymapping
 }
 
-function map_external (c, language) {
+function map_external(c, language) {
   const mapping = new Map()
   const identifier = map_identifier(c, language)
   mapping.set(capitalizeFirst(identifier), c['@id'])
   return mapping
 };
 
-function externals (json, language) {
+function externals(json, language) {
   const externs = json.externals
 
   let externalmapping = new Map()
@@ -329,7 +329,7 @@ function externals (json, language) {
   return externalmapping
 }
 
-function externalproperties (eanamesclasses, duplicates, json, language) {
+function externalproperties(eanamesclasses, duplicates, json, language) {
   var externs = json.externalproperties
 
   var externalmapping = new Map()

@@ -34,7 +34,7 @@ console.log('done')
 
 /* ---- end of the program --- */
 
-function render_updated_file_from_json_ld_file (filename, primeLanguage, goalLanguage, updatedFile, outputfilename) {
+function render_updated_file_from_json_ld_file(filename, primeLanguage, goalLanguage, updatedFile, outputfilename) {
   console.log('Prime Language: ' + primeLanguage)
   console.log('Goal Language: ' + goalLanguage)
   console.log('filename: ' + filename)
@@ -48,26 +48,26 @@ function render_updated_file_from_json_ld_file (filename, primeLanguage, goalLan
         jsonfile.readFile(updatedFile)
           .then(
             function (updated) {
-            console.log('start processing')
-        
-            var myJson = compare_files(original, updated, primeLanguage, goalLanguage)
-            //var output_filename = get_outputFilename (filename)
-            
-            jsonfile.writeFile(outputfilename, myJson)
-              .then(res => {
-                console.log('Write complete; The original file was updated to: ' + outputfilename)
-              })
-              .catch(error => { console.error(error); process.exitCode = 1 })
+              console.log('start processing')
+
+              var myJson = compare_files(original, updated, primeLanguage, goalLanguage)
+              //var output_filename = get_outputFilename (filename)
+
+              jsonfile.writeFile(outputfilename, myJson)
+                .then(res => {
+                  console.log('Write complete; The original file was updated to: ' + outputfilename)
+                })
+                .catch(error => { console.error(error); process.exitCode = 1 })
 
             }
           )
-        .catch(error => { console.error(error); process.exitCode = 1 })
+          .catch(error => { console.error(error); process.exitCode = 1 })
       }
     )
     .catch(error => { console.error(error); process.exitCode = 1 })
 }
 
-function compare_files (translatedJson, updatedJson, primeLanguage, goalLanguage) {
+function compare_files(translatedJson, updatedJson, primeLanguage, goalLanguage) {
   var json = new Object()
   var classArray = checkClasses(translatedJson, updatedJson, primeLanguage, goalLanguage)
   var propertyArray = checkProperties(translatedJson, updatedJson, primeLanguage, goalLanguage)
@@ -79,7 +79,7 @@ function compare_files (translatedJson, updatedJson, primeLanguage, goalLanguage
   return json
 }
 
-function set_base_URI (json, translatedJson) {
+function set_base_URI(json, translatedJson) {
   if (!(translatedJson['baseURI'] === undefined)) {
     json['baseURI'] = translatedJson['baseURI']
   }
@@ -88,7 +88,7 @@ function set_base_URI (json, translatedJson) {
 
 //Iterate through classes of the input and get the equivalent class in the updated version through their ID,
 //Create new class-array for the updated classes
-function checkClasses (translatedJson, updatedJson, primeLanguage, goalLanguage) {
+function checkClasses(translatedJson, updatedJson, primeLanguage, goalLanguage) {
   console.log('Checking classes...')
 
   var classArray = new Array()
@@ -104,7 +104,7 @@ function checkClasses (translatedJson, updatedJson, primeLanguage, goalLanguage)
 
 //Iterate through properties of the input and get the equivalent property in the updated version through their ID,
 //Create new property-array for the updated properties
-function checkProperties (translatedJson, updatedJson, primeLanguage, goalLanguage) {
+function checkProperties(translatedJson, updatedJson, primeLanguage, goalLanguage) {
   console.log('Checking properties...')
 
   var propertyArray = new Array()
@@ -113,7 +113,7 @@ function checkProperties (translatedJson, updatedJson, primeLanguage, goalLangua
     var elementToCompare = get_matching_property(input, updatedJson)
     if (elementToCompare != null) {
       propertyArray.push(compareObject(input, elementToCompare, primeLanguage, goalLanguage, read_exisiting_attributes(input)))
-    }  
+    }
   }
   return propertyArray
 }
@@ -122,9 +122,9 @@ function checkProperties (translatedJson, updatedJson, primeLanguage, goalLangua
 iterate through arguments of the inserted objects input and updated. If updated has additional values that require translation (attributes with
 language tags), add those to the input file. If some of the attributes in the existing input are deleted in the updated version, delete them, too.
 */
-function compareObject (input, updated, primeLanguage, goalLanguage, keys) {
+function compareObject(input, updated, primeLanguage, goalLanguage, keys) {
   for (let [key, value] of Object.entries(updated)) {
-    if (!(updated[key] === undefined) && !(updated[key][primeLanguage] === undefined) && !(updated[key]!="")) {
+    if (!(updated[key] === undefined) && !(updated[key][primeLanguage] === undefined) && !(updated[key] != "")) {
       //valid means that the attribute is not just a modification of an existing attribute (e.g. label - ap-label-nl)
       var valid = value_is_valid(key, keys)
       if (valid == true) {
@@ -142,23 +142,23 @@ function compareObject (input, updated, primeLanguage, goalLanguage, keys) {
 
 //check if attribute still exists in updated jsonld & delete it if not
 function removeDeletedObjects(input, inputkeys, updatedkeys) {
-  for (var i = 0; i < inputkeys.length; i ++) {
+  for (var i = 0; i < inputkeys.length; i++) {
     key = inputkeys[i]
     if (!(updatedkeys.includes(key))) {
-      delete input[key] 
+      delete input[key]
     }
   }
   return input
 }
 
-function add_new_field (input, updated, key, primeLanguage, goalLanguage) {
-  input[key] = new Object ()
+function add_new_field(input, updated, key, primeLanguage, goalLanguage) {
+  input[key] = new Object()
   input[key][primeLanguage] = updated[key][primeLanguage]
   input[key][goalLanguage] = 'Please enter your translation here'
   return input
 }
 
-function read_exisiting_attributes (objects) {
+function read_exisiting_attributes(objects) {
   var keys = new Array()
   for (let [key, value] of Object.entries(objects)) {
     keys.push(key)
@@ -166,7 +166,7 @@ function read_exisiting_attributes (objects) {
   return keys
 }
 
-function get_matching_class (inputClass, updatedJson) {
+function get_matching_class(inputClass, updatedJson) {
   for (i = 0; i < updatedJson.classes.length; i++) {
     if (updatedJson.classes[i]['@id'] == inputClass['@id']) {
       return updatedJson.classes[i]
@@ -175,7 +175,7 @@ function get_matching_class (inputClass, updatedJson) {
   return null
 }
 
-function get_matching_property (inputClass, updatedJson) {
+function get_matching_property(inputClass, updatedJson) {
   for (i = 0; i < updatedJson.properties.length; i++) {
     if (updatedJson.properties[i]['@id'] == inputClass['@id']) {
       return updatedJson.properties[i]
@@ -201,7 +201,7 @@ const capitalizeFirst = (s) => {
 
 // auxiliary function to convert to camelcase with dealing special cases
 // TODO: what are the guidelines for contextual scoping in the labels?
-function toCamelCase (str) {
+function toCamelCase(str) {
   str = camelCase(str)
   // console.log(str)
   str = str.replace(/\s\(source\)/g, '(source)').replace(/\s\(target\)/g, '(target)')
@@ -210,7 +210,7 @@ function toCamelCase (str) {
 };
 
 // map an entity prop to its term
-function map_identifier (prop) {
+function map_identifier(prop) {
   let identifier = ''
   if (program.useLabels === 'label') {
     if (prop.label && prop.label.nl) {
@@ -228,7 +228,7 @@ function map_identifier (prop) {
 };
 
 // create a map (term -> list of uri)
-function urireducer (accumulator, currentValue, currentIndex, array) {
+function urireducer(accumulator, currentValue, currentIndex, array) {
   let currentlist = []
   const term = map_identifier(currentValue)
   if (accumulator.has(term)) {
@@ -247,7 +247,7 @@ function urireducer (accumulator, currentValue, currentIndex, array) {
 const accContext = (accumulator, currentValue) =>
   accumulator.addEach(currentValue)
 
-function make_context (classes, properties, externals, externalproperties) {
+function make_context(classes, properties, externals, externalproperties) {
   console.log('make context')
 
   var context = new Map()
@@ -268,21 +268,21 @@ function make_context (classes, properties, externals, externalproperties) {
    a context file per applicationprofile per class
    This requires knowledge in the input about the class hierarchy
 */
-function map_class (c) {
+function map_class(c) {
   const mapping = new Map()
   const identifier = map_identifier(c)
   mapping.set(capitalizeFirst(identifier), c['@id'])
   return mapping
 };
 
-function classes (json) {
+function classes(json) {
   const classes = json.classes
   let classmapping = new Map()
   classmapping = classes.map(x => map_class(x))
   return classmapping
 }
 
-function map_properties (eanamesclasses, duplicates, prop) {
+function map_properties(eanamesclasses, duplicates, prop) {
   var mapping = new Map()
 
   var range
@@ -300,7 +300,7 @@ function map_properties (eanamesclasses, duplicates, prop) {
       range = prop.range[0]
     };
     range_uri = range.uri
-  } ;
+  };
   let atType = ''
   if (prop['@type'] === 'http://www.w3.org/2002/07/owl#ObjectProperty') {
     atType = '@id'
@@ -351,7 +351,7 @@ function map_properties (eanamesclasses, duplicates, prop) {
   return mapping
 }
 
-function properties (eanamesclasses, duplicates, json) {
+function properties(eanamesclasses, duplicates, json) {
   var props = json.properties
 
   var propertymapping = new Map()

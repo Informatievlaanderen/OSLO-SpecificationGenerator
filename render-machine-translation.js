@@ -10,7 +10,7 @@ var endpoint = "https://api.cognitive.microsofttranslator.com";
 program
   .version('0.0.1')
   .usage('node render-machine-translation.js creates a translation of a jsonld file based on existing values')
-  .option('-i, --input <path>', 'input file to validate (a json file)')
+  .option('-i, --input <path>', 'input file to validate (a jsonld file)')
   .option('-g, --goalLanguage <languagecode>', 'the language that shall be translated to (a languagecode)')
   .option('-m, --mainLanguage <languagecode>', 'the language that shall be translated from (a languagecode)')
   .option('-o, --output <path>', 'output file (a jsonld file)')

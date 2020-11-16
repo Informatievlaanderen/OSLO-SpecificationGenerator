@@ -32,7 +32,7 @@ require('collections/shim-array')
 // by the nunjucks template.
 //
 // @param filename the name of the file that contains the json ld representation
-async function parse_ontology_from_json_ld_file_voc (json_ld_file, hostname, language) {
+async function parse_ontology_from_json_ld_file_voc(json_ld_file, hostname, language) {
   var ld = JSON.parse(fs.readFileSync(json_ld_file, 'utf-8'))
   const expanded = await jsonld.expand(ld)
   console.log('html will be generated in: ' + language)
@@ -93,7 +93,7 @@ async function parse_ontology_from_json_ld_file_voc (json_ld_file, hostname, lan
   }
 };
 
-async function parse_ontology_from_json_ld_file_ap (json_ld_file, hostname, forceskos) {
+async function parse_ontology_from_json_ld_file_ap(json_ld_file, hostname, forceskos) {
   var ld = JSON.parse(fs.readFileSync(json_ld_file, 'utf-8'))
   const expanded = await jsonld.expand(ld)
   // console.log(JSON.stringify(expanded));
@@ -140,7 +140,7 @@ async function parse_ontology_from_json_ld_file_ap (json_ld_file, hostname, forc
   }
 };
 
-async function parse_ontology_from_json_ld_file_all (json_ld_file, hostname, forceskos, language) {
+async function parse_ontology_from_json_ld_file_all(json_ld_file, hostname, forceskos, language) {
   var ld = JSON.parse(fs.readFileSync(json_ld_file, 'utf-8'))
   const expanded = await jsonld.expand(ld)
   // console.log(JSON.stringify(expanded));
@@ -188,7 +188,7 @@ async function parse_ontology_from_json_ld_file_all (json_ld_file, hostname, for
   }
 };
 
-async function parse_ontology_from_json_ld_file_oj (json_ld_file, hostname, forceskos, language) {
+async function parse_ontology_from_json_ld_file_oj(json_ld_file, hostname, forceskos, language) {
   var ld = JSON.parse(fs.readFileSync(json_ld_file, 'utf-8'))
   expanded = await jsonld.expand(ld)
   // console.log(JSON.stringify(expanded));
@@ -244,7 +244,7 @@ async function parse_ontology_from_json_ld_file_oj (json_ld_file, hostname, forc
   }
 };
 
-async function parse_json_ld_file_to_exampletemplates (json_ld_file, hostname, language) {
+async function parse_json_ld_file_to_exampletemplates(json_ld_file, hostname, language) {
   var ld = JSON.parse(fs.readFileSync(json_ld_file, 'utf-8'))
   const expanded = await jsonld.expand(ld)
   // console.log(JSON.stringify(expanded));
@@ -284,13 +284,13 @@ async function parse_json_ld_file_to_exampletemplates (json_ld_file, hostname, l
 //   - variant 1: include only those which are identified as full members of the document
 //   - variant 2: include all classes and properties
 //
-function group_properties_per_class (json) {
+function group_properties_per_class(json) {
   var classes = json.classes
   var properties = json.properties
   return group_properties_per_class2(classes, properties, json)
 };
 
-function group_properties_per_class_all (json) {
+function group_properties_per_class_all(json) {
   var classes = json.classes
   classes = classes.concat(json.externals)
   var properties = json.properties
@@ -299,7 +299,7 @@ function group_properties_per_class_all (json) {
   return group_properties_per_class2(classes, properties, json)
 };
 
-function group_properties_per_class2 (classes, properties, json) {
+function group_properties_per_class2(classes, properties, json) {
   var grouped = new Map()
   var domain = []
   var v = []
@@ -331,7 +331,7 @@ function group_properties_per_class2 (classes, properties, json) {
 };
 
 // note assumed is that EA-Parents is just a single value
-function class_hierarchy_parents (classes) {
+function class_hierarchy_parents(classes) {
   var hierarchy = new Map()
 
   for (var key in classes) {
@@ -340,7 +340,7 @@ function class_hierarchy_parents (classes) {
   return hierarchy
 };
 // support EA-Parents2 which is a list
-function class_hierarchy_parents2 (classes) {
+function class_hierarchy_parents2(classes) {
   var hierarchy = new Map()
 
   for (var key in classes) {
@@ -352,7 +352,7 @@ function class_hierarchy_parents2 (classes) {
 };
 
 // note assumed is that EA-Parents is just a single value
-function class_hierarchy_childern (classes) {
+function class_hierarchy_childern(classes) {
   var hierarchy = new Map()
 
   for (var key in classes) {
@@ -361,7 +361,7 @@ function class_hierarchy_childern (classes) {
   return hierarchy
 };
 
-function class_hierarchy_childern2 (classes) {
+function class_hierarchy_childern2(classes) {
   var hierarchy = new Map()
 
   for (var key in classes) {
@@ -373,7 +373,7 @@ function class_hierarchy_childern2 (classes) {
 };
 
 // extensional_hierachy
-function class_hierarchy_extensional (classes) {
+function class_hierarchy_extensional(classes) {
   var hierarchy = new Map()
   var ext_hierarchy = new Map()
   var parents = []
@@ -391,7 +391,7 @@ function class_hierarchy_extensional (classes) {
   return ext_hierarchy
 };
 
-function class_hierarchy_extensional2 (classes) {
+function class_hierarchy_extensional2(classes) {
   var hierarchy = new Map()
   var ext_hierarchy = new Map()
   var parents = []
@@ -411,7 +411,7 @@ function class_hierarchy_extensional2 (classes) {
   return ext_hierarchy
 };
 
-function class_parents (level, hierarchy, c) {
+function class_parents(level, hierarchy, c) {
   if (level < 1) {
     console.log('ERROR: the derivation of the parents hit the limit for ' + c)
     return []
@@ -437,7 +437,7 @@ function class_parents (level, hierarchy, c) {
 //
 // unique_elements in arrqy
 //
-function array_unique_elements (array) {
+function array_unique_elements(array) {
   var m = new Map()
 
   for (var e in array) {
@@ -451,7 +451,7 @@ function array_unique_elements (array) {
 // map_array = map(key, [ ... ] )
 //
 // pushes a single value for a key to the map_array
-function push_value_to_map_array (mamap, key, value) {
+function push_value_to_map_array(mamap, key, value) {
   var v = []
   if (mamap.has(key)) {
     v = mamap.get(key)
@@ -468,7 +468,7 @@ function push_value_to_map_array (mamap, key, value) {
 
 //
 // add the classes serialised according to the childeren serialization...
-function group_properties_per_class_using_hierarchy (hierarchy, grouped) {
+function group_properties_per_class_using_hierarchy(hierarchy, grouped) {
   var hierarchy_grouped = new Map()
   var v = []
   var vv = []
@@ -496,7 +496,7 @@ function group_properties_per_class_using_hierarchy (hierarchy, grouped) {
 //    * property_range = the EA-range of the property
 //    scoped_range =
 //    HARDCODED SELECTION OF .nl label
-function map_range (dependencies, package_map, property_range, property_range_uri, range_label, range_package) {
+function map_range(dependencies, package_map, property_range, property_range_uri, range_label, range_package) {
   if (package_map.has(property_range)) {
     // if it has a package then it is at least defined in the local space
     scoped_range = dependencies.reduce(function (acc, elem) {
@@ -511,11 +511,11 @@ function map_range (dependencies, package_map, property_range, property_range_ur
       }
       return acc
     },
-    {
-      range_uri: '#' + range_label.nl,
-      range_puri: property_range_uri,
-      range_label: range_label
-    }
+      {
+        range_uri: '#' + range_label.nl,
+        range_puri: property_range_uri,
+        range_label: range_label
+      }
     )
   } else {
     // not part of any package
@@ -530,11 +530,11 @@ function map_range (dependencies, package_map, property_range, property_range_ur
       }
       return acc
     },
-    {
-      range_uri: property_range_uri,
-      range_puri: property_range_uri,
-      range_label: range_label
-    }
+      {
+        range_uri: property_range_uri,
+        range_puri: property_range_uri,
+        range_label: range_label
+      }
     )
   }
 
@@ -543,7 +543,7 @@ function map_range (dependencies, package_map, property_range, property_range_ur
 
 // if the class is member of the package_map (means the class is mentioned on the document)
 // then it gets a scoped url, otherwise it uses the default.
-function get_scoped_class_uri (dependencies, package_map, myname, mypackage, mylabel, mydefault) {
+function get_scoped_class_uri(dependencies, package_map, myname, mypackage, mylabel, mydefault) {
   // start with the default
   var scoped_class_uri = mydefault
   // if part of the published classes use relative scoped url
@@ -557,7 +557,7 @@ function get_scoped_class_uri (dependencies, package_map, myname, mypackage, myl
     }
     return acc
   },
-  scoped_class_uri
+    scoped_class_uri
   )
 
   return scoped_class_uri
@@ -565,7 +565,7 @@ function get_scoped_class_uri (dependencies, package_map, myname, mypackage, myl
 
 // note assumed is that EA-Parents is just a single value
 // map: EA-Name -> EA-Package
-function get_package_map (json) {
+function get_package_map(json) {
   var classes = json.classes.concat(json.externals)
   var package_map = new Map()
 
@@ -576,7 +576,7 @@ function get_package_map (json) {
 };
 
 // map: EA-Name -> label
-function get_classid_map (json) {
+function get_classid_map(json) {
   var classes = json.classes.concat(json.externals)
   var classid_map = new Map()
 
@@ -588,7 +588,7 @@ function get_classid_map (json) {
   return classid_map
 };
 
-function get_classid (classid_map, eaname) {
+function get_classid(classid_map, eaname) {
   var classid = { nl: eaname }
   if (classid_map.has(eaname)) {
     classid = classid_map.get(eaname)
@@ -598,7 +598,7 @@ function get_classid (classid_map, eaname) {
 
 //
 // map EA-classnames to codelists
-function getcodelist (json) {
+function getcodelist(json) {
   var classes = json.classes
   classes = classes.concat(json.externals)
 
@@ -614,7 +614,7 @@ function getcodelist (json) {
 //
 // make the classes structure based on the grouping
 //
-function make_nj_classes2 (classes, grouped) {
+function make_nj_classes2(classes, grouped) {
   console.log('make nunjuncks classes')
 
   var nj_classes = []
@@ -675,7 +675,7 @@ function make_nj_classes2 (classes, grouped) {
   return nj_classes
 };
 
-function make_nj_classes (classes, grouped, aux, language) {
+function make_nj_classes(classes, grouped, aux, language) {
   console.log('make nunjuncks classes')
 
   var nj_classes = []
@@ -689,7 +689,7 @@ function make_nj_classes (classes, grouped, aux, language) {
   return nj_classes
 };
 
-function make_nj_datatypes (classes, grouped, aux, language) {
+function make_nj_datatypes(classes, grouped, aux, language) {
   console.log('make nunjuncks classes')
 
   var nj_classes = []
@@ -703,7 +703,7 @@ function make_nj_datatypes (classes, grouped, aux, language) {
   return nj_classes
 };
 
-function make_nj_enumerations (classes) {
+function make_nj_enumerations(classes) {
   console.log('make nunjuncks enumerations ')
 
   var nj_classes = []
@@ -717,7 +717,7 @@ function make_nj_enumerations (classes) {
   return nj_classes
 };
 
-function make_nj_enumeration (element) {
+function make_nj_enumeration(element) {
   // basic enum data
   var nj_enumeration = {
     uri: element['@id'],
@@ -735,7 +735,7 @@ function make_nj_enumeration (element) {
    grouped = an auxiliary structure which contains all properties per class
    aux = an auxiliary structure consisting of a codelists, package_map, dependency information
 */
-function make_nj_class (element, grouped, aux, language) {
+function make_nj_class(element, grouped, aux, language) {
   var codelist = aux.codelist
   var dependencies = aux.dependencies
   var package_map = aux.package_map
@@ -747,7 +747,7 @@ function make_nj_class (element, grouped, aux, language) {
   // basic class data
   var nj_class = {
     uri: element['@id'],
-    name: get_language_attribute(element.name,language),
+    name: get_language_attribute(element.name, language),
     sort: get_language_attribute(element.name, language),
     description: get_language_attribute(element.description, language),
     usage: get_language_attribute(element.usage, language)
@@ -755,12 +755,12 @@ function make_nj_class (element, grouped, aux, language) {
   // if the class is actually a reuse of an class from another applicationprofile
   var scoped_class_uri = dependencies.reduce(function (acc, elem) {
     if (elem.package === element.extra['EA-Package']) {
-    // a dependency has been defined for this class
+      // a dependency has been defined for this class
       acc = elem.packageurl + '#' + element.extra['EA-Name']
     }
     return acc
   },
-  ''
+    ''
   )
   if (scoped_class_uri !== '') {
     nj_class.scopeduri = scoped_class_uri
@@ -779,7 +779,7 @@ function make_nj_class (element, grouped, aux, language) {
     acc.push(elem)
     return acc
   },
-  []
+    []
   )
   nj_class.parents = scoped_parents
 
@@ -866,7 +866,7 @@ function make_nj_class (element, grouped, aux, language) {
       prop = {
         uri: value['@id'],
         name: get_language_attribute(value.name, language),
-        sort: get_language_attribute(value.name,language),
+        sort: get_language_attribute(value.name, language),
         description: get_language_attribute(value.description, language),
         usage: get_language_attribute(value.usage, language),
         domain: value.domain,
@@ -882,7 +882,7 @@ function make_nj_class (element, grouped, aux, language) {
   return nj_class
 };
 
-function make_nj_class_voc (element, language) {
+function make_nj_class_voc(element, language) {
   var nj_class = {
     uri: element['@id'],
     name: get_language_attribute(element.name, language),
@@ -896,7 +896,7 @@ function make_nj_class_voc (element, language) {
   return nj_class
 };
 
-function get_language_attribute (attribute, language) {
+function get_language_attribute(attribute, language) {
   for (let [key, value] of Object.entries(attribute)) {
     if (key != language) {
       delete attribute[key]
@@ -907,7 +907,7 @@ function get_language_attribute (attribute, language) {
   return attribute
 }
 
-function get_language_value (attribute, language) {
+function get_language_value(attribute, language) {
   if (!(attribute === undefined) && !(attribute[language] === undefined)) {
     return attribute[language]
   }
@@ -916,7 +916,7 @@ function get_language_value (attribute, language) {
   }
 }
 
-function make_nj_ext_class_voc (element, language) {
+function make_nj_ext_class_voc(element, language) {
   var nj_class = {
     uri: element['@id'],
     name: get_language_attribute(element.name, language),
@@ -955,7 +955,7 @@ function make_nj_ext_class_voc (element, language) {
 
 
 //TODO Why does this only work with String value, not object (no "description":{"en:" "String@en"} but "description":"String@en")
-function make_nj_prop_voc (element, codelist, language) {
+function make_nj_prop_voc(element, codelist, language) {
   var domain = element.domain.reduce(function (racc, relem) {
     if (relem['EA-Name']) {
       racc.push(relem.uri)
@@ -995,10 +995,10 @@ function make_nj_prop_voc (element, codelist, language) {
 
 //TODO Why does this only work with value and not attribute? -> doesnt work when eg "description":{"en" : "english", "nl":"netherlands"} but only with "description":"english"
 
-function make_nj_ext_prop_voc (element, codelist, language) {
+function make_nj_ext_prop_voc(element, codelist, language) {
   var nj_prop = {
     uri: element['@id'],
-    name: get_language_value(element.name, language), 
+    name: get_language_value(element.name, language),
     description: get_language_value(element.description, language),
     usage: get_language_value(element.usage, language),
     sort: get_language_value(element.name, language)
@@ -1033,7 +1033,7 @@ function make_nj_ext_prop_voc (element, codelist, language) {
   return nj_prop
 };
 
-function make_nj_properties_from_classes (nj_classes) {
+function make_nj_properties_from_classes(nj_classes) {
   var mylist = nj_classes.reduce(function (acc, elem) {
     acc.push(elem.properties)
     return acc
@@ -1050,7 +1050,7 @@ function make_nj_properties_from_classes (nj_classes) {
 // For an example please refer to the README.md.
 //
 // @param expanded the root class as it is being read by jsonld
-function extract_classes_from_expanded_json (expanded) {
+function extract_classes_from_expanded_json(expanded) {
   var classes = []
   const reverses = expanded['@reverse']
   var defined_enitities = reverses[uris.IS_DEFINED_BY]
@@ -1120,7 +1120,7 @@ function     extract_classes_from_expanded_json(expanded) {
 // @param expanded the root class that was parsed by jsonld
 // @param domain a string containing the URI of the class that you want the
 //               domain to be restricted to
-function extract_all_properties_with_domain_from_expanded_json (expanded, domain) {
+function extract_all_properties_with_domain_from_expanded_json(expanded, domain) {
   var properties = []
   const reverses = expanded['@reverse']
   var defined_enitities = reverses[uris.IS_DEFINED_BY]
@@ -1160,7 +1160,7 @@ function extract_all_properties_with_domain_from_expanded_json (expanded, domain
 // For an example please refer to the README.md.
 //
 // @param expanded the root class as it is being read by jsonld
-function extract_datatypes_from_expanded_json (expanded) {
+function extract_datatypes_from_expanded_json(expanded) {
   var datatypes = []
   reverses = expanded['@reverse']
   var defined_enitities = reverses[uris.IS_DEFINED_BY]
@@ -1194,7 +1194,7 @@ function extract_datatypes_from_expanded_json (expanded) {
 // For an example please refer to the README.md.
 //
 // @param expanded the root class as it is being read by jsonld
-function extract_properties_from_expanded_json (expanded) {
+function extract_properties_from_expanded_json(expanded) {
   var properties = []
   reverses = expanded['@reverse']
   var defined_enitities = reverses[uris.IS_DEFINED_BY]
@@ -1248,7 +1248,7 @@ function extract_properties_from_expanded_json (expanded) {
 // ]
 //
 // @param expanded the root class as it is being read by jsonld
-function make_nj_person (element, type) {
+function make_nj_person(element, type) {
   var nj_person = {
     role: type,
     first_name: element['foaf:firstName'],
@@ -1266,7 +1266,7 @@ function make_nj_person (element, type) {
   return nj_person
 }
 
-function extract_contributors_from_expanded_json (expanded) {
+function extract_contributors_from_expanded_json(expanded) {
   var contributors = []
   contributors = contributors.concat(_extract_contributors_from_expanded_json(expanded[uris.AUTHORS], 'A'))
   contributors = contributors.concat(_extract_contributors_from_expanded_json(expanded[uris.EDITORS], 'E'))
@@ -1276,7 +1276,7 @@ function extract_contributors_from_expanded_json (expanded) {
 
 // private supporting method for the extract contributors from expanded json
 // function that makes abstractions of the connecting properties and role codes
-function _extract_contributors_from_expanded_json (expanded_people, role) {
+function _extract_contributors_from_expanded_json(expanded_people, role) {
   var people = []
   for (const i in expanded_people) {
     var person = expanded_people[i]
@@ -1300,7 +1300,7 @@ function _extract_contributors_from_expanded_json (expanded_people, role) {
   return people
 };
 
-function _get_affiliation_homepage (person) {
+function _get_affiliation_homepage(person) {
   // There might not be a HOMEPAGE defined
   try {
     return person[uris.AFFILIATION][0][uris.HOMEPAGE][0]['@value']
@@ -1329,7 +1329,7 @@ function _get_affiliation_homepage (person) {
 // ]
 //
 // @param expanded the root class as it is being read by jsonld
-function extract_externals_from_expanded_json (expanded) {
+function extract_externals_from_expanded_json(expanded) {
   var externals = []
   var defined_externals = expanded[uris.EXTERNALS]
   for (const i in defined_externals) {
@@ -1357,7 +1357,7 @@ function extract_externals_from_expanded_json (expanded) {
 
 // the values in this config will be always Dutch
 // translation (EN, FR, ...) are collected from other sources
-function make_nj_metadata (json, hostname) {
+function make_nj_metadata(json, hostname) {
   var hn = json.hostname
   if (hn == null) {
     hn = (hostname != null) ? hostname : 'https://data.vlaanderen.be'
@@ -1430,7 +1430,7 @@ function make_nj_metadata (json, hostname) {
   return meta
 };
 
-function extract_metadata_from_expanded_json (expanded) {
+function extract_metadata_from_expanded_json(expanded) {
   var meta = {
     title: extract_language_strings(expanded[uris.NAME]),
     uri: expanded['@id']
@@ -1464,7 +1464,7 @@ function extract_metadata_from_expanded_json (expanded) {
 //
 // @param classname the name of the class that is being checked
 // @param types an array of strings representing types
-function class_in_type (classname, types) {
+function class_in_type(classname, types) {
   for (const i in types) {
     var type = types[i]
     if (type.indexOf(classname) > -1) {
@@ -1486,7 +1486,7 @@ function class_in_type (classname, types) {
 //
 // @param expanded_string_bags an array of string as they are being
 //                             parsed by jsonld
-function extract_language_strings (expanded_string_bag) {
+function extract_language_strings(expanded_string_bag) {
   var bag = {}
   for (const i in expanded_string_bag) {
     var language_string = expanded_string_bag[i]
@@ -1506,7 +1506,7 @@ function extract_language_strings (expanded_string_bag) {
 //
 // @param expanded_string_bags an array of string as they are being
 //                             parsed by jsonld
-function extract_strings (expanded_string_bag) {
+function extract_strings(expanded_string_bag) {
   var bag = []
   for (const i in expanded_string_bag) {
     var string = expanded_string_bag[i]
@@ -1527,7 +1527,7 @@ function extract_strings (expanded_string_bag) {
 // > "house"
 //
 // @param expanded_property the property whose value is being extracted
-function extract_functional_property (expanded_property) {
+function extract_functional_property(expanded_property) {
   if (expanded_property.length > 0) {
     return expanded_property[0]['@value']
   }
