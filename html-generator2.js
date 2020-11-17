@@ -35,12 +35,13 @@ program.on('--help', function () {
 program.parse(process.argv);
 
 var templatedir = program.templatedir || '/app/views';
+//var templatedir = program.templatedir || './views/';
 nunjucks.configure(templatedir, {
   autoescape: true
 });
 
 render_html_from_json_ld_file(program.style, program.template, program.input, program.output, program.mainlanguage);
-//render_html_from_json_ld_file('voc', 'voc2_en.j2', '../workbench/Drafts/ldmerged.jsonld', '../workbench/Drafts/outputnewhtml.html', 'en')
+//render_html_from_json_ld_file('ap', 'ap2ext_en.j2', '..\\Demo\\mergedjsonld.jsonld', '.\\temp.html', 'en')
 console.log('done');
 
 
