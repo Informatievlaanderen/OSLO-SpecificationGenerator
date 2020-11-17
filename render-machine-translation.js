@@ -105,7 +105,8 @@ async function translateAnObject(object, mainlanguage, goallanguage) {
           (object[key][goallanguage] == "" && object[key][mainlanguage] != ""))) {
           var machinetranslated = goallanguage + "-t-" + mainlanguage
           if (object[key][machinetranslated] === undefined) {
-            object[key][machinetranslated] = await receiveAzureTranslation(object[key][mainlanguage], mainlanguage, goallanguage)
+            var translation = await receiveAzureTranslation(object[key][mainlanguage], mainlanguage, goallanguage)
+            object[key][machinetranslated] = await checkForUpperCase(object[key][mainlanguage], translation)
           }
         }
       }
@@ -114,6 +115,22 @@ async function translateAnObject(object, mainlanguage, goallanguage) {
   } catch (error) {
     console.error("An error occured while reading values of the object (function translateAnObject)")
     console.error("error", error);
+  }
+}
+
+async function checkForUpperCase(original, translated) {
+  try {
+    if (translated != null && translated != "") {
+      var firstCharTranslated = translated.charAt(0)
+      var firstCharOriginal = original.charAt(0)
+      if (firstCharTranslated == firstCharTranslated.toUpperCase() && firstCharOriginal != firstCharOriginal.toUpperCase()) {
+        return translated.toLowerCase()
+      }
+    }
+    return translated
+  } catch (error) {
+    console.error("An error occured while transforming the translation to lowercase (function checkForUpperCase)")
+    console.error("error: ", error);
   }
 }
 
