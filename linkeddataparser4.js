@@ -1366,7 +1366,7 @@ function extract_externals_from_expanded_json(expanded) {
 
 // the values in this config will be always Dutch
 // translation (EN, FR, ...) are collected from other sources
-function make_nj_metadata(json, hostname, language) {
+function make_nj_metadata(json, hostname) {
   var hn = json.hostname
   if (hn == null) {
     hn = (hostname != null) ? hostname : 'https://data.vlaanderen.be'
