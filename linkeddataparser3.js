@@ -1407,9 +1407,8 @@ function make_nj_metadata(json, hostname) {
     json.license = 'https://data.vlaanderen.be/id/licentie/modellicentie-gratis-hergebruik/v1.0'
   }
 
-  //TODO adjust title?
   var meta = {
-    title: { nl: json.title },
+    title:  json.title,
     uri: json['@id'],
     issued: json['publication-date'],
     baseURI: json.baseURI,

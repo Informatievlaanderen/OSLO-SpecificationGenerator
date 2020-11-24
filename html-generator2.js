@@ -2,7 +2,7 @@ const fs = require("fs");
 const jsonfile = require('jsonfile');
 const jsonld = require('jsonld');
 const nunjucks = require('nunjucks');
-const ldParser = require('./linkeddataparser4');
+const ldParser = require('./linkeddataparser3');
 
 
 var program = require('commander');
