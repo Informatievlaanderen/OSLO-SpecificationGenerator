@@ -40,12 +40,7 @@ function transform_json_ld_file_to_translatable_json(filename, primeLanguage, go
       function (obj) {
         console.log('start processing')
 
-        if (primeLanguage != goalLanguage) {
-          var myJson = get_shortened_json(obj, primeLanguage, goalLanguage)
-        } else {
-          console.log("WARNING The entered language values are the same!")
-          var myJson = get_shortened_json_for_equal_language(obj, primeLanguage)
-        }
+        var myJson = get_shortened_json(obj, primeLanguage, goalLanguage)
 
         //var output_filename = get_outputFilename (filename, goalLanguage)
         jsonfile.writeFile(outputfile, myJson)
@@ -59,37 +54,26 @@ function transform_json_ld_file_to_translatable_json(filename, primeLanguage, go
     .catch(error => { console.error(error); process.exitCode = 1 })
 }
 
-//reading/writing the relevant values
 function get_shortened_json(input, primeLanguage, goalLanguage) {
   var json = new Object()
   var classArray = new Array(Object)
   var propertyArray = new Array(Object)
 
-  for (i = 0; i < input.classes.length; i++) {
-    classArray[i] = create_shortened_class(input.classes[i], primeLanguage, goalLanguage)
-  }
-
-  for (i = 0; i < input.properties.length; i++) {
-    propertyArray[i] = create_shortened_property(input.properties[i], primeLanguage, goalLanguage)
-  }
-
-  json['baseURI'] = input['baseURI']
-  json.classes = classArray
-  json.properties = propertyArray
-  return json
-}
-
-function get_shortened_json_for_equal_language(input, language) {
-  var json = new Object()
-  var classArray = new Array(Object)
-  var propertyArray = new Array(Object)
-
-  for (i = 0; i < input.classes.length; i++) {
-    classArray[i] = create_shortened_class_one_language(input.classes[i], language)
-  }
-
-  for (i = 0; i < input.properties.length; i++) {
-    propertyArray[i] = create_shortened_property_one_language(input.properties[i], language)
+  if (primeLanguage != goalLanguage) {
+    for (i = 0; i < input.classes.length; i++) {
+      classArray[i] = create_shortened_object(input.classes[i], primeLanguage, goalLanguage)
+    }
+    for (i = 0; i < input.properties.length; i++) {
+      propertyArray[i] = create_shortened_object(input.properties[i], primeLanguage, goalLanguage)
+    }
+  } else {
+    console.log("WARNING The entered language values are the same!")
+    for (i = 0; i < input.classes.length; i++) {
+      classArray[i] = create_shortened_object_one_language(input.classes[i], primeLanguage)
+    }
+    for (i = 0; i < input.properties.length; i++) {
+      propertyArray[i] = create_shortened_object_one_language(input.properties[i], primeLanguage)
+    }
   }
 
   json['baseURI'] = input['baseURI']
@@ -99,23 +83,15 @@ function get_shortened_json_for_equal_language(input, language) {
 }
 
 //checks mandatory values: name, label, definintion, description & adds the id
-function create_shortened_class_one_language(classObject, language) {
+function create_shortened_object_one_language(classObject, language) {
   var shortClass = new Object()
   shortClass['@id'] = classObject['@id']
-  shortClass = get_one_langue_value(shortClass, classObject, "name", language)
+  shortClass = set_name(shortClass, classObject, language, language)
   shortClass = get_one_langue_value(shortClass, classObject, "label", language)
   shortClass = get_one_langue_value(shortClass, classObject, "definition", language)
-  shortClass = get_one_langue_value(shortClass, classObject, "description", language)
+  shortClass = get_one_langue_value(shortClass, classObject, "usage", language)
 
   return shortClass
-}
-
-//adds 'usage' to the necessary values
-function create_shortened_property_one_language(propertiesObject, language) {
-  shortProperty = create_shortened_class_one_language(propertiesObject, language)
-  shortProperty = get_one_langue_value(shortProperty, propertiesObject, "usage", language)
-
-  return shortProperty
 }
 
 function get_one_langue_value(shortClass, classObject, attribute, language) {
@@ -126,86 +102,35 @@ function get_one_langue_value(shortClass, classObject, attribute, language) {
   return shortClass
 }
 
-//checks mandatory values: name, label, definintion, description & adds the id
-function create_shortened_class(classObject, prime, goal) {
-  var shortClass = new Object()
-  shortClass['@id'] = classObject['@id']
-  shortClass = get_attribute(shortClass, classObject, "name", prime, goal)
-  shortClass = get_attribute(shortClass, classObject, "label", prime, goal)
-  shortClass = get_attribute(shortClass, classObject, "definition", prime, goal)
-  shortClass = get_attribute(shortClass, classObject, "description", prime, goal)
+function create_shortened_object(object, prime, goal) {
+  var shortObject = new Object()
+  shortObject['@id'] = object['@id']
+  shortObject = set_name(shortObject, object, prime, goal)
+  shortObject = get_attribute(shortObject, object, "label", prime, goal)
+  shortObject = get_attribute(shortObject, object, "definition", prime, goal)
+  shortObject = get_attribute(shortObject, object, "usage", prime, goal)
 
-  return shortClass
+  return shortObject
 }
 
-//adds 'usage' to the necessary values
-function create_shortened_property(propertiesObject, prime, goal) {
-  shortProperty = create_shortened_class(propertiesObject, prime, goal)
-  shortProperty = get_attribute(shortProperty, propertiesObject, "usage", prime, goal)
-
-  return shortProperty
+function set_name(shortObject, originalObject, prime, goal) {
+  if (!(originalObject["name"] === undefined)) {
+    shortObject["name"] = originalObject["name"]
+    if (!(originalObject["name"][prime] === undefined)) {
+      shortObject["name"][prime] = originalObject["name"][prime]
+      shortObject["name"][goal] = originalObject["name"][prime]
+    }
+  }
+  return shortObject
 }
 
 function get_attribute(shortObject, originalObject, attribute, prime, goal) {
   if (!(originalObject[attribute] === undefined)) {
     shortObject[attribute] = originalObject[attribute]
-    shortObject[attribute][prime] = getValue(originalObject[attribute], prime)
-    shortObject[attribute][goal] = 'Enter your translation here'
+    if (!(originalObject[attribute][prime] === undefined)) {
+      shortObject[attribute][prime] = originalObject[attribute][prime]
+      shortObject[attribute][goal] = 'Enter your translation here'
+    }
   }
   return shortObject
 }
-
-function getValue(object, prime) {
-  if (!(object === undefined) && !(object[prime] === undefined)) {
-    return object[prime]
-  }
-  return ""
-}
-
-/* REPLACED BY GET_ATTRIBUTE
-function get_definition(shortClass, classObject, prime, goal) {
-  if (!(classObject.definition === undefined)) {
-    shortClass.definition = classObject.definition
-    shortClass.definition[prime] = getValue(classObject.definition, prime)
-    shortClass.definition[goal] = 'Enter your translation here'
-  }
-  return shortClass
-}
-
-function get_description(shortClass, classObject, prime, goal) {
-  if (!(classObject.description === undefined)) {
-    shortClass.description = classObject.description
-    shortClass.description[prime] = getValue(classObject.description, prime)
-    shortClass.description[goal] = 'Enter your translation here'
-  }
-  return shortClass
-}
-
-function get_label(shortClass, classObject, prime, goal) {
-  if (!(classObject.label === undefined)) {
-    shortClass.label = classObject.label
-    shortClass.label[prime] = getValue(classObject.label, prime)
-    shortClass.label[goal] = 'Enter your translation here'
-  }
-  return shortClass
-}
-
-function get_Name(shortClass, classObject, prime, goal) {
-  if (!(classObject.name === undefined)) {
-    shortClass.name = classObject.name
-    shortClass.name[prime] = getValue(classObject.name, prime)
-    shortClass.name[goal] = 'Enter your translation here'
-  }
-  return shortClass
-
-}
-
-function get_usage(shortProperty, propObject, prime, goal) {
-  if (!(propObject.usage === undefined)) {
-    shortProperty.usage = propObject.usage
-    shortProperty.usage[prime] = getValue(propObject.usage, prime)
-    shortProperty.usage[goal] = 'Enter your translation here'
-  }
-  return shortProperty
-}
-*/
