@@ -156,11 +156,7 @@ function make_shacl(grouped, entitymap, language) {
     sorted = kvalue.sort(function (a, b) { if (a.extra['EA-Name'] < b.extra['EA-Name']) { return -1 }; if (a.extra['EA-Name'] > b.extra['EA-Name']) { return 1 }; return 0 })
     Object.entries(sorted).forEach(
       ([pkey, value]) => {
-        prop = {
-          'sh:name': get_tagged_value(value.label, language),
-          'sh:description': get_tagged_value(value.description, language),
-          'sh:path': value['@id']
-        }
+        prop = get_prop(value, language)
         if (value.range.length > 1) {
           console.log('Error: range has more than one value for property ', pkey)
         } else {
@@ -200,12 +196,38 @@ function make_shacl(grouped, entitymap, language) {
     'qb:codeList': {
       '@type': '@id'
     },
-    '@vocab': program.domain
+    '@vocab': program.domain,
+    "sh:definition": { "@container": "@language" },
+    "sh:name": { "@container": "@language" }
   }
   shaclDoc['@id'] = program.domain
   shaclDoc.shapes = shaclTemplates
 
   return shaclDoc
+}
+
+function get_prop(value, language) {
+  let name = get_tagged_value(value.label, language)
+  let definition = get_tagged_value(value.definition, language)
+  if (name == null && definition == null) {
+    return { 'sh:path': value['@id'] }
+  } else if (name == null && definition != null) {
+    return {
+      'sh:definition': definition,
+      'sh:path': value['@id']
+    }
+  } else if (name != null && definition == null) {
+    return {
+      'sh:name': name,
+      'sh:path': value['@id']
+    }
+  } else {
+    return {
+      'sh:name': name,
+      'sh:definition': definition,
+      'sh:path': value['@id']
+    }
+  }
 }
 
 function get_tagged_value(value, language) {
