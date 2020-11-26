@@ -12,7 +12,7 @@ const { usage, description } = require('commander')
 program
   .version('0.8.0')
   .usage('node specgen-render-voc.js creates a vocabulary json-ld with regards to a language')
-  .option('-i, --input <path>', 'input file to update (a json file)')
+  .option('-i, --input <path>', 'input file to render (a jsonld file)')
   .option('-o, --output <path>', 'output file (a jsonld file)')
   .option('-l, --language <languageCode>', 'the language of the file (a string)')
 
@@ -26,8 +26,8 @@ program.on('--help', function () {
 program.parse(process.argv)
 const forceDomain = !!program.forceDomain
 
-//render_voc(".\\Drafts\\languagemerged.jsonld", "en", ".\\tempjson.jsonld", ".\\Drafts\\test.jsonld", "", ".\\Drafts\\test3.jsonld")
 render_voc(program.input, program.language, program.output)
+//render_voc(".\\sdgmodels2-impl-ap_en_merged.jsonld", "en", "tmp.jsonld")
 console.log('done')
 
 /* ---- end of the program --- */
@@ -140,12 +140,9 @@ function pick_properties(properties, language) {
 function pick_general_attributes(currobject, newobject, language) {
   newobject["@id"] = currobject["@id"]
   newobject["@type"] = currobject["@type"]
-  newobject.name = new Object
-  newobject["description"] = new Object
-  newobject.usage = new Object
-  newobject.name[language] = get_value(currobject.name, language)
-  newobject["description"][language] = get_value(currobject["description"], language)
-  newobject.usage = get_value_usage(currobject.usage, language)
+  newobject = set_value(newobject, currobject, "name", language)
+  newobject = set_value(newobject, currobject, "definition", language)
+  newobject = set_usage(newobject, currobject, language)
   return newobject
 }
 
@@ -163,23 +160,33 @@ function get_parents(newobject, currobject) {
   return newobject
 }
 
-function get_value(currobject, language) {
-  if (!(currobject[language] === undefined) && currobject[language] != "Enter your translation here") {
-    return currobject[language]
-  } else if (currobject[language] == "Enter your translation here") {
+function set_value(newobject, object, label, language) {
+  if (!(object[label] === undefined)) {
+    if (!(object[label][language] === undefined)) {
+      newobject[label] = new Object
+      newobject[label][language] = get_value(object[label][language])
+    }
+  }
+  return newobject
+}
+
+function get_value(value) {
+  if (value == "Enter your translation here") {
     return "A translation has yet to be added"
   } else {
-    return "this line is not intended for translation"
+    return value
   }
 }
 
-function get_value_usage(newobject, currobject, language) {
-  if (!(currobject[language] === undefined)) {
-    newobject[language] = get_value(currobject[language], language)
-    return newobject
+function set_usage(newobject, currobject, language) {
+  if (!(currobject.usage === undefined) && !(currobject.usage[language] === undefined)) { //usage language value exists
+    newobject.usage[language] = currobject.usage[language]
+  } else if (!(currobject.usage === undefined) && (currobject.usage[language] === undefined)) { //usage exists but no value
+    newobject.usage = new Object
   } else {
-    return new Object
+    // no usage value is in the compared object so it will not be in the new one
   }
+  return newobject
 }
 
 function prepare_jsonld(json, language) {
