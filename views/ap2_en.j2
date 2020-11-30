@@ -33,7 +33,7 @@
   <div class="page">
     <div class="layout layout--wide">
       <div class="skiplink">
-        <a rel="nofollow noreferrer" href="#main">Overslaan en naar de algemene inhoud gaan</a>
+        <a rel="nofollow noreferrer" href="#main">Skip this section and go to general content</a>
       </div>
     </div>
     <div class="page">
@@ -334,14 +334,14 @@
                     	{%- endfor %}
 		   </dd>
                     {% endif %}
-                    <dt>Eigenschappen</dt>
+                    <dt>Properties</dt>
 		    {% if ((entity.properties | length) > 0 ) %} 
-                    <dd>Voor dit datatype zijn de volgende eigenschappen gedefinieerd:
+                    <dd>we have defined the following properties for this datatype:
                     {%- for prop in entity['properties'] | sort(attribute=sortattr) %}
                       <a href="#{{ (entity.name[language] ~ ':' ~ prop.name[language]) | urlencode }}">{{ prop.name[language] }}</a>{% if not loop.last %}, {% endif %}
                     {%- endfor %}.</dd>
                     {% else %}
-                    <dd>Voor dit datatype zijn geen eigenschappen gedefinieerd.</dd>
+                    <dd>There are no properties defined for this datatype.</dd>
                     {% endif %}
                   </dl>
                 </div>
@@ -350,12 +350,12 @@
                   <table class="data-table">
                     <thead>
                       <tr class="data-table__header">
-                        <th class="data-table__header-title--sortable data-table__header-title--sortable-active">Eigenschap</th>
-                        <th class="data-table__header-title--sortable">Verwacht Type</th>
-                        <th class="data-table__header-title--sortable">Kardinaliteit</th>
-                        <th class="data-table__header-title--sortable">Beschrijving</th>
-                        <th class="data-table__header-title--sortable">Gebruik</th>
-                        <th class="data-table__header-title--sortable">Codelijst</th>
+                        <th class="data-table__header-title--sortable data-table__header-title--sortable-active">Property</th>
+                        <th class="data-table__header-title--sortable">Expects Type</th>
+                        <th class="data-table__header-title--sortable">Cardinality</th>
+                        <th class="data-table__header-title--sortable">Description</th>
+                        <th class="data-table__header-title--sortable">Usage</th>
+                        <th class="data-table__header-title--sortable">Codelist</th>
                       </tr>
                     </thead>
 
