@@ -80,7 +80,6 @@ function render_html_from_json_ld_file(target, template, filename, output_filena
               }
             })
           };
-          parsed_json["mailtostring"] = getMailto(obj)
           var html = nunjucks.render(template, parsed_json);
 
           const data = new Uint8Array(Buffer.from(html));
@@ -98,20 +97,4 @@ function render_html_from_json_ld_file(target, template, filename, output_filena
         }).catch(error => { console.error(error); process.exitCode = 1; });
       })
     .catch(error => { console.error(error); process.exitCode = 1; })
-}
-
-function getMailto (obj) {
-  let mailto = ""
-  for (let i = 0; i < obj["authors"].length; i++) {
-    mailto = mailto + obj["authors"][i]["foaf:mbox"] + ", "
-  }
-  for (let f = 0; f < obj["editors"].length; f++) {
-    mailto = mailto + obj["editors"][f]["foaf:mbox"] + ", "
-  }
-  for (let g = 0; g < obj["contributors"].length; g++) {
-    mailto = mailto + obj["contributors"][g]["foaf:mbox"] + ", "
-  }
-  mailto = mailto.replace(new RegExp(', ' + '$'), '');
-
-  return mailto
 }
