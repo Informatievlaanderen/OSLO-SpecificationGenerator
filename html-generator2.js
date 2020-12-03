@@ -42,7 +42,7 @@ nunjucks.configure(templatedir, {
 });
 
 render_html_from_json_ld_file(program.style, program.template, program.input, program.output, program.mainlanguage);
-//render_html_from_json_ld_file('voc', 'duet-voc2_nl.j2', '.\\vocjsonld.jsonld', '.\\temp.html', 'nl')
+//render_html_from_json_ld_file('voc', 'duet-voc2_nl.j2', '.\\vocjsonld.jsonld', '.\\temp.html', 'en')
 console.log('done');
 
 function render_html_from_json_ld_file(target, template, filename, output_filename, language) {
@@ -76,7 +76,7 @@ function render_html_from_json_ld_file(target, template, filename, output_filena
               if (err) {
                 process.exitCode = 1;
                 console.error(err);
-                throw err;s
+                throw err; s
               }
             })
           };
@@ -128,12 +128,14 @@ function getNamespaces(myJson) {
   return namespaces
 }
 
-function pushNampespace (uri, namespaces) {
+function pushNampespace(uri, namespaces) {
   if (!(uri === undefined) && uri != null && uri != "") {
     var lastIndex = uri.lastIndexOf('/')
     var lastPart = uri.substring(lastIndex)
-    if(!lastPart.includes('#')) {
+    if (!lastPart.includes('#') && (uri.substring(0, lastIndex).length > 7)) {
       namespaces = push(namespaces, uri.substring(0, lastIndex))
+    } else if (!lastPart.includes('#') && (uri.substring(0, lastIndex).length <= 7)) {
+      namespaces = push(namespaces, uri)
     } else {
       var lastHash = uri.lastIndexOf('#')
       namespaces = push(namespaces, uri.substring(0, lastHash))
@@ -142,7 +144,11 @@ function pushNampespace (uri, namespaces) {
   return namespaces
 }
 
-function push (namespaces, value) {
+function split(uri, namespaces) {
+
+}
+
+function push(namespaces, value) {
   if (!namespaces.includes(value)) {
     namespaces.push(value)
   }
