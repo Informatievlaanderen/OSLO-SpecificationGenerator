@@ -703,28 +703,28 @@ function make_nj_datatypes(classes, grouped, aux, language) {
   return nj_classes
 };
 
-function make_nj_enumerations(classes) {
+function make_nj_enumerations(classes, language) {
   console.log('make nunjuncks enumerations ')
 
   var nj_classes = []
 
   nj_classes = classes.reduce(function (accumulator, element) {
     if (element.extra['EA-Type'] === 'ENUMERATION') {
-      accumulator.push(make_nj_enumeration(element))
+      accumulator.push(make_nj_enumeration(element, language))
     };
     return accumulator
   }, [])
   return nj_classes
 };
 
-function make_nj_enumeration(element) {
+function make_nj_enumeration(element, language) {
   // basic enum data
   var nj_enumeration = {
     uri: element['@id'],
-    name: element.name,
-    sort: element.name.nl,
-    description: element.description,
-    usage: element.usage
+    name: get_language_attribute(element.name, language),
+    sort: get_language_value(element.name, language),
+    description: get_language_attribute(element.description, language),
+    usage: get_language_attribute(element.usage, language)
   }
 
   if (element.extra.codelist) { nj_enumeration.codelist = element.extra.codelist };
@@ -748,7 +748,7 @@ function make_nj_class(element, grouped, aux, language) {
   var nj_class = {
     uri: element['@id'],
     name: get_language_attribute(element.name, language),
-    sort: get_language_attribute(element.name, language),
+    sort: get_language_value(element.name, language),
     description: get_language_attribute(element.description, language),
     usage: get_language_attribute(element.usage, language)
   }
@@ -866,7 +866,7 @@ function make_nj_class(element, grouped, aux, language) {
       prop = {
         uri: value['@id'],
         name: get_language_attribute(value.name, language),
-        sort: get_language_attribute(value.name, language),
+        sort: get_language_value(value.name, language),
         description: get_language_attribute(value.description, language),
         usage: get_language_attribute(value.usage, language),
         domain: value.domain,
@@ -886,7 +886,7 @@ function make_nj_class_voc(element, language) {
   var nj_class = {
     uri: element['@id'],
     name: get_language_attribute(element.name, language),
-    sort: get_language_attribute(element.name, language),
+    sort: get_language_value(element.name, language),
     description: get_language_attribute(element.description, language),
     usage: get_language_attribute(element.usage, language),
     equivalent: [],
@@ -922,7 +922,7 @@ function make_nj_ext_class_voc(element, language) {
     name: get_language_attribute(element.name, language),
     description: get_language_attribute(element.description, language),
     usage: get_language_attribute(element.usage, language),
-    sort: get_language_attribute(element.name, language)
+    sort: get_language_value(element.name, language)
   }
 
   if (nj_class.uri.startsWith('https://data.vlaanderen.be')) {
@@ -981,9 +981,9 @@ function make_nj_prop_voc(element, codelist, language) {
   var nj_prop = {
     uri: element['@id'],
     name: get_language_attribute(element.name, language),
-    sort: get_language_attribute(element.name, language),
-    description: get_language_attribute(element.description),
-    usage: get_language_attribute(element.usage),
+    sort: get_language_value(element.name, language),
+    description: get_language_attribute(element.description, language),
+    usage: get_language_attribute(element.usage, language),
     domain: domain,
     range: range,
     parents: element.generalization
@@ -998,9 +998,9 @@ function make_nj_prop_voc(element, codelist, language) {
 function make_nj_ext_prop_voc(element, codelist, language) {
   var nj_prop = {
     uri: element['@id'],
-    name: get_language_value(element.name, language),
-    description: get_language_value(element.description, language),
-    usage: get_language_value(element.usage, language),
+    name: get_language_attribute(element.name, language),
+    description: get_language_attribute(element.description, language),
+    usage: get_language_attribute(element.usage, language),
     sort: get_language_value(element.name, language)
 
   }
