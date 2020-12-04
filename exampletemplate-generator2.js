@@ -36,7 +36,7 @@ nunjucks.configure(output, {
 render_exampletemplate_from_json_ld_file(program.input, program.output, program.language)
 console.log('done')
 
-function render_exampletemplate_from_json_ld_file (filename, outputdirectory, language) {
+function render_exampletemplate_from_json_ld_file(filename, outputdirectory, language) {
   console.log('start reading')
   jsonfile.readFile(filename)
     .then(
@@ -62,42 +62,48 @@ function render_exampletemplate_from_json_ld_file (filename, outputdirectory, la
           let classes = parsed_json.classes
           let filenamei = ''
           for (const i in classes) {
-            filenamei = outputdirectory + '/' + camelCase(classes[i].name[language]) + '.json'
-            jsonfile.writeFile(filenamei, make_exampletemplate(classes[i], language), function (err) {
-              if (err) {
-                // Set the exit code if there's a problem so bash sees it
-                process.exitCode = 1
-                console.error(err)
-                throw err
-              }
-            })
+            if (classes[i].name[language] != null && !(classes[i].name[language] === undefined) && classes[i].name[language] != '') {
+              filenamei = outputdirectory + '/' + camelCase(classes[i].name[language]) + '.json'
+              jsonfile.writeFile(filenamei, make_exampletemplate(classes[i], language), function (err) {
+                if (err) {
+                  // Set the exit code if there's a problem so bash sees it
+                  process.exitCode = 1
+                  console.error(err)
+                  throw err
+                }
+              })
+            }
           }
           console.log('start writing datatype templates')
           classes = parsed_json.datatypes
           for (const i in classes) {
-            filenamei = outputdirectory + '/' + camelCase(classes[i].name[language]) + '.json'
-            jsonfile.writeFile(filenamei, make_exampletemplate(classes[i], language), function (err) {
-              if (err) {
-                // Set the exit code if there's a problem so bash sees it
-                process.exitCode = 1
-                console.error(err)
-                throw err
-              }
-            })
+            if (classes[i].name[language] != null && !(classes[i].name[language] === undefined) && classes[i].name[language] != '') {
+              filenamei = outputdirectory + '/' + camelCase(classes[i].name[language]) + '.json'
+              jsonfile.writeFile(filenamei, make_exampletemplate(classes[i], language), function (err) {
+                if (err) {
+                  // Set the exit code if there's a problem so bash sees it
+                  process.exitCode = 1
+                  console.error(err)
+                  throw err
+                }
+              })
+            }
           }
 
           console.log('start writing class & datatype contextfiles')
           classes = parsed_json.classes.concat(parsed_json.datatypes)
           for (const i in classes) {
-            filenamei = outputdirectory + '/context/' + camelCase(classes[i].name[language]) + '.jsonld'
-            jsonfile.writeFile(filenamei, make_exampletemplate_context(classes[i], language), function (err) {
-              if (err) {
-                // Set the exit code if there's a problem so bash sees it
-                process.exitCode = 1
-                console.error(err)
-                throw err
-              }
-            })
+            if (classes[i].name[language] != null && !(classes[i].name[language] === undefined) && classes[i].name[language] != '') {
+              filenamei = outputdirectory + '/context/' + camelCase(classes[i].name[language]) + '.jsonld'
+              jsonfile.writeFile(filenamei, make_exampletemplate_context(classes[i], language), function (err) {
+                if (err) {
+                  // Set the exit code if there's a problem so bash sees it
+                  process.exitCode = 1
+                  console.error(err)
+                  throw err
+                }
+              })
+            }
           }
           console.log('The files have been saved to ' + outputdirectory)
         })
@@ -105,7 +111,7 @@ function render_exampletemplate_from_json_ld_file (filename, outputdirectory, la
     .catch(error => { console.error(error); process.exitCode = 1 })
 }
 
-function make_exampletemplate (cj_class_desc, language) {
+function make_exampletemplate(cj_class_desc, language) {
   var cj_class = {
     '@context': program.contextbase + '/' + camelCase(cj_class_desc.name[language]) + '.jsonld',
     '@type': cj_class_desc.uri,
@@ -127,7 +133,7 @@ function make_exampletemplate (cj_class_desc, language) {
   return cj_class
 }
 
-function make_exampletemplate_context (cj_class_desc, language) {
+function make_exampletemplate_context(cj_class_desc, language) {
   var cj_class_context = {}
   cj_class_context[camelCase(cj_class_desc.name[language])] = cj_class_desc.uri
 
@@ -140,7 +146,7 @@ function make_exampletemplate_context (cj_class_desc, language) {
   return cj_class_context
 }
 
-function range_repr (prop_range, language) {
+function range_repr(prop_range, language) {
   var pru = ''
   if ((prop_range[0] != null) && (prop_range[0].range_puri != null)) {
     pru = prop_range[0].range_puri
@@ -158,7 +164,7 @@ function range_repr (prop_range, language) {
   };
 };
 
-function range_repr_context (prop, prop_range) {
+function range_repr_context(prop, prop_range) {
   if ((prop_range[0] != null) && (prop_range[0].range_puri != null)) {
     var pru = prop_range[0].range_puri
     if (pru === 'http://www.w3.org/1999/02/22-rdf-syntax-ns#langString') {
@@ -182,7 +188,7 @@ function range_repr_context (prop, prop_range) {
   };
 };
 
-function parse_template (file) {
+function parse_template(file) {
   var parsed_template = {
     pt_full: [],
     pt_vars: []
@@ -198,7 +204,7 @@ function parse_template (file) {
   return parsed_template
 }
 
-function render_template (parsed_template, data) {
+function render_template(parsed_template, data) {
   let render = ''
   for (const i in parsed_template.pt_full) {
     const reminder = i % 2
