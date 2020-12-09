@@ -23,11 +23,12 @@ program.on('--help', function () {
 
 program.parse(process.argv)
 
+//Pluralize will not be gramatically correct in special cases but will work for the "usual" ones
+//Recommend to check
 const maybePluralize = (count, noun, suffix = 's') =>
     `${noun}${count !== 1 ? suffix : ''}`;
 
-render_merged_jsonld(".\\languagemerged.jsonld", ".\\temp\\", "en")
-//render_merged_jsonld(program.input, program.outputdirectory, program.language)
+render_merged_jsonld(program.input, program.outputdirectory, program.language)
 console.log('done')
 
 function render_merged_jsonld(input_filename, outputdirectory, language) {
@@ -159,6 +160,7 @@ function initialize_domain_builder() {
 function start_class(domainBuilder, currClass, language) {
     domainBuilder.append("(define-resource " + get_name(currClass, language) + " ()").appendLine()
     domainBuilder.append("   :class (s-url \"http://www.w3.org/2002/07/owl#Class\")").appendLine()
+    //If you want any of the properties to be language-tagged you'll have to replace ":string" with ":language-string" here
     domainBuilder.append("   :properties `((:definition :string ,(s-prefix \"sh:definition\"))").appendLine()
     domainBuilder.append("                 (:name :string ,(s-prefix \"sh:name\"))").appendLine()
     domainBuilder.append("                 (:usage :string ,(s-prefix \"sh:usage\")))").appendLine()
