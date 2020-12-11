@@ -91,7 +91,7 @@ For all templates, the given variables (the values of the jsonld) will be autoes
 
 #### Usage of the mu-config-generator.js  
 The mu-config-generator.js automatically creates you a mu-semtech-project configuration based on the jsonld of your specification. For that, you have to enter said jsonld, a language that is needed to access the name value and an output directory. That directory you should either set to the config->resources directory in your mu-semtech-project or copied the created files into that.  
-Some decisions had been made beforehand. One of which is that, when a class is in the domain-parameter of a property, it will have said property relationship as a "has-one"-value while, if the object is in the range-parameter, it will have an inverse "has-many" connection. Each class has three attributes: name, definition and usage. By default, these are not language tagged. If you want them to be, you have to go to l. 164 - l. 166 and change ":string" to ":language-string" (or only some of those lines). Another recommendation is to check over the defined paths as they are creating automatically created plurals of the class names and do not consider any irregular plurals or even some of the usual cases and cause grammatic errors. You can see an illustration of that in the example code below where "Address" was written as "Addresss".  
+Some decisions had been made beforehand. One of which is that, when a class is in the domain-parameter of a property, it will have said property relationship as a "has-one"-value while, if the object is in the range-parameter, it will have an inverse "has-many" connection. Each class has three attributes: name, definition and usage. By default, these are not language tagged. If you want them to be, you can enter true for the options -n (name), -d (definition) and/or -u (usage) causing the chosen attribute to be changed to a :language-string. Another recommendation is to check over the defined paths as they are creating automatically created plurals of the class names and do not consider any irregular plurals or even some of the usual cases and cause grammatic errors. You can see an illustration of that in the example code below where "Address" was written as "Addresss".  
 In the following there is an example on how to create an address object based on this config:  
 ```
 (define-resource Address ()
@@ -127,7 +127,7 @@ For this, you can send a post request with the following body to the path of you
 ```
 Assuming the ID points to a location object that already exist, this will create an address that has a tripel like this:  
 `<AddressURI> <https://sdg.semic.euAddress.address> <LocationURI>.`  
-If you change the :string to a :language-string, the following will work:  
+If you enter true for all three string objects, causing :string to be changed to :language-string, the following will work:  
 ```
 {
   "data": {

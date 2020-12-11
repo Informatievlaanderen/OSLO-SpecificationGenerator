@@ -12,6 +12,9 @@ program
     .option('-i, --input <path>', 'input file (a jsonld file)')
     .option('-l, --language <languagecode>', 'wished language (languagecode)')
     .option('-o, --outputdirectory <path to directory>', 'output directory (directory path)')
+    .option('-n, --namestring <boolean>', 'a variable to define if the name is a language-string (true) or a normal string (false + default) (boolean)')
+    .option('-d, --definitionstring <boolean>', 'a variable to define if the definition is a language-string (true) or a normal string (false + default) (boolean)')
+    .option('-u, --usagestring <boolean>', 'a variable to define if the usage is a language-string (true) or a normal string (false + default) (boolean)')
 
 program.on('--help', function () {
     console.log('')
@@ -23,15 +26,31 @@ program.on('--help', function () {
 
 program.parse(process.argv)
 
+console.log(program.namestring)
+
+const namestring = specify_string(program.namestring)
+const definitionstring = specify_string(program.definitionstring)
+const usagestring = specify_string(program.usagestring)
+
 //Pluralize will not be gramatically correct in special cases but will work for the "usual" ones
 //Recommend to check
 const maybePluralize = (count, noun, suffix = 's') =>
     `${noun}${count !== 1 ? suffix : ''}`;
 
-render_merged_jsonld(program.input, program.outputdirectory, program.language)
+create_config(program.input, program.outputdirectory, program.language)
 console.log('done')
 
-function render_merged_jsonld(input_filename, outputdirectory, language) {
+function specify_string(bool) {
+    switch (bool) {
+        case "true":
+        case true:
+            return ":language-string"
+        default:
+            return ":string"
+    }
+}
+
+function create_config(input_filename, outputdirectory, language) {
     console.log('start reading');
     jsonfile.readFile(input_filename)
         .then(
@@ -160,10 +179,10 @@ function initialize_domain_builder() {
 function start_class(domainBuilder, currClass, language) {
     domainBuilder.append("(define-resource " + get_name(currClass, language) + " ()").appendLine()
     domainBuilder.append("   :class (s-url \"http://www.w3.org/2002/07/owl#Class\")").appendLine()
-    //If you want any of the properties to be language-tagged you'll have to replace ":string" with ":language-string" here
-    domainBuilder.append("   :properties `((:definition :string ,(s-prefix \"sh:definition\"))").appendLine()
-    domainBuilder.append("                 (:name :string ,(s-prefix \"sh:name\"))").appendLine()
-    domainBuilder.append("                 (:usage :string ,(s-prefix \"sh:usage\")))").appendLine()
+    //If you want any of the properties to be language-tagged you'll have to set their options to true 
+    domainBuilder.append("   :properties `((:definition "+definitionstring+" ,(s-prefix \"sh:definition\"))").appendLine()
+    domainBuilder.append("                 (:name "+namestring+" ,(s-prefix \"sh:name\"))").appendLine()
+    domainBuilder.append("                 (:usage "+usagestring+" ,(s-prefix \"sh:usage\")))").appendLine()
     return domainBuilder
 }
 
