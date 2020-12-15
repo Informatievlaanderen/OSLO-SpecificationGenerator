@@ -90,8 +90,20 @@ For all templates, the given variables (the values of the jsonld) will be autoes
 ```
 
 #### Usage of the mu-config-generator.js  
-The mu-config-generator.js automatically creates you a mu-semtech-project configuration based on the jsonld of your specification. For that, you have to enter said jsonld, a language that is needed to access the name value and an output directory. That directory you should either set to the config->resources directory in your mu-semtech-project or copied the created files into that.  
-Some decisions had been made beforehand. One of which is that, when a class is in the domain-parameter of a property, it will have said property relationship as a "has-one"-value while, if the object is in the range-parameter, it will have an inverse "has-many" connection. Each class has three attributes: name, definition and usage. By default, these are not language tagged. If you want them to be, you can enter true for the options -n (name), -d (definition) and/or -u (usage) causing the chosen attribute to be changed to a :language-string. Another recommendation is to check over the defined paths as they are creating automatically created plurals of the class names and do not consider any irregular plurals or even some of the usual cases and cause grammatic errors. You can see an illustration of that in the example code below where "Address" was written as "Addresss".  
+If you have no mu-project yet, you can clone [this](https://github.com/mu-semtech/mu-project/) repository as a base. To make it easier you should define a port for your resource. As an example, you could add this to your docker-compose:  
+```
+resource:
+    image: semtech/mu-cl-resources:1.18.0
+    links:
+      - db:database
+    volumes:
+      - ./config/resources:/config
+    ports:
+      - "8888:80"
+```   
+The mu-config-generator.js automatically creates you a mu-semtech-project configuration based on the jsonld of your specification. For that, you have to enter said jsonld, a language that is needed to access the name value and an output directory. That directory you should either set to the config->resources directory in your mu-semtech-project or copied the created files into that. After adding the files, you will have to stop, remove and restart the docker-compose.  
+
+Some decisions had been made beforehand. One of which is that, when a class is in the domain-parameter of a property, it will have said property relationship as a "has-one"-value while, if the object is in the range-parameter, it will have an inverse "has-many" connection. Each class has attributes (called "properties" in the lisp file) if there are properties in the jsonld that point to a literal. By default, these are not language tagged. If you want them to be, you can enter true for the option -s causing the attributes to be changed to a :language-string. By default they are :string. For the paths and the has-many relations the plurals of the names are automatically created. If you come across falsely created plurals, you can add those as a rule to the file by using one of [these](https://www.npmjs.com/package/pluralize) functions.  
 In the following there is an example on how to create an address object based on this config:  
 ```
 (define-resource Address ()
@@ -102,13 +114,13 @@ In the following there is an example on how to create an address object based on
    :has-one `((Location :via ,(s-url "https://sdg.semic.euAddress.address")
                         :as "Location"))
 :resource-base (s-url "https://sdg.semic.euAddress")
-:on-path "Addresss")
+:on-path "Addresses")
 ```
-For this, you can send a post request with the following body to the path of your project and the ending /Addresss. As a header you need to define "Content-Type" as "application/vnd.api+json".  
+For this, you can send a post request with the following body to the port of your resource that you set in your docker-compose and the ending /Addresses (you add the on-path value here). As a header you need to define "Content-Type" as "application/vnd.api+json".  
 ```
 {
   "data": {
-    "type": "Addresss",
+    "type": "Addresses",
     "attributes": {
       "name": "An Address",
       "definition": "A Description",
@@ -131,7 +143,7 @@ If you enter true for all three string objects, causing :string to be changed to
 ```
 {
   "data": {
-    "type": "Addresss",
+    "type": "Addresses",
     "attributes": {
       "name": {
         "language": "en",
@@ -157,4 +169,5 @@ If you enter true for all three string objects, causing :string to be changed to
 }
 ```
 In this case, one of the created triples would be:  
-`<AddressURI> sh:name "An Addres"@en .`
+`<AddressURI> sh:name "An Addres"@en .`  
+You can check your results using sparql on `http://localhost:{db port}/sparql`.

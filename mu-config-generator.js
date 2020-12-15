@@ -1,10 +1,8 @@
 const fs = require('fs')
 const jsonfile = require('jsonfile')
-const jsonld = require('jsonld')
+var pluralize = require('pluralize')
 const StringBuilder = require("string-builder");
-
 var program = require('commander');
-const { domain } = require('process');
 
 program
     .version('0.0.1')
@@ -12,15 +10,14 @@ program
     .option('-i, --input <path>', 'input file (a jsonld file)')
     .option('-l, --language <languagecode>', 'wished language (languagecode)')
     .option('-o, --outputdirectory <path to directory>', 'output directory (directory path)')
-    .option('-n, --namestring <boolean>', 'a variable to define if the name is a language-string (true) or a normal string (false + default) (boolean)')
-    .option('-d, --definitionstring <boolean>', 'a variable to define if the definition is a language-string (true) or a normal string (false + default) (boolean)')
-    .option('-u, --usagestring <boolean>', 'a variable to define if the usage is a language-string (true) or a normal string (false + default) (boolean)')
+    .option('-s, --stringtype <boolean>', 'a variable to define if the properties are a language-string (true) or a normal string (false + default) (boolean)')
 
 program.on('--help', function () {
     console.log('')
     console.log('Examples:')
     console.log('  $ specgen-shacl --help')
     console.log('  $ specgen-shacl -i <input> -o <output> -l <language>')
+    console.log('  $ specgen-shacl -i <input> -o <output> -l <language> -s <boolean>')
     process.exitCode = 1
 })
 
@@ -28,14 +25,7 @@ program.parse(process.argv)
 
 console.log(program.namestring)
 
-const namestring = specify_string(program.namestring)
-const definitionstring = specify_string(program.definitionstring)
-const usagestring = specify_string(program.usagestring)
-
-//Pluralize will not be gramatically correct in special cases but will work for the "usual" ones
-//Recommend to check
-const maybePluralize = (count, noun, suffix = 's') =>
-    `${noun}${count !== 1 ? suffix : ''}`;
+const stringtype = specify_string(program.stringtype)
 
 create_config(program.input, program.outputdirectory, program.language)
 console.log('done')
@@ -93,7 +83,7 @@ function write_domainlisp(outputdir, input, language) {
     var domainBuilder = initialize_domain_builder();
     for (let i = 0; i < input.classes.length; i++) {
         let currClass = input.classes[i]
-        domainBuilder = start_class(domainBuilder, currClass, language)
+        domainBuilder = start_class(domainBuilder, currClass, language, input)
         domainBuilder = check_domain(domainBuilder, currClass, input.properties, input.classes, language)
         domainBuilder = check_range(domainBuilder, currClass, input.properties, input.classes, language)
         domainBuilder = end_class(domainBuilder, currClass, language)
@@ -127,7 +117,7 @@ function write_range(domainBuilder, classes, domainArray, id, language) {
         if (domain != null) {
             domainBuilder.append("   :has-many `((" + get_name(domain, language) + " :via ,(s-url \"" + id + "\")").appendLine()
             domainBuilder.append("                        :inverse t").appendLine()
-            var name = maybePluralize(2, get_name(domain, language)) 
+            var name = pluralize.plural(get_name(domain, language))
             domainBuilder.append("                        :as \"" + name + "\"))").appendLine()
         }
     }
@@ -176,18 +166,77 @@ function initialize_domain_builder() {
     return domainBuilder
 }
 
-function start_class(domainBuilder, currClass, language) {
+function start_class(domainBuilder, currClass, language, input) {
     domainBuilder.append("(define-resource " + get_name(currClass, language) + " ()").appendLine()
     domainBuilder.append("   :class (s-url \"http://www.w3.org/2002/07/owl#Class\")").appendLine()
     //If you want any of the properties to be language-tagged you'll have to set their options to true 
-    domainBuilder.append("   :properties `((:definition "+definitionstring+" ,(s-prefix \"sh:definition\"))").appendLine()
-    domainBuilder.append("                 (:name "+namestring+" ,(s-prefix \"sh:name\"))").appendLine()
-    domainBuilder.append("                 (:usage "+usagestring+" ,(s-prefix \"sh:usage\")))").appendLine()
+        domainBuilder = write_properties(domainBuilder, currClass, input)
     return domainBuilder
 }
 
+function write_properties(domainBuilder, currClass, input) {
+    var dict = get_properties(currClass, input)
+    if (dict.length > 0) {
+        domainBuilder.append("   :properties `((")
+        for (let i = 0; i < dict.length; i++) {
+            let item = dict[i]
+            let id = item.key
+            let name = (item.value).replace(" ", "")
+            if (i != 0) {
+                domainBuilder.appendLine()
+                domainBuilder.append("                 (")
+            } 
+            domainBuilder.append(":" + name + " " + stringtype + " ,(s-url \"" + id + "\"))")
+        }
+        domainBuilder.append(")").appendLine()
+    }
+    return domainBuilder
+}
+
+function get_properties(currClass, input) {
+    var properties = input.properties
+    var propdict = []
+    for (let p = 0; p < properties.length; p++) {
+        let property = properties[p]
+        for (let i = 0; i < property["domain"].length; i++) {
+            var domain = property["domain"][i]
+            if (domain["uri"] == currClass["@id"]) {
+                propdict = get_literal_props(property, propdict)
+            }
+        }
+    }
+    return propdict
+}
+
+function get_literal_props(property, propdict) {
+    var range = property.range
+    for (let i = 0; i < range.length; i++) {
+        var item = range[i]
+        if (is_literal(item["uri"])) {
+            propdict.push({
+                key:   property["@id"],
+                value: item["EA-Name"]
+            });
+        }
+    }
+    return propdict
+}
+
+function is_literal(id) {
+    var literals = ["http://www.w3.org/2001/XMLSchema#", "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "https://www.w3.org/TR/xmlschema11-2/#"]
+
+    for (let i = 0; i < literals.length; i++) {
+        var literal = literals[i]
+        if (id.includes(literal)) {
+            return true
+        }
+    }
+    return false
+}
+
 function end_class(domainBuilder, currClass, language) {
-    var name = maybePluralize(2, get_name(currClass, language))
+    var name = pluralize.plural(get_name(currClass, language))
     domainBuilder.append(":resource-base (s-url \"" + currClass["@id"] + "\")").appendLine()
     domainBuilder.append(":on-path \"" + name + "\")").appendLine().appendLine()
     return domainBuilder
