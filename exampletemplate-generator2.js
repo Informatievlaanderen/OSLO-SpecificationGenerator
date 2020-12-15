@@ -31,8 +31,7 @@ nunjucks.configure(output, {
   autoescape: true
 })
 
-render_exampletemplate_from_json_ld_file(".\\vocjsonld.jsonld", "./temp/", "en")
-//render_exampletemplate_from_json_ld_file(program.input, program.output, program.language)
+render_exampletemplate_from_json_ld_file(program.input, program.output, program.language)
 console.log('done')
 
 function render_exampletemplate_from_json_ld_file(filename, outputdirectory, language) {
