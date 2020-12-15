@@ -724,10 +724,10 @@ function make_nj_enumeration(element) {
   // basic enum data
   var nj_enumeration = {
     uri: element['@id'],
-    name: element.name,
-    sort: element.name.nl,
-    description: element.description,
-    usage: element.usage
+    name: get_language_attribute(element.name, language),
+    sort: get_language_value(element.name, language),
+    description: get_language_attribute(element.description, language),
+    usage: get_language_attribute(element.usage, language)
   }
 
   if (element.extra.codelist) { nj_enumeration.codelist = element.extra.codelist };
@@ -751,7 +751,7 @@ function make_nj_class(element, grouped, aux, language) {
   var nj_class = {
     uri: element['@id'],
     name: get_language_attribute(element.name, language),
-    sort: get_language_attribute(element.name, language),
+    sort: get_language_value(element.name, language),
     description: get_language_attribute(element.description, language),
     usage: get_language_attribute(element.usage, language),
     externallink: get_language_attribute(element["externallink"], language)
@@ -870,7 +870,7 @@ function make_nj_class(element, grouped, aux, language) {
       prop = {
         uri: value['@id'],
         name: get_language_attribute(value.name, language),
-        sort: get_language_attribute(value.name, language),
+        sort: get_language_value(value.name, language),
         description: get_language_attribute(value.description, language),
         usage: get_language_attribute(value.usage, language),
         externallink: get_language_attribute(value["externallink"], language),
@@ -891,7 +891,7 @@ function make_nj_class_voc(element, language) {
   var nj_class = {
     uri: element['@id'],
     name: get_language_attribute(element.name, language),
-    sort: get_language_attribute(element.name, language),
+    sort: get_language_value(element.name, language),
     description: get_language_attribute(element.description, language),
     usage: get_language_attribute(element.usage, language),
     externallink: get_language_attribute(value["externallink"], language),
@@ -928,7 +928,7 @@ function make_nj_ext_class_voc(element, language) {
     name: get_language_attribute(element.name, language),
     description: get_language_attribute(element.description, language),
     usage: get_language_attribute(element.usage, language),
-    sort: get_language_attribute(element.name, language),
+    sort: get_language_value(element.name, language),
     externallink: get_language_attribute(value["externallink"], language)
   }
 
@@ -988,7 +988,7 @@ function make_nj_prop_voc(element, codelist, language) {
   var nj_prop = {
     uri: element['@id'],
     name: get_language_attribute(element.name, language),
-    sort: get_language_attribute(element.name, language),
+    sort: get_language_value(element.name, language),
     description: get_language_attribute(element.description, language),
     usage: get_language_attribute(element.usage, language),
     externallink: get_language_attribute(element["externallink"], language),
@@ -1001,14 +1001,12 @@ function make_nj_prop_voc(element, codelist, language) {
   return nj_prop
 };
 
-//TODO Why does this only work with value and not attribute? -> doesnt work when eg "description":{"en" : "english", "nl":"netherlands"} but only with "description":"english"
-
 function make_nj_ext_prop_voc(element, codelist, language) {
   var nj_prop = {
     uri: element['@id'],
-    name: get_language_value(element.name, language),
-    description: get_language_value(element.description, language),
-    usage: get_language_value(element.usage, language),
+    name: get_language_attribute(element.name, language),
+    description: get_language_attribute(element.description, language),
+    usage: get_language_attribute(element.usage, language),
     sort: get_language_value(element.name, language),
     externallink: element["externallink"]
 

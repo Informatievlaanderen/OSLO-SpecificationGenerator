@@ -414,7 +414,7 @@
                                 </div>
 
                                 {% if external_terms %}
-                                {% for external in external_terms %}
+                                {% for external in external_terms |sort(attribute=sortattr) %}
                                 <div class="region region--no-space-top">
                                     <h3 class="h4" id="{{ external.name[language] }}"><em>{{ external.name[language] }}</em></h3>
                                     <table class="definition">

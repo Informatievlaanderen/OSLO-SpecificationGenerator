@@ -7,6 +7,7 @@ const ldParser = require('./linkeddataparser3');
 
 var program = require('commander');
 const { description } = require("commander");
+const { parse_json_ld_file_to_exampletemplates } = require("./linkeddataparser3");
 
 program
   .version('0.8.0')
@@ -35,16 +36,14 @@ program.on('--help', function () {
 program.parse(process.argv);
 
 var templatedir = program.templatedir || '/app/views';
-//var templatedir = program.templatedir || './views/';
+var templatedir = program.templatedir || './views/';
 nunjucks.configure(templatedir, {
   autoescape: true
 });
 
 render_html_from_json_ld_file(program.style, program.template, program.input, program.output, program.mainlanguage);
-//render_html_from_json_ld_file('ap', 'ap2ext_en.j2', '..\\Demo\\mergedjsonld.jsonld', '.\\temp.html', 'en')
+//render_html_from_json_ld_file('voc', 'duet-voc2_nl.j2', '.\\vocjsonld.jsonld', '.\\temp.html', 'en')
 console.log('done');
-
-
 
 function render_html_from_json_ld_file(target, template, filename, output_filename, language) {
   console.log('start reading');
@@ -77,10 +76,11 @@ function render_html_from_json_ld_file(target, template, filename, output_filena
               if (err) {
                 process.exitCode = 1;
                 console.error(err);
-                throw err;
+                throw err; s
               }
             })
           };
+          parsed_json.namespaces = getNamespaces(obj)
           var html = nunjucks.render(template, parsed_json);
 
           const data = new Uint8Array(Buffer.from(html));
@@ -98,4 +98,59 @@ function render_html_from_json_ld_file(target, template, filename, output_filena
         }).catch(error => { console.error(error); process.exitCode = 1; });
       })
     .catch(error => { console.error(error); process.exitCode = 1; })
+}
+
+function getNamespaces(myJson) {
+  console.log("Checking Namespaces")
+  var namespaces = []
+
+  for (let i = 0; i < myJson.classes.length; i++) {
+    let currClass = myJson.classes[i]
+    namespaces = pushNampespace(currClass["@id"], namespaces)
+    for (let p = 0; p < currClass["parents"]; p++) {
+      namespaces = pushNampespace(currClass["parents"][p], namespaces)
+    }
+  }
+
+  for (let j = 0; j < myJson.properties.length; j++) {
+    let currProperty = myJson.properties[j]
+    namespaces = pushNampespace(currProperty["@id"], namespaces)
+    for (let r = 0; r < currProperty["range"]; r++) {
+      namespaces = pushNampespace(currClass["range"][r], namespaces)
+    }
+    for (let d = 0; d < currProperty["domain"]; d++) {
+      namespaces = pushNampespace(currClass["domain"][d], namespaces)
+    }
+  }
+
+  namespaces = pushNampespace(myJson["@id"], namespaces)
+  console.log("Finished")
+  return namespaces
+}
+
+function pushNampespace(uri, namespaces) {
+  if (!(uri === undefined) && uri != null && uri != "") {
+    var lastIndex = uri.lastIndexOf('/')
+    var lastPart = uri.substring(lastIndex)
+    if (!lastPart.includes('#') && (uri.substring(0, lastIndex).length > 7)) {
+      namespaces = push(namespaces, uri.substring(0, lastIndex))
+    } else if (!lastPart.includes('#') && (uri.substring(0, lastIndex).length <= 7)) {
+      namespaces = push(namespaces, uri)
+    } else {
+      var lastHash = uri.lastIndexOf('#')
+      namespaces = push(namespaces, uri.substring(0, lastHash))
+    }
+  }
+  return namespaces
+}
+
+function split(uri, namespaces) {
+
+}
+
+function push(namespaces, value) {
+  if (!namespaces.includes(value)) {
+    namespaces.push(value)
+  }
+  return namespaces
 }
