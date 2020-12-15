@@ -134,7 +134,7 @@ function generate_date() {
 }
 
 function generate_uri() {
-    return "uri:" + generate_value(8) + ":" + generate_value(14) + ":" + generate_value(10) + "#"
+    return "http://" + generate_value(8) + "/" + generate_value(14) + "/" + generate_value(10) + "#"
 }
 
 //uuid could be added to generate that

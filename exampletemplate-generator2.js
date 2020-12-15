@@ -1,10 +1,8 @@
 const fs = require('fs')
 const jsonfile = require('jsonfile')
-const jsonld = require('jsonld')
 const nunjucks = require('nunjucks')
 const ldParser = require('./linkeddataparser3')
 const camelCase = require('camelcase')
-const papaparse = require('papaparse')
 
 var program = require('commander')
 
@@ -33,7 +31,8 @@ nunjucks.configure(output, {
   autoescape: true
 })
 
-render_exampletemplate_from_json_ld_file(program.input, program.output, program.language)
+render_exampletemplate_from_json_ld_file(".\\vocjsonld.jsonld", "./temp/", "en")
+//render_exampletemplate_from_json_ld_file(program.input, program.output, program.language)
 console.log('done')
 
 function render_exampletemplate_from_json_ld_file(filename, outputdirectory, language) {
@@ -128,9 +127,25 @@ function make_exampletemplate(cj_class_desc, language) {
   }
 
   var pt = parse_template(JSON.stringify(cj_class))
-  var ren = render_template(pt, { ID: 'een identifier', STRING: 'een string waarde', BOOLEAN: 'true', VAL: 'I do not know' })
+  var renvalues = get_ren_values(language)
+  var ren = render_template(pt, renvalues)
   // console.log(ren);
   return cj_class
+}
+
+function get_ren_values(language) {
+  switch (language) {
+    case "nl": 
+      return { ID: 'een identifier', STRING: 'een string waarde', BOOLEAN: 'true', VAL: 'ik weet het niet' }
+    case "de": 
+      return { ID: 'ein Identifikator', STRING: 'ein String-Wert', BOOLEAN: 'true', VAL: 'Ich weiß es nicht' }
+    case "en":
+    default: 
+      if (language != "en") {
+        console.log("Your defined language does not have a value assigned, per default we will use English")
+      }
+      return { ID: 'an identifier', STRING: 'a string value', BOOLEAN: 'true', VAL: 'I do not know' }
+  }
 }
 
 function make_exampletemplate_context(cj_class_desc, language) {
