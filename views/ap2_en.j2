@@ -166,7 +166,7 @@
             </div>
 
             <div class="region region--no-space-top typography" id="summary">
-                <h2 class="h2" aria-level="1" role="heading" id="h2_sotd">Samenvatting</h2>
+                <h2 class="h2" aria-level="1" role="heading" id="h2_sotd">Summary</h2>
                 {% block summary %} 
                   {% if metadata.description %} 
                     {{ metadata.description[language] }}
@@ -176,12 +176,12 @@
 
             <div class="region region--no-space-top typography" id="status">
               <section class="introductory" id="sotd" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter">
-                <h2 class="h2" aria-level="1" role="heading" id="h2_sotd">Status van dit document</h2>
+                <h2 class="h2" aria-level="1" role="heading" id="h2_sotd">Status of this document</h2>
                 {% block status %}
                 <p>
                   This application profile has the status <a href="{{metadata.status }}">{{ metadata.statuslabel }}</a> publised at {{ metadata.issued }}.
 	        </p><p>
-		  Infromation about the process and the decisions involved in the creation of this specification are consultable at the 
+		  Information about the process and the decisions involved in the creation of this specification are consultable at the 
 		  <a href="{{metadata.standaardregisterurl}}">registry of standards</a>.
                 </p>
                 {% endblock %}
@@ -189,7 +189,7 @@
             </div>
 
             <div class="region region--no-space-top typography" id="license">
-              <h2 class="h2">Licentie</h2>
+              <h2 class="h2">License</h2>
               {% block license %}
               <p><span rel="dct:type" property="dct:title" href="http://purl.org/dc/dcmitype/Text" xmlns:dct="http://purl.org/dc/terms/">This specification</span> of <a rel="cc:attributionURL" property="cc:attributionName" href="ORGANISATION" xmlns:cc="http://creativecommons.org/ns#">ORGANISATION</a> is published under <a href="{{ metadata.license }}" rel="license">"CC0"</a>.</p>
               {% endblock %}
@@ -323,12 +323,12 @@
 	      {% endif %}
                 <div class="region region--no-space-top">
                   <dl>
-                    <dt>Beschrijving</dt><dd>{{ entity.description[language] }}</dd>
+                    <dt>Description</dt><dd>{{ entity.description[language] }}</dd>
                     {% if entity.usage[language] %}
-                    <dt>Gebruik</dt><dd>{{ entity.usage[language] }}</dd>
+                    <dt>Usage</dt><dd>{{ entity.usage[language] }}</dd>
                     {% endif %}
 		    {% if ((entity.parents | length) > 0 ) %} 
-		    <dt>Subklasse van <dt><dd>
+		    <dt>Subclass of <dt><dd>
                         {%- for parent in entity['parents'] %}
                         <a href="{{ parent.scoped_uri}}">{{ parent.label }}</a>{% if not loop.last %}, {% endif %}
                     	{%- endfor %}
@@ -398,7 +398,7 @@
             </div>
             <div class="region region--no-space-top" id="shacl">
                 <h2 class="h2" aria-level="1" role="heading" id="h2_sotd">SHACL template</h2>
-                (niet normatief)
+                (non-normative)
                 {% block shacl%}
                 <p>A reusable SHACL template for this application profile is retrievable at: <a href="{{ documentroot }}/shacl/{{ metadata.filename }}-SHACL.ttl" target="_blank">{{ documentroot }}/shacl/{{ metadata.filename }}-SHACL.ttl</a></p>
                 {% endblock %}

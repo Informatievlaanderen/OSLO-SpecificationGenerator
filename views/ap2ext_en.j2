@@ -33,7 +33,7 @@
   <div class="page">
     <div class="layout layout--wide">
       <div class="skiplink">
-        <a rel="nofollow noreferrer" href="#main">Overslaan en naar de algemene inhoud gaan</a>
+        <a rel="nofollow noreferrer" href="#main">Skip this section and go to general content</a>
       </div>
     </div>
     <div class="page">
@@ -157,18 +157,17 @@
             <div class="region" id="introduction">
               <div class="introduction typography">
               {% block introduction %}
-                <p>Dit document beschrijft een <strong>applicatieprofiel</strong>, in dit geval <strong>{{ metadata.title }}</strong>.
-                <!--Een applicatieprofiel is een specificatie die bestaande termen hergebruikt van verschillende basis-standaarden en daar meer specificiteit aan toevoegt.-->
-                <!-- Daarbij wordt het gebruik van de termen toegelicht voor de interbestuurlijke uitwisseling van overheidsinformatie.-->
-                Dit applicatieprofiel beantwoordt de vraag over hoe het corresponderende domeinmodel in de praktijk kan toegepast worden.
-                Daarbij worden de beperkingen (kardinaliteit, codelijsten) toegelicht en de overeenkomstige (RDF) termen opgelijst.
+                <p>This document describes an <strong>application profile</strong>, in this case the  <strong>{{ metadata.title }}</strong> application profile.
+                <!--An applicationprofile is a specification that reuses existing terms of several base-standards and adds more specificity to those terms.-->
+                  <!-- In order to do this the usage of these terms is explained for usage Daarbij wordt het gebruik van de termen toegelicht voor de interbestuurlijke uitwisseling van overheidsinformatie.-->
+                  This Aplication profile describes how to apply the corresponding domain model in practice. The restrictions (cardinality, codelists) are added and the corresponding (RDF) terms listed.
                 </p>
               {% endblock %}
               </div>
             </div>
 
             <div class="region region--no-space-top typography" id="summary">
-                <h2 class="h2" aria-level="1" role="heading" id="h2_sotd">Samenvatting</h2>
+                <h2 class="h2" aria-level="1" role="heading" id="h2_sotd">Summary</h2>
                 {% block summary %} 
                   {% if metadata.description %} 
                     {{ metadata.description[language] }}
@@ -178,28 +177,28 @@
 
             <div class="region region--no-space-top typography" id="status">
               <section class="introductory" id="sotd" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter">
-                <h2 class="h2" aria-level="1" role="heading" id="h2_sotd">Status van dit document</h2>
+                <h2 class="h2" aria-level="1" role="heading" id="h2_sotd">Status of this document</h2>
                 {% block status %}
-                <p>
-                  Dit applicatieprofiel heeft status <a href="{{metadata.status }}">{{ metadata.statuslabel }}</a> en werd uitgegeven op {{ metadata.issued }}.
-	        </p><p>
-                  Informatie over het gevolgde proces en de beslissingen om tot deze specificatie te komen zijn beschikbaar in het 
-                  <a href="{{metadata.standaardregisterurl}}">standaardenregister</a>.
+                  <p>
+                    This application profile has the status <a href="{{metadata.status }}">{{ metadata.statuslabel }}</a> and was published on {{ metadata.issued }}.
+	              </p><p>
+                    Information regarding the applied process and the decisions that were made in order to draft this document can be found in the  
+                  <a href="{{metadata.standaardregisterurl}}">standaardenregister</a> (registry of standards).
                 </p>
                 {% endblock %}
               </section>
             </div>
 
             <div class="region region--no-space-top typography" id="license">
-              <h2 class="h2">Licentie</h2>
+              <h2 class="h2">License</h2>
               {% block license %}
               <p><span rel="dct:type" property="dct:title" href="http://purl.org/dc/dcmitype/Text" xmlns:dct="http://purl.org/dc/terms/">Deze specificatie</span> van <a rel="cc:attributionURL" property="cc:attributionName" href="http://vlaanderen.be/informatievlaanderen" xmlns:cc="http://creativecommons.org/ns#">Informatie Vlaanderen</a> is gepubliceerd onder de <a href="{{ metadata.license }}" rel="license">"Modellicentie Gratis Hergebruik - v1.0"</a>.</p>
               {% endblock %}
             </div>
             <div class="region region--no-space-top typography" id="conformance">
-              <h2 class="h2" id="conformance" aria-level="1" role="heading">Conformiteit</h2>
+              <h2 class="h2" id="conformance" aria-level="1" role="heading">Conformance</h2>
               {% block conformance %}
-              <p>De conformiteit voor applicatieprofielen is <a href="/doc/begeleidend/applicatieprofielen/conformiteit">hier</a> te vinden.</p>
+              <p>The conformity of the application profiles can be found  <a href="/doc/begeleidend/applicatieprofielen/conformiteit">here</a>.</p>
               {% endblock %}
             </div>
             <div class="region region--no-space-top" id="overview">
@@ -330,25 +329,25 @@
 	      {% endif %}
                 <div class="region region--no-space-top">
                   <dl>
-                    <dt>Beschrijving</dt><dd>{{ entity.description[language] }}</dd>
+                    <dt>Description</dt><dd>{{ entity.description[language] }}</dd>
                     {% if entity.usage[language] %}
-                    <dt>Gebruik</dt><dd>{{ entity.usage[language] }}</dd>
+                    <dt>Usage</dt><dd>{{ entity.usage[language] }}</dd>
                     {% endif %}
 		    {% if ((entity.parents | length) > 0 ) %} 
-		    <dt>Subklasse van <dt><dd>
+		    <dt>Subclass of <dt><dd>
                         {%- for parent in entity['parents'] %}
                         <a href="{{ parent.scoped_uri}}">{{ parent.label }}</a>{% if not loop.last %}, {% endif %}
                     	{%- endfor %}
 		   </dd>
                     {% endif %}
-                    <dt>Eigenschappen</dt>
+                    <dt>Properties</dt>
 		    {% if ((entity.properties | length) > 0 ) %} 
-                    <dd>Voor dit datatype zijn de volgende eigenschappen gedefinieerd:
+                    <dd>The following properties were defined for this datatype:
                     {%- for prop in entity['properties'] | sort(attribute=sortattr) %}
                       <a href="#{{ (entity.name[language] ~ ':' ~ prop.name[language]) | urlencode }}">{{ prop.name[language] }}</a>{% if not loop.last %}, {% endif %}
                     {%- endfor %}.</dd>
                     {% else %}
-                    <dd>Voor dit datatype zijn geen eigenschappen gedefinieerd.</dd>
+                    <dd>There are no properties defined for this datatype.</dd>
                     {% endif %}
                   </dl>
                 </div>
@@ -357,7 +356,7 @@
                   <table class="data-table">
                     <thead>
                       <tr class="data-table__header">
-                        <th class="data-table__header-title--sortable data-table__header-title--sortable-active">Eigenschap</th>
+                        <th class="data-table__header-title--sortable data-table__header-title--sortable-active">Property</th>
                         <th class="data-table__header-title--sortable">Expected Range</th>
                         <th class="data-table__header-title--sortable">Cardinality</th>
                         <th class="data-table__header-title--sortable">Description</th>
@@ -400,16 +399,16 @@
             {% endif %}
             <div class="region region--no-space-top" id="jsonld">
                 <h2 class="h2" aria-level="1" role="heading" id="h2_sotd">JSON-LD context</h2>
-                (niet normatief)
+                (non-normative)
                 {% block jsonld %}
-                <p>Een herbruikbare JSON-LD context definitie voor dit applicatieprofiel is terug te vinden op: <a href="{{ documentroot }}/context/{{ metadata.filename }}.jsonld" target="_blank">{{ documentroot }}/context/{{ metadata.filename }}.jsonld</a></p>
+                <p>A reusable JSON-LD context for this application profile can be found here: <a href="{{ documentroot }}/context/{{ metadata.filename }}.jsonld" target="_blank">{{ documentroot }}/context/{{ metadata.filename }}.jsonld</a></p>
                 {% endblock %}
             </div>
             <div class="region region--no-space-top" id="shacl">
                 <h2 class="h2" aria-level="1" role="heading" id="h2_sotd">SHACL template</h2>
-                (niet normatief)
+                (non-normative)
                 {% block shacl%}
-                <p>Een herbruikbare SHACL template definitie voor dit applicatieprofiel is terug te vinden op: <a href="{{ documentroot }}/shacl/{{ metadata.filename }}-SHACL.ttl" target="_blank">{{ documentroot }}/shacl/{{ metadata.filename }}-SHACL.ttl</a></p>
+                <p>A reusable SHACL template definition for this application profile can be found here: <a href="{{ documentroot }}/shacl/{{ metadata.filename }}-SHACL.ttl" target="_blank">{{ documentroot }}/shacl/{{ metadata.filename }}-SHACL.ttl</a></p>
                 {% endblock %}
             </div>
           </div>
@@ -419,22 +418,22 @@
                       <div class="side-navigation__group">
                           <ul>
                               <li class="side-navigation__item">
-                                  <a href="#introduction">Inleiding</a>
+                                  <a href="#introduction">Introduction</a>
                               </li>
                               <li class="side-navigation__item">
-                                  <a href="#summary">Samenvatting</a>
+                                  <a href="#summary">Summary</a>
                               </li>
                               <li class="side-navigation__item">
-                                  <a href="#status">Status van dit document</a>
+                                  <a href="#status">Status of this document</a>
                               </li>
                               <li class="side-navigation__item">
-                                  <a href="#license">Licentie</a>
+                                  <a href="#license">License</a>
                               </li>
                               <li class="side-navigation__item">
-                                  <a href="#conformance">Conformiteit</a>
+                                  <a href="#conformance">Conformity</a>
                               </li>
                               <li class="side-navigation__item">
-                                  <a href="#overview">Overzicht</a>
+                                  <a href="#overview">Overview</a>
                               </li>
                               <li class="side-navigation__item">
                                   <a href="#jsonld">JSON-LD Context</a>
