@@ -143,6 +143,7 @@ async function parse_ontology_from_json_ld_file_ap(json_ld_file, hostname, force
 async function parse_ontology_from_json_ld_file_all(json_ld_file, hostname, forceskos, language) {
   var ld = JSON.parse(fs.readFileSync(json_ld_file, 'utf-8'))
   const expanded = await jsonld.expand(ld)
+  console.log(ld)
   // console.log(JSON.stringify(expanded));
 
   var grouped0 = group_properties_per_class_all(ld)

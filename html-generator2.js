@@ -72,7 +72,6 @@ function render_html_from_json_ld_file(target, template, filename, output_filena
         promise.then(function (parsed_json) {
           parsed_json.documentroot = program.documentpath;
           if (program.debug) {
-            console.log(parsed_json)
             jsonfile.writeFile(program.debug, parsed_json, function (err) {
               if (err) {
                 process.exitCode = 1;
