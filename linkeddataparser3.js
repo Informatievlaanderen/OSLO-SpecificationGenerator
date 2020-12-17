@@ -494,9 +494,7 @@ function group_properties_per_class_using_hierarchy(hierarchy, grouped) {
 //    * dependencies as given by the user
 //    * package_map = {EA-class -> EA-Package}
 //    * property_range = the EA-range of the property
-//    scoped_range =
-//    HARDCODED SELECTION OF .nl label
-function map_range(dependencies, package_map, property_range, property_range_uri, range_label, range_package) {
+function map_range(dependencies, package_map, property_range, property_range_uri, range_label, range_package, language) {
   if (package_map.has(property_range)) {
     // if it has a package then it is at least defined in the local space
     scoped_range = dependencies.reduce(function (acc, elem) {
@@ -504,7 +502,7 @@ function map_range(dependencies, package_map, property_range, property_range_uri
         // a dependency has been defined for this range
         acc = {
           //   range_uri : elem.packageurl + "#" + property_range,
-          range_uri: '#' + range_label.nl,
+          range_uri: '#' + range_label[language],
           range_puri: property_range_uri,
           range_label: range_label
         }
@@ -512,7 +510,7 @@ function map_range(dependencies, package_map, property_range, property_range_uri
       return acc
     },
       {
-        range_uri: '#' + range_label.nl,
+        range_uri: '#' + range_label[language],
         range_puri: property_range_uri,
         range_label: range_label
       }
@@ -721,10 +719,10 @@ function make_nj_enumeration(element, language) {
   // basic enum data
   var nj_enumeration = {
     uri: element['@id'],
-    name: get_language_attribute(element.name, language),
-    sort: get_language_value(element.name, language),
-    description: get_language_attribute(element.description, language),
-    usage: get_language_attribute(element.usage, language)
+    name: get_language_attribute(element, 'name', language),
+    sort: get_sort(element, language),
+    description: get_language_attribute(element, 'definition', language),
+    usage: get_language_attribute(element, 'usage', language)
   }
 
   if (element.extra.codelist) { nj_enumeration.codelist = element.extra.codelist };
@@ -747,10 +745,10 @@ function make_nj_class(element, grouped, aux, language) {
   // basic class data
   var nj_class = {
     uri: element['@id'],
-    name: get_language_attribute(element.name, language),
-    sort: get_language_value(element.name, language),
-    description: get_language_attribute(element.description, language),
-    usage: get_language_attribute(element.usage, language)
+    name: get_language_attribute(element, 'name', language),
+    sort: get_sort(element, language),
+    description: get_language_attribute(element, 'definition', language),
+    usage: get_language_attribute(element, 'usage', language)
   }
   // if the class is actually a reuse of an class from another applicationprofile
   var scoped_class_uri = dependencies.reduce(function (acc, elem) {
@@ -772,7 +770,7 @@ function make_nj_class(element, grouped, aux, language) {
     if (elem.label !== '') {
       elem.scoped_uri = get_scoped_class_uri(dependencies, package_map, elem.name, elem.package, elem.label, elem.uri)
     } else {
-      console.log('ERROR: a parent of ' + element.name.nl + ' has no label, use EA-Name')
+      console.log('ERROR: a parent of ' + element.name[language] + ' has no label, use EA-Name')
       elem.scoped_uri = get_scoped_class_uri(dependencies, package_map, elem.name, elem.package, elem.name, elem.uri)
       elem.label = elem.name
     }
@@ -825,7 +823,7 @@ function make_nj_class(element, grouped, aux, language) {
         scoped_range = value.range.reduce(function (racc, relem) {
           if (relem['EA-Name']) {
             rlabel = get_classid(classid_map, relem['EA-Name'])
-            racc.push(map_range(dependencies, package_map, relem['EA-Name'], relem.uri, rlabel, relem['EA-Package']))
+            racc.push(map_range(dependencies, package_map, relem['EA-Name'], relem.uri, rlabel, relem['EA-Package'], language))
           }
           return racc
         }, [])
@@ -846,7 +844,7 @@ function make_nj_class(element, grouped, aux, language) {
 
       if (codelisturi !== '') {
         if (scoped_range == null || scoped_range[0] == null || scoped_range[0].range_uri == null) {
-          console.log('ERROR: the range of property ' + value.name.nl + ' is empty and not defined as a skos:Concept, force it')
+          console.log('ERROR: the range of property ' + value.name[language] + ' is empty and not defined as a skos:Concept, force it')
           scoped_range[0] = {
             range_puri: 'http://www.w3.org/2004/02/skos/core#Concept',
             range_label: 'Concept',
@@ -854,7 +852,7 @@ function make_nj_class(element, grouped, aux, language) {
           }
         } else {
           if (scoped_range[0].range_uri !== 'http://www.w3.org/2004/02/skos/core#Concept') {
-            console.log('WARNING: the range of property ' + value.name.nl + ': <' + value['@id'] + '> is not skos:Concept')
+            console.log('WARNING: the range of property ' + value.name[language] + ': <' + value['@id'] + '> is not skos:Concept')
             if (forceskos) {
               console.log('WARNING: force it')
               scoped_range[0].range_uri = 'http://www.w3.org/2004/02/skos/core#Concept'
@@ -865,10 +863,10 @@ function make_nj_class(element, grouped, aux, language) {
 
       prop = {
         uri: value['@id'],
-        name: get_language_attribute(value.name, language),
-        sort: get_language_value(value.name, language),
-        description: get_language_attribute(value.description, language),
-        usage: get_language_attribute(value.usage, language),
+        name: get_language_attribute(value, 'name', language),
+        sort: get_sort(value, language),
+        description: get_language_attribute(value, 'definition', language),
+        usage: get_language_attribute(value, 'usage', language),
         domain: value.domain,
         range: range,
         scopedrange: scoped_range,
@@ -885,10 +883,10 @@ function make_nj_class(element, grouped, aux, language) {
 function make_nj_class_voc(element, language) {
   var nj_class = {
     uri: element['@id'],
-    name: get_language_attribute(element.name, language),
-    sort: get_language_value(element.name, language),
-    description: get_language_attribute(element.description, language),
-    usage: get_language_attribute(element.usage, language),
+    name: get_language_attribute(element, 'name', language),
+    sort: get_sort(element, language),
+    description: get_language_attribute(element, 'definition', language),
+    usage: get_language_attribute(element, 'usage', language),
     equivalent: [],
     parents: element.parents
   }
@@ -896,15 +894,21 @@ function make_nj_class_voc(element, language) {
   return nj_class
 };
 
-function get_language_attribute(attribute, language) {
-  for (let [key, value] of Object.entries(attribute)) {
-    if (key != language) {
-      delete attribute[key]
-    } else {
-      attribute[key] = get_language_value(attribute, language)
+function get_language_attribute(element, attr, language) {
+  if (element[attr] !== undefined && element[attr] != null) {
+    var attribute = element[attr]
+    for (let [key, value] of Object.entries(attribute)) {
+      if (key != language) {
+        delete attribute[key]
+      } else {
+        attribute[key] = get_language_value(attribute, language)
+      }
     }
+    return attribute
   }
-  return attribute
+  else {
+    return {}
+  }
 }
 
 function get_language_value(attribute, language) {
@@ -916,13 +920,23 @@ function get_language_value(attribute, language) {
   }
 }
 
+function get_sort(element, language) {
+  if (element.name !== undefined && element.name != null) {
+    var attribute = element.name
+    if (!(attribute === undefined) && !(attribute[language] === undefined)) {
+      return attribute[language]
+    }
+  }
+  return "undefined name"
+}
+
 function make_nj_ext_class_voc(element, language) {
   var nj_class = {
     uri: element['@id'],
-    name: get_language_attribute(element.name, language),
-    description: get_language_attribute(element.description, language),
-    usage: get_language_attribute(element.usage, language),
-    sort: get_language_value(element.name, language)
+    name: get_language_attribute(element, 'name', language),
+    description: get_language_attribute(element, 'definition', language),
+    usage: get_language_attribute(element, 'usage', language),
+    sort: get_sort(element, language)
   }
 
   if (nj_class.uri.startsWith('https://data.vlaanderen.be')) {
@@ -980,10 +994,10 @@ function make_nj_prop_voc(element, codelist, language) {
 
   var nj_prop = {
     uri: element['@id'],
-    name: get_language_attribute(element.name, language),
-    sort: get_language_value(element.name, language),
-    description: get_language_attribute(element.description, language),
-    usage: get_language_attribute(element.usage, language),
+    name: get_language_attribute(element, 'name', language),
+    sort: get_sort(element, language),
+    description: get_language_attribute(element, 'definition', language),
+    usage: get_language_attribute(element, 'usage', language),
     domain: domain,
     range: range,
     parents: element.generalization
@@ -998,10 +1012,10 @@ function make_nj_prop_voc(element, codelist, language) {
 function make_nj_ext_prop_voc(element, codelist, language) {
   var nj_prop = {
     uri: element['@id'],
-    name: get_language_attribute(element.name, language),
-    description: get_language_attribute(element.description, language),
-    usage: get_language_attribute(element.usage, language),
-    sort: get_language_value(element.name, language)
+    name: get_language_attribute(element, 'name', language),
+    description: get_language_attribute(element, 'definition', language),
+    usage: get_language_attribute(element, 'usage', language),
+    sort: get_sort(element, language)
 
   }
   if (element.extra.Scope) {
@@ -1408,7 +1422,7 @@ function make_nj_metadata(json, hostname) {
   }
 
   var meta = {
-    title:  json.title,
+    title: json.title,
     uri: json['@id'],
     issued: json['publication-date'],
     baseURI: json.baseURI,
