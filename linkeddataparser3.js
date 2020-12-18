@@ -143,7 +143,6 @@ async function parse_ontology_from_json_ld_file_ap(json_ld_file, hostname, force
 async function parse_ontology_from_json_ld_file_all(json_ld_file, hostname, forceskos, language) {
   var ld = JSON.parse(fs.readFileSync(json_ld_file, 'utf-8'))
   const expanded = await jsonld.expand(ld)
-  console.log(ld)
   // console.log(JSON.stringify(expanded));
 
   var grouped0 = group_properties_per_class_all(ld)
@@ -587,8 +586,8 @@ function get_classid_map(json) {
   return classid_map
 };
 
-function get_classid(classid_map, eaname) {
-  var classid = { nl: eaname }
+function get_classid(classid_map, eaname, language) {
+  var classid = { [language]: eaname }
   if (classid_map.has(eaname)) {
     classid = classid_map.get(eaname)
   };
@@ -823,7 +822,7 @@ function make_nj_class(element, grouped, aux, language) {
         var rlabel = ''
         scoped_range = value.range.reduce(function (racc, relem) {
           if (relem['EA-Name']) {
-            rlabel = get_classid(classid_map, relem['EA-Name'])
+            rlabel = get_classid(classid_map, relem['EA-Name'], language)
             racc.push(map_range(dependencies, package_map, relem['EA-Name'], relem.uri, rlabel, relem['EA-Package'], language))
           }
           return racc
