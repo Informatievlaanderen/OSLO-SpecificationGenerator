@@ -81,7 +81,6 @@ function render_html_from_json_ld_file(target, template, filename, output_filena
             })
           };
           parsed_json.namespaces = getNamespaces(obj)
-          console.log(parsed_json)
           var html = nunjucks.render(template, parsed_json);
 
           const data = new Uint8Array(Buffer.from(html));

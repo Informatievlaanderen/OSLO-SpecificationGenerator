@@ -720,6 +720,7 @@ function make_nj_enumeration(element, language) {
   var nj_enumeration = {
     uri: element['@id'],
     name: get_language_attribute(element, 'name', language),
+    label: get_language_attribute(element, 'label', language),
     sort: get_sort(element, language),
     description: get_language_attribute(element, 'definition', language),
     usage: get_language_attribute(element, 'usage', language)
@@ -746,6 +747,7 @@ function make_nj_class(element, grouped, aux, language) {
   var nj_class = {
     uri: element['@id'],
     name: get_language_attribute(element, 'name', language),
+    label: get_language_attribute(element, 'label', language),
     sort: get_sort(element, language),
     description: get_language_attribute(element, 'definition', language),
     usage: get_language_attribute(element, 'usage', language)
@@ -884,6 +886,7 @@ function make_nj_class_voc(element, language) {
   var nj_class = {
     uri: element['@id'],
     name: get_language_attribute(element, 'name', language),
+    label: get_language_attribute(element, 'label', language),
     sort: get_sort(element, language),
     description: get_language_attribute(element, 'definition', language),
     usage: get_language_attribute(element, 'usage', language),
@@ -897,26 +900,10 @@ function make_nj_class_voc(element, language) {
 function get_language_attribute(element, attr, language) {
   if (element[attr] !== undefined && element[attr] != null) {
     var attribute = element[attr]
-    for (let [key, value] of Object.entries(attribute)) {
-      if (key != language) {
-        delete attribute[key]
-      } else {
-        attribute[key] = get_language_value(attribute, language)
-      }
-    }
     return attribute
   }
   else {
     return {}
-  }
-}
-
-function get_language_value(attribute, language) {
-  if (!(attribute === undefined) && !(attribute[language] === undefined)) {
-    return attribute[language]
-  }
-  else {
-    return attribute
   }
 }
 
@@ -934,6 +921,7 @@ function make_nj_ext_class_voc(element, language) {
   var nj_class = {
     uri: element['@id'],
     name: get_language_attribute(element, 'name', language),
+    label: get_language_attribute(element, 'label', language),
     description: get_language_attribute(element, 'definition', language),
     usage: get_language_attribute(element, 'usage', language),
     sort: get_sort(element, language)
@@ -995,6 +983,7 @@ function make_nj_prop_voc(element, codelist, language) {
   var nj_prop = {
     uri: element['@id'],
     name: get_language_attribute(element, 'name', language),
+    label: get_language_attribute(element, 'label', language),
     sort: get_sort(element, language),
     description: get_language_attribute(element, 'definition', language),
     usage: get_language_attribute(element, 'usage', language),
@@ -1013,6 +1002,7 @@ function make_nj_ext_prop_voc(element, codelist, language) {
   var nj_prop = {
     uri: element['@id'],
     name: get_language_attribute(element, 'name', language),
+    label: get_language_attribute(element, 'label', language),
     description: get_language_attribute(element, 'definition', language),
     usage: get_language_attribute(element, 'usage', language),
     sort: get_sort(element, language)
