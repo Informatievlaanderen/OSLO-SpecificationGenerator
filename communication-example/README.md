@@ -23,3 +23,9 @@ Addressobject <relationship:hasCity> Cityobject .
         1.1 the Id of that object is saved
     2. For each address and object is created on the db having the same attributes. Under the relationship key there will be a value for Cities, pointing to the saved id. 
 - Triples are now transfered from A to B
+
+Why will this not work for other resource structures?  
+- each object has it's own path to send the requests to
+- each object needs a different body for the post calls
+- each object needs a different filter (in url) for the get calls
+- means: adding for example a country object need two additional functions in code
