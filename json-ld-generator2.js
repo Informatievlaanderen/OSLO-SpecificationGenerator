@@ -243,10 +243,10 @@ function map_properties(eanamesclasses, duplicates, prop, language) {
   let identifier = ''
 
   if (prop.range.length === 0) {
-    console.log('warning: no range for ' + prop.name[language])
+    console.log('warning: no range for ' + prop.name)
   } else {
     if (prop.range.length > 1) {
-      console.log('warning: more than one type for ' + prop.name[language] + ' : ' + prop.range)
+      console.log('warning: more than one type for ' + prop.name + ' : ' + prop.range)
       range = prop.range[0]
       range_uri = range.uri
     } else {

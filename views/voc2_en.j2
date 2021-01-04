@@ -247,7 +247,7 @@
                                         <p>
                                             |
                                             {% for class in classes | sort(attribute=sortattr) %}
-                                            <a href="{{ class.uri  | replace(metadata.uri, '') }}" rel="class">{{ class.name[language]}}</a> |
+                                            <a href="{{ class.uri  | replace(metadata.uri, '') }}" rel="class">{{ class.name}}</a> |
                                             {% endfor %}
                                         </p>
                                     </div>
@@ -261,7 +261,7 @@
                                         <p>
                                             |
                                             {% for prop in properties | sort(attribute=sortattr) %}
-                                            <a href="{{ prop.uri  | replace(metadata.uri, '')}}" rel="property">{{ prop.name[language] }}</a> |
+                                            <a href="{{ prop.uri  | replace(metadata.uri, '')}}" rel="property">{{ prop.label[language] }}</a> |
                                             {% endfor %}
                                         </p>
                                     </div>
@@ -280,7 +280,7 @@
                                 </div>
                                 {% for class in classes | sort(attribute=sortattr) %}
                                 <div class="region region--no-space-top">
-                                    <h3 class="h3"  id="{{ class.uri | replace(metadata.uri + '#', '') }}">Klasse <em>{{ class.name[language] }}</em></h3>
+                                    <h3 class="h3"  id="{{ class.uri | replace(metadata.uri + '#', '') }}">Klasse <em>{{ class.label[language] }}</em></h3>
                                     <table class="definition">
                                         <tbody>
                                           <tr>
@@ -288,10 +288,10 @@
                                             <td>Class</td>
                                           </tr>
 <!-- The Naam of the property/class is not relevant as it is already in the title of the table
-                                          {% if class.name[language] %}
+                                          {% if class.name %}
                                           <tr>
                                             <th>Name</th>
-                                            <td><code>{{ class.name[language] }}</code></td>
+                                            <td><code>{{ class.label[language] }}</code></td>
                                           </tr>
                                           {% endif %}
 -->
@@ -346,7 +346,7 @@
 
                                 {% for property in properties | sort(attribute=sortattr) %}
                                 <div class="region region--no-space-top">
-                                    <h3 class="h3"  id="{{ property.uri | replace(metadata.uri + '#', '') }}">Property <em>{{  property.name[language] }}</em></h3>
+                                    <h3 class="h3"  id="{{ property.uri | replace(metadata.uri + '#', '') }}">Property <em>{{  property.label[language] }}</em></h3>
                                     <table class="definition">
                                         <tbody>
                                           <tr>
@@ -421,7 +421,7 @@
                                 {% if external_terms %}
                                 {% for external in external_terms |sort(attribute=sortattr) %}
                                 <div class="region region--no-space-top">
-                                    <h3 class="h4" id="{{ external.name[language] }}"><em>{{ external.name[language] }}</em></h3>
+                                    <h3 class="h4" id="{{ external.name }}"><em>{{ external.label[language] }}</em></h3>
                                     <table class="definition">
                                         <tbody>
                                           

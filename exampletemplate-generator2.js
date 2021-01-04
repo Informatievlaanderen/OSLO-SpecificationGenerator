@@ -60,8 +60,8 @@ function render_exampletemplate_from_json_ld_file(filename, outputdirectory, lan
           let classes = parsed_json.classes
           let filenamei = ''
           for (const i in classes) {
-            if (classes[i].name[language] != null && !(classes[i].name[language] === undefined) && classes[i].name[language] != '') {
-              filenamei = outputdirectory + '/' + camelCase(classes[i].name[language]) + '.json'
+            if (classes[i].name != null && !(classes[i].name === undefined) && classes[i].name != '') {
+              filenamei = outputdirectory + '/' + camelCase(classes[i].name) + '.json'
               jsonfile.writeFile(filenamei, make_exampletemplate(classes[i], language), function (err) {
                 if (err) {
                   // Set the exit code if there's a problem so bash sees it
@@ -75,8 +75,8 @@ function render_exampletemplate_from_json_ld_file(filename, outputdirectory, lan
           console.log('start writing datatype templates')
           classes = parsed_json.datatypes
           for (const i in classes) {
-            if (classes[i].name[language] != null && !(classes[i].name[language] === undefined) && classes[i].name[language] != '') {
-              filenamei = outputdirectory + '/' + camelCase(classes[i].name[language]) + '.json'
+            if (classes[i].name != null && !(classes[i].name === undefined) && classes[i].name != '') {
+              filenamei = outputdirectory + '/' + camelCase(classes[i].name) + '.json'
               jsonfile.writeFile(filenamei, make_exampletemplate(classes[i], language), function (err) {
                 if (err) {
                   // Set the exit code if there's a problem so bash sees it
@@ -91,8 +91,8 @@ function render_exampletemplate_from_json_ld_file(filename, outputdirectory, lan
           console.log('start writing class & datatype contextfiles')
           classes = parsed_json.classes.concat(parsed_json.datatypes)
           for (const i in classes) {
-            if (classes[i].name[language] != null && !(classes[i].name[language] === undefined) && classes[i].name[language] != '') {
-              filenamei = outputdirectory + '/context/' + camelCase(classes[i].name[language]) + '.jsonld'
+            if (classes[i].name != null && !(classes[i].name === undefined) && classes[i].name != '') {
+              filenamei = outputdirectory + '/context/' + camelCase(classes[i].name) + '.jsonld'
               jsonfile.writeFile(filenamei, make_exampletemplate_context(classes[i], language), function (err) {
                 if (err) {
                   // Set the exit code if there's a problem so bash sees it
@@ -111,7 +111,7 @@ function render_exampletemplate_from_json_ld_file(filename, outputdirectory, lan
 
 function make_exampletemplate(cj_class_desc, language) {
   var cj_class = {
-    '@context': program.contextbase + '/' + camelCase(cj_class_desc.name[language]) + '.jsonld',
+    '@context': program.contextbase + '/' + camelCase(cj_class_desc.name) + '.jsonld',
     '@type': cj_class_desc.uri,
     '@id': '{{ID}}'
   }
@@ -120,8 +120,8 @@ function make_exampletemplate(cj_class_desc, language) {
     // console.log(cj_class_desc.properties[p]);
     // console.log(cj_class_desc.properties[p].name);
     // console.log(cj_class_desc.properties[p].name.nl);
-    if ((cj_class_desc.properties[p].name[language] !== null) && (cj_class_desc.properties[p].name[language] !== '')) {
-      cj_class[camelCase(cj_class_desc.properties[p].name[language])] = rp
+    if ((cj_class_desc.properties[p].name !== null) && (cj_class_desc.properties[p].name !== '')) {
+      cj_class[camelCase(cj_class_desc.properties[p].name)] = rp
     }
   }
 
@@ -149,12 +149,12 @@ function get_ren_values(language) {
 
 function make_exampletemplate_context(cj_class_desc, language) {
   var cj_class_context = {}
-  cj_class_context[camelCase(cj_class_desc.name[language])] = cj_class_desc.uri
+  cj_class_context[camelCase(cj_class_desc.name)] = cj_class_desc.uri
 
   for (const p in cj_class_desc.properties) {
     var rp = range_repr_context(cj_class_desc.properties[p].uri, cj_class_desc.properties[p].scopedrange)
-    if ((cj_class_desc.properties[p].name[language] != null) && (cj_class_desc.properties[p].name[language] !== '')) {
-      cj_class_context[camelCase(cj_class_desc.properties[p].name[language])] = rp
+    if ((cj_class_desc.properties[p].name != null) && (cj_class_desc.properties[p].name !== '')) {
+      cj_class_context[camelCase(cj_class_desc.properties[p].name)] = rp
     };
   }
   return cj_class_context

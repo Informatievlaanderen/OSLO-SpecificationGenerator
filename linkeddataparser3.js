@@ -50,14 +50,14 @@ async function parse_ontology_from_json_ld_file_voc(json_ld_file, hostname, lang
   }, [])
   var nj_ext_classes_list = ld.externals.reduce(function (acc, elem) {
     var candidate = make_nj_ext_class_voc(elem, language)
-    if (candidate.name && candidate.name[language] && candidate.show) { acc.push(candidate) };
+    if (candidate.name && candidate.show) { acc.push(candidate) };
     return acc
   }, [])
   var nj_ext_classes_set = new Set(nj_ext_classes_list)
   var nj_ext_classes = nj_ext_classes_set.toArray()
   var nj_ext_properties_list = ld.externalproperties.reduce(function (acc, elem) {
     var candidate = make_nj_ext_prop_voc(elem, codelist, language)
-    if (candidate.name && candidate.name[language] && candidate.show) { acc.push(candidate) };
+    if (candidate.name && candidate.show) { acc.push(candidate) };
     return acc
   }, [])
   // console.log(JSON.stringify(nj_classes) );
@@ -719,7 +719,7 @@ function make_nj_enumeration(element, language) {
   // basic enum data
   var nj_enumeration = {
     uri: element['@id'],
-    name: get_language_attribute(element, 'name', language),
+    name: get_neutral_attribute(element, 'name'),
     label: get_language_attribute(element, 'label', language),
     sort: get_sort(element, language),
     description: get_language_attribute(element, 'definition', language),
@@ -746,7 +746,7 @@ function make_nj_class(element, grouped, aux, language) {
   // basic class data
   var nj_class = {
     uri: element['@id'],
-    name: get_language_attribute(element, 'name', language),
+    name: get_neutral_attribute(element, 'name'),
     label: get_language_attribute(element, 'label', language),
     sort: get_sort(element, language),
     description: get_language_attribute(element, 'definition', language),
@@ -772,7 +772,7 @@ function make_nj_class(element, grouped, aux, language) {
     if (elem.label !== '') {
       elem.scoped_uri = get_scoped_class_uri(dependencies, package_map, elem.name, elem.package, elem.label, elem.uri)
     } else {
-      console.log('ERROR: a parent of ' + element.name[language] + ' has no label, use EA-Name')
+      console.log('ERROR: a parent of ' + element.name + ' has no label, use EA-Name')
       elem.scoped_uri = get_scoped_class_uri(dependencies, package_map, elem.name, elem.package, elem.name, elem.uri)
       elem.label = elem.name
     }
@@ -846,7 +846,7 @@ function make_nj_class(element, grouped, aux, language) {
 
       if (codelisturi !== '') {
         if (scoped_range == null || scoped_range[0] == null || scoped_range[0].range_uri == null) {
-          console.log('ERROR: the range of property ' + value.name[language] + ' is empty and not defined as a skos:Concept, force it')
+          console.log('ERROR: the range of property ' + value.name + ' is empty and not defined as a skos:Concept, force it')
           scoped_range[0] = {
             range_puri: 'http://www.w3.org/2004/02/skos/core#Concept',
             range_label: 'Concept',
@@ -854,7 +854,7 @@ function make_nj_class(element, grouped, aux, language) {
           }
         } else {
           if (scoped_range[0].range_uri !== 'http://www.w3.org/2004/02/skos/core#Concept') {
-            console.log('WARNING: the range of property ' + value.name[language] + ': <' + value['@id'] + '> is not skos:Concept')
+            console.log('WARNING: the range of property ' + value.name + ': <' + value['@id'] + '> is not skos:Concept')
             if (forceskos) {
               console.log('WARNING: force it')
               scoped_range[0].range_uri = 'http://www.w3.org/2004/02/skos/core#Concept'
@@ -865,7 +865,7 @@ function make_nj_class(element, grouped, aux, language) {
 
       prop = {
         uri: value['@id'],
-        name: get_language_attribute(value, 'name', language),
+        name: get_neutral_attribute(value, 'name'),
         sort: get_sort(value, language),
         description: get_language_attribute(value, 'definition', language),
         usage: get_language_attribute(value, 'usage', language),
@@ -885,7 +885,7 @@ function make_nj_class(element, grouped, aux, language) {
 function make_nj_class_voc(element, language) {
   var nj_class = {
     uri: element['@id'],
-    name: get_language_attribute(element, 'name', language),
+    name: get_neutral_attribute(element, 'name'),
     label: get_language_attribute(element, 'label', language),
     sort: get_sort(element, language),
     description: get_language_attribute(element, 'definition', language),
@@ -898,6 +898,16 @@ function make_nj_class_voc(element, language) {
 };
 
 function get_language_attribute(element, attr, language) {
+  if (element[attr] !== undefined && element[attr] != null && element[attr][language] !== undefined) {
+    var attribute = element[attr]
+    return attribute
+  }
+  else {
+    return {}
+  }
+}
+
+function get_neutral_attribute(element, attr) {
   if (element[attr] !== undefined && element[attr] != null) {
     var attribute = element[attr]
     return attribute
@@ -920,7 +930,7 @@ function get_sort(element, language) {
 function make_nj_ext_class_voc(element, language) {
   var nj_class = {
     uri: element['@id'],
-    name: get_language_attribute(element, 'name', language),
+    name: get_neutral_attribute(element, 'name'),
     label: get_language_attribute(element, 'label', language),
     description: get_language_attribute(element, 'definition', language),
     usage: get_language_attribute(element, 'usage', language),
@@ -982,7 +992,7 @@ function make_nj_prop_voc(element, codelist, language) {
 
   var nj_prop = {
     uri: element['@id'],
-    name: get_language_attribute(element, 'name', language),
+    name: get_neutral_attribute(element, 'name'),
     label: get_language_attribute(element, 'label', language),
     sort: get_sort(element, language),
     description: get_language_attribute(element, 'definition', language),
@@ -1001,7 +1011,7 @@ function make_nj_prop_voc(element, codelist, language) {
 function make_nj_ext_prop_voc(element, codelist, language) {
   var nj_prop = {
     uri: element['@id'],
-    name: get_language_attribute(element, 'name', language),
+    name: get_neutral_attribute(element, 'name'),
     label: get_language_attribute(element, 'label', language),
     description: get_language_attribute(element, 'definition', language),
     usage: get_language_attribute(element, 'usage', language),

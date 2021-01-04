@@ -116,10 +116,8 @@ function create_shortened_object(object, prime, goal) {
 function set_name(shortObject, originalObject, prime, goal) {
   if (!(originalObject["name"] === undefined)) {
     shortObject["name"] = originalObject["name"]
-    if (!(originalObject["name"][prime] === undefined)) {
-      shortObject["name"][prime] = originalObject["name"][prime]
-      shortObject["name"][goal] = originalObject["name"][prime]
-    }
+  } else {
+    shortObject["name"] = ""
   }
   return shortObject
 }

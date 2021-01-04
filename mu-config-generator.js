@@ -243,8 +243,8 @@ function end_class(domainBuilder, currClass, language) {
 }
 
 function get_name(obj, language) {
-    if (obj.name !== undefined && obj.name[language] !== undefined) {
-        return obj.name[language]
+    if (obj.name !== undefined) {
+        return obj.name
     } else {
         console.log("No name for specified language in object: " + obj["@id"] + " usind EA-Name instead: " + obj["extra"]["EA-Name"])
         return obj["extra"]["EA-Name"]

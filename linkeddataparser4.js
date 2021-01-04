@@ -50,14 +50,14 @@ async function parse_ontology_from_json_ld_file_voc(json_ld_file, hostname, lang
   }, [])
   var nj_ext_classes_list = ld.externals.reduce(function (acc, elem) {
     var candidate = make_nj_ext_class_voc(elem, language)
-    if (candidate.name && candidate.name[language] && candidate.show) { acc.push(candidate) };
+    if (candidate.name && candidate.show) { acc.push(candidate) };
     return acc
   }, [])
   var nj_ext_classes_set = new Set(nj_ext_classes_list)
   var nj_ext_classes = nj_ext_classes_set.toArray()
   var nj_ext_properties_list = ld.externalproperties.reduce(function (acc, elem) {
     var candidate = make_nj_ext_prop_voc(elem, codelist, language)
-    if (candidate.name && candidate.name[language] && candidate.show) { acc.push(candidate) };
+    if (candidate.name && candidate.show) { acc.push(candidate) };
     return acc
   }, [])
   // console.log(JSON.stringify(nj_classes) );

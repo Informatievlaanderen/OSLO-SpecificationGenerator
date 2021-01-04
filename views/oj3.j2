@@ -216,7 +216,7 @@
                       <br />
                       |
                       {%- for class in classes |sort(attribute=sortattr) %}
-                      <a href="#{{ class.name[language] }}">{{ class.name[language] }}</a> |
+                      <a href="#{{ class.name }}">{{ class.label[language] }}</a> |
                       {%- endfor %}
                     </p>
                   </div>
@@ -227,7 +227,7 @@
                       <br />
                       |
                       {%- for datatype in datatypes |sort(attribute=sortattr) %}
-                      <a href="#{{ datatype.name[language] }}">{{ datatype.name[language] }}</a> |
+                      <a href="#{{ datatype.name }}">{{ datatype.label[language] }}</a> |
                       {%- endfor %}
                     </p>
                   </div>
@@ -259,7 +259,7 @@
             </div>
             {% for entity in classes | sort(attribute=sortattr) %}
               <div class="region region--no-space-top">
-              <h3 class="h3" id="{{ entity.name[language] }}"><a href="{{ entity.uri }}" data-toggle="tooltip" data-content="{{ entity.uri }}" data-placement="right">{{ entity.name[language] }}</a></h3>
+              <h3 class="h3" id="{{ entity.name }}"><a href="{{ entity.uri }}" data-toggle="tooltip" data-content="{{ entity.uri }}" data-placement="right">{{ entity.label[language] }}</a></h3>
                 <div class="region region--no-space-top">
                   <dl>
                     <dt>Beschrijving</dt><dd>{{ entity.description[language] }}</dd>
@@ -277,7 +277,7 @@
 		    {% if ((entity.properties | length) > 0 ) %} 
                     <dd>Voor deze entiteit zijn de volgende eigenschappen gedefinieerd:
                     {%- for prop in entity['properties'] | sort(attribute=sortattr) %}
-                      <a href="#{{ (entity.name[language] ~ ':' ~ prop.name[language]) | urlencode }}">{{ prop.name[language] }}</a>{% if not loop.last %}, {% endif %}
+                      <a href="#{{ (entity.name ~ ':' ~ prop.name) | urlencode }}">{{ prop.label[language] }}</a>{% if not loop.last %}, {% endif %}
                     {%- endfor %}.</dd>
                     {% else %}
                     <dd>Voor deze entiteit zijn geen eigenschappen gedefinieerd.</dd>
@@ -300,11 +300,11 @@
 
                     <tbody class="supertype">
                     {% for prop in entity['properties'] | sort(attribute=sortattr) %}
-                      <tr id="{{ (entity.name[language] ~ ':' ~ prop.name[language]) | urlencode }}" typeof="rdfs:Property" resource="{{ prop.uri }}">
+                      <tr id="{{ (entity.name ~ ':' ~ prop.name) | urlencode }}" typeof="rdfs:Property" resource="{{ prop.uri }}">
                         <td>
                           <code property="rdfs:label">
                             <a href="{{ prop.uri }}" data-toggle="tooltip" data-content="{{ prop.uri }}" data-placement="right">
-                            {{ prop.name[language] }}</a>
+                            {{ prop.label[language] }}</a>
                           </code>
                         </td>
                         <td>
@@ -336,9 +336,9 @@
             {% for entity in datatypes | sort(attribute=sortattr)%}
             <div class="region region--no-space-top">
               {% if entity.scopeduri %}
-              <h3 class="h3" id="{{ entity.name[language] }}"><a href="{{ entity.scopeduri }}" data-toggle="tooltip" data-content="{{ entity.uri }}" data-placement="right">{{ entity.name[language] }}</a></h3>
+              <h3 class="h3" id="{{ entity.name }}"><a href="{{ entity.scopeduri }}" data-toggle="tooltip" data-content="{{ entity.uri }}" data-placement="right">{{ entity.label[language] }}</a></h3>
 	      {% else %}
-              <h3 class="h3" id="{{ entity.name[language] }}"><a href="{{ entity.uri }}" data-toggle="tooltip" data-content="{{ entity.uri }}" data-placement="right">{{ entity.name[language] }}</a></h3>
+              <h3 class="h3" id="{{ entity.name }}"><a href="{{ entity.uri }}" data-toggle="tooltip" data-content="{{ entity.uri }}" data-placement="right">{{ entity.label[language] }}</a></h3>
 	      {% endif %}
                 <div class="region region--no-space-top">
                   <dl>
@@ -357,7 +357,7 @@
 		    {% if ((entity.properties | length) > 0 ) %} 
                     <dd>Voor dit datatype zijn de volgende eigenschappen gedefinieerd:
                     {%- for prop in entity['properties'] | sort(attribute=sortattr) %}
-                      <a href="#{{ (entity.name[language] ~ ':' ~ prop.name[language]) | urlencode }}">{{ prop.name[language] }}</a>{% if not loop.last %}, {% endif %}
+                      <a href="#{{ (entity.name ~ ':' ~ prop.name) | urlencode }}">{{ prop.label[language] }}</a>{% if not loop.last %}, {% endif %}
                     {%- endfor %}.</dd>
                     {% else %}
                     <dd>Voor dit datatype zijn geen eigenschappen gedefinieerd.</dd>
@@ -380,10 +380,10 @@
 
                     <tbody class="supertype">
                       {% for prop in entity['properties'] | sort(attribute=sortattr) %}
-                      <tr id="{{ (entity.name[language] ~ ':' ~ prop.name[language] ) | urlencode }}" typeof="rdfs:Property" resource="{{ prop.uri }}">
+                      <tr id="{{ (entity.name ~ ':' ~ prop.name ) | urlencode }}" typeof="rdfs:Property" resource="{{ prop.uri }}">
                         <td>
                           <code property="rdfs:label">
-                            <a href="{{ prop.uri }}" data-toggle="tooltip" data-content="{{ prop.uri }}" data-placement="right">{{ prop.name[language] }}</a>
+                            <a href="{{ prop.uri }}" data-toggle="tooltip" data-content="{{ prop.uri }}" data-placement="right">{{ prop.label[language] }}</a>
                           </code>
                         </td>
                         <td>
