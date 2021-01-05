@@ -1,36 +1,36 @@
-const fs = require('fs')
-const jsonfile = require('jsonfile')
-var pluralize = require('pluralize')
-const StringBuilder = require("string-builder");
 var program = require('commander');
-const https = require('https');
 const http = require('http');
 
 program
     .version('0.0.1')
     .usage('node specgen-jsonld-merger.js merges translation Json with original jsonld')
-    .option('-c, --city <>', '')
-    .option('-m, --mainport <>', '')
-    .option('-g, --goalport <>', '')
+    .option('-c, --city <String>', 'Name of the city/cities from which you want all addresses to be transferred')
+    .option('-m, --mainport <port>', 'Port that the service the data should be transferred from runs on')
+    .option('-g, --goalport <port>', 'Port that the service the data should be transferred to runs on')
+    .option('-h, --mainhostname <String or url>', 'Hostname of the service the data should be transferred from')
+    .option('-n, --goalhostname <String or url>', 'Hostname of the service the data should be transferred to')
 
 program.on('--help', function () {
     console.log('')
     console.log('Examples:')
     console.log('  $ specgen-shacl --help')
-    console.log('  $ specgen-shacl -i <input> -o <output> -l <language>')
-    console.log('  $ specgen-shacl -i <input> -o <output> -l <language> -s <boolean>')
+    console.log('  $ specgen-shacl -c <cityname> -m <port> -g <port>')
+    console.log('  $ specgen-shacl -c <cityname> -m <port> -g <port> -n <hostname>')
+    console.log('  $ specgen-shacl -c <cityname> -m <port> -g <port> -n <hostname> -h <hostname>')
     process.exitCode = 1
 })
 
 program.parse(process.argv)
 const mainport = program.mainport
 const goalport = program.goalport
+const mainhost = program.mainhostname || 'http://localhost:'
+const goalhost = program.goalhostname || 'localhost'
+
 transferAllAddresses(program.city)
-//http://localhost:8888/Addresses?filter[City][name]=London
-//http://localhost:8888/Cities?filter[name]=London
+
 function transferAllAddresses(city) {
     http
-        .get('http://localhost:'+mainport+'/Cities?filter[name]='+city, resp => {
+        .get(mainhost + mainport + '/Cities?filter[name]=' + city, resp => {
             let data = ''
 
             resp.on('data', chunk => {
@@ -50,9 +50,8 @@ function getAllAddressesInCity(data) {
         var city = data[i]
         var id = city["id"]
         http
-            .get('http://localhost:'+mainport+'/Addresses?filter[City][id]=' + id, resp => {
+            .get(mainhost + mainport + '/Addresses?filter[City][id]=' + id, resp => {
                 let data = ''
-                let datachunk = ''
                 resp.on('data', chunk => {
                     data += chunk
                 })
@@ -65,7 +64,7 @@ function getAllAddressesInCity(data) {
     }
 }
 
-function writeAllInOtherDatabase(city, addresses) {
+function writeAllInOtherDatabase(city) {
     const data = JSON.stringify({
         data: {
             "type": "Cities",
@@ -75,9 +74,8 @@ function writeAllInOtherDatabase(city, addresses) {
             }
         }
     })
-
     const options = {
-        hostname: 'localhost',
+        hostname: goalhost,
         port: goalport,
         path: '/Cities',
         method: 'POST',
@@ -94,7 +92,7 @@ function writeAllInOtherDatabase(city, addresses) {
         })
         resp.on('end', () => {
             let createdCity = JSON.parse(data)
-            console.log("City was created: "+createdCity)
+            console.log("City was created: " + createdCity)
             console.log(createdCity)
             writeAddressesInOtherDatabase(createdCity)
         })
@@ -127,9 +125,8 @@ function writeAddressesInOtherDatabase(city) {
                 }
             }
         })
-
         const options = {
-            hostname: 'localhost',
+            hostname: goalhost,
             port: goalport,
             path: '/Addresses',
             method: 'POST',
@@ -159,6 +156,3 @@ function writeAddressesInOtherDatabase(city) {
         req.end()
     }
 }
-
-console.log('done')
-
