@@ -19,9 +19,9 @@ To recreate this example, you need to have the following setup:
             streetname: "London Street", housenumber: "5A", extra: "first floor left" with a relationship to the city London that was just created   
     - As B knows the resource structure but does not have these objects. (It will also work if both have the same objects but that will simply cause a duplication) 
 To create these objects you will need to make the following post-requests:  
-For all of them you need to define the header ``"Content-Type": "application/vnd.api+json"``.
+For all of them you need to define the header `"Content-Type": "application/vnd.api+json"`.
 First to the /Cities endpoint with the body:  
-``"{  
+`"{  
     data": {  
             "type": "Cities",  
             "attributes": {  
@@ -29,10 +29,10 @@ First to the /Cities endpoint with the body:
                 "country": "England"  
             }  
         }  
-    }``  
+    }`  
 You will then get the created object returned and need to remember the Id of said object.
 Now to the /Addresses endpoint with the body:
-``{  
+`{  
     data: {  
                 "type": "Addresses",  
                 "attributes": {  
@@ -48,9 +48,9 @@ Now to the /Addresses endpoint with the body:
                     }  
                 }  
             }    
-}``   
+}`   
 and another one with:   
-``{  
+`{  
     data: {  
                 "type": "Addresses",  
                 "attributes": {  
@@ -67,13 +67,13 @@ and another one with:
                     }  
                 }  
             }   
-}``   
+}`   
 You can add as many additional objects in this structure as you please.  
 
 ## The Tool
 In our example we use the cityname "London" and give the ports our services run on. If the default hostnames 'localhost' do not fit, they need to be given, too. The tool will then extract all London-named cities from A, create new Cities with the same attributes in B. It will also then extract all the addresses pointing to the London from A it is currently looking at and create new addresses with the same attributes in B, pointing to the respective city in B.  
 Our example will now cause this workflow:  
-- Run: ``.\\node communication-example.js -c London -m 8888 -g 8889`` but change the values to fit yours  
+- Run: `.\\node communication-example.js -c London -m 8888 -g 8889` but change the values to fit yours  
 - The tool will now retrieve the object London from A via a get request  
 - Using Lonon's Id the tool will now retrieve the address objects (Baker Street, London Street) that have a relationship to it from A via a get request  
 - The objects will be now transferred to B using one post requests for each object  
