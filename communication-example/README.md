@@ -21,69 +21,69 @@ To recreate this example, you need to have the following setup:
 To create these objects you will need to make the following post-requests:  
 For all of them you need to define the header ``"Content-Type": "application/vnd.api+json"``.
 First to the /Cities endpoint with the body:  
-``"{
-    data": {
-            "type": "Cities",
-            "attributes": {
-                "name": "London",
-                "country": "England"
-            }
-        }
-    }``
+``"{  
+    data": {  
+            "type": "Cities",  
+            "attributes": {  
+                "name": "London",  
+                "country": "England"  
+            }  
+        }  
+    }``  
 You will then get the created object returned and need to remember the Id of said object.
 Now to the /Addresses endpoint with the body:
-``{
-    data: {
-                "type": "Addresses",
-                "attributes": {
-                    "streetname": "Baker Street",
-                    "housenumber": "221b"
-                },
-                "relationships": {
-                    "City": {
-                        "data": {
-                            "type": "Cities",
-                            "id": {{the Id you got from creating London}}
-                        }
-                    }
-                }
-            }
-}``  
-and another one with:  
-``{
-    data: {
-                "type": "Addresses",
-                "attributes": {
-                    "streetname": "London Street",
-                    "housenumber": "5A",
-                    "extra": "first floor left"
-                },
-                "relationships": {
-                    "City": {
-                        "data": {
-                            "type": "Cities",
-                            "id": {{the Id you got from creating London}}
-                        }
-                    }
-                }
-            }
-}``  
-You can add as many additional objects in this structure as you please.
+``{  
+    data: {  
+                "type": "Addresses",  
+                "attributes": {  
+                    "streetname": "Baker Street",  
+                    "housenumber": "221b"  
+                },  
+                "relationships": {    
+                    "City": {  
+                        "data": {  
+                            "type": "Cities",  
+                            "id": {{the Id you got from creating London}}  
+                        }  
+                    }  
+                }  
+            }    
+}``   
+and another one with:   
+``{  
+    data: {  
+                "type": "Addresses",  
+                "attributes": {  
+                    "streetname": "London Street",  
+                    "housenumber": "5A",   
+                    "extra": "first floor left"  
+                },  
+                "relationships": {  
+                    "City": {  
+                        "data": {  
+                            "type": "Cities",  
+                            "id": {{the Id you got from creating London}}  
+                        }  
+                    }  
+                }  
+            }   
+}``   
+You can add as many additional objects in this structure as you please.  
 
 ## The Tool
 In our example we use the cityname "London" and give the ports our services run on. If the default hostnames 'localhost' do not fit, they need to be given, too. The tool will then extract all London-named cities from A, create new Cities with the same attributes in B. It will also then extract all the addresses pointing to the London from A it is currently looking at and create new addresses with the same attributes in B, pointing to the respective city in B.  
-Our example will now cause this workflow
-- Run: ``.\\node communication-example.js -c London -m 8888 -g 8889`` but change the values to fit yours
-- The tool will now retrieve the object London from A via a get request
-- Using Lonon's Id the tool will now retrieve the address objects (Baker Street, London Street) that have a relationship to it from A via a get request
-- The objects will be now transferred to B using one post requests for each object
+Our example will now cause this workflow:  
+- Run: ``.\\node communication-example.js -c London -m 8888 -g 8889`` but change the values to fit yours  
+- The tool will now retrieve the object London from A via a get request  
+- Using Lonon's Id the tool will now retrieve the address objects (Baker Street, London Street) that have a relationship to it from A via a get request  
+- The objects will be now transferred to B using one post requests for each object  
     1. An object for the city will be created on B having the same attributes as the London object  
-        1.1 The Id of that object is saved
-    2. For each address a new object is created on B having the same attributes. Under the relationship key there will be a value for Cities, pointing to the saved Id. 
-If you would now use the same get request as in the first steps on B, you will receive the transferred objects.
+        1.1 The Id of that object is saved  
+    2. For each address a new object is created on B having the same attributes. Under the relationship key there will be a value for Cities, pointing to the saved Id.  
+If you would now use the same get request as in the first steps on B, you will receive the transferred objects.  
 
-### Why will this not work for other resource structures?  
-- each object has needs its own path to send the requests to (for example for City objects, we need the path /Cities)
-- each object needs a different body for the post calls (as you can see in the [Setup section]())
-- each object needs a different filter (in url) for the get calls (for example to retrieve the addresses that go with a city we add the string '?filter[City][id]={{Id}}' to the path)  
+### Why will this not work for other resource structures?   
+- each object has needs its own path to send the requests to (for example for City objects, we need the path /Cities)  
+- each object needs a different body for the post calls (as you can see in the [Setup section](https://github.com/Informatievlaanderen/OSLO-SpecificationGenerator/tree/multilingual/communication-example#the-setup))  
+- each object needs a different filter (in url) for the get calls (for example to retrieve the addresses that go with a city we add the string '?filter[City][id]={{Id}}' to the path)   
 However, this example is only used to show that communication is possible. This can be certainly adjusted and rewritten to fit general cases, but exceeds this example's use.
