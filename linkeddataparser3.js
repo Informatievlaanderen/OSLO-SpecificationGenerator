@@ -918,14 +918,18 @@ function get_neutral_attribute(element, attr) {
   }
 }
 
+// sort value: if label is present, use it, otherwise use UML name
 function get_sort(element, language) {
-  if (element.name !== undefined && element.name != null) {
-    var attribute = element.name
-    if (!(attribute === undefined) && !(attribute[language] === undefined)) {
-      return attribute[language]
-    }
+	let sort = {}
+  if (element['label'] !== undefined && element['label'] != null && element['label'][language] !== undefined) {
+	 sort = element['label'][language] 
+  } else {
+	  sort = get_neutral_attribute(element, 'name') 
   }
-  return "undefined name"
+	if (sort == {} ) {
+		sort = "undefined"
+	}
+  return sort
 }
 
 function make_nj_ext_class_voc(element, language) {
