@@ -10,6 +10,7 @@
     "commander": "^2.19.0",
     "connect": "^3.6.6",
     "express": "^4.16.4",
+    "http": "0.0.1-security",
     "jsonfile": "^5.0.0",
     "jsonld": "^1.1.0",
     "nunjucks": "^3.1.3",
