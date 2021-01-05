@@ -867,6 +867,7 @@ function make_nj_class(element, grouped, aux, language) {
         uri: value['@id'],
         name: get_neutral_attribute(value, 'name'),
         sort: get_sort(value, language),
+        label: get_language_attribute(value, 'label', language),
         description: get_language_attribute(value, 'definition', language),
         usage: get_language_attribute(value, 'usage', language),
         domain: value.domain,
