@@ -8,7 +8,7 @@ The example code will now transfer all data of a given cityname and it's respect
 
 ## The Setup
 To recreate this example, you need to have the following setup:  
-- Two given mu-projects (in the following A and B) exist with the resource-structure you can find in the [resource directory](https://github.com/Informatievlaanderen/OSLO-SpecificationGenerator/tree/multilingual/communication-example/resources).  
+- Two given mu-projects (in the following A and B) exist with the resource-structure you can find in the [english folder](https://github.com/Informatievlaanderen/OSLO-SpecificationGenerator/tree/multilingual/communication-example/resources/english) of the [resource directory](https://github.com/Informatievlaanderen/OSLO-SpecificationGenerator/tree/multilingual/communication-example/resources).  
 - Content of the databases:
     - The following is only an example setup and can be adjusted in terms of values and still work if the general structure remains.
     - Project A has the objects:  
@@ -21,15 +21,15 @@ To recreate this example, you need to have the following setup:
 To create these objects you will need to make the following post-requests:  
 For all of them you need to define the header `"Content-Type": "application/vnd.api+json"`.
 First to the /Cities endpoint with the body:  
-`"{  
-    data": {  
-            "type": "Cities",  
-            "attributes": {  
-                "name": "London",  
-                "country": "England"  
-            }  
-        }  
-    }`  
+`{`  
+`    data: {`   
+`            "type": "Cities",`  
+`            "attributes": {`  
+`                "name": "London",`  
+`                "country": "England"`  
+`            }`  
+`        }`  
+`    }`  
 You will then get the created object returned and need to remember the Id of said object.
 Now to the /Addresses endpoint with the body:
 `{  
@@ -70,7 +70,7 @@ and another one with:
 }`   
 You can add as many additional objects in this structure as you please.  
 
-## The Tool
+## The Tool - Version 1
 In our example we use the cityname "London" and give the ports our services run on. If the default hostnames 'localhost' do not fit, they need to be given, too. The tool will then extract all London-named cities from A, create new Cities with the same attributes in B. It will also then extract all the addresses pointing to the London from A it is currently looking at and create new addresses with the same attributes in B, pointing to the respective city in B.  
 Our example will now cause this workflow:  
 - Run: `.\\node communication-example.js -c London -m 8888 -g 8889` but change the values to fit yours  
@@ -81,6 +81,18 @@ Our example will now cause this workflow:
         1.1 The Id of that object is saved  
     2. For each address a new object is created on B having the same attributes. Under the relationship key there will be a value for Cities, pointing to the saved Id.  
 If you would now use the same get request as in the first steps on B, you will receive the transferred objects.  
+
+## The Tool - Version 2
+### Adjusted Setup
+For this version, project A is prepared as described [before](https://github.com/Informatievlaanderen/OSLO-SpecificationGenerator/tree/multilingual/communication-example#the-setup). However, for B we use a different resource structure that can be found in the [German folder](https://github.com/Informatievlaanderen/OSLO-SpecificationGenerator/tree/multilingual/communication-example/resources/german) of the [resource directory](https://github.com/Informatievlaanderen/OSLO-SpecificationGenerator/tree/multilingual/communication-example/resources). This is the same structure as for B but in German.
+### Workflow
+This tool is used to show an example communication between two Apis of different languages. This causes the labels to differ, while the resource uris are still the same. So for example the attributes "Country" and "Land" (German for country) both are described via `sh:country` - they differ in name but describe the same resource. This tool now has a static coded translation between the two (from English attributes to German attributes) but otherwise behaves the same. There is no translation of the values happening. We still need to have the paths in code as they are not given in context and therefore cannot be properly translated.
+
+## The Tool - Version 3
+### Adjusted Setup
+For this version, project A is prepared as described [before](https://github.com/Informatievlaanderen/OSLO-SpecificationGenerator/tree/multilingual/communication-example#the-setup). However, for B we use a different resource structure that can be found in the [German folder](https://github.com/Informatievlaanderen/OSLO-SpecificationGenerator/tree/multilingual/communication-example/resources/german) of the [resource directory](https://github.com/Informatievlaanderen/OSLO-SpecificationGenerator/tree/multilingual/communication-example/resources). This is the same structure as for B but in German.
+### Workflow
+This tool is used to show an example communication between two Apis of different languages. This causes the labels to differ, while the resource uris are still the same. So for example the attributes "Country" and "Land" (German for country) both are described via `sh:country` - they differ in name but describe the same resource. This tool now uses the context jsonld files of the two to translate the values between the two (from English attributes to German attributes) but otherwise behaves the same. The mapping of the English labels to the German labels happens by comparing the two based on the uris in the context file. There is no translation of the values happening. We still need to have the paths in code as they are not given in context and therefore cannot be properly translated.
 
 ### Why will this not work for other resource structures?   
 - each object has needs its own path to send the requests to (for example for City objects, we need the path /Cities)  

@@ -1,0 +1,11 @@
+{
+    "@context": {
+        "type": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+        "attributes": "http://example.org/body/attributes",
+        "name": "http://www.w3.org/ns/shacl#name",
+        "land": "http://www.w3.org/ns/shacl#country",
+        "strassenname": "http://www.w3.org/ns/shacl#streetname",
+        "hausnummer": "http://www.w3.org/ns/shacl#housenumber",
+        "anmerkungen": "http://www.w3.org/ns/shacl#extra"
+    }
+}
