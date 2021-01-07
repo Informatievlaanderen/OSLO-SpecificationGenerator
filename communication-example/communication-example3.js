@@ -10,6 +10,8 @@ program
     .option('-g, --goalport <port>', 'Port that the service the data should be transferred to runs on')
     .option('-h, --mainhostname <String or url>', 'Hostname of the service the data should be transferred from')
     .option('-n, --goalhostname <String or url>', 'Hostname of the service the data should be transferred to')
+    .option('-e, --englishcontext <jsonld>', 'File that contains the context of the English data (Jsonld)')
+    .option('-d, --germancontext <jsonld>', 'File that contains the context of the German data (Jsonld)')
 
 program.on('--help', function () {
     console.log('')
@@ -18,6 +20,7 @@ program.on('--help', function () {
     console.log('  $ specgen-shacl -c <cityname> -m <port> -g <port>')
     console.log('  $ specgen-shacl -c <cityname> -m <port> -g <port> -n <hostname>')
     console.log('  $ specgen-shacl -c <cityname> -m <port> -g <port> -n <hostname> -h <hostname>')
+    console.log('  $ specgen-shacl -c <cityname> -m <port> -g <port> -n <hostname> -h <hostname> -e <englishcontext jsonld> -d <germancontext jsonld>')
     process.exitCode = 1
 })
 
@@ -27,8 +30,8 @@ const goalport = program.goalport
 const mainhost = program.mainhostname || 'http://localhost:'
 const goalhost = program.goalhostname || 'localhost'
 
-const englishPath = "resources/english/englishcontext.jsonld"
-const germanPath = "resources/german/germancontext.jsonld"
+const englishPath = program.englishcontext || "resources/english/englishcontext.jsonld"
+const germanPath = program.germancontext || "resources/german/germancontext.jsonld"
 
 const contextEnToGer = new Object();
 
@@ -46,10 +49,12 @@ function startProcess(city) {
                                     transferAllAddresses(city)
                                 })
                         })
-                    .catch(error => { //console.error(error); 
+                    .catch(error => { 
+                        console.error(error); 
                         process.exitCode = 1 })
             })
-        .catch(error => { //console.error(error); 
+        .catch(error => { 
+            console.error(error); 
             process.exitCode = 1; })
 }
 
@@ -73,8 +78,9 @@ function transferAllAddresses(city) {
             })
             resp.on('end', () => {
                 let jsonData = JSON.parse(data)
-                console.log("city was retrieved")
-                getAllAddressesInCity(jsonData["data"])
+                let city = jsonData["data"]
+                console.log("city was retrieved: " + city)
+                getAllAddressesInCity(city)
             })
         })
 }
@@ -93,6 +99,7 @@ function getAllAddressesInCity(data) {
                 resp.on('end', () => {
                     let parsed = JSON.parse(data)
                     addresses = parsed["data"]
+                    console.log("addresses were retrieved: " + addresses)
                     writeAllInOtherDatabase(city)
                 })
             })
@@ -103,7 +110,7 @@ function writeAllInOtherDatabase(city) {
     const data = JSON.stringify({
         data: {
             "type": "Staedte",
-            "attributes": getAttributesFromObject(city)
+            "attributes": getAttributesFromObject(city["attributes"])
         }
     })
     const options = {
@@ -115,6 +122,8 @@ function writeAllInOtherDatabase(city) {
             'Content-Type': 'application/vnd.api+json'
         }
     }
+    console.log("data to save city")
+    console.log(data)
 
     const req = http.request(options, resp => {
         let data = ''
@@ -139,11 +148,12 @@ function writeAllInOtherDatabase(city) {
 function writeAddressesInOtherDatabase(city) {
     let id = city["data"]["id"]
     console.log("Creating addresses for city with id " + id)
+    console.log("There are" + addresses.length + " to transfer.")
     for (let i = 0; i < addresses.length; i++) {
         let address = addresses[i]
         const data = JSON.stringify({
             data: {
-                "type": "Addressen",
+                "type": "Adressen",
                 "attributes": getAttributesFromObject(address["attributes"]), 
                 "relationships": {
                     "Stadt": {
@@ -158,12 +168,14 @@ function writeAddressesInOtherDatabase(city) {
         const options = {
             hostname: goalhost,
             port: goalport,
-            path: '/Addressen',
+            path: '/Adressen',
             method: 'POST',
             headers: {
                 'Content-Type': 'application/vnd.api+json'
             }
         }
+        console.log("data to save address")
+        console.log(data)
 
         const req = http.request(options, resp => {
             let data = ''

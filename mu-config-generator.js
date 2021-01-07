@@ -3,6 +3,7 @@ const jsonfile = require('jsonfile')
 var pluralize = require('pluralize')
 const StringBuilder = require("string-builder");
 var program = require('commander');
+const camelCase = require('camelcase')
 
 program
     .version('0.0.1')
@@ -115,9 +116,9 @@ function write_range(domainBuilder, classes, domainArray, id, language) {
     for (let i = 0; i < domainArray.length; i++) {
         var domain = get_equivalent_class(classes, domainArray[i]["uri"])
         if (domain != null) {
-            domainBuilder.append("   :has-many `((" + get_name(domain, language) + " :via ,(s-url \"" + id + "\")").appendLine()
+            domainBuilder.append("   :has-many `((" + get_label(domain, language) + " :via ,(s-url \"" + id + "\")").appendLine()
             domainBuilder.append("                        :inverse t").appendLine()
-            var name = pluralize.plural(get_name(domain, language))
+            var name = pluralize.plural(get_label(domain, language))
             domainBuilder.append("                        :as \"" + name + "\"))").appendLine()
         }
     }
@@ -141,8 +142,8 @@ function write_domain(domainBuilder, classes, rangeArray, id, language) {
     for (let i = 0; i < rangeArray.length; i++) {
         var range = get_equivalent_class(classes, rangeArray[i]["uri"])
         if (range != null) {
-            domainBuilder.append("   :has-one `((" + get_name(range, language) + " :via ,(s-url \"" + id + "\")").appendLine()
-            domainBuilder.append("                        :as \"" + get_name(range, language) + "\"))").appendLine()
+            domainBuilder.append("   :has-one `((" + get_label(range, language) + " :via ,(s-url \"" + id + "\")").appendLine()
+            domainBuilder.append("                        :as \"" + get_label(range, language) + "\"))").appendLine()
         }
     }
     return domainBuilder
@@ -167,7 +168,7 @@ function initialize_domain_builder() {
 }
 
 function start_class(domainBuilder, currClass, language, input) {
-    domainBuilder.append("(define-resource " + get_name(currClass, language) + " ()").appendLine()
+    domainBuilder.append("(define-resource " + get_label(currClass, language) + " ()").appendLine()
     domainBuilder.append("   :class (s-url \"http://www.w3.org/2002/07/owl#Class\")").appendLine()
     //If you want any of the properties to be language-tagged you'll have to set their options to true 
         domainBuilder = write_properties(domainBuilder, currClass, input)
@@ -236,20 +237,29 @@ function is_literal(id) {
 }
 
 function end_class(domainBuilder, currClass, language) {
-    var name = pluralize.plural(get_name(currClass, language))
+    var name = pluralize.plural(get_label(currClass, language))
     domainBuilder.append(":resource-base (s-url \"" + currClass["@id"] + "\")").appendLine()
     domainBuilder.append(":on-path \"" + name + "\")").appendLine().appendLine()
     return domainBuilder
 }
 
-function get_name(obj, language) {
-    if (obj.name !== undefined) {
-        return obj.name
+function get_label(obj, language) {
+    if (obj.label !== undefined&& obj.label[language] !== undefined) {
+        return toCamelCase(obj.label[language])
     } else {
-        console.log("No name for specified language in object: " + obj["@id"] + " usind EA-Name instead: " + obj["extra"]["EA-Name"])
+        console.log("No label for specified language in object: " + obj["@id"] + " usind EA-Name instead: " + obj["extra"]["EA-Name"])
         return obj["extra"]["EA-Name"]
     }
 }
+
+function toCamelCase(str) {
+    str = camelCase(str)
+    // console.log(str)
+    str = str.replace(/\s\(source\)/g, '(source)').replace(/\s\(target\)/g, '(target)')
+    // console.log(' -> ' + str)
+    return str
+  };
+  
 
 function getFilename(directory, file) {
     if (directory.charAt(directory.length - 1) == "/" || directory.charAt(directory.length - 1) == "\\") {

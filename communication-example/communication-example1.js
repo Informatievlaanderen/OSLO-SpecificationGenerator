@@ -38,8 +38,9 @@ function transferAllAddresses(city) {
             })
             resp.on('end', () => {
                 let jsonData = JSON.parse(data)
-                console.log("city was retrieved")
-                getAllAddressesInCity(jsonData["data"])
+                let city = jsonData["data"]
+                console.log("City retrieved: " + city)
+                getAllAddressesInCity(city)
             })
         })
 }
@@ -56,8 +57,9 @@ function getAllAddressesInCity(data) {
                     data += chunk
                 })
                 resp.on('end', () => {
-                    addresses = JSON.parse(data)
-                    console.log(addresses["data"])
+                    let parsed = JSON.parse(data)
+                    addresses = parsed["data"]
+                    console.log("Addresses retrieved: " + addresses)
                     writeAllInOtherDatabase(city)
                 })
             })
@@ -74,6 +76,8 @@ function writeAllInOtherDatabase(city) {
             }
         }
     })
+    console.log("City will be created with data: ")
+    console.log(data)
     const options = {
         hostname: goalhost,
         port: goalport,
@@ -93,7 +97,6 @@ function writeAllInOtherDatabase(city) {
         resp.on('end', () => {
             let createdCity = JSON.parse(data)
             console.log("City was created: " + createdCity)
-            console.log(createdCity)
             writeAddressesInOtherDatabase(createdCity)
         })
     })
@@ -109,6 +112,7 @@ function writeAllInOtherDatabase(city) {
 function writeAddressesInOtherDatabase(city) {
     let id = city["data"]["id"]
     console.log("Creating addresses for city with id " + id)
+    console.log("There are" + addresses.length + " to transfer.")
     for (let i = 0; i < addresses.length; i++) {
         let address = addresses[i]
         const data = JSON.stringify({
@@ -125,6 +129,10 @@ function writeAddressesInOtherDatabase(city) {
                 }
             }
         })
+
+        console.log("Address will be created with data: ")
+        console.log(data)
+
         const options = {
             hostname: goalhost,
             port: goalport,

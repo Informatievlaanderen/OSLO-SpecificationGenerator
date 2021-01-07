@@ -38,8 +38,9 @@ function transferAllAddresses(city) {
             })
             resp.on('end', () => {
                 let jsonData = JSON.parse(data)
-                console.log("city was retrieved")
-                getAllAddressesInCity(jsonData["data"])
+                let city = jsonData["data"]
+                console.log("city was retrieved: " + city)
+                getAllAddressesInCity(city)
             })
         })
 }
@@ -56,8 +57,9 @@ function getAllAddressesInCity(data) {
                     data += chunk
                 })
                 resp.on('end', () => {
-                    addresses = JSON.parse(data)
-                    console.log(addresses["data"])
+                    let parsed = JSON.parse(data)
+                    addresses = parsed["data"]
+                    console.log(console.log("Addresses were retrieved: ")+addresses)
                     writeAllInOtherDatabase(city)
                 })
             })
@@ -74,6 +76,10 @@ function writeAllInOtherDatabase(city) {
             }
         }
     })
+
+    console.log("City will be created with data: ")
+    console.log(data)
+
     const options = {
         hostname: goalhost,
         port: goalport,
@@ -113,7 +119,7 @@ function writeAddressesInOtherDatabase(city) {
         let address = addresses[i]
         const data = JSON.stringify({
             data: {
-                "type": "Addressen",
+                "type": "Adressen",
                 "attributes": {
                     "strassenname": address["attributes"]["streetname"],
                     "hausnummer": address["attributes"]["housenumber"],
@@ -129,10 +135,14 @@ function writeAddressesInOtherDatabase(city) {
                 }
             }
         })
+
+        console.log("Address will be created with data: ")
+        console.log(data)
+
         const options = {
             hostname: goalhost,
             port: goalport,
-            path: '/Addressen',
+            path: '/Adressen',
             method: 'POST',
             headers: {
                 'Content-Type': 'application/vnd.api+json'
