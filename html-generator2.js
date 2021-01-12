@@ -1,13 +1,9 @@
 const fs = require("fs");
 const jsonfile = require('jsonfile');
-const jsonld = require('jsonld');
 const nunjucks = require('nunjucks');
 const ldParser = require('./linkeddataparser3');
 
-
 var program = require('commander');
-const { description } = require("commander");
-const { parse_json_ld_file_to_exampletemplates } = require("./linkeddataparser3");
 
 program
   .version('0.8.0')
@@ -42,7 +38,7 @@ nunjucks.configure(templatedir, {
 });
 
 render_html_from_json_ld_file(program.style, program.template, program.input, program.output, program.mainlanguage);
-//render_html_from_json_ld_file('voc', 'duet-voc2_nl.j2', '.\\vocjsonld.jsonld', '.\\temp.html', 'en')
+
 console.log('done');
 
 function render_html_from_json_ld_file(target, template, filename, output_filename, language) {

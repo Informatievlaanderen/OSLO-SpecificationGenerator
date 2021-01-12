@@ -1,0 +1,25 @@
+{
+    "data": [
+        {
+            "attributes": {
+                "streetname": "Another Unknown street",
+                "housenumber": "3"
+            },
+            "id": "5FF81693385241000900000E",
+            "type": "Addresses",
+            "relationships": {
+                "City": {
+                    "links": {
+                        "self": "/Addresses/5FF81693385241000900000E/links/City?filter[City][name]=UnknownCity",
+                        "related": "/Addresses/5FF81693385241000900000E/City"
+                    }
+                }
+            }
+        }
+],
+    "links": {
+        "last": "/Addresses?filter[City][name]=UnknownCity",
+        "first": "/Addresses?filter[City][name]=UnknownCity",
+        "self": "Addresses?filter[City][name]=UnknownCity"
+    }
+}

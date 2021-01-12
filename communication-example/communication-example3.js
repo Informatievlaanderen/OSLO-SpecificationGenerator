@@ -138,7 +138,7 @@ function writeAllInOtherDatabase(city) {
     })
 
     req.on('error', error => {
-        //console.error(error)
+        console.error(error)
     })
 
     req.write(data)
