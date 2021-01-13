@@ -5,15 +5,15 @@
             "attributes": "https://json.api/body/attributes",
             "relationships": "http://json.api/body/relationships",
             "type": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+            "self": "http://example.org/self",
+            "id": "http://example.org",
             "name": "http://www.w3.org/ns/shacl#name",
             "country": "http://www.w3.org/ns/shacl#country",
             "streetname": "http://www.w3.org/ns/shacl#streetname",
             "housenumber": "http://www.w3.org/ns/shacl#housenumber",
             "extra": "http://www.w3.org/ns/shacl#extra",
             "City": "http://www.w3.org/ns/shacl#city",
-            "Addresses": "http://www.w3.org/ns/shacl#address",
-            "self": "http://example.org/self",
-            "id": "http://example.org"
+            "Addresses": "http://www.w3.org/ns/shacl#address"
         }
     
 }

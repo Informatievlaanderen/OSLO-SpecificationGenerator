@@ -8,6 +8,13 @@ module.exports.mergeJsonAndContext = function (json, context) {
     }
 }
 
+module.exports.mergeDataAndContext = function (json, context) {
+    return {
+        "@context": context["@context"],
+        "data": [json]
+    }
+}
+
 module.exports.convertToResourceJsonld = function (mergedjson) {
     let jsonld = new Object()
     jsonld["@context"] = mergedjson["@context"]
@@ -129,7 +136,10 @@ module.exports.framedJsonldToJsonApiBody = function (input) {
         for (let [key, value] of Object.entries(currdata)) {
             if (key == "type") {
                 newdata[key] = value
-            } else if (typeof value == 'object') {
+            } else if (key == "id") {
+                continue;
+            }
+            else if (typeof value == 'object') {
                 if (newdata["relationships"] === undefined) {
                     newdata["relationships"] = new Object()
                 }

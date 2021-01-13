@@ -1,7 +1,7 @@
 var program = require('commander');
 const http = require('http');
 const jsonfile = require('jsonfile')
-const converter = require('../ConvertToResourceJsonld');
+const converter = require('./ConvertToResourceJsonld');
 
 program
     .version('0.0.1')
@@ -26,41 +26,74 @@ program.on('--help', function () {
 })
 
 program.parse(process.argv)
-const mainport = program.mainport
-const goalport = program.goalport
+const mainport = program.mainport || '8888'
+const goalport = program.goalport || '8888'
 const mainhost = program.mainhostname || 'http://localhost:'
 const goalhost = program.goalhostname || 'localhost'
 
 const englishPath = program.englishcontext || "resources/english/englishcontext.jsonld"
 const germanPath = program.germancontext || "resources/german/germancontext.jsonld"
 
-const contextEn = new Object();
-const contextDe = new Object();
+var contextEn = new Object();
+var contextDe = new Object();
 
-getContexts()
-transferAllAddresses(program.city)
+/*
+startProcess(program.city)
 
-function getContexts() {
+function startProcess(city) {
     jsonfile.readFile(englishPath)
         .then(
             function (english) {
-                this.contextEn = english;
+                jsonfile.readFile(germanPath)
+                    .then(
+                        function (german) {
+                            contextEn = english 
+                            contextDe = german
+                            transferAllAddresses(city)
+                        })
+                    .catch(error => { 
+                        console.error(error); 
+                        process.exitCode = 1
+                    })
             })
-        .catch(error => {
-            console.error(error);
+        .catch(error => { 
+            console.error(error); 
             process.exitCode = 1;
         })
-    jsonfile.readFile(germanPath)
-        .then(
-            function (german) {
-                this.contextDe = german;
-            })
-        .catch(error => {
-            console.error(error);
-            process.exitCode = 1;
-        })
-}
-
+}*/
+contextEn = {
+    "@context": {
+        "data": "https://json.api/data",
+        "attributes": "https://json.api/body/attributes",
+        "relationships": "http://json.api/body/relationships",
+        "self": "http://example.org/self",
+        "id": "http://example.org",
+        "type": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+        "attributes": "http://example.org/body/attributes",
+        "name": "http://www.w3.org/ns/shacl#name",
+        "country": "http://www.w3.org/ns/shacl#country",
+        "streetname": "http://www.w3.org/ns/shacl#streetname",
+        "housenumber": "http://www.w3.org/ns/shacl#housenumber",
+        "extra": "http://www.w3.org/ns/shacl#extra"
+    }
+};
+contextDe = {
+    "@context": {
+        "data": "https://json.api/data",
+        "attributes": "https://json.api/body/attributes",
+        "relationships": "http://json.api/body/relationships",
+        "self": "http://example.org/self",
+        "id": "http://example.org",
+        "type": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+        "attributes": "http://example.org/body/attributes",
+        "name": "http://www.w3.org/ns/shacl#name",
+        "land": "http://www.w3.org/ns/shacl#country",
+        "strassenname": "http://www.w3.org/ns/shacl#streetname",
+        "hausnummer": "http://www.w3.org/ns/shacl#housenumber",
+        "anmerkungen": "http://www.w3.org/ns/shacl#extra"
+    }
+};
+transferAllAddresses("LA")
 function transferAllAddresses(city) {
     http
         .get(mainhost + mainport + '/Cities?filter[name]=' + city, resp => {
@@ -152,7 +185,7 @@ function writeAddressesInOtherDatabase(city) {
         let address = addresses[i]
         createData(address).then(
             function (body) {
-                body["data"]["relationships"]["Stadt"] = {"data": {"type": "Staedte", "id": id}}
+                body["data"]["relationships"]["Stadt"] = { "data": { "type": "Staedte", "id": id } }
                 const data = JSON.stringify({
                     data: body["data"]
                 })
@@ -200,12 +233,13 @@ async function createData(city) {
     console.log("Before transformation: ")
     console.log(JSON.stringify(city))
     const frame = converter.createSimpleJsonldFrame(contextDe)
-    const jsonld = converter.convertToResourceJsonld(converter.mergeJsonAndContext(city, contextEn))
+    const merged = converter.mergeDataAndContext(city, contextEn)
+    const jsonld = converter.convertToResourceJsonld(merged)
     converter.jsonldToRdf(jsonld).then(
         function (rdf) {
             converter.rdfToJsonld(rdf).then(
                 function (neutraljsonld) {
-                    converter.frameJsonld(neutraljsonld).then(
+                    converter.frameJsonld(neutraljsonld, frame).then(
                         function (framed) {
                             let body = converter.framedJsonldToJsonApiBody(framed);
                             return body;

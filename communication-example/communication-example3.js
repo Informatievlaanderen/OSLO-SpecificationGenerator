@@ -133,6 +133,7 @@ function writeAllInOtherDatabase(city) {
         })
         resp.on('end', () => {
             let createdCity = JSON.parse(data)
+            console.log(createdCity)
             writeAddressesInOtherDatabase(createdCity)
         })
     })
@@ -191,7 +192,7 @@ function writeAddressesInOtherDatabase(city) {
         })
 
         req.on('error', error => {
-            //console.error(error)
+            console.error(error)
         })
 
         req.write(data)
