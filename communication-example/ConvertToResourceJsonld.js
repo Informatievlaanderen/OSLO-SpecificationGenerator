@@ -125,7 +125,6 @@ module.exports.framedJsonldToJsonApiResponse = function (input) {
 module.exports.framedJsonldToJsonApiBody = function (input) {
     let workwith = input["data"]
     let jsonapi = new Object()
-    dataarray = []
     let length = 1
     if (workwith.length !== undefined) { length = workwith.length }
     for (let i = 0; i < length; i++) {
@@ -157,8 +156,7 @@ module.exports.framedJsonldToJsonApiBody = function (input) {
                 newdata["attributes"][key] = value
             }
         }
-        dataarray.push(newdata)
+        jsonapi["data"] = newdata
     }
-    jsonapi["data"] = dataarray
     return jsonapi
 }

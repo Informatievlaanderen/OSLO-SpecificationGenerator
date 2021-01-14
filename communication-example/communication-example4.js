@@ -93,7 +93,7 @@ contextDe = {
         "anmerkungen": "http://www.w3.org/ns/shacl#extra"
     }
 };
-transferAllAddresses("LA")
+transferAllAddresses(program.city)
 function transferAllAddresses(city) {
     http
         .get(mainhost + mainport + '/Cities?filter[name]=' + city, resp => {
@@ -126,110 +126,129 @@ function getAllAddressesInCity(data) {
                     let parsed = JSON.parse(data)
                     addresses = parsed["data"]
                     console.log("addresses were retrieved: " + addresses)
-                    writeCityInOtherDatabase(city)
+                    createCityData(city)
                 })
             })
     }
 }
 
-function writeCityInOtherDatabase(city) {
-    createData(city).then(
-        function (body) {
-            body["type"] = "Staedte"
-            delete body["data"]["relationships"];
-            const data = JSON.stringify({
-                data: body["data"]
-            })
-            const options = {
-                hostname: goalhost,
-                port: goalport,
-                path: '/Staedte',
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/vnd.api+json'
-                }
-            }
-            console.log("data to save city")
-            console.log(data)
+function writeCityData(body) {
+    body["data"]["type"] = "Staedte"
+    delete body["data"]["relationships"];
+    const data = JSON.stringify({
+        data: body["data"]
+    })
+    const options = {
+        hostname: goalhost,
+        port: goalport,
+        path: '/Staedte',
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/vnd.api+json'
+        }
+    }
+    console.log("data to save city")
+    console.log(data)
 
-            const req = http.request(options, resp => {
-                let data = ''
+    const req = http.request(options, resp => {
+        let data = ''
 
-                resp.on('data', chunk => {
-                    data += chunk
-                })
-                resp.on('end', () => {
-                    let createdCity = JSON.parse(data)
-                    writeAddressesInOtherDatabase(createdCity)
-                })
-            })
-
-            req.on('error', error => {
-                console.error(error)
-            })
-
-            req.write(data)
-            req.end()
+        resp.on('data', chunk => {
+            data += chunk
         })
-        .catch(error => {
-            console.error(error);
-            process.exitCode = 1;
+        resp.on('end', () => {
+            let createdCity = JSON.parse(data)
+            createAddressBody(createdCity)
         })
+    })
+
+    req.on('error', error => {
+        console.error(error)
+    })
+
+    req.write(data)
+    req.end()
+
 }
 
-function writeAddressesInOtherDatabase(city) {
+async function createAddressBody(city) {
     let id = city["data"]["id"]
     console.log("Creating addresses for city with id " + id)
     console.log("There are" + addresses.length + " to transfer.")
     for (let i = 0; i < addresses.length; i++) {
         let address = addresses[i]
-        createData(address).then(
-            function (body) {
-                body["data"]["relationships"]["Stadt"] = { "data": { "type": "Staedte", "id": id } }
-                const data = JSON.stringify({
-                    data: body["data"]
-                })
-                const options = {
-                    hostname: goalhost,
-                    port: goalport,
-                    path: '/Adressen',
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/vnd.api+json'
-                    }
-                }
-                console.log("data to save address")
-                console.log(data)
-
-                const req = http.request(options, resp => {
-                    let data = ''
-
-                    resp.on('data', chunk => {
-                        data += chunk
+        console.log("Before transformation: ")
+        console.log(JSON.stringify(address))
+        const frame = converter.createSimpleJsonldFrame(contextDe)
+        const merged = converter.mergeDataAndContext(address, contextEn)
+        const jsonld = converter.convertToResourceJsonld(merged)
+        converter.jsonldToRdf(jsonld).then(
+            function (rdf) {
+                converter.rdfToJsonld(rdf).then(
+                    function (neutraljsonld) {
+                        converter.frameJsonld(neutraljsonld, frame).then(
+                            function (framed) {
+                                let body = converter.framedJsonldToJsonApiBody(framed);
+                                body["data"]["relationships"]["Stadt"] = { "data": { "type": "Staedte", "id": id } }
+                                const data = JSON.stringify({
+                                    data: body["data"]
+                                })
+                                writeAddressesInDatabase(data)
+                            })
+                            .catch(error => {
+                                console.error(error);
+                                process.exitCode = 1;
+                            })
                     })
-                    resp.on('end', () => {
-                        let createdAddress = JSON.parse(data)
-                        console.log("Address created:")
-                        console.log(createdAddress)
+                    .catch(error => {
+                        console.error(error);
+                        process.exitCode = 1;
                     })
-                })
-
-                req.on('error', error => {
-                    //console.error(error)
-                })
-
-                req.write(data)
-                req.end()
             })
             .catch(error => {
                 console.error(error);
                 process.exitCode = 1;
             })
+
     }
 
 }
 
-async function createData(city) {
+function writeAddressesInDatabase(data) {
+    const options = {
+        hostname: goalhost,
+        port: goalport,
+        path: '/Adressen',
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/vnd.api+json'
+        }
+    }
+    console.log("data to save address")
+    console.log(data)
+
+    const req = http.request(options, resp => {
+        let data = ''
+
+        resp.on('data', chunk => {
+            data += chunk
+        })
+        resp.on('end', () => {
+            let createdAddress = JSON.parse(data)
+            console.log("Address created:")
+            console.log(createdAddress)
+        })
+    })
+
+    req.on('error', error => {
+        console.error(error)
+    })
+
+    req.write(data)
+    req.end()
+}
+
+async function createCityData(city) {
     console.log("Before transformation: ")
     console.log(JSON.stringify(city))
     const frame = converter.createSimpleJsonldFrame(contextDe)
@@ -242,7 +261,7 @@ async function createData(city) {
                     converter.frameJsonld(neutraljsonld, frame).then(
                         function (framed) {
                             let body = converter.framedJsonldToJsonApiBody(framed);
-                            return body;
+                            writeCityData(body)
                         })
                         .catch(error => {
                             console.error(error);
