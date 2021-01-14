@@ -93,7 +93,7 @@ contextDe = {
         "anmerkungen": "http://www.w3.org/ns/shacl#extra"
     }
 };
-transferAllAddresses(program.city)
+transferAllAddresses("Arcadia Bay2")
 function transferAllAddresses(city) {
     http
         .get(mainhost + mainport + '/Cities?filter[name]=' + city, resp => {
@@ -105,7 +105,8 @@ function transferAllAddresses(city) {
             resp.on('end', () => {
                 let jsonData = JSON.parse(data)
                 let city = jsonData["data"]
-                console.log("city was retrieved: " + city)
+                console.log("city was retrieved: ")
+                console.log(city)
                 getAllAddressesInCity(city)
             })
         })
@@ -116,8 +117,9 @@ function getAllAddressesInCity(data) {
     for (let i = 0; i < data.length; i++) {
         var city = data[i]
         var id = city["id"]
+        var link = mainhost + mainport + '/Addresses?filter[City][id]=' + id
         http
-            .get(mainhost + mainport + '/Addresses?filter[City][id]=' + id, resp => {
+            .get(link, resp => {
                 let data = ''
                 resp.on('data', chunk => {
                     data += chunk
@@ -125,11 +127,44 @@ function getAllAddressesInCity(data) {
                 resp.on('end', () => {
                     let parsed = JSON.parse(data)
                     addresses = parsed["data"]
-                    console.log("addresses were retrieved: " + addresses)
+                    console.log("addresses were retrieved: ")
+                    console.log(addresses)
                     createCityData(city)
                 })
             })
     }
+}
+
+async function createCityData(city) {
+    console.log("____________________________________")
+    console.log("Starting transformation of city: ")
+    console.log(JSON.stringify(city))
+    const frame = converter.createSimpleJsonldFrame(contextDe)
+    const merged = converter.mergeDataAndContext(city, contextEn)
+    const jsonld = converter.convertToResourceJsonld(merged)
+    converter.jsonldToRdf(jsonld).then(
+        function (rdf) {
+            converter.rdfToJsonld(rdf).then(
+                function (neutraljsonld) {
+                    converter.frameJsonld(neutraljsonld, frame).then(
+                        function (framed) {
+                            let body = converter.framedJsonldToJsonApiBody(framed);
+                            writeCityData(body)
+                        })
+                        .catch(error => {
+                            console.error(error);
+                            process.exitCode = 1;
+                        })
+                })
+                .catch(error => {
+                    console.error(error);
+                    process.exitCode = 1;
+                })
+        })
+        .catch(error => {
+            console.error(error);
+            process.exitCode = 1;
+        })
 }
 
 function writeCityData(body) {
@@ -158,6 +193,8 @@ function writeCityData(body) {
         })
         resp.on('end', () => {
             let createdCity = JSON.parse(data)
+            console.log("Created City:")
+            console.log(createdCity)
             createAddressBody(createdCity)
         })
     })
@@ -174,11 +211,12 @@ function writeCityData(body) {
 async function createAddressBody(city) {
     let id = city["data"]["id"]
     console.log("Creating addresses for city with id " + id)
-    console.log("There are" + addresses.length + " to transfer.")
+    console.log("There are " + addresses.length + " addresses to transfer.")
     for (let i = 0; i < addresses.length; i++) {
         let address = addresses[i]
-        console.log("Before transformation: ")
-        console.log(JSON.stringify(address))
+        console.log("___________________________________")
+        console.log("Starting Transformation for address:")
+        console.log(address)
         const frame = converter.createSimpleJsonldFrame(contextDe)
         const merged = converter.mergeDataAndContext(address, contextEn)
         const jsonld = converter.convertToResourceJsonld(merged)
@@ -189,11 +227,7 @@ async function createAddressBody(city) {
                         converter.frameJsonld(neutraljsonld, frame).then(
                             function (framed) {
                                 let body = converter.framedJsonldToJsonApiBody(framed);
-                                body["data"]["relationships"]["Stadt"] = { "data": { "type": "Staedte", "id": id } }
-                                const data = JSON.stringify({
-                                    data: body["data"]
-                                })
-                                writeAddressesInDatabase(data)
+                                writeAddressesInDatabase(body, id)
                             })
                             .catch(error => {
                                 console.error(error);
@@ -214,7 +248,18 @@ async function createAddressBody(city) {
 
 }
 
-function writeAddressesInDatabase(data) {
+function writeAddressesInDatabase(body, id) {
+    if (body["data"]["relationships"] === undefined) {
+        body["data"]["relationships"] = new Object ()
+    }
+    body["data"]["relationships"]["Stadt"] = { "data": { "type": "Staedte", "id": id } }
+    body["data"]["type"] = "Adressen"
+    const data = JSON.stringify({
+        data: body["data"]
+    })
+    console.log("Data to create Address:")
+    console.log(data)
+    
     const options = {
         hostname: goalhost,
         port: goalport,
@@ -224,9 +269,6 @@ function writeAddressesInDatabase(data) {
             'Content-Type': 'application/vnd.api+json'
         }
     }
-    console.log("data to save address")
-    console.log(data)
-
     const req = http.request(options, resp => {
         let data = ''
 
@@ -246,35 +288,4 @@ function writeAddressesInDatabase(data) {
 
     req.write(data)
     req.end()
-}
-
-async function createCityData(city) {
-    console.log("Before transformation: ")
-    console.log(JSON.stringify(city))
-    const frame = converter.createSimpleJsonldFrame(contextDe)
-    const merged = converter.mergeDataAndContext(city, contextEn)
-    const jsonld = converter.convertToResourceJsonld(merged)
-    converter.jsonldToRdf(jsonld).then(
-        function (rdf) {
-            converter.rdfToJsonld(rdf).then(
-                function (neutraljsonld) {
-                    converter.frameJsonld(neutraljsonld, frame).then(
-                        function (framed) {
-                            let body = converter.framedJsonldToJsonApiBody(framed);
-                            writeCityData(body)
-                        })
-                        .catch(error => {
-                            console.error(error);
-                            process.exitCode = 1;
-                        })
-                })
-                .catch(error => {
-                    console.error(error);
-                    process.exitCode = 1;
-                })
-        })
-        .catch(error => {
-            console.error(error);
-            process.exitCode = 1;
-        })
 }
