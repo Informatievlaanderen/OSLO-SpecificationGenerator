@@ -91,7 +91,7 @@ function set_base_URI(json, translatedJson) {
 function checkClasses(translatedJson, updatedJson, primeLanguage, goalLanguage) {
   console.log('Checking classes...')
 
-  var classArray = new Array()
+  var classArray = []
   for (var i = 0; i < translatedJson.classes.length; i++) {
     var input = translatedJson.classes[i]
     var elementToCompare = get_matching_class(input, updatedJson)
@@ -107,7 +107,7 @@ function checkClasses(translatedJson, updatedJson, primeLanguage, goalLanguage) 
 function checkClasses(translatedJson, updatedJson, primeLanguage, goalLanguage) {
   console.log('Checking classes...')
 
-  var classArray = new Array()
+  var classArray = []
   for (var i = 0; i < translatedJson["externals"].length; i++) {
     var input = translatedJson["externals"][i]
     var elementToCompare = get_matching_externals(input, updatedJson)
@@ -123,7 +123,7 @@ function checkClasses(translatedJson, updatedJson, primeLanguage, goalLanguage) 
 function checkProperties(translatedJson, updatedJson, primeLanguage, goalLanguage) {
   console.log('Checking properties...')
 
-  var propertyArray = new Array()
+  var propertyArray = []
   for (var m = 0; m < translatedJson.properties.length; m++) {
     var input = translatedJson.properties[m]
     var elementToCompare = get_matching_property(input, updatedJson)
@@ -139,7 +139,7 @@ function checkProperties(translatedJson, updatedJson, primeLanguage, goalLanguag
 function checkProperties(translatedJson, updatedJson, primeLanguage, goalLanguage) {
   console.log('Checking externalproperties...')
 
-  var propertyArray = new Array()
+  var propertyArray = []
   for (var m = 0; m < translatedJson.externalproperties.length; m++) {
     var input = translatedJson.externalproperties[m]
     var elementToCompare = get_matching_external_property(input, updatedJson)

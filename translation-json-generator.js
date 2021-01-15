@@ -56,10 +56,10 @@ function transform_json_ld_file_to_translatable_json(filename, primeLanguage, go
 
 function get_shortened_json(input, primeLanguage, goalLanguage) {
   var json = new Object()
-  var classArray = new Array(Object)
-  var propertyArray = new Array(Object)
-  var externalArray = new Array(Object)
-  var externalPropertyArray = new Array(Object)
+  var classArray = []
+  var propertyArray = []
+  var externalArray = []
+  var externalPropertyArray = []
 
   if (primeLanguage != goalLanguage) {
     for (i = 0; i < input.classes.length; i++) {
@@ -83,10 +83,10 @@ function get_shortened_json(input, primeLanguage, goalLanguage) {
       propertyArray[i] = create_shortened_object_one_language(input.properties[i], primeLanguage)
     }
     for (i = 0; i < input.externals.length; i++) {
-      externalArray[i] = create_shortened_object(input.externals[i], primeLanguage)
+      externalArray[i] = create_shortened_object_one_language(input.externals[i], primeLanguage)
     }
     for (i = 0; i < input.externalproperties.length; i++) {
-      externalPropertyArray[i] = create_shortened_object(input.externalproperties[i], primeLanguage)
+      externalPropertyArray[i] = create_shortened_object_one_language(input.externalproperties[i], primeLanguage)
     }
   }
 
