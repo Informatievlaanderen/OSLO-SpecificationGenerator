@@ -109,15 +109,17 @@ function checkClasses(translatedJson, updatedJson, primeLanguage, goalLanguage) 
 //Iterate through external classes of the input and get the equivalent class in the updated version through their ID,
 //Create new class-array for the updated classes
 function checkExternals(translatedJson, updatedJson, primeLanguage, goalLanguage) {
-  console.log('Checking classes...')
+  console.log('Checking externals...')
 
   var classArray = []
-  for (var i = 0; i < translatedJson["externals"].length; i++) {
-    var input = translatedJson["externals"][i]
-    var elementToCompare = get_matching_externals(input, updatedJson)
-    if (elementToCompare != null) {
-      classArray.push(compareObject(input, elementToCompare, primeLanguage, goalLanguage, read_exisiting_attributes(input)))
-    } // else the element will not be added to the new Array and therefore deleted
+  if (translatedJson["externals"] !== undefined) {
+    for (var i = 0; i < translatedJson["externals"].length; i++) {
+      var input = translatedJson["externals"][i]
+      var elementToCompare = get_matching_externals(input, updatedJson)
+      if (elementToCompare != null) {
+        classArray.push(compareObject(input, elementToCompare, primeLanguage, goalLanguage, read_exisiting_attributes(input)))
+      } // else the element will not be added to the new Array and therefore deleted
+    }
   }
   return classArray
 }
@@ -144,11 +146,13 @@ function checkExternalProperties(translatedJson, updatedJson, primeLanguage, goa
   console.log('Checking externalproperties...')
 
   var propertyArray = []
-  for (var m = 0; m < translatedJson["externalproperties"].length; m++) {
-    var input = translatedJson["externalproperties"][m]
-    var elementToCompare = get_matching_external_property(input, updatedJson)
-    if (elementToCompare != null) {
-      propertyArray.push(compareObject(input, elementToCompare, primeLanguage, goalLanguage, read_exisiting_attributes(input)))
+  if (translatedJson["externalproperties"] !== undefined) {
+    for (var m = 0; m < translatedJson["externalproperties"].length; m++) {
+      var input = translatedJson["externalproperties"][m]
+      var elementToCompare = get_matching_external_property(input, updatedJson)
+      if (elementToCompare != null) {
+        propertyArray.push(compareObject(input, elementToCompare, primeLanguage, goalLanguage, read_exisiting_attributes(input)))
+      }
     }
   }
   return propertyArray
