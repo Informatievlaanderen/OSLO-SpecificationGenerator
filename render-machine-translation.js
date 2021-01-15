@@ -65,6 +65,8 @@ async function createMachineTranslatedFile(input, mainlanguage, goallanguage) {
     myJson = input
     myJson.classes = await getTranslatedArrays(input.classes, mainlanguage, goallanguage)
     myJson.properties = await getTranslatedArrays(input.properties, mainlanguage, goallanguage)
+    myJson["externals"] = await getTranslatedArrays(input["externals"], mainlanguage, goallanguage)
+    myJson["externalproperties"] = await getTranslatedArrays(input["externalproperties"], mainlanguage, goallanguage)
     return myJson
   } catch (error) {
     console.error("An error occured while reading the input (function createMachineTranslatedFile)")

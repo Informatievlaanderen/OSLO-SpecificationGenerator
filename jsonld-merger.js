@@ -53,6 +53,8 @@ function create_merged_input_file(input, languageinput, goallanguage) {
   myJson = input
   myJson.classes = getMergedObjects(input.classes, languageinput.classes)
   myJson.properties = getMergedObjects(input.properties, languageinput.properties)
+  myJson["externals"] = getMergedObjects(input["externals"], languageinput["externals"])
+  myJson["externalproperties"] = getMergedObjects(input["externalproperties"], languageinput["externalproperties"])
   if (!(myJson["translation"] === undefined)) {
     for (var o = 0; o < myJson["translation"].length; o++) {
       if (myJson["translation"][o]["language"] == goallanguage) {

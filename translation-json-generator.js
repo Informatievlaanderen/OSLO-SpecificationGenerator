@@ -58,6 +58,8 @@ function get_shortened_json(input, primeLanguage, goalLanguage) {
   var json = new Object()
   var classArray = new Array(Object)
   var propertyArray = new Array(Object)
+  var externalArray = new Array(Object)
+  var externalPropertyArray = new Array(Object)
 
   if (primeLanguage != goalLanguage) {
     for (i = 0; i < input.classes.length; i++) {
@@ -65,6 +67,12 @@ function get_shortened_json(input, primeLanguage, goalLanguage) {
     }
     for (i = 0; i < input.properties.length; i++) {
       propertyArray[i] = create_shortened_object(input.properties[i], primeLanguage, goalLanguage)
+    }
+    for (i = 0; i < input.externals.length; i++) {
+      externalArray[i] = create_shortened_object(input.externals[i], primeLanguage, goalLanguage)
+    }
+    for (i = 0; i < input.externalproperties.length; i++) {
+      externalPropertyArray[i] = create_shortened_object(input.externalproperties[i], primeLanguage, goalLanguage)
     }
   } else {
     console.log("WARNING The entered language values are the same!")
@@ -74,15 +82,23 @@ function get_shortened_json(input, primeLanguage, goalLanguage) {
     for (i = 0; i < input.properties.length; i++) {
       propertyArray[i] = create_shortened_object_one_language(input.properties[i], primeLanguage)
     }
+    for (i = 0; i < input.externals.length; i++) {
+      externalArray[i] = create_shortened_object(input.externals[i], primeLanguage)
+    }
+    for (i = 0; i < input.externalproperties.length; i++) {
+      externalPropertyArray[i] = create_shortened_object(input.externalproperties[i], primeLanguage)
+    }
   }
 
   json['baseURI'] = input['baseURI']
   json.classes = classArray
   json.properties = propertyArray
+  json["externals"] = externalArray
+  json["externalproperties"] = externalPropertyArray
   return json
 }
 
-//checks mandatory values: name, label, definintion, description & adds the id
+//checks mandatory values: label, definintion, usage & adds the id
 function create_shortened_object_one_language(classObject, language) {
   var shortClass = new Object()
   shortClass['@id'] = classObject['@id']
