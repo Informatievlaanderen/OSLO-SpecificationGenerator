@@ -31,11 +31,28 @@ function render_exampletemplate_from_json_ld_file(directory, outputdirectory) {
     console.log('start reading')
     fs.readdir(directory, (err, files) => {
         files.forEach(file => {
-            jsonfile.readFile(directory+"\\"+file)
+            let path = directory+"\\"+file
+            if (fs.lstatSync(path).isDirectory()) {
+                render_exampletemplate_from_json_ld_file(path, outputdirectory+"\\"+file)
+            } else {
+                handleFile(path, outputdirectory, file)
+            }
+        });
+    });
+
+}
+
+function handleFile (input, outputdirectory, file) {
+    jsonfile.readFile(input)
                 .then(
                     function (json) {
                         json = iterate_over_json(json)
                         var output = getOutputFile(outputdirectory, file)
+
+                        if (!fs.existsSync(outputdirectory)){
+                            fs.mkdirSync(outputdirectory);
+                        }
+
                         jsonfile.writeFile(output, json)
                         .then(res => {
                           console.log('Write complete to: ' + output)
@@ -43,9 +60,6 @@ function render_exampletemplate_from_json_ld_file(directory, outputdirectory) {
                         .catch(error => { console.error(error); process.exitCode = 1 })
                     })
                 .catch(error => { console.error(error); process.exitCode = 1 })
-        });
-    });
-
 }
 
 function getOutputFile (dir, file) {

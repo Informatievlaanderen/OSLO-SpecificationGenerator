@@ -3,7 +3,8 @@ const jsonfile = require('jsonfile')
 var pluralize = require('pluralize')
 const StringBuilder = require("string-builder");
 var program = require('commander');
-const camelCase = require('camelcase')
+const camelCase = require('camelcase');
+const { create } = require('domain');
 
 program
     .version('0.0.1')
@@ -12,6 +13,7 @@ program
     .option('-l, --language <languagecode>', 'wished language (languagecode)')
     .option('-o, --outputdirectory <path to directory>', 'output directory (directory path)')
     .option('-s, --stringtype <boolean>', 'a variable to define if the properties are a language-string (true) or a normal string (false + default) (boolean)')
+    .option('-e, --externals <boolean>', 'a variable to define if the external classes and properties should be included into the configuartion or not (per default false) (boolean)')
 
 program.on('--help', function () {
     console.log('')
@@ -24,11 +26,11 @@ program.on('--help', function () {
 
 program.parse(process.argv)
 
-console.log(program.namestring)
-
 const stringtype = specify_string(program.stringtype)
+console.log(stringtype)
 
-create_config(program.input, program.outputdirectory, program.language)
+create_config('.\\example.jsonld', '.\\temp\\', 'en', 'true')
+//create_config(program.input, program.outputdirectory, program.language, program.externals)
 console.log('done')
 
 function specify_string(bool) {
@@ -41,7 +43,7 @@ function specify_string(bool) {
     }
 }
 
-function create_config(input_filename, outputdirectory, language) {
+function create_config(input_filename, outputdirectory, language, externals) {
     console.log('start reading');
     jsonfile.readFile(input_filename)
         .then(
@@ -49,6 +51,7 @@ function create_config(input_filename, outputdirectory, language) {
                 if (fs.existsSync(outputdirectory)) {
                     console.log('start processing')
 
+                    input = mergeExternals(input, externals)
                     write_domainlisp(outputdirectory, input, language);
                     write_repositorylisp(outputdirectory);
 
@@ -59,6 +62,28 @@ function create_config(input_filename, outputdirectory, language) {
                 }
             })
         .catch(error => { console.error(error); process.exitCode = 1; })
+}
+
+function mergeExternals(input, externals) {
+    if (externals == true || externals == 'true') {
+        classesArray = []
+        propertyArray = []
+        input["classes"].forEach(element => {
+            classesArray.push(element)
+        });
+        input["externals"].forEach(element => {
+            classesArray.push(element)
+        });
+        input["properties"].forEach(element => {
+            propertyArray.push(element)
+        });
+        input["externalproperties"].forEach(element => {
+            propertyArray.push(element)
+        });
+        input["classes"] = classesArray
+        input["properties"] = propertyArray
+    }
+    return input
 }
 
 function write_repositorylisp(outputdir) {
@@ -171,7 +196,7 @@ function start_class(domainBuilder, currClass, language, input) {
     domainBuilder.append("(define-resource " + get_label(currClass, language) + " ()").appendLine()
     domainBuilder.append("   :class (s-url \"http://www.w3.org/2002/07/owl#Class\")").appendLine()
     //If you want any of the properties to be language-tagged you'll have to set their options to true 
-        domainBuilder = write_properties(domainBuilder, currClass, input)
+    domainBuilder = write_properties(domainBuilder, currClass, input)
     return domainBuilder
 }
 
@@ -186,7 +211,7 @@ function write_properties(domainBuilder, currClass, input) {
             if (i != 0) {
                 domainBuilder.appendLine()
                 domainBuilder.append("                 (")
-            } 
+            }
             domainBuilder.append(":" + name + " " + stringtype + " ,(s-url \"" + id + "\"))")
         }
         domainBuilder.append(")").appendLine()
@@ -215,7 +240,7 @@ function get_literal_props(property, propdict) {
         var item = range[i]
         if (is_literal(item["uri"])) {
             propdict.push({
-                key:   property["@id"],
+                key: property["@id"],
                 value: item["EA-Name"]
             });
         }
@@ -244,8 +269,9 @@ function end_class(domainBuilder, currClass, language) {
 }
 
 function get_label(obj, language) {
-    if (obj.label !== undefined&& obj.label[language] !== undefined) {
-        return toCamelCase(obj.label[language])
+    if (obj.label !== undefined && obj.label[language] !== undefined) {
+        let camelCased = toCamelCase(obj.label[language])
+        return capitalizeFirstLetter(camelCased)
     } else {
         console.log("No label for specified language in object: " + obj["@id"] + " usind EA-Name instead: " + obj["extra"]["EA-Name"])
         return obj["extra"]["EA-Name"]
@@ -254,12 +280,14 @@ function get_label(obj, language) {
 
 function toCamelCase(str) {
     str = camelCase(str)
-    // console.log(str)
     str = str.replace(/\s\(source\)/g, '(source)').replace(/\s\(target\)/g, '(target)')
-    // console.log(' -> ' + str)
     return str
-  };
-  
+};
+
+function capitalizeFirstLetter(string) {
+    let capitalized = string.charAt(0).toUpperCase() + string.slice(1);
+    return capitalized
+}
 
 function getFilename(directory, file) {
     if (directory.charAt(directory.length - 1) == "/" || directory.charAt(directory.length - 1) == "\\") {
