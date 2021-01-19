@@ -29,8 +29,8 @@ program.parse(process.argv)
 const stringtype = specify_string(program.stringtype)
 console.log(stringtype)
 
-create_config('.\\example.jsonld', '.\\temp\\', 'en', 'true')
-//create_config(program.input, program.outputdirectory, program.language, program.externals)
+//create_config('.\\example.jsonld', '.\\temp\\', 'en', 'true')
+create_config(program.input, program.outputdirectory, program.language, program.externals)
 console.log('done')
 
 function specify_string(bool) {
@@ -196,12 +196,12 @@ function start_class(domainBuilder, currClass, language, input) {
     domainBuilder.append("(define-resource " + get_label(currClass, language) + " ()").appendLine()
     domainBuilder.append("   :class (s-url \"http://www.w3.org/2002/07/owl#Class\")").appendLine()
     //If you want any of the properties to be language-tagged you'll have to set their options to true 
-    domainBuilder = write_properties(domainBuilder, currClass, input)
+    domainBuilder = write_properties(domainBuilder, currClass, input, language)
     return domainBuilder
 }
 
-function write_properties(domainBuilder, currClass, input) {
-    var dict = get_properties(currClass, input)
+function write_properties(domainBuilder, currClass, input, language) {
+    var dict = get_properties(currClass, input, language)
     if (dict.length > 0) {
         domainBuilder.append("   :properties `((")
         for (let i = 0; i < dict.length; i++) {
@@ -219,7 +219,7 @@ function write_properties(domainBuilder, currClass, input) {
     return domainBuilder
 }
 
-function get_properties(currClass, input) {
+function get_properties(currClass, input, language) {
     var properties = input.properties
     var propdict = []
     for (let p = 0; p < properties.length; p++) {
@@ -227,21 +227,21 @@ function get_properties(currClass, input) {
         for (let i = 0; i < property["domain"].length; i++) {
             var domain = property["domain"][i]
             if (domain["uri"] == currClass["@id"]) {
-                propdict = get_literal_props(property, propdict)
+                propdict = get_literal_props(property, propdict, language)
             }
         }
     }
     return propdict
 }
 
-function get_literal_props(property, propdict) {
+function get_literal_props(property, propdict, language) {
     var range = property.range
     for (let i = 0; i < range.length; i++) {
         var item = range[i]
         if (is_literal(item["uri"])) {
             propdict.push({
                 key: property["@id"],
-                value: item["EA-Name"]
+                value: get_label(property, language)
             });
         }
     }
