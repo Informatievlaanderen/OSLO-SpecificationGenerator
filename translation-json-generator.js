@@ -92,7 +92,6 @@ function get_shortened_json(input, primeLanguage, goalLanguage) {
 function create_shortened_object_one_language(classObject, language) {
   var shortClass = new Object()
   shortClass['EA-Guid'] = classObject['extra']['EA-Guid']
-  console.log(classObject['extra']['EA-Guid'])
   shortClass = set_name(shortClass, classObject, language, language)
   shortClass = get_one_langue_value(shortClass, classObject, "label", language)
   shortClass = get_one_langue_value(shortClass, classObject, "definition", language)

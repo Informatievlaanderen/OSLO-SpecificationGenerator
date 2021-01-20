@@ -62,11 +62,11 @@ function find_errors(json, language, report) {
 
 function write_report(json, key, language, report) {
     if (!(json[key][language] === undefined) && (json[key][language] === 'Enter your translation here')) {
-        var line = ` WARNING - for the object with the @id ${json['@id']} there is no ${language} translation for the ${key}. \n`;
+        var line = ` WARNING - for the object with the EA-Guid ${json['EA-Guid']} there is no ${language} translation for the ${key}. \n`;
         report.push(line)
     }
     if (!(json[key][language] === undefined) && (json[key][language] === '')) {
-        var line = ` WARNING - for the object with the @id ${json['@id']} the ${language} translation for ${key} is empty. \n`;
+        var line = ` WARNING - for the object with the EA-Guid ${json['EA-Guid']} the ${language} translation for ${key} is empty. \n`;
         report.push(line)
     }
     return report
