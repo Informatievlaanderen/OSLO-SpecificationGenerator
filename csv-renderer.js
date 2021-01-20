@@ -4,7 +4,7 @@ const papaparse = require('papaparse')
 var program = require('commander')
 
 program
-  .version('0.8.0')
+  .version('1.0.0')
   .usage('node csv-renderer.js renders the content of a CSV file into a jsonld template')
   .option('-t, --template <template>', 'jsonld template to render')
   .option('-h, --contextbase <hostname>', 'the public base url on which the context of the jsons are published.')

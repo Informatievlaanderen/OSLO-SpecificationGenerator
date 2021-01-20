@@ -2,7 +2,7 @@ const jsonfile = require('jsonfile')
 var program = require('commander')
 
 program
-  .version('0.8.0')
+  .version('1.0.0')
   .usage('node render-voc.js creates a vocabulary json-ld with regards to a language')
   .option('-i, --input <path>', 'input file to render (a jsonld file)')
   .option('-o, --output <path>', 'output file (a jsonld file)')

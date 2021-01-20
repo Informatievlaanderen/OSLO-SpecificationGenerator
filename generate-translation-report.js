@@ -4,7 +4,7 @@ const fs = require('fs')
 var program = require('commander')
 
 program
-    .version('0.8.0')
+    .version('1.0.0')
     .usage('node translation-report.js creates a report on the ')
     .option('-i, --input <path>', 'input file to validate (a json file)')
     .option('-l, --language <languagecode>', 'the language that shall be tested (a languagecode)')

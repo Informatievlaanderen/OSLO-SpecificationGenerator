@@ -6,7 +6,7 @@ const camelCase = require('camelcase');
 var program = require('commander');
 
 program
-    .version('0.0.1')
+    .version('1.0.0')
     .usage('node jsonld-merger.js merges translation Json with original jsonld')
     .option('-i, --input <path>', 'input file (a jsonld file)')
     .option('-l, --language <languagecode>', 'wished language (languagecode)')

@@ -2,7 +2,7 @@ const jsonfile = require('jsonfile')
 var program = require('commander')
 
 program
-  .version('0.8.0')
+  .version('1.0.0')
   .usage('node shacl-generator2.js creates shacl template with regards to a langauge')
   .option('-i, --input <path>', 'input file (a jsonld file)')
   .option('-o, --output <path>', 'output file (shacl)')

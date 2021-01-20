@@ -6,7 +6,7 @@ const ldParser = require('./linkeddataparser3');
 var program = require('commander');
 
 program
-  .version('0.8.0')
+  .version('1.0.0')
   .usage('node html-generator2.js creates html pages for jsonld files with regard to a chosen language')
   .option('-s, --style <target>', 'target style html forms. One of {voc,ap, oj}', /^(voc|ap|oj|all)$/i)
   .option('-t, --template <template>', 'html template to render')

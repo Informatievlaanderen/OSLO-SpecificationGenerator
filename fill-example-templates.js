@@ -5,7 +5,7 @@ const nunjucks = require('nunjucks');
 var program = require('commander')
 
 program
-    .version('0.8.0')
+    .version('1.0.0')
     .usage('node fill-example-templates.js creates jsonld files per class')
     .option('-d, --directory <directory>', 'directory where you saved your example templates (not the context!)')
     .option('-o, --outputdirectory <directory>', 'outputdirectory to save the new files to. If it is the same as the directory, the files in there will be overwritten.')

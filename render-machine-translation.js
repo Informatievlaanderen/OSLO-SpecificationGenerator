@@ -6,7 +6,7 @@ var program = require('commander')
 var endpoint = "https://api.cognitive.microsofttranslator.com";
 
 program
-  .version('0.0.1')
+  .version('1.0.0')
   .usage('node render-machine-translation.js creates a translation of a jsonld file based on existing values')
   .option('-i, --input <path>', 'input file to validate (a jsonld file)')
   .option('-g, --goalLanguage <languagecode>', 'the language that shall be translated to (a languagecode)')

@@ -2,7 +2,7 @@ const jsonfile = require('jsonfile')
 var program = require('commander')
 
 program
-  .version('0.8.0')
+  .version('1.0.0')
   .usage('node translation-json-generator.js creates a translatable json based on a jsonld and a chosen prime and goallanguage')
   .option('-i, --input <path>', 'input file (a jsonld file)')
   .option('-o, --output <path>', 'output file (a json file)')

@@ -2,7 +2,7 @@ const jsonfile = require('jsonfile')
 var program = require('commander')
 
 program
-  .version('0.8.0')
+  .version('1.0.0')
   .usage('node translation-json-update.js updates an existing translatable json based on a jsonld and a chosen prime and goallanguage')
   .option('-i, --input <path>', 'translation input file to update (a json file)')
   .option('-f, --updatedFile <path>', 'the general jsonld file of the corresponding specification (a jsonld file)')

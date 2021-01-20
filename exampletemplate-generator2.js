@@ -6,7 +6,7 @@ const camelCase = require('camelcase')
 var program = require('commander')
 
 program
-  .version('0.8.0')
+  .version('1.0.0')
   .usage('node exampletemplate-generator2.js creates jsonld files per class')
   .option('-t, --template <template>', 'html template to render')
   .option('-h, --contextbase <hostname>', 'the public base url on which the context of the jsons are published.')

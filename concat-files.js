@@ -4,7 +4,7 @@ const jsonfile = require('jsonfile')
 var program = require('commander')
 
 program
-    .version('0.8.0')
+    .version('1.0.0')
     .usage('node concat-files.js creates a json-ld context')
     .option('-i, --input <path>', 'input file to update (a jsonld file)')
     .option('-c, --concatfile <path>', 'file to concat to the input (a json/jsonld file)')
