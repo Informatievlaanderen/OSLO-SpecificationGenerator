@@ -91,7 +91,8 @@ function get_shortened_json(input, primeLanguage, goalLanguage) {
 //checks mandatory values: label, definintion, usage & adds the Ea-Guid
 function create_shortened_object_one_language(classObject, language) {
   var shortClass = new Object()
-  shortClass['Ea-Guid'] = classObject['extra']['Ea-Guid']
+  shortClass['EA-Guid'] = classObject['extra']['EA-Guid']
+  console.log(classObject['extra']['EA-Guid'])
   shortClass = set_name(shortClass, classObject, language, language)
   shortClass = get_one_langue_value(shortClass, classObject, "label", language)
   shortClass = get_one_langue_value(shortClass, classObject, "definition", language)
@@ -111,7 +112,7 @@ function get_one_langue_value(shortClass, classObject, attribute, language) {
 function create_shortened_object(object, prime, goal) {
   var shortObject = new Object()
   console.log(object['extra']['EA-Guid'])
-  shortObject['Ea-Guid'] = object['extra']['EA-Guid']
+  shortObject['EA-Guid'] = object['extra']['EA-Guid']
   shortObject = set_name(shortObject, object, prime, goal)
   shortObject = get_attribute(shortObject, object, "label", prime, goal)
   shortObject = get_attribute(shortObject, object, "definition", prime, goal)

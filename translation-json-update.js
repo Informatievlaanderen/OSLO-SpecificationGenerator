@@ -153,7 +153,7 @@ iterate through arguments of the inserted objects input and updated. If updated 
 language tags), add those to the input file. If some of the attributes in the existing input are deleted in the updated version, delete them, too.
 */
 function compareObject(input, updated, primeLanguage, goalLanguage, keys) {
-  let id = input['Ea-Guid']
+  let id = input['EA-Guid']
   for (let [key, value] of Object.entries(updated)) {
     if (!(updated[key] === undefined) && !(updated[key][primeLanguage] === undefined) && !(updated[key] != "")) {
       //valid means that the attribute is not just a modification of an existing attribute (e.g. label - ap-label-nl)
@@ -168,7 +168,7 @@ function compareObject(input, updated, primeLanguage, goalLanguage, keys) {
   if (!(input === undefined)) {
     input = removeDeletedObjects(input, keys, read_exisiting_attributes(updated))
   }
-  input['Ea-Guid']=id
+  input['EA-Guid']=id
   return input
 }
 
@@ -200,7 +200,7 @@ function read_exisiting_attributes(objects) {
 
 function get_matching_class(inputClass, updatedJson) {
   for (i = 0; i < updatedJson.classes.length; i++) {
-    if (updatedJson.classes[i]['extra']['EA-Guid'] == inputClass['Ea-Guid']) {
+    if (updatedJson.classes[i]['extra']['EA-Guid'] == inputClass['EA-Guid']) {
       return updatedJson.classes[i]
     }
   }
@@ -209,7 +209,7 @@ function get_matching_class(inputClass, updatedJson) {
 
 function get_matching_externals(inputClass, updatedJson) {
   for (i = 0; i < updatedJson["externals"].length; i++) {
-    if (updatedJson["externals"][i]['extra']['EA-Guid'] == inputClass['Ea-Guid']) {
+    if (updatedJson["externals"][i]['extra']['EA-Guid'] == inputClass['EA-Guid']) {
       return updatedJson["externals"][i]
     }
   }
@@ -218,7 +218,7 @@ function get_matching_externals(inputClass, updatedJson) {
 
 function get_matching_property(inputClass, updatedJson) {
   for (i = 0; i < updatedJson.properties.length; i++) {
-    if (updatedJson.properties[i]['extra']['EA-Guid'] == inputClass['Ea-Guid']) {
+    if (updatedJson.properties[i]['extra']['EA-Guid'] == inputClass['EA-Guid']) {
       return updatedJson.properties[i]
     }
   }
@@ -227,7 +227,7 @@ function get_matching_property(inputClass, updatedJson) {
 
 function get_matching_external_property(inputClass, updatedJson) {
   for (i = 0; i < updatedJson["externalproperties"].length; i++) {
-    if (updatedJson["externalproperties"][i]['extra']['EA-Guid'] == inputClass['Ea-Guid']) {
+    if (updatedJson["externalproperties"][i]['extra']['EA-Guid'] == inputClass['EA-Guid']) {
       return updatedJson["externalproperties"][i]
     }
   }

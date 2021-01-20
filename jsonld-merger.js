@@ -101,7 +101,7 @@ function merge_two_objects(elementToCompare, currObject) {
 }
 function get_matching_object(languageInputObject, inputArray) {
   for (i = 0; i < inputArray.length; i++) {
-    if (inputArray[i]['extra']['EA-Guid'] == languageInputObject['Ea-Guid']) {
+    if (inputArray[i]['extra']['EA-Guid'] == languageInputObject['EA-Guid']) {
       return inputArray[i]
     }
   }
