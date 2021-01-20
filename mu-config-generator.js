@@ -1,14 +1,13 @@
 const fs = require('fs')
-const jsonfile = require('jsonfile')
-var pluralize = require('pluralize')
 const StringBuilder = require("string-builder");
-var program = require('commander');
+var pluralize = require('pluralize')
+const jsonfile = require('jsonfile')
 const camelCase = require('camelcase');
-const { create } = require('domain');
+var program = require('commander');
 
 program
     .version('0.0.1')
-    .usage('node specgen-jsonld-merger.js merges translation Json with original jsonld')
+    .usage('node jsonld-merger.js merges translation Json with original jsonld')
     .option('-i, --input <path>', 'input file (a jsonld file)')
     .option('-l, --language <languagecode>', 'wished language (languagecode)')
     .option('-o, --outputdirectory <path to directory>', 'output directory (directory path)')
@@ -18,9 +17,10 @@ program
 program.on('--help', function () {
     console.log('')
     console.log('Examples:')
-    console.log('  $ specgen-shacl --help')
-    console.log('  $ specgen-shacl -i <input> -o <output> -l <language>')
-    console.log('  $ specgen-shacl -i <input> -o <output> -l <language> -s <boolean>')
+    console.log('  $ jsonld-merger --help')
+    console.log('  $ jsonld-merger -i <input> -o <output> -l <language>')
+    console.log('  $ jsonld-merger -i <input> -o <output> -l <language> -s <stringtype>')
+    console.log('  $ jsonld-merger -i <input> -o <output> -l <language> -s <stringtype> -e <externals>')
     process.exitCode = 1
 })
 
@@ -29,7 +29,6 @@ program.parse(process.argv)
 const stringtype = specify_string(program.stringtype)
 console.log(stringtype)
 
-//create_config('.\\example.jsonld', '.\\temp\\', 'en', 'true')
 create_config(program.input, program.outputdirectory, program.language, program.externals)
 console.log('done')
 
@@ -239,9 +238,11 @@ function get_literal_props(property, propdict, language) {
     for (let i = 0; i < range.length; i++) {
         var item = range[i]
         if (is_literal(item["uri"])) {
+            let label = get_label(property, language)
+            label = lowerCaseFirstLetter(label)
             propdict.push({
                 key: property["@id"],
-                value: get_label(property, language)
+                value: label
             });
         }
     }
@@ -271,6 +272,7 @@ function end_class(domainBuilder, currClass, language) {
 function get_label(obj, language) {
     if (obj.label !== undefined && obj.label[language] !== undefined) {
         let camelCased = toCamelCase(obj.label[language])
+        camelCased = camelCased.toLowerCase()
         return capitalizeFirstLetter(camelCased)
     } else {
         console.log("No label for specified language in object: " + obj["@id"] + " usind EA-Name instead: " + obj["extra"]["EA-Name"])
@@ -286,6 +288,11 @@ function toCamelCase(str) {
 
 function capitalizeFirstLetter(string) {
     let capitalized = string.charAt(0).toUpperCase() + string.slice(1);
+    return capitalized
+}
+
+function lowerCaseFirstLetter(string) {
+    let capitalized = string.charAt(0).toLowerCase() + string.slice(1);
     return capitalized
 }
 

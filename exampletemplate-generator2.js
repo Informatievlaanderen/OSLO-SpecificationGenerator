@@ -1,4 +1,3 @@
-const fs = require('fs')
 const jsonfile = require('jsonfile')
 const nunjucks = require('nunjucks')
 const ldParser = require('./linkeddataparser3')
@@ -8,7 +7,7 @@ var program = require('commander')
 
 program
   .version('0.8.0')
-  .usage('node exampletemplate-generator.js creates jsonld files per class')
+  .usage('node exampletemplate-generator2.js creates jsonld files per class')
   .option('-t, --template <template>', 'html template to render')
   .option('-h, --contextbase <hostname>', 'the public base url on which the context of the jsons are published.')
   .option('-r, --documentpath <path>', 'the document path on which the jsons are is published')
@@ -20,8 +19,8 @@ program
 program.on('--help', function () {
   console.log('')
   console.log('Examples:')
-  console.log('  $ exampletemplate-generator --help')
-  console.log('  $ exampletemplate-generator -i <input> -o <output>')
+  console.log('  $ exampletemplate-generator2 --help')
+  console.log('  $ exampletemplate-generator2 -i <input> -o <output>')
 })
 
 program.parse(process.argv)
@@ -64,7 +63,6 @@ function render_exampletemplate_from_json_ld_file(filename, outputdirectory, lan
               filenamei = outputdirectory + '/' + camelCase(classes[i].name) + '.json'
               jsonfile.writeFile(filenamei, make_exampletemplate(classes[i], language), function (err) {
                 if (err) {
-                  // Set the exit code if there's a problem so bash sees it
                   process.exitCode = 1
                   console.error(err)
                   throw err
@@ -79,7 +77,6 @@ function render_exampletemplate_from_json_ld_file(filename, outputdirectory, lan
               filenamei = outputdirectory + '/' + camelCase(classes[i].name) + '.json'
               jsonfile.writeFile(filenamei, make_exampletemplate(classes[i], language), function (err) {
                 if (err) {
-                  // Set the exit code if there's a problem so bash sees it
                   process.exitCode = 1
                   console.error(err)
                   throw err
@@ -95,7 +92,6 @@ function render_exampletemplate_from_json_ld_file(filename, outputdirectory, lan
               filenamei = outputdirectory + '/context/' + camelCase(classes[i].name) + '.jsonld'
               jsonfile.writeFile(filenamei, make_exampletemplate_context(classes[i], language), function (err) {
                 if (err) {
-                  // Set the exit code if there's a problem so bash sees it
                   process.exitCode = 1
                   console.error(err)
                   throw err
@@ -117,9 +113,6 @@ function make_exampletemplate(cj_class_desc, language) {
   }
   for (const p in cj_class_desc.properties) {
     var rp = range_repr(cj_class_desc.properties[p].scopedrange, language)
-    // console.log(cj_class_desc.properties[p]);
-    // console.log(cj_class_desc.properties[p].name);
-    // console.log(cj_class_desc.properties[p].name.nl);
     if ((cj_class_desc.properties[p].name !== null) && (cj_class_desc.properties[p].name !== '')) {
       cj_class[camelCase(cj_class_desc.properties[p].name)] = rp
     }
@@ -128,18 +121,17 @@ function make_exampletemplate(cj_class_desc, language) {
   var pt = parse_template(JSON.stringify(cj_class))
   var renvalues = get_ren_values(language)
   var ren = render_template(pt, renvalues)
-  // console.log(ren);
   return cj_class
 }
 
 function get_ren_values(language) {
   switch (language) {
-    case "nl": 
+    case "nl":
       return { ID: 'een identifier', STRING: 'een string waarde', BOOLEAN: 'true', VAL: 'ik weet het niet' }
-    case "de": 
+    case "de":
       return { ID: 'ein Identifikator', STRING: 'ein String-Wert', BOOLEAN: 'true', VAL: 'Ich weiß es nicht' }
     case "en":
-    default: 
+    default:
       if (language != "en") {
         console.log("Your defined language does not have a value assigned, per default we will use English")
       }

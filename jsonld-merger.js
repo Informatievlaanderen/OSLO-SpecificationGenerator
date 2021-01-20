@@ -6,17 +6,17 @@ var program = require('commander')
 
 program
   .version('0.0.1')
-  .usage('node specgen-jsonld-merger.js merges translation Json with original jsonld')
+  .usage('node jsonld-merger.js merges translation Json with original jsonld')
   .option('-i, --input <path>', 'input file (a jsonld file)')
   .option('-m, --mergeinput <path>', 'input of json file to merge with (a json file)')
   .option('-l, --language <languagecode>', 'the language the file shall merge into (languagecode)')
-  .option('-o, --output <path>', 'output file (shacl)')
+  .option('-o, --output <path>', 'output file (jsonld)')
 
 program.on('--help', function () {
   console.log('')
   console.log('Examples:')
-  console.log('  $ specgen-shacl --help')
-  console.log('  $ specgen-shacl -i <input> -m <mergeinput> -o <output> -l <language>')
+  console.log('  $ jsonld-merger --help')
+  console.log('  $ jsonld-merger -i <input> -m <mergeinput> -o <output> -l <language>')
   process.exitCode = 1
 })
 
@@ -101,7 +101,7 @@ function merge_two_objects(elementToCompare, currObject) {
 }
 function get_matching_object(languageInputObject, inputArray) {
   for (i = 0; i < inputArray.length; i++) {
-    if (inputArray[i]['@id'] == languageInputObject['@id']) {
+    if (inputArray[i]['extra']['EA-Guid'] == languageInputObject['Ea-Guid']) {
       return inputArray[i]
     }
   }

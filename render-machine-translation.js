@@ -1,9 +1,7 @@
 const jsonfile = require('jsonfile')
 const axios = require('axios').default;
 const { v4: uuidv4 } = require('uuid');
-
 var program = require('commander')
-
 
 var endpoint = "https://api.cognitive.microsofttranslator.com";
 
@@ -20,8 +18,8 @@ program
 program.on('--help', function () {
   console.log('')
   console.log('Examples:')
-  console.log('  $ specgen-context --help')
-  console.log('  $ specgen-context -i <input> -g <languagecode> -m <languagecode> -o <output> -s <key-string> -l <location>')
+  console.log('  $ render-machine-translation --help')
+  console.log('  $ render-machine-translation -i <input> -g <languagecode> -m <languagecode> -o <output> -s <key-string> -l <location>')
 })
 
 program.parse(process.argv)

@@ -1,12 +1,9 @@
-const fs = require('fs')
 const jsonfile = require('jsonfile')
-const jsonld = require('jsonld')
-
 var program = require('commander')
 
 program
   .version('0.8.0')
-  .usage(' creates shacl template with regards to a langauge')
+  .usage('node shacl-generator2.js creates shacl template with regards to a langauge')
   .option('-i, --input <path>', 'input file (a jsonld file)')
   .option('-o, --output <path>', 'output file (shacl)')
   .option('-d, --domain <path>', 'domain of the shacl shapes, without #')
@@ -15,13 +12,12 @@ program
 program.on('--help', function () {
   console.log('')
   console.log('Examples:')
-  console.log('  $ specgen-shacl --help')
-  console.log('  $ specgen-shacl -i <input> -o <output> -d <domain> -l <languageCode>')
+  console.log('  $ shacl-generator2 --help')
+  console.log('  $ shacl-generator2 -i <input> -o <output> -d <domain> -l <languageCode>')
   process.exitCode = 1
 })
 
 program.parse(process.argv)
-//render_shacl_from_json_ld_file('.\\tempjson.jsonld', '..\\Drafts\\shacl2.ttl', 'en')
 render_shacl_from_json_ld_file(program.input, program.output, program.language)
 console.log('done')
 
@@ -54,7 +50,7 @@ function render_shacl_from_json_ld_file(filename, output_filename, language) {
           })
       }
     )
-  // .catch(error => console.error(error))
+    .catch(error => console.error(error))
 }
 
 /*

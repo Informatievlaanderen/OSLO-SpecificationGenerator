@@ -1,16 +1,9 @@
-// const fs = require('fs')
 const jsonfile = require('jsonfile')
-// const jsonld = require('jsonld')
-const Set = require('collections/set')
-const Map = require('collections/map')
-const camelCase = require('camelcase')
-
 var program = require('commander')
 
-// delete domain & label?
 program
   .version('0.8.0')
-  .usage('node specgen-translation-json-update.js updates an existing translatable json based on a jsonld and a chosen prime and goallanguage')
+  .usage('node translation-json-update.js updates an existing translatable json based on a jsonld and a chosen prime and goallanguage')
   .option('-i, --input <path>', 'translation input file to update (a json file)')
   .option('-f, --updatedFile <path>', 'the general jsonld file of the corresponding specification (a jsonld file)')
   .option('-o, --output <path>', 'output file (a json file)')
@@ -20,15 +13,13 @@ program
 program.on('--help', function () {
   console.log('')
   console.log('Examples:')
-  console.log('  $ specgen-context --help')
-  console.log('  $ specgen-context -i <input> -f <updatedFile> -m <primeLanguage> -g <goalLanguage> -o <output>')
+  console.log('  $ translation-json-update --help')
+  console.log('  $ translation-json-update -i <input> -f <updatedFile> -m <primeLanguage> -g <goalLanguage> -o <output>')
 })
 
 program.parse(process.argv)
-const forceDomain = !!program.forceDomain
 
 render_updated_file_from_json_ld_file(program.input, program.primeLanguage, program.goalLanguage, program.updatedFile, program.output)
-//render_updated_file_from_json_ld_file('..\\Drafts\\testforupdatecreated.json', 'nl', 'en', '..\\Drafts\\testforupdateoriginal.jsonld')
 
 console.log('done')
 
@@ -51,7 +42,6 @@ function render_updated_file_from_json_ld_file(filename, primeLanguage, goalLang
               console.log('start processing')
 
               var myJson = compare_files(original, updated, primeLanguage, goalLanguage)
-              //var output_filename = get_outputFilename (filename)
 
               jsonfile.writeFile(outputfilename, myJson)
                 .then(res => {
@@ -163,6 +153,7 @@ iterate through arguments of the inserted objects input and updated. If updated 
 language tags), add those to the input file. If some of the attributes in the existing input are deleted in the updated version, delete them, too.
 */
 function compareObject(input, updated, primeLanguage, goalLanguage, keys) {
+  let id = input['Ea-Guid']
   for (let [key, value] of Object.entries(updated)) {
     if (!(updated[key] === undefined) && !(updated[key][primeLanguage] === undefined) && !(updated[key] != "")) {
       //valid means that the attribute is not just a modification of an existing attribute (e.g. label - ap-label-nl)
@@ -177,6 +168,7 @@ function compareObject(input, updated, primeLanguage, goalLanguage, keys) {
   if (!(input === undefined)) {
     input = removeDeletedObjects(input, keys, read_exisiting_attributes(updated))
   }
+  input['Ea-Guid']=id
   return input
 }
 
@@ -208,7 +200,7 @@ function read_exisiting_attributes(objects) {
 
 function get_matching_class(inputClass, updatedJson) {
   for (i = 0; i < updatedJson.classes.length; i++) {
-    if (updatedJson.classes[i]['@id'] == inputClass['@id']) {
+    if (updatedJson.classes[i]['extra']['EA-Guid'] == inputClass['Ea-Guid']) {
       return updatedJson.classes[i]
     }
   }
@@ -217,7 +209,7 @@ function get_matching_class(inputClass, updatedJson) {
 
 function get_matching_externals(inputClass, updatedJson) {
   for (i = 0; i < updatedJson["externals"].length; i++) {
-    if (updatedJson["externals"][i]['@id'] == inputClass['@id']) {
+    if (updatedJson["externals"][i]['extra']['EA-Guid'] == inputClass['Ea-Guid']) {
       return updatedJson["externals"][i]
     }
   }
@@ -226,7 +218,7 @@ function get_matching_externals(inputClass, updatedJson) {
 
 function get_matching_property(inputClass, updatedJson) {
   for (i = 0; i < updatedJson.properties.length; i++) {
-    if (updatedJson.properties[i]['@id'] == inputClass['@id']) {
+    if (updatedJson.properties[i]['extra']['EA-Guid'] == inputClass['Ea-Guid']) {
       return updatedJson.properties[i]
     }
   }
@@ -235,7 +227,7 @@ function get_matching_property(inputClass, updatedJson) {
 
 function get_matching_external_property(inputClass, updatedJson) {
   for (i = 0; i < updatedJson["externalproperties"].length; i++) {
-    if (updatedJson["externalproperties"][i]['@id'] == inputClass['@id']) {
+    if (updatedJson["externalproperties"][i]['extra']['EA-Guid'] == inputClass['Ea-Guid']) {
       return updatedJson["externalproperties"][i]
     }
   }
@@ -251,170 +243,4 @@ function value_is_valid(key, keys) {
     }
   }
   return true
-}
-
-const capitalizeFirst = (s) => {
-  if (typeof s !== 'string') return ''
-  return s.charAt(0).toUpperCase() + s.slice(1)
-}
-
-// auxiliary function to convert to camelcase with dealing special cases
-// TODO: what are the guidelines for contextual scoping in the labels?
-function toCamelCase(str) {
-  str = camelCase(str)
-  // console.log(str)
-  str = str.replace(/\s\(source\)/g, '(source)').replace(/\s\(target\)/g, '(target)')
-  // console.log(' -> ' + str)
-  return str
-};
-
-// map an entity prop to its term
-function map_identifier(prop) {
-  let identifier = ''
-  if (program.useLabels === 'label') {
-    if (prop.label && prop.label.nl) {
-      identifier = toCamelCase(prop.label.nl)
-      //      console.log(identifier)
-    } else {
-      console.log('Warning: no dutch label for entity, using fallback EA-Name')
-      identifier = prop.extra['EA-Name']
-      console.log('   Fallback applied for ' + identifier)
-    }
-  } else {
-    identifier = prop.extra['EA-Name']
-  };
-  return identifier
-};
-
-// create a map (term -> list of uri)
-function urireducer(accumulator, currentValue, currentIndex, array) {
-  let currentlist = []
-  const term = map_identifier(currentValue)
-  if (accumulator.has(term)) {
-    currentlist = accumulator.get(term)
-    currentlist.push(currentValue['@id'])
-    accumulator.set(term, currentlist)
-  } else {
-    accumulator.set(term, [currentValue['@id']])
-  };
-  return accumulator
-};
-
-// TODO: collection.js documentation does not specify
-// if the values get overwritten for existing keys
-//
-const accContext = (accumulator, currentValue) =>
-  accumulator.addEach(currentValue)
-
-function make_context(classes, properties, externals, externalproperties) {
-  console.log('make context')
-
-  var context = new Map()
-  var contextbody = new Map()
-
-  if (classes !== null) { contextbody = classes.reduce(accContext, new Map()) }
-  if (properties !== null) { contextbody = properties.reduce(accContext, contextbody) }
-  if (externals !== null) { contextbody = externals.reduce(accContext, contextbody) }
-  if (externalproperties !== null) { contextbody = externalproperties.reduce(accContext, contextbody) }
-
-  context.set('@context', contextbody.toObject())
-
-  return context
-}
-
-/* TODO: handle classhierarchy grouping
-   it should be possible to based on a class-hierarchy to create
-   a context file per applicationprofile per class
-   This requires knowledge in the input about the class hierarchy
-*/
-function map_class(c) {
-  const mapping = new Map()
-  const identifier = map_identifier(c)
-  mapping.set(capitalizeFirst(identifier), c['@id'])
-  return mapping
-};
-
-function classes(json) {
-  const classes = json.classes
-  let classmapping = new Map()
-  classmapping = classes.map(x => map_class(x))
-  return classmapping
-}
-
-function map_properties(eanamesclasses, duplicates, prop) {
-  var mapping = new Map()
-
-  var range
-  var range_uri = ''
-  let identifier = ''
-
-  if (prop.range.length === 0) {
-    console.log('warning: no range for ' + prop.name.nl)
-  } else {
-    if (prop.range.length > 1) {
-      console.log('warning: more than one type for ' + prop.name.nl + ' : ' + prop.range)
-      range = prop.range[0]
-      range_uri = range.uri
-    } else {
-      range = prop.range[0]
-    };
-    range_uri = range.uri
-  };
-  let atType = ''
-  if (prop['@type'] === 'http://www.w3.org/2002/07/owl#ObjectProperty') {
-    atType = '@id'
-  } else {
-    // assume a literal
-    atType = range_uri
-  };
-
-  identifier = map_identifier(prop)
-  //  console.log(identifier)
-  var propc = {}
-  let key = ''
-  if (duplicates.has(identifier) || forceDomain) {
-    //    console.log('  > found duplicate')
-    // duplicate
-    const domain = prop.extra['EA-Domain']
-    if (domain === '') {
-      console.log('ERROR: no domain found to disambiguate ' + identifier)
-      console.log('An overwrite will happen')
-    } else {
-      key = capitalizeFirst(eanamesclasses.get(domain)) + '.' + identifier
-    }
-  } else {
-    // no duplicate
-    key = identifier
-  };
-  //  console.log('  > property key: ' + key)
-
-  if (prop.maxCardinality !== '0' & prop.maxCardinality !== '1') {
-    propc = {
-      '@id': prop['@id'],
-      '@type': atType,
-      '@container': '@set' // support @language case
-    }
-  } else {
-    propc = {
-      '@id': prop['@id'],
-      '@type': atType
-    }
-  };
-  // add to the map, only if it is not yet present
-  if (mapping.has(key)) {
-    console.log('warning: duplicate key ' + key + ' value ' + mapping[key])
-  } else {
-    mapping.set(key, propc)
-  };
-
-  return mapping
-}
-
-function properties(eanamesclasses, duplicates, json) {
-  var props = json.properties
-
-  var propertymapping = new Map()
-  propertymapping = props.map(x => map_properties(eanamesclasses, duplicates, x))
-
-  return propertymapping
 }

@@ -1,6 +1,4 @@
-// const fs = require('fs')
 const jsonfile = require('jsonfile')
-// const jsonld = require('jsonld')
 const Set = require('collections/set')
 const Map = require('collections/map')
 const camelCase = require('camelcase')
@@ -9,7 +7,7 @@ var program = require('commander')
 
 program
   .version('0.8.0')
-  .usage('node specgen-json-ld-geneartor2.js creates a json-ld context based on a chosen language')
+  .usage('node json-ld-generator2.js creates a json-ld context based on a chosen language')
   .option('-i, --input <path>', 'input file (a jsonld file)')
   .option('-o, --output <path>', 'output file (the context)')
   .option('-m, --language <languagecode>', 'the language for the context (the languagecode)')
@@ -19,17 +17,14 @@ program
 program.on('--help', function () {
   console.log('')
   console.log('Examples:')
-  console.log('  $ specgen-context --help')
-  console.log('  $ specgen-context -i <input> -o <output> -m <language>')
-  console.log('  $ specgen-context -i <input> -o <output> -l label -m <language>')
+  console.log('  $ json-ld-generator2 --help')
+  console.log('  $ json-ld-generator2 -i <input> -o <output> -m <language>')
+  console.log('  $ json-ld-generator2 -i <input> -o <output> -l <useLabels> -m <language>')
 })
 
 program.parse(process.argv)
-//program.useLabels = 'label'
 const forceDomain = !!program.forceDomain
-const language = !!program.language
 
-//render_context_from_json_ld_file("..\\workbench\\Drafts\\ldmerged.jsonld", "..\\workbench\\Drafts\\ourputjsonld.json", "en")
 render_context_from_json_ld_file(program.input, program.output, program.language)
 console.log('done')
 
@@ -171,35 +166,6 @@ function EAname(accumulator, currentValue, currentIndex, array, language) {
 const accContext = (accumulator, currentValue) =>
   accumulator.addEach(currentValue)
 
-/* Same implementation as above, but maintained for debugging purposes
- */
-/*
-function accContextLog(accumulator, currentValue) {
- console.log('----------------------------');
- console.log(currentValue);
- accumulator.addEach(currentValue);
- console.log(accumulator);
- return accumulator
-}
-*/
-
-/* Obsolete OLD accumulator implementation
- * but is kept in the source as documentation for the case to add manually
- * items in the map while checking if the key exists.
- *
-*/
-/*
-function join_contexts (context, value, key, map) {
- console.log(key);
-  if (context.has(key)) {
-    console.log('warning: duplicate key ' + key + ' value ' + map.get(key))
-  } else {
-    context.set(key,value)
-  };
-  return context
-};
-*/
-
 function make_context(classes, properties, externals, externalproperties) {
   console.log('make context')
 
@@ -263,11 +229,9 @@ function map_properties(eanamesclasses, duplicates, prop, language) {
   };
 
   identifier = map_identifier(prop, language)
-  //  console.log(identifier)
   var propc = {}
   let key = ''
   if (duplicates.has(identifier) || forceDomain) {
-    //    console.log('  > found duplicate')
     // duplicate
     const domain = prop.extra['EA-Domain']
     if (domain === '') {
@@ -280,7 +244,6 @@ function map_properties(eanamesclasses, duplicates, prop, language) {
     // no duplicate
     key = identifier
   };
-  //  console.log('  > property key: ' + key)
 
   if (prop.maxCardinality !== '0' & prop.maxCardinality !== '1') {
     propc = {

@@ -1,17 +1,9 @@
-//const fs = require('fs')
 const jsonfile = require('jsonfile')
-// const jsonld = require('jsonld')
-const Set = require('collections/set')
-const Map = require('collections/map')
-const camelCase = require('camelcase')
-
 var program = require('commander')
-const { usage, description } = require('commander')
 
-// delete domain & label?
 program
   .version('0.8.0')
-  .usage('node specgen-render-voc.js creates a vocabulary json-ld with regards to a language')
+  .usage('node render-voc.js creates a vocabulary json-ld with regards to a language')
   .option('-i, --input <path>', 'input file to render (a jsonld file)')
   .option('-o, --output <path>', 'output file (a jsonld file)')
   .option('-l, --language <languageCode>', 'the language of the file (a string)')
@@ -19,24 +11,22 @@ program
 program.on('--help', function () {
   console.log('')
   console.log('Examples:')
-  console.log('  $ specgen-context --help')
-  console.log('  $ specgen-context -i <input> -l <languagecode> -o <output>')
+  console.log('  $ render-voc --help')
+  console.log('  $ render-voc -i <input> -l <languagecode> -o <output>')
 })
 
 program.parse(process.argv)
 const forceDomain = !!program.forceDomain
 
 render_voc(program.input, program.language, program.output)
-//render_voc(".\\sdgmodels2-impl-ap_en_merged.jsonld", "en", "tmp.jsonld")
 console.log('done')
 
-/* ---- end of the program --- */
-// 
+/* --- end of the program --- */
+
 function render_voc(filename, language, outputfilename) {
   console.log('Language: ' + language)
   console.log('File: ' + filename)
 
-  //read out file
   jsonfile.readFile(filename)
     .then(
       function (originaljsonld) {
@@ -104,7 +94,6 @@ function pick_classes(myJsonldarray, language) {
   return array
 }
 
-//TODO right match?? 
 function pick_externals(myJsonldarray, type) {
   var externals = new Array
   for (let y = 0; y < myJsonldarray.length; y++) {
@@ -176,17 +165,6 @@ function get_value(value) {
   } else {
     return value
   }
-}
-
-function set_usage(newobject, currobject, language) {
-  if (!(currobject.usage === undefined) && !(currobject.usage[language] === undefined)) { //usage language value exists
-    newobject.usage[language] = currobject.usage[language]
-  } else if (!(currobject.usage === undefined) && (currobject.usage[language] === undefined)) { //usage exists but no value
-    newobject.usage = new Object
-  } else {
-    // no usage value is in the compared object so it will not be in the new one
-  }
-  return newobject
 }
 
 function prepare_jsonld(json, language) {

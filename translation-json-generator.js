@@ -1,16 +1,9 @@
-// const fs = require('fs')
 const jsonfile = require('jsonfile')
-// const jsonld = require('jsonld')
-const Set = require('collections/set')
-const Map = require('collections/map')
-const camelCase = require('camelcase')
-
 var program = require('commander')
 
-// delete domain & label?
 program
   .version('0.8.0')
-  .usage('node specgen-translation-json-generator.js creates a translatable json based on a jsonld and a chosen prime and goallanguage')
+  .usage('node translation-json-generator.js creates a translatable json based on a jsonld and a chosen prime and goallanguage')
   .option('-i, --input <path>', 'input file (a jsonld file)')
   .option('-o, --output <path>', 'output file (a json file)')
   .option('-m, --primeLanguage <language>', 'prime language to translate to a different one (a string)')
@@ -19,8 +12,8 @@ program
 program.on('--help', function () {
   console.log('')
   console.log('Examples:')
-  console.log('  $ specgen-context --help')
-  console.log('  $ specgen-context -i <input> -m <primeLanguage> -g <goalLanugage> -o <outputfile>')
+  console.log('  $ translation-json-generator --help')
+  console.log('  $ translation-json-generator -i <input> -m <primeLanguage> -g <goalLanugage> -o <outputfile>')
 })
 
 program.parse(process.argv)
@@ -28,8 +21,6 @@ const forceDomain = !!program.forceDomain
 
 transform_json_ld_file_to_translatable_json(program.input, program.primeLanguage, program.goalLanguage, program.output)
 console.log('done')
-
-/* ---- end of the program --- */
 
 function transform_json_ld_file_to_translatable_json(filename, primeLanguage, goalLanguage, outputfile) {
   console.log('Prime Language: ' + primeLanguage)
@@ -42,7 +33,6 @@ function transform_json_ld_file_to_translatable_json(filename, primeLanguage, go
 
         var myJson = get_shortened_json(obj, primeLanguage, goalLanguage)
 
-        //var output_filename = get_outputFilename (filename, goalLanguage)
         jsonfile.writeFile(outputfile, myJson)
           .then(res => {
             console.log('Write complete')
@@ -98,10 +88,10 @@ function get_shortened_json(input, primeLanguage, goalLanguage) {
   return json
 }
 
-//checks mandatory values: label, definintion, usage & adds the id
+//checks mandatory values: label, definintion, usage & adds the Ea-Guid
 function create_shortened_object_one_language(classObject, language) {
   var shortClass = new Object()
-  shortClass['@id'] = classObject['@id']
+  shortClass['Ea-Guid'] = classObject['extra']['Ea-Guid']
   shortClass = set_name(shortClass, classObject, language, language)
   shortClass = get_one_langue_value(shortClass, classObject, "label", language)
   shortClass = get_one_langue_value(shortClass, classObject, "definition", language)
@@ -120,12 +110,13 @@ function get_one_langue_value(shortClass, classObject, attribute, language) {
 
 function create_shortened_object(object, prime, goal) {
   var shortObject = new Object()
-  shortObject['@id'] = object['@id']
+  console.log(object['extra']['EA-Guid'])
+  shortObject['Ea-Guid'] = object['extra']['EA-Guid']
   shortObject = set_name(shortObject, object, prime, goal)
   shortObject = get_attribute(shortObject, object, "label", prime, goal)
   shortObject = get_attribute(shortObject, object, "definition", prime, goal)
   shortObject = get_attribute(shortObject, object, "usage", prime, goal)
-
+  console.log(shortObject)
   return shortObject
 }
 

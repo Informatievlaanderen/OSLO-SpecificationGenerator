@@ -5,7 +5,7 @@ const converter = require('./ConvertToResourceJsonld');
 
 program
     .version('0.0.1')
-    .usage('node specgen-jsonld-merger.js merges translation Json with original jsonld')
+    .usage('node communication-example4.js merges translation Json with original jsonld')
     .option('-c, --city <String>', 'Name of the city/cities from which you want all addresses to be transferred')
     .option('-m, --mainport <port>', 'Port that the service the data should be transferred from runs on')
     .option('-g, --goalport <port>', 'Port that the service the data should be transferred to runs on')
@@ -17,11 +17,11 @@ program
 program.on('--help', function () {
     console.log('')
     console.log('Examples:')
-    console.log('  $ specgen-shacl --help')
-    console.log('  $ specgen-shacl -c <cityname> -m <port> -g <port>')
-    console.log('  $ specgen-shacl -c <cityname> -m <port> -g <port> -n <hostname>')
-    console.log('  $ specgen-shacl -c <cityname> -m <port> -g <port> -n <hostname> -h <hostname>')
-    console.log('  $ specgen-shacl -c <cityname> -m <port> -g <port> -n <hostname> -h <hostname> -e <englishcontext jsonld> -d <germancontext jsonld>')
+    console.log('  $ communication-example4 --help')
+    console.log('  $ communication-example4 -c <cityname> -m <port> -g <port>')
+    console.log('  $ communication-example4 -c <cityname> -m <port> -g <port> -n <hostname>')
+    console.log('  $ communication-example4 -c <cityname> -m <port> -g <port> -n <hostname> -h <hostname>')
+    console.log('  $ communication-example4 -c <cityname> -m <port> -g <port> -n <hostname> -h <hostname> -e <englishcontext jsonld> -d <germancontext jsonld>')
     process.exitCode = 1
 })
 
@@ -250,7 +250,7 @@ async function createAddressBody(city) {
 
 function writeAddressesInDatabase(body, id) {
     if (body["data"]["relationships"] === undefined) {
-        body["data"]["relationships"] = new Object ()
+        body["data"]["relationships"] = new Object()
     }
     body["data"]["relationships"]["Stadt"] = { "data": { "type": "Staedte", "id": id } }
     body["data"]["type"] = "Adressen"
@@ -259,7 +259,7 @@ function writeAddressesInDatabase(body, id) {
     })
     console.log("Data to create Address:")
     console.log(data)
-    
+
     const options = {
         hostname: goalhost,
         port: goalport,

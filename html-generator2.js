@@ -25,8 +25,8 @@ program
 program.on('--help', function () {
   console.log('')
   console.log('Examples:');
-  console.log('  $ html-generator --help');
-  console.log('  $ html-generator -s <target> -t <template> -d <template directory> -i <input> -o <output>');
+  console.log('  $ html-generator2 --help');
+  console.log('  $ html-generator2 -s <target> -t <template> -m <mainlanguage> -d <template directory> -i <input> -o <output>');
 });
 
 program.parse(process.argv);
@@ -43,7 +43,6 @@ console.log('done');
 
 function render_html_from_json_ld_file(target, template, filename, output_filename, language) {
   console.log('start reading');
-  var obj = {};
   jsonfile.readFile(filename)
     .then(
       function (obj) {
@@ -84,7 +83,6 @@ function render_html_from_json_ld_file(target, template, filename, output_filena
           console.log('start writing');
           fs.writeFile(output_filename, data, (err) => {
             if (err) {
-              // Set the exit code if there's a problem so bash sees it
               process.exitCode = 1
               throw err;
             }
@@ -138,10 +136,6 @@ function pushNampespace(uri, namespaces) {
     }
   }
   return namespaces
-}
-
-function split(uri, namespaces) {
-
 }
 
 function push(namespaces, value) {

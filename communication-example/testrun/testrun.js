@@ -1,6 +1,5 @@
 const jsonfile = require('jsonfile')
 const converter = require('../ConvertToResourceJsonld');
-const jsonld = require('jsonld');
 
 jsonfile.readFile("communication-example\\testrun\\examplecontext.jsonld")
     .then(

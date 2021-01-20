@@ -2,12 +2,10 @@ const jsonfile = require('jsonfile')
 const fs = require('fs')
 
 var program = require('commander')
-const { usage, description } = require('commander')
 
-// delete domain & label?
 program
     .version('0.8.0')
-    .usage('node specgen-translation-report.js creates a report on the ')
+    .usage('node translation-report.js creates a report on the ')
     .option('-i, --input <path>', 'input file to validate (a json file)')
     .option('-l, --language <languagecode>', 'the language that shall be tested (a languagecode)')
     .option('-o, --output <path>', 'output file (a jsonld file)')
@@ -15,8 +13,8 @@ program
 program.on('--help', function () {
     console.log('')
     console.log('Examples:')
-    console.log('  $ specgen-context --help')
-    console.log('  $ specgen-context -i <input> -l <languagecode> -o <output>')
+    console.log('  $ translation-report --help')
+    console.log('  $ translation-report -i <input> -l <languagecode> -o <output>')
 })
 
 
@@ -26,13 +24,12 @@ concat(program.input, program.language, program.output)
 console.log('done')
 
 /* ---- end of the program --- */
-// 
+
 function concat(filename, language, outputfilename) {
     console.log('Input: ' + filename)
     console.log('Language: ' + language)
     console.log('Output: ' + outputfilename)
 
-    //read out file
     jsonfile.readFile(filename)
         .then(
             function (myjson) {

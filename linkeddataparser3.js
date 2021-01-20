@@ -1,13 +1,10 @@
 const fs = require('fs')
 const jsonld = require('jsonld')
 const uris = require('./uris')
-
 var Map = require('collections/map')
 var Set = require('collections/set')
 
 require('collections/shim-array')
-
-//
 
 /**
  * Pre Description:
@@ -36,7 +33,6 @@ async function parse_ontology_from_json_ld_file_voc(json_ld_file, hostname, lang
   var ld = JSON.parse(fs.readFileSync(json_ld_file, 'utf-8'))
   const expanded = await jsonld.expand(ld)
   console.log('html will be generated in: ' + language)
-  // console.log(JSON.stringify(expanded));
 
   var codelist = getcodelist(ld)
   var nj_classes = ld.classes.reduce(function (acc, elem) {
@@ -60,7 +56,6 @@ async function parse_ontology_from_json_ld_file_voc(json_ld_file, hostname, lang
     if (candidate.name && candidate.show) { acc.push(candidate) };
     return acc
   }, [])
-  // console.log(JSON.stringify(nj_classes) );
   var nj_ext_properties_set = new Set(nj_ext_properties_list)
   var nj_ext_properties = nj_ext_properties_set.toArray()
   var nj_editors = ld.editors.reduce(function (acc, elem) {
@@ -96,7 +91,6 @@ async function parse_ontology_from_json_ld_file_voc(json_ld_file, hostname, lang
 async function parse_ontology_from_json_ld_file_ap(json_ld_file, hostname, forceskos) {
   var ld = JSON.parse(fs.readFileSync(json_ld_file, 'utf-8'))
   const expanded = await jsonld.expand(ld)
-  // console.log(JSON.stringify(expanded));
 
   var grouped0 = group_properties_per_class_all(ld)
   var codelist = getcodelist(ld)
@@ -143,7 +137,6 @@ async function parse_ontology_from_json_ld_file_ap(json_ld_file, hostname, force
 async function parse_ontology_from_json_ld_file_all(json_ld_file, hostname, forceskos, language) {
   var ld = JSON.parse(fs.readFileSync(json_ld_file, 'utf-8'))
   const expanded = await jsonld.expand(ld)
-  // console.log(JSON.stringify(expanded));
 
   var grouped0 = group_properties_per_class_all(ld)
   var codelist = getcodelist(ld)
@@ -160,7 +153,6 @@ async function parse_ontology_from_json_ld_file_all(json_ld_file, hostname, forc
   }
   var nj_classes = make_nj_classes(ld.classes.concat(ld.externals), grouped0, aux, language)
   var nj_datatypes = make_nj_datatypes(ld.classes.concat(ld.externals), grouped0, aux, language)
-  // console.log(JSON.stringify(nj_classes) );
   var nj_editors = ld.editors.reduce(function (acc, elem) {
     acc.push(make_nj_person(elem, 'E'))
     return acc
@@ -191,10 +183,8 @@ async function parse_ontology_from_json_ld_file_all(json_ld_file, hostname, forc
 async function parse_ontology_from_json_ld_file_oj(json_ld_file, hostname, forceskos, language) {
   var ld = JSON.parse(fs.readFileSync(json_ld_file, 'utf-8'))
   expanded = await jsonld.expand(ld)
-  // console.log(JSON.stringify(expanded));
 
   var grouped0 = group_properties_per_class_all(ld)
-  // console.log(grouped0);
   const hier = class_hierarchy_extensional(ld.classes.concat(ld.externals))
   var grouped2 = group_properties_per_class_using_hierarchy(hier, grouped0)
   var codelist = getcodelist(ld)
@@ -210,7 +200,6 @@ async function parse_ontology_from_json_ld_file_oj(json_ld_file, hostname, force
     forceskos: forceskos
   }
   var nj_classes = make_nj_classes(ld.classes, grouped2, aux, language)
-  // console.log(JSON.stringify(nj_classes) );
   var nj_datatypes = make_nj_datatypes(ld.classes, grouped2, aux, language)
 
   var nj_editors = ld.editors.reduce(function (acc, elem) {
@@ -279,17 +268,6 @@ async function parse_json_ld_file_to_exampletemplates(json_ld_file, hostname, la
   }
 };
 
-//
-// group the properties per class using the domain
-//   - variant 1: include only those which are identified as full members of the document
-//   - variant 2: include all classes and properties
-//
-function group_properties_per_class(json) {
-  var classes = json.classes
-  var properties = json.properties
-  return group_properties_per_class2(classes, properties, json)
-};
-
 function group_properties_per_class_all(json) {
   var classes = json.classes
   classes = classes.concat(json.externals)
@@ -330,48 +308,6 @@ function group_properties_per_class2(classes, properties, json) {
   return grouped
 };
 
-// note assumed is that EA-Parents is just a single value
-function class_hierarchy_parents(classes) {
-  var hierarchy = new Map()
-
-  for (var key in classes) {
-    push_value_to_map_array(hierarchy, classes[key].extra['EA-Name'], classes[key].extra['EA-Parents'])
-  }
-  return hierarchy
-};
-// support EA-Parents2 which is a list
-function class_hierarchy_parents2(classes) {
-  var hierarchy = new Map()
-
-  for (var key in classes) {
-    for (var p in classes[key].extra['EA-Parents2']) {
-      push_value_to_map_array(hierarchy, classes[key].extra['EA-Name'], p.name)
-    }
-  }
-  return hierarchy
-};
-
-// note assumed is that EA-Parents is just a single value
-function class_hierarchy_childern(classes) {
-  var hierarchy = new Map()
-
-  for (var key in classes) {
-    push_value_to_map_array(hierarchy, classes[key].extra['EA-Parents'], classes[key].extra['EA-Name'])
-  }
-  return hierarchy
-};
-
-function class_hierarchy_childern2(classes) {
-  var hierarchy = new Map()
-
-  for (var key in classes) {
-    for (var p in classes[key].extra['EA-Parents2']) {
-      push_value_to_map_array(hierarchy, p.name, classes[key].extra['EA-Name'])
-    }
-  }
-  return hierarchy
-};
-
 // extensional_hierachy
 function class_hierarchy_extensional(classes) {
   var hierarchy = new Map()
@@ -384,26 +320,6 @@ function class_hierarchy_extensional(classes) {
 
   // make extensional
   for (const key in classes) {
-    parents = class_parents(100, hierarchy, classes[key].extra['EA-Name'])
-    ext_hierarchy.set(classes[key].extra['EA-Name'], parents)
-  };
-
-  return ext_hierarchy
-};
-
-function class_hierarchy_extensional2(classes) {
-  var hierarchy = new Map()
-  var ext_hierarchy = new Map()
-  var parents = []
-
-  for (var key in classes) {
-    for (var p in classes[key].extra['EA-Parents2']) {
-      push_value_to_map_array(hierarchy, classes[key].extra['EA-Name'], p)
-    }
-  };
-
-  // make extensional
-  for (var key in classes) {
     parents = class_parents(100, hierarchy, classes[key].extra['EA-Name'])
     ext_hierarchy.set(classes[key].extra['EA-Name'], parents)
   };
@@ -434,18 +350,6 @@ function class_parents(level, hierarchy, c) {
   }
 };
 
-//
-// unique_elements in arrqy
-//
-function array_unique_elements(array) {
-  var m = new Map()
-
-  for (var e in array) {
-    m.set(e, 1)
-  };
-
-  return m.keys()
-};
 
 //
 // map_array = map(key, [ ... ] )
@@ -609,70 +513,6 @@ function getcodelist(json) {
   return codelistmap
 };
 
-//
-// make the classes structure based on the grouping
-//
-function make_nj_classes2(classes, grouped) {
-  console.log('make nunjuncks classes')
-
-  var nj_classes = []
-  var nj_class = new Map()
-  var prop = new Map()
-  var props = []
-
-  classes.forEach(function (element) {
-    nj_class = {
-      uri: element['@id'],
-      name: element.name,
-      description: element.description,
-      usage: element.usage
-    }
-    // console.log(nj_class);
-
-    var gindex = element.extra['EA-Name']
-
-    var g = []
-    if (grouped.has(gindex)) {
-      g = grouped[gindex]
-      // console.log(g);
-      if (g == null) { g = [] };
-      g = grouped.get(gindex)
-      // console.log(g);
-      if (g == null) { g = [] };
-    } else {
-      g = []
-    };
-    props = []
-    var range = {}
-    nj_class.properties = props
-    Object.entries(g).forEach(
-      ([pkey, value]) => {
-        var card = value.minCardinality + '..' + value.maxCardinality
-        // TODO: bug if no range is given
-        if (value.range && value.range[0] && value.range[0]['EA-Name']) {
-          range = { label: value.range[0]['EA-Name'], uri: value.range[0].uri }
-        } else {
-          range = {}
-        };
-        prop = {
-          uri: value['@id'],
-          name: value.name,
-          description: value.description,
-          usage: value.usage,
-          domain: value.domain,
-          range: range,
-          cardinality: card,
-          codelist_uri: '' // TODO
-        }
-        props.push(prop)
-      })
-    nj_class.properties = props
-    nj_classes.push(nj_class)
-  })
-
-  return nj_classes
-};
-
 function make_nj_classes(classes, grouped, aux, language) {
   console.log('make nunjuncks classes')
 
@@ -700,34 +540,6 @@ function make_nj_datatypes(classes, grouped, aux, language) {
   }, [])
   return nj_classes
 };
-
-function make_nj_enumerations(classes, language) {
-  console.log('make nunjuncks enumerations ')
-
-  var nj_classes = []
-
-  nj_classes = classes.reduce(function (accumulator, element) {
-    if (element.extra['EA-Type'] === 'ENUMERATION') {
-      accumulator.push(make_nj_enumeration(element, language))
-    };
-    return accumulator
-  }, [])
-  return nj_classes
-};
-
-function make_nj_enumeration(element, language) {
-  // basic enum data
-  var nj_enumeration = {
-    uri: element['@id'],
-    name: get_neutral_attribute(element, 'name'),
-    label: get_language_attribute(element, 'label', language),
-    sort: get_sort(element, language),
-    description: get_language_attribute(element, 'definition', language),
-    usage: get_language_attribute(element, 'usage', language)
-  }
-
-  if (element.extra.codelist) { nj_enumeration.codelist = element.extra.codelist };
-}
 
 /* create all info aof a class
    element = the EA-element which is a class
@@ -783,17 +595,13 @@ function make_nj_class(element, grouped, aux, language) {
   )
   nj_class.parents = scoped_parents
 
-  // console.log(nj_class);
-
   var gindex = element.extra['EA-Name']
 
   var g = []
   if (grouped.has(gindex)) {
     g = grouped[gindex]
-    // console.log(g);
     if (g == null) { g = [] };
     g = grouped.get(gindex)
-    // console.log(g);
     if (g == null) { g = [] };
   } else {
     g = []
@@ -920,15 +728,15 @@ function get_neutral_attribute(element, attr) {
 
 // sort value: if label is present, use it, otherwise use UML name
 function get_sort(element, language) {
-	let sort = {}
+  let sort = {}
   if (element['label'] !== undefined && element['label'] != null && element['label'][language] !== undefined) {
-	 sort = element['label'][language] 
+    sort = element['label'][language]
   } else {
-	  sort = get_neutral_attribute(element, 'name') 
+    sort = get_neutral_attribute(element, 'name')
   }
-	if (sort == {} ) {
-		sort = "undefined"
-	}
+  if (sort == {}) {
+    sort = "undefined"
+  }
   return sort
 }
 
@@ -970,7 +778,6 @@ function make_nj_ext_class_voc(element, language) {
   return nj_class
 };
 
-
 //TODO Why does this only work with String value, not object (no "description":{"en:" "String@en"} but "description":"String@en")
 function make_nj_prop_voc(element, codelist, language) {
   var domain = element.domain.reduce(function (racc, relem) {
@@ -1011,8 +818,6 @@ function make_nj_prop_voc(element, codelist, language) {
   return nj_prop
 };
 
-//TODO Why does this only work with value and not attribute? -> doesnt work when eg "description":{"en" : "english", "nl":"netherlands"} but only with "description":"english"
-
 function make_nj_ext_prop_voc(element, codelist, language) {
   var nj_prop = {
     uri: element['@id'],
@@ -1051,85 +856,6 @@ function make_nj_ext_prop_voc(element, codelist, language) {
 
   return nj_prop
 };
-
-function make_nj_properties_from_classes(nj_classes) {
-  var mylist = nj_classes.reduce(function (acc, elem) {
-    acc.push(elem.properties)
-    return acc
-  }, [])
-  var myset = new Set(mylist)
-  return myset.toArray()
-}
-
-// extract classes from expanded json
-// Takes an expanded json root object as it is being parsed by jsonld
-// together with the context such as it is being defined in the root of
-// this repository and returns the classes that are being encoded within
-// It in the form that the nunjucks template expects it.
-// For an example please refer to the README.md.
-//
-// @param expanded the root class as it is being read by jsonld
-function extract_classes_from_expanded_json(expanded) {
-  var classes = []
-  const reverses = expanded['@reverse']
-  var defined_enitities = reverses[uris.IS_DEFINED_BY]
-  for (const i in defined_enitities) {
-    var defined_entity = defined_enitities[i]
-    var type = defined_entity['@type']
-    if (class_in_type(uris.CLASS, type)) {
-      var new_class = {
-        uri: defined_entity['@id'],
-        name: extract_language_strings(defined_entity[uris.NAME]),
-        description: extract_language_strings(defined_entity[uris.DESCRIPTION])
-      }
-      if (uris.USAGE in defined_entity) {
-        new_class.usage = extract_language_strings(defined_entity[uris.USAGE])
-      }
-      var class_properties = extract_all_properties_with_domain_from_expanded_json(expanded, new_class.uri)
-      if (class_properties.length > 0) {
-        new_class.properties = class_properties
-      }
-      classes.push(new_class)
-    }
-  }
-  return classes
-};
-
-// extract classes from expanded json
-// Takes an expanded json root object as it is being parsed by jsonld
-// together with the context such as it is being defined in the root of
-// this repository and returns the classes that are being encoded within
-// It in the form that the nunjucks template expects it.
-// For an example please refer to the README.md.
-//
-// @param expanded the root class as it is being read by jsonld
-/*
-function     extract_classes_from_expanded_json(expanded) {
-        var classes = [];
-        reverses = expanded["@reverse"];
-        var defined_enitities = reverses[uris.IS_DEFINED_BY];
-        for(i in defined_enitities) {
-            var defined_entity = defined_enitities[i];
-            var type = defined_entity["@type"];
-            if( class_in_type(uris.CLASS, type)) {
-                var new_class = {
-                    uri: defined_entity["@id"],
-                    name: extract_language_strings(defined_entity[uris.NAME]),
-                    description: extract_language_strings(defined_entity[uris.DESCRIPTION])
-                };
-                if(uris.USAGE in defined_entity) {
-                    new_class.usage = extract_language_strings(defined_entity[uris.USAGE]);
-                }
-                var class_properties = extract_all_properties_with_domain_from_expanded_json(expanded, new_class.uri);
-                if(class_properties.length > 0) {
-                    new_class.properties = class_properties;
-                }
-                classes.push(new_class);
-            }
-        }
-        return classes;
-    };
-    */
 
 // extract all the properties with a certain domain from the expanded json
 // takes a class URI and an expanded json root object as it is was parsed
@@ -1285,85 +1011,6 @@ function make_nj_person(element, type) {
   return nj_person
 }
 
-function extract_contributors_from_expanded_json(expanded) {
-  var contributors = []
-  contributors = contributors.concat(_extract_contributors_from_expanded_json(expanded[uris.AUTHORS], 'A'))
-  contributors = contributors.concat(_extract_contributors_from_expanded_json(expanded[uris.EDITORS], 'E'))
-  contributors = contributors.concat(_extract_contributors_from_expanded_json(expanded[uris.CONTRIBUTORS], 'C'))
-  return contributors
-};
-
-// private supporting method for the extract contributors from expanded json
-// function that makes abstractions of the connecting properties and role codes
-function _extract_contributors_from_expanded_json(expanded_people, role) {
-  var people = []
-  for (const i in expanded_people) {
-    var person = expanded_people[i]
-    var type = person['@type']
-    if (class_in_type(uris.PERSON, type)) {
-      var parsed_person = {
-        role: role,
-        first_name: person[uris.FIRSTNAME][0]['@value'],
-        last_name: person[uris.LASTNAME][0]['@value'],
-        email: person[uris.MAILBOX][0]['@value']
-      }
-      if (uris.AFFILIATION in person) {
-        parsed_person.affiliation = {
-          name: person[uris.AFFILIATION][0][uris.FOAFNAME][0]['@value'],
-          website: _get_affiliation_homepage(person)
-        }
-      }
-      people.push(parsed_person)
-    }
-  }
-  return people
-};
-
-function _get_affiliation_homepage(person) {
-  // There might not be a HOMEPAGE defined
-  try {
-    return person[uris.AFFILIATION][0][uris.HOMEPAGE][0]['@value']
-  } catch (err) {
-    console.log('INFO: affiliation homepage is not present')
-    return null
-  };
-};
-
-// extract externals from expanded json
-// Takes an expanded json root object as it is being parsed by jsonld
-// together with the context such as it is being defined in the root of
-// this repository and returns the external entities that are being encoded within
-// It in the form that the nunjucks template expects it.
-// For an example please refer to the README.md.
-//
-// the produced json looks like this:
-// external_terms: [
-//     {
-//         name: {
-//             nl: "Agent",
-//             en: "Agent"
-//         },
-//         uri: "http://purl.org/dc/terms/Agent"
-//     },
-// ]
-//
-// @param expanded the root class as it is being read by jsonld
-function extract_externals_from_expanded_json(expanded) {
-  var externals = []
-  var defined_externals = expanded[uris.EXTERNALS]
-  for (const i in defined_externals) {
-    var defined_external = defined_externals[i]
-    var type = defined_external['@type']
-    if (class_in_type(uris.EXTERNALCLASS, type)) {
-      externals.push({
-        uri: defined_external['@id'],
-        name: extract_language_strings(defined_external[uris.NAME])
-      })
-    }
-  }
-  return externals
-};
-
 // extract metadata from expanded json
 // Takes an expanded json root object as it is being parsed by jsonld
 // together with the context such as it is being defined in the root of
@@ -1448,28 +1095,6 @@ function make_nj_metadata(json, hostname) {
   return meta
 };
 
-function extract_metadata_from_expanded_json(expanded) {
-  var meta = {
-    title: extract_language_strings(expanded[uris.NAME]),
-    uri: expanded['@id']
-  }
-
-  meta.prefix = ''
-  meta.abstract = []
-  meta.comment = []
-  if (uris.DESCRIPTION in expanded) {
-    meta.description = extract_language_strings(expanded[uris.DESCRIPTION])
-  }
-  if (uris.ISSUED in expanded) {
-    meta.issued = extract_functional_property(expanded[uris.ISSUED])
-  }
-  if (uris.MODIFIED in expanded) {
-    meta.modified = extract_functional_property(expanded[uris.MODIFIED])
-  }
-
-  return meta
-};
-
 // class in type
 // returns true if the passed classname is found within
 // one of the strings in the types array
@@ -1532,24 +1157,5 @@ function extract_strings(expanded_string_bag) {
   }
   return bag
 };
-
-// extract functional property
-// Takes an expanded property as it is being parsed by jsonld
-// generally of the form:
-// [{ "@value": "This is the contents of my string" }] and returns
-// the value of the first object it encounters. If there is no value
-// then this function returns 0
-//
-// example:
-// > extract_functional_property([{"@value": "house"}])
-// > "house"
-//
-// @param expanded_property the property whose value is being extracted
-function extract_functional_property(expanded_property) {
-  if (expanded_property.length > 0) {
-    return expanded_property[0]['@value']
-  }
-  return 0
-}
 
 module.exports = { parse_ontology_from_json_ld_file_voc, parse_ontology_from_json_ld_file_ap, parse_ontology_from_json_ld_file_oj, parse_ontology_from_json_ld_file_all, parse_json_ld_file_to_exampletemplates }
