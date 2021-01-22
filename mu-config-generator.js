@@ -7,7 +7,7 @@ var program = require('commander');
 
 program
     .version('1.0.0')
-    .usage('node jsonld-merger.js merges translation Json with original jsonld')
+    .usage('node mu-config-generator.js merges translation Json with original jsonld')
     .option('-i, --input <path>', 'input file (a jsonld file)')
     .option('-l, --language <languagecode>', 'wished language (languagecode)')
     .option('-o, --outputdirectory <path to directory>', 'output directory (directory path)')
@@ -17,10 +17,10 @@ program
 program.on('--help', function () {
     console.log('')
     console.log('Examples:')
-    console.log('  $ jsonld-merger --help')
-    console.log('  $ jsonld-merger -i <input> -o <output> -l <language>')
-    console.log('  $ jsonld-merger -i <input> -o <output> -l <language> -s <stringtype>')
-    console.log('  $ jsonld-merger -i <input> -o <output> -l <language> -s <stringtype> -e <externals>')
+    console.log('  $ mu-config-generator --help')
+    console.log('  $ mu-config-generator -i <input> -o <output> -l <language>')
+    console.log('  $ mu-config-generator -i <input> -o <output> -l <language> -s <stringtype>')
+    console.log('  $ mu-config-generator -i <input> -o <output> -l <language> -s <stringtype> -e <externals>')
     process.exitCode = 1
 })
 
