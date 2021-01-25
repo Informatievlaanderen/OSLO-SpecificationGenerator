@@ -2,11 +2,12 @@ const jsonfile = require('jsonfile')
 const nunjucks = require('nunjucks')
 const ldParser = require('./linkeddataparser3')
 const camelCase = require('camelcase')
+const fs = require('fs')
 
 var program = require('commander')
 
 program
-  .version('1.0.0')
+  .version('1.0.1')
   .usage('node exampletemplate-generator2.js creates jsonld files per class')
   .option('-t, --template <template>', 'html template to render')
   .option('-h, --contextbase <hostname>', 'the public base url on which the context of the jsons are published.')
@@ -61,13 +62,13 @@ function render_exampletemplate_from_json_ld_file(filename, outputdirectory, lan
           for (const i in classes) {
             if (classes[i].name != null && !(classes[i].name === undefined) && classes[i].name != '') {
               filenamei = outputdirectory + '/' + camelCase(classes[i].name) + '.json'
-              jsonfile.writeFile(filenamei, make_exampletemplate(classes[i], language), function (err) {
+              fs.writeFile(filenamei, JSON.stringify(make_exampletemplate(classes[i], language), null, 4), function (err) {
                 if (err) {
-                  process.exitCode = 1
-                  console.error(err)
-                  throw err
+                  console.log(err);
+                } else {
+                  console.log("JSON saved to " + filenamei);
                 }
-              })
+              });
             }
           }
           console.log('start writing datatype templates')
@@ -75,13 +76,13 @@ function render_exampletemplate_from_json_ld_file(filename, outputdirectory, lan
           for (const i in classes) {
             if (classes[i].name != null && !(classes[i].name === undefined) && classes[i].name != '') {
               filenamei = outputdirectory + '/' + camelCase(classes[i].name) + '.json'
-              jsonfile.writeFile(filenamei, make_exampletemplate(classes[i], language), function (err) {
+              fs.writeFile(filenamei, JSON.stringify(make_exampletemplate(classes[i], language), null, 4), function (err) {
                 if (err) {
-                  process.exitCode = 1
-                  console.error(err)
-                  throw err
+                  console.log(err);
+                } else {
+                  console.log("JSON saved to " + filenamei);
                 }
-              })
+              });
             }
           }
 
@@ -90,13 +91,13 @@ function render_exampletemplate_from_json_ld_file(filename, outputdirectory, lan
           for (const i in classes) {
             if (classes[i].name != null && !(classes[i].name === undefined) && classes[i].name != '') {
               filenamei = outputdirectory + '/context/' + camelCase(classes[i].name) + '.jsonld'
-              jsonfile.writeFile(filenamei, make_exampletemplate_context(classes[i], language), function (err) {
+              fs.writeFile(filenamei, JSON.stringify(make_exampletemplate(classes[i], language), null, 4), function (err) {
                 if (err) {
-                  process.exitCode = 1
-                  console.error(err)
-                  throw err
+                  console.log(err);
+                } else {
+                  console.log("JSON saved to " + filenamei);
                 }
-              })
+              });
             }
           }
           console.log('The files have been saved to ' + outputdirectory)
