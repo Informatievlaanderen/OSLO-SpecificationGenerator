@@ -89,7 +89,21 @@ For all templates, the given variables (the values of the jsonld) will be autoes
 {{ entity.usage[language] | safe }}
 ```
 
-#### Usage of the mu-config-generator.js  
+# Comments on Tools
+
+## translation-json-generator.js 
+Creates a file to translate the language aware values. The Json itself contains only the information important for a translator and the EA-Guids to trace the items back its original object in a general jsonld. The goal here is to have an easily readable file that does not need further knowledge to be translated.
+
+## generate-translation-report.js 
+Creates a report file on a given translation Json. Checks if it is fully translated by searching for empty strings or the placeholder.
+
+## jsonld-merger.js
+Merges the translation Json back into the Jsonld it was created from so all information can be found in one place. Additionally, it overwrites values of the jsonld that are refined for the given language in the config (this includes the title and the template).
+
+## linkeddataparser4.js  
+This parser is an example that adds the possibility to refer to external links in the created html. To try it out you'll need to replace the linkeddataparser3.js in the html generator with linkeddataparser4.js and use the template ap2ext_en.j2 (the example is for english only). The requirement is that the used jsonld has for all classes and properties the language-tagged attribute "externallink" (in case you want to refer to different translated links).
+
+## Usage of the mu-config-generator.js  
 If you have no mu-project yet, you can clone [this](https://github.com/mu-semtech/mu-project/) repository as a base. To make it easier you should define a port for your resource. As an example, you could add this to your docker-compose:  
 ```
 resource:

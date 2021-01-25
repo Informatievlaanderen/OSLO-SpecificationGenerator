@@ -64,9 +64,8 @@ function render_exampletemplate_from_json_ld_file(filename, outputdirectory, lan
               filenamei = outputdirectory + '/' + camelCase(classes[i].name) + '.json'
               fs.writeFile(filenamei, JSON.stringify(make_exampletemplate(classes[i], language), null, 4), function (err) {
                 if (err) {
+                  console.log("Saving the file failed");
                   console.log(err);
-                } else {
-                  console.log("JSON saved to " + filenamei);
                 }
               });
             }
@@ -78,10 +77,9 @@ function render_exampletemplate_from_json_ld_file(filename, outputdirectory, lan
               filenamei = outputdirectory + '/' + camelCase(classes[i].name) + '.json'
               fs.writeFile(filenamei, JSON.stringify(make_exampletemplate(classes[i], language), null, 4), function (err) {
                 if (err) {
+                  console.log("Saving the file failed");
                   console.log(err);
-                } else {
-                  console.log("JSON saved to " + filenamei);
-                }
+                } 
               });
             }
           }
@@ -93,9 +91,8 @@ function render_exampletemplate_from_json_ld_file(filename, outputdirectory, lan
               filenamei = outputdirectory + '/context/' + camelCase(classes[i].name) + '.jsonld'
               fs.writeFile(filenamei, JSON.stringify(make_exampletemplate(classes[i], language), null, 4), function (err) {
                 if (err) {
+                  console.log("Saving the file failed");
                   console.log(err);
-                } else {
-                  console.log("JSON saved to " + filenamei);
                 }
               });
             }
