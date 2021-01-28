@@ -69,5 +69,9 @@ function write_report(json, key, language, report) {
         var line = ` WARNING - for the object with the EA-Guid ${json['EA-Guid']} the ${language} translation for ${key} is empty. \n`;
         report.push(line)
     }
+    if (!(json[key][language] === undefined) && (json[key][language].includes('[UPDATED]'))) {
+        var line = ` WARNING - for the object with the EA-Guid ${json['EA-Guid']} the prime language value for ${key} was updated and the new value for the goal language not yet checked. \n`;
+        report.push(line)
+    }
     return report
 }

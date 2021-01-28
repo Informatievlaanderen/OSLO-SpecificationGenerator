@@ -1,6 +1,9 @@
 const jsonfile = require('jsonfile')
 var program = require('commander')
 
+// The attributes to translate
+const translationAttributes = ["definition", "label", "usage"]
+
 program
   .version('1.0.0')
   .usage('node translation-json-update.js updates an existing translatable json based on a jsonld and a chosen prime and goallanguage')
@@ -41,7 +44,7 @@ function render_updated_file_from_json_ld_file(filename, primeLanguage, goalLang
             function (updated) {
               console.log('start processing')
 
-              var myJson = compare_files(original, updated, primeLanguage, goalLanguage)
+              myJson = compare_files(original, updated, primeLanguage, goalLanguage)
 
               jsonfile.writeFile(outputfilename, myJson)
                 .then(res => {
@@ -59,10 +62,10 @@ function render_updated_file_from_json_ld_file(filename, primeLanguage, goalLang
 
 function compare_files(translatedJson, updatedJson, primeLanguage, goalLanguage) {
   var json = new Object()
-  var classArray = checkClasses(translatedJson, updatedJson, primeLanguage, goalLanguage)
-  var propertyArray = checkProperties(translatedJson, updatedJson, primeLanguage, goalLanguage)
-  var externalArray = checkExternals(translatedJson, updatedJson, primeLanguage, goalLanguage)
-  var externalPropertyArray = checkExternalProperties(translatedJson, updatedJson, primeLanguage, goalLanguage)
+  var classArray = checkArray("classes", translatedJson, updatedJson, primeLanguage, goalLanguage)
+  var propertyArray = checkArray("properties", translatedJson, updatedJson, primeLanguage, goalLanguage)
+  var externalArray = checkArray("externals", translatedJson, updatedJson, primeLanguage, goalLanguage)
+  var externalPropertyArray = checkArray("externalproperties", translatedJson, updatedJson, primeLanguage, goalLanguage)
 
   json = set_base_URI(json, translatedJson)
   json.classes = classArray
@@ -80,167 +83,100 @@ function set_base_URI(json, translatedJson) {
   return json
 }
 
-//Iterate through classes of the input and get the equivalent class in the updated version through their ID,
-//Create new class-array for the updated classes
-function checkClasses(translatedJson, updatedJson, primeLanguage, goalLanguage) {
-  console.log('Checking classes...')
+function checkArray(type, translationjson, jsonld, primelanguage, goallanguage) {
+  console.log('Checking ' + type)
+  var array = []
 
-  var classArray = []
-  for (var i = 0; i < translatedJson.classes.length; i++) {
-    var input = translatedJson.classes[i]
-    var elementToCompare = get_matching_class(input, updatedJson)
-    if (elementToCompare != null) {
-      classArray.push(compareObject(input, elementToCompare, primeLanguage, goalLanguage, read_exisiting_attributes(input)))
-    } // else the element will not be added to the new Array and therefore deleted
-  }
-  return classArray
-}
-
-//Iterate through external classes of the input and get the equivalent class in the updated version through their ID,
-//Create new class-array for the updated classes
-function checkExternals(translatedJson, updatedJson, primeLanguage, goalLanguage) {
-  console.log('Checking externals...')
-
-  var classArray = []
-  if (translatedJson["externals"] !== undefined) {
-    for (var i = 0; i < translatedJson["externals"].length; i++) {
-      var input = translatedJson["externals"][i]
-      var elementToCompare = get_matching_externals(input, updatedJson)
+  if (jsonld[type] !== undefined) {
+    for (var m = 0; m < jsonld[type].length; m++) {
+      var input = jsonld[type][m]
+      var elementToCompare = get_matching_object(type, input, translationjson)
       if (elementToCompare != null) {
-        classArray.push(compareObject(input, elementToCompare, primeLanguage, goalLanguage, read_exisiting_attributes(input)))
-      } // else the element will not be added to the new Array and therefore deleted
-    }
-  }
-  return classArray
-}
-
-//Iterate through properties of the input and get the equivalent property in the updated version through their ID,
-//Create new property-array for the updated properties
-function checkProperties(translatedJson, updatedJson, primeLanguage, goalLanguage) {
-  console.log('Checking properties...')
-
-  var propertyArray = []
-  for (var m = 0; m < translatedJson.properties.length; m++) {
-    var input = translatedJson.properties[m]
-    var elementToCompare = get_matching_property(input, updatedJson)
-    if (elementToCompare != null) {
-      propertyArray.push(compareObject(input, elementToCompare, primeLanguage, goalLanguage, read_exisiting_attributes(input)))
-    }
-  }
-  return propertyArray
-}
-
-//Iterate through external properties of the input and get the equivalent property in the updated version through their ID,
-//Create new property-array for the updated properties
-function checkExternalProperties(translatedJson, updatedJson, primeLanguage, goalLanguage) {
-  console.log('Checking externalproperties...')
-
-  var propertyArray = []
-  if (translatedJson["externalproperties"] !== undefined) {
-    for (var m = 0; m < translatedJson["externalproperties"].length; m++) {
-      var input = translatedJson["externalproperties"][m]
-      var elementToCompare = get_matching_external_property(input, updatedJson)
-      if (elementToCompare != null) {
-        propertyArray.push(compareObject(input, elementToCompare, primeLanguage, goalLanguage, read_exisiting_attributes(input)))
+        array.push(createUpdatedObject(elementToCompare, input, primelanguage, goallanguage))
+      } else {
+        array.push(createUpdatedObject({}, input, primelanguage, goallanguage))
       }
     }
   }
-  return propertyArray
+
+  return array
 }
 
 /*
-iterate through arguments of the inserted objects input and updated. If updated has additional values that require translation (attributes with
-language tags), add those to the input file. If some of the attributes in the existing input are deleted in the updated version, delete them, too.
+Iterate over the list of attributes given at the start and create an updated object to go with it
 */
-function compareObject(input, updated, primeLanguage, goalLanguage, keys) {
-  let id = input['EA-Guid']
-  for (let [key, value] of Object.entries(updated)) {
-    if (!(updated[key] === undefined) && !(updated[key][primeLanguage] === undefined) && !(updated[key] != "")) {
-      //valid means that the attribute is not just a modification of an existing attribute (e.g. label - ap-label-nl)
-      var valid = value_is_valid(key, keys)
-      if (valid == true) {
-        if (input[key] === undefined) {
-          input = add_new_field(input, updated, key, primeLanguage, goalLanguage)
+function createUpdatedObject(translationobject, jsonldobject, primelanguage, goallanguage) {
+  let updatedObject = new Object
+  updatedObject["name"] = jsonldobject["name"]
+  updatedObject["EA-Guid"] = jsonldobject['extra']["EA-Guid"]
+  for (let key of translationAttributes) {
+    if (primelanguage != goallanguage) {
+      updatedObject = createAttributeForDifferentLanguages(translationobject, jsonldobject, primelanguage, goallanguage, key, updatedObject)
+    } else {
+      createAttributeForSameLanguage(translationobject, jsonldobject, primelanguage, key, updatedObject)
+    }
+  }
+  return updatedObject
+}
+
+/*
+This function is called when the prime and goallanguage are the same. When that is the case, the updatedjson will simply get all
+values as they are from the jsonld. If they have been changed since the original translation json was created, they will be tagged
+as '[UPDATED]'.
+*/
+function createAttributeForSameLanguage(translationobject, jsonldobject, primelanguage, key, updatedObject) {
+  if (jsonldobject[key] !== undefined && jsonldobject[key][primelanguage] !== undefined) {
+    updatedObject[key] = new Object
+    if (jsonldobject[key] !== undefined
+      && jsonldobject[key][primelanguage] !== undefined) {
+      if (translationobject[key] !== undefined
+        && translationobject[key][primelanguage] !== undefined) {
+          console.log("trans " + translationobject[key][primelanguage])
+          console.log("jsonld " + jsonldobject[key][primelanguage])
+        if (translationobject[key][primelanguage] !== jsonldobject[key][primelanguage]) {
+          if (!translationobject[key][primelanguage].includes("[UPDATED]")) {
+            updatedObject[key][primelanguage] = '[UPDATED] ' + jsonldobject[key][primelanguage]
+            return updatedObject
+          }
         }
       }
-    }// else Value has no Language tag, therefore irrelevant for this 
+    }
+  updatedObject[key][primelanguage] = jsonldobject[key][primelanguage]
   }
-  if (!(input === undefined)) {
-    input = removeDeletedObjects(input, keys, read_exisiting_attributes(updated))
-  }
-  input['EA-Guid']=id
-  return input
+  return updatedObject
 }
 
-//check if attribute still exists in updated jsonld & delete it if not
-function removeDeletedObjects(input, inputkeys, updatedkeys) {
-  for (var i = 0; i < inputkeys.length; i++) {
-    key = inputkeys[i]
-    if (!(updatedkeys.includes(key))) {
-      delete input[key]
+/*
+If two different languages are given, this method will compare the jsonld and json input based on a defined attribute.
+If that attribute is not present in the jsonld, it won't be in the updated translation json. If it is, there first is determined 
+if the attribute was already translated. If so, it will get the additional tag '[UPDATED]' when the attribute's value for the prime
+language has been changed. If not the translation is simply kept. If there is no translation present, the goallanguage will have
+the value 'Enter your translation here'.
+*/
+function createAttributeForDifferentLanguages(translationobject, jsonldobject, primelanguage, goallanguage, key, updatedObject) {
+  if (jsonldobject[key] !== undefined && jsonldobject[key][primelanguage] !== undefined) {
+    updatedObject[key] = new Object
+    updatedObject[key][primelanguage] = jsonldobject[key][primelanguage]
+    if (translationobject[key] !== undefined && translationobject[key][goallanguage] !== undefined) {
+      if (translationobject[key][primelanguage] !== jsonldobject[key][primelanguage]
+        && !translationobject[key][goallanguage].includes("[UPDATED]")
+        && translationobject[key][goallanguage] !== "Enter your translation here") {
+        updatedObject[key][goallanguage] = '[UPDATED] ' + translationobject[key][goallanguage]
+      } else {
+        updatedObject[key][goallanguage] = translationobject[key][goallanguage]
+      }
+    } else {
+      updatedObject[key][goallanguage] = "Enter your translation here"
     }
   }
-  return input
+  return updatedObject
 }
 
-function add_new_field(input, updated, key, primeLanguage, goalLanguage) {
-  input[key] = new Object()
-  input[key][primeLanguage] = updated[key][primeLanguage]
-  input[key][goalLanguage] = 'Please enter your translation here'
-  return input
-}
-
-function read_exisiting_attributes(objects) {
-  var keys = new Array()
-  for (let [key, value] of Object.entries(objects)) {
-    keys.push(key)
-  }
-  return keys
-}
-
-function get_matching_class(inputClass, updatedJson) {
-  for (i = 0; i < updatedJson.classes.length; i++) {
-    if (updatedJson.classes[i]['extra']['EA-Guid'] == inputClass['EA-Guid']) {
-      return updatedJson.classes[i]
+function get_matching_object(type, inputClass, translationJson) {
+  for (i = 0; i < translationJson[type].length; i++) {
+    if (translationJson[type][i]['EA-Guid'] == inputClass['extra']['EA-Guid']) {
+      return translationJson[type][i]
     }
   }
   return null
-}
-
-function get_matching_externals(inputClass, updatedJson) {
-  for (i = 0; i < updatedJson["externals"].length; i++) {
-    if (updatedJson["externals"][i]['extra']['EA-Guid'] == inputClass['EA-Guid']) {
-      return updatedJson["externals"][i]
-    }
-  }
-  return null
-}
-
-function get_matching_property(inputClass, updatedJson) {
-  for (i = 0; i < updatedJson.properties.length; i++) {
-    if (updatedJson.properties[i]['extra']['EA-Guid'] == inputClass['EA-Guid']) {
-      return updatedJson.properties[i]
-    }
-  }
-  return null
-}
-
-function get_matching_external_property(inputClass, updatedJson) {
-  for (i = 0; i < updatedJson["externalproperties"].length; i++) {
-    if (updatedJson["externalproperties"][i]['extra']['EA-Guid'] == inputClass['EA-Guid']) {
-      return updatedJson["externalproperties"][i]
-    }
-  }
-  return null
-}
-
-
-function value_is_valid(key, keys) {
-  for (var index = 0; index < keys.length; index++) {
-    element = keys[index]
-    if (key.includes(element) === true) {
-      return false
-    }
-  }
-  return true
 }
