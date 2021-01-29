@@ -35,7 +35,7 @@ function concat(filename, language, outputfilename) {
             function (myjson) {
                 var report = [];
                 report.push(" REPORT FOR " + filename + "\n")
-                report = find_errors(myjson, language, report)
+                report = find_errors(myjson, language, report, filename)
 
                 fs.writeFile(outputfilename, report.join(""), function (err) {
                     if (err) {
@@ -48,13 +48,13 @@ function concat(filename, language, outputfilename) {
         .catch(error => { console.error(error); process.exitCode = 1 })
 }
 
-function find_errors(json, language, report) {
+function find_errors(json, language, report, filename) {
     for (let key in json) {
         if (!(json[key] === undefined) && json[key] != null && !(json[key][language] === undefined)) {
-            report = write_report(json, key, language, report)
+            report = write_report(json, key, language, report, filename)
         }
         if (!(json[key] === undefined) && typeof json[key] == 'object') {
-            find_errors(json[key], language, report)
+            find_errors(json[key], language, report, filename)
         }
     }
     return report;
@@ -62,15 +62,15 @@ function find_errors(json, language, report) {
 
 function write_report(json, key, language, report) {
     if (!(json[key][language] === undefined) && (json[key][language] === 'Enter your translation here')) {
-        var line = ` WARNING - for the object with the EA-Guid ${json['EA-Guid']} there is no ${language} translation for the ${key}. \n`;
+        var line = ` WARNING - (${filename}) for the object with the EA-Guid ${json['EA-Guid']} there is no ${language} translation for the ${key}. \n`;
         report.push(line)
     }
     if (!(json[key][language] === undefined) && (json[key][language] === '')) {
-        var line = ` WARNING - for the object with the EA-Guid ${json['EA-Guid']} the ${language} translation for ${key} is empty. \n`;
+        var line = ` WARNING - (${filename}) for the object with the EA-Guid ${json['EA-Guid']} the ${language} translation for ${key} is empty. \n`;
         report.push(line)
     }
     if (!(json[key][language] === undefined) && (json[key][language].includes('[UPDATED]'))) {
-        var line = ` WARNING - for the object with the EA-Guid ${json['EA-Guid']} the prime language value for ${key} was updated and the new value for the goal language not yet checked. \n`;
+        var line = ` WARNING - (${filename}) for the object with the EA-Guid ${json['EA-Guid']} the prime language value for ${key} was updated. \n`;
         report.push(line)
     }
     return report
