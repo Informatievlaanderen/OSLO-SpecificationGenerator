@@ -60,7 +60,7 @@ function find_errors(json, language, report, filename) {
     return report;
 }
 
-function write_report(json, key, language, report) {
+function write_report(json, key, language, report, filename) {
     if (!(json[key][language] === undefined) && (json[key][language] === 'Enter your translation here')) {
         var line = ` WARNING - (${filename}) for the object with the EA-Guid ${json['EA-Guid']} there is no ${language} translation for the ${key}. \n`;
         report.push(line)
