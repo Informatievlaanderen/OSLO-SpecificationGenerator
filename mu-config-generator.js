@@ -193,7 +193,7 @@ function initialize_domain_builder() {
 
 function start_class(domainBuilder, currClass, language, input) {
     domainBuilder.append("(define-resource " + get_label(currClass, language) + " ()").appendLine()
-    domainBuilder.append("   :class (s-url \"http://www.w3.org/2002/07/owl#Class\")").appendLine()
+    domainBuilder.append("   :class (s-url \"" + currClass["@id"] + "\")").appendLine()
     //If you want any of the properties to be language-tagged you'll have to set their options to true 
     domainBuilder = write_properties(domainBuilder, currClass, input, language)
     return domainBuilder
