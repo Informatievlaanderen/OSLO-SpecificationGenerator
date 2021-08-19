@@ -1,0 +1,311 @@
+{
+  "@context": {
+    "affiliation": {
+      "@id": "http://schema.org/affiliation"
+    },
+    "authors": {
+      "@id": "foaf:maker",
+      "@type": "foaf:Person"
+    },
+    "classes": {
+      "@reverse": "rdfs:isDefinedBy"
+    },
+    "contributors": {
+      "@id": "dcterms:contributor",
+      "@type": "foaf:Person"
+    },
+    "datatypes": {
+      "@reverse": "rdfs:isDefinedBy"
+    },
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "domain": {
+      "@id": "rdfs:domain"
+    },
+    "editors": {
+      "@id": "rec:editor",
+      "@type": "foaf:Person"
+    },
+    "externals": {
+      "@id": "rdfs:seeAlso",
+      "@type": "http://www.w3.org/2000/01/rdf-schema#Class"
+    },
+    "foaf": "http://xmlns.com/foaf/0.1/",
+    "generalization": {
+      "@id": "rdfs:subPropertyOf"
+    },
+    "issued": {
+      "@id": "dcterms:issued"
+    },
+    "label": {
+      "@container": "@language",
+      "@id": "rdfs:label"
+    },
+    "maxCardinality": {
+      "@id": "sh:maxCount"
+    },
+    "minCardinality": {
+      "@id": "sh:minCount"
+    },
+    "modified": {
+      "@id": "dcterms:modified",
+      "@type": "xsd:date"
+    },
+    "name": {
+      "@id": "rdfs:label"
+    },
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "person": "http://www.w3.org/ns/person#",
+    "properties": {
+      "@reverse": "rdfs:isDefinedBy"
+    },
+    "qb": "http://purl.org/linked-data/cube#",
+    "range": {
+      "@id": "rdfs:range"
+    },
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "rec": "http://www.w3.org/2001/02pd/rec54#",
+    "sdmx-attribute": "http://purl.org/linked-data/sdmx/2009/attribute#",
+    "sdmx-concept": "http://purl.org/linked-data/sdmx/2009/concept#",
+    "sdmx-dimension": "http://purl.org/linked-data/sdmx/2009/dimension#",
+    "sh": "http://w3.org/ns/shacl#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "vann": "http://purl.org/vocab/vann/",
+    "vlaanderen": "http://data.vlaanderen.be/ns/",
+    "void": "http://rdfs.org/ns/void#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@id": "https://data.ai-proficiant.eu/ns",
+  "@type": "http://www.w3.org/2002/07/owl#Ontology",
+  "authors": [
+    {
+      "@type": "foaf:Person",
+      "affiliation": {
+        "foaf:homepage": "https://auteurwebsiteurl",
+        "foaf:name": "AuteurAffiliatie"
+      },
+      "foaf:firstName": "AuteurVoornaam",
+      "foaf:lastName": "AuteurNaam",
+      "foaf:mbox": "auteurvoornaam.auteurnaam@auteurdomein"
+    }
+  ],
+  "baseURI": "https://data.ai-proficiant.eu/ns#",
+  "branchtag": "master",
+  "classes": [
+    {
+      "@id": "https://data.ai-proficiant.eu/ns#Bag",
+      "@type": "http://www.w3.org/2002/07/owl#Class",
+      "EA-Guid": "{D60B7001-A563-491b-ABC0-AD6F865BE2BA}",
+      "ap-definition-en": {
+        "en": "a non-rigid container"
+      },
+      "ap-label-en": {
+        "en": "Bag"
+      },
+      "definition": {
+        "en": "a non-rigid container"
+      },
+      "extra": {
+        "EA-Guid": "{D60B7001-A563-491b-ABC0-AD6F865BE2BA}",
+        "EA-Name": "Bag",
+        "EA-Package": "OSLO-MijnVocabularium",
+        "EA-Parents": "Batch",
+        "EA-Parents2": [
+          {
+            "label": "Batch",
+            "name": "Batch",
+            "package": "OSLO-MijnVocabularium",
+            "uri": "https://saref.etsi.org/saref4inma/Batch"
+          }
+        ],
+        "EA-Type": "CLASS",
+        "RawTags": [
+          {
+            "key": "label-en",
+            "note": "null",
+            "value": "Bag"
+          },
+          {
+            "key": "definition-en",
+            "note": "null",
+            "value": "a non-rigid container"
+          },
+          {
+            "key": "parentURI",
+            "note": "null",
+            "value": "https://saref.etsi.org/saref4inma/Batch"
+          },
+          {
+            "key": "label-nl",
+            "note": "null",
+            "value": "bag"
+          }
+        ],
+        "Scope": "FULL_DEFINITON",
+        "ap-codelist": "",
+        "ap-definition-en": {
+          "en": "a non-rigid container"
+        },
+        "ap-label-en": {
+          "en": "Bag"
+        },
+        "ap-usageNote-en": "",
+        "definition": {
+          "en": "a non-rigid container"
+        },
+        "label": {
+          "en": "Bag"
+        },
+        "parentclasses": "https://saref.etsi.org/saref4inma/Batch",
+        "usage": ""
+      },
+      "inpackage": "ACTIVE_PACKAGE",
+      "label": {
+        "en": "Bag"
+      },
+      "name": "Bag",
+      "parents": [
+        "https://saref.etsi.org/saref4inma/Batch"
+      ]
+    }
+  ],
+  "config": "config/config-ap.json",
+  "contributors": [
+    {
+      "@type": "foaf:Person",
+      "affiliation": {
+        "foaf:homepage": "https://medewerkerwebsiteurl",
+        "foaf:name": "MedewerkerAffiliatie"
+      },
+      "foaf:firstName": "MedewerkerVoornaam",
+      "foaf:lastName": "MedewerkerNaam",
+      "foaf:mbox": "medewerkervoornaam.medewerkernaam@medewerkerdomein"
+    }
+  ],
+  "contributors-column": "MijnKolom",
+  "contributors-file": "stakeholders.csv",
+  "diagram": "MijnApplicatieprofiel",
+  "documentcommit": "69d83314285796141ee2f709328449678929458b",
+  "dummy": "16",
+  "eap": "MijnApplicatieprofiel-AP.eap",
+  "editors": [
+    {
+      "@type": "foaf:Person",
+      "affiliation": {
+        "foaf:homepage": "https://editorwebsiteurl",
+        "foaf:name": "EditorAffiliatie"
+      },
+      "foaf:firstName": "EditorVoornaam",
+      "foaf:lastName": "EditorNaam",
+      "foaf:mbox": "editorvoornaam.editornaam@editordomein"
+    }
+  ],
+  "externalproperties": [],
+  "externals": [
+    {
+      "@id": "https://saref.etsi.org/saref4inma/Batch",
+      "@type": "http://www.w3.org/2002/07/owl#Class",
+      "EA-Guid": "{650F8E09-8AF2-43a9-AB80-B54495ED17F9}",
+      "ap-definition-en": {
+        "en": "A uniform collection of tangible objects or Lot. This can either be a collection of produced items (i.e. the outflow of products) or a collection of raw material or required material (i.e. the inflow of products). It is assumed that the objects in a batch are similar and thus have shared attributes."
+      },
+      "ap-label-en": {
+        "en": "Batch"
+      },
+      "definition": {
+        "en": "A uniform collection of tangible objects or Lot. This can either be a collection of produced items (i.e. the outflow of products) or a collection of raw material or required material (i.e. the inflow of products). It is assumed that the objects in a batch are similar and thus have shared attributes."
+      },
+      "extra": {
+        "EA-Guid": "{650F8E09-8AF2-43a9-AB80-B54495ED17F9}",
+        "EA-Name": "Batch",
+        "EA-Package": "OSLO-MijnVocabularium",
+        "EA-Parents": "",
+        "EA-Parents2": [],
+        "EA-Type": "CLASS",
+        "RawTags": [
+          {
+            "key": "uri",
+            "note": "null",
+            "value": "https://saref.etsi.org/saref4inma/Batch"
+          },
+          {
+            "key": "definition-en",
+            "note": "A uniform collection of tangible objects or Lot. This can either be a collection of produced items (i.e. the outflow of products) or a collection of raw material or required material (i.e. the inflow of products). It is assumed that the objects in a batch are similar and thus have shared attributes.",
+            "value": "NOTE"
+          },
+          {
+            "key": "label-en",
+            "note": "null",
+            "value": "Batch"
+          }
+        ],
+        "Scope": "TRANSLATIONS_ONLY",
+        "ap-codelist": "",
+        "ap-definition-en": {
+          "en": "A uniform collection of tangible objects or Lot. This can either be a collection of produced items (i.e. the outflow of products) or a collection of raw material or required material (i.e. the inflow of products). It is assumed that the objects in a batch are similar and thus have shared attributes."
+        },
+        "ap-label-en": {
+          "en": "Batch"
+        },
+        "ap-usageNote-en": "",
+        "definition": {
+          "en": "A uniform collection of tangible objects or Lot. This can either be a collection of produced items (i.e. the outflow of products) or a collection of raw material or required material (i.e. the inflow of products). It is assumed that the objects in a batch are similar and thus have shared attributes."
+        },
+        "label": {
+          "en": "Batch"
+        },
+        "parentclasses": "",
+        "usage": ""
+      },
+      "inpackage": "OTHER_PACKAGE",
+      "label": {
+        "en": "Batch"
+      },
+      "name": "Batch"
+    }
+  ],
+  "extra": {
+    "EA-Guid": "{7AFE2547-465B-4e8f-BC1A-699A46AF2997}",
+    "EA-Name": "OSLO-MijnVocabularium",
+    "RawTags": [
+      {
+        "key": "baseURI",
+        "note": "null",
+        "value": "https://data.ai-proficiant.eu/ns#"
+      }
+    ],
+    "baseURI": "https://data.ai-proficiant.eu/ns#",
+    "issued": "TODO",
+    "license": "TODO"
+  },
+  "feedbackurl": "https://github.com/Informatievlaanderen/OSLOthema-mijnThema/issues",
+  "filename": "config/mijn-applicatieprofiel-ap.json",
+  "hostname": "https://data.ai-proficiant.eu",
+  "issued": "TODO",
+  "label": {
+    "en": "mijn-applicatieprofiel-ap",
+    "nl": "mijn-applicatieprofiel-ap"
+  },
+  "license": "https://data.vlaanderen.be/id/licentie/modellicentie-gratis-hergebruik/v1.0",
+  "name": "mijn-applicatieprofiel-ap",
+  "navigation": {},
+  "properties": [],
+  "publication-date": "2020-01-31",
+  "publication-state": "https://data.vlaanderen.be/id/concept/StandaardStatus/OntwerpStandaard",
+  "repository": "https://github.com/tenforce/ai-proficiant-thema",
+  "site": "site-skeleton/mijn-applicatieprofiel-ap",
+  "standaardregisterurl": "https://data.vlaanderen.be/standaarden/TODO/CORRECT-URL/index.html",
+  "toolchaincommit": "a0163dc049a831d5b84b4bffbb3c2753edbbada4",
+  "translation": [
+    {
+      "language": "en",
+      "mergefile": "mijn-applicatieprofile-ap_en_merged.jsonld",
+      "template": "mijn-applicatieprofiel-ap_en.j2",
+      "title": "My application profile",
+      "translationjson": "mijn-applicationprofile-ap_en.json"
+    }
+  ],
+  "type": "ap",
+  "urlref": "/doc/applicationprofile/manufacturing/working-draft/2021-07-01"
+}

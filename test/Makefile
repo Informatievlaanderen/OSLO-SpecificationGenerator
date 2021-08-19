@@ -35,3 +35,23 @@ example:
 	chmod 777 ${EXAMPLEDIR}/2/context
 	node /app/exampletemplate-generator2.js -i ${TESTDIR}/exampletemplate-generator/2.input.jsonld  -o ${TESTDIR}/exampletemplate-generator/2 -l nl -h https://data.vlaanderen.be/examples -x ${TESTDIR}/exampletemplate-generator/2.internal.json.0
 	jq -S . ${TESTDIR}/exampletemplate-generator/2.internal.json.0 > ${TESTDIR}/exampletemplate-generator/2.internal.json
+
+
+MERGEDIR=${TESTDIR}/jsonld-merger
+merge: 
+	# addition
+	node /app/jsonld-merger.js -i ${MERGEDIR}/1.input.jsonld -m ${MERGEDIR}/1.translation.nl.json -l en -o ${MERGEDIR}/1.merged.jsonld.0
+	jq -S . ${MERGEDIR}/1.merged.jsonld.0 > ${MERGEDIR}/1.merged.jsonld
+	# NO-OP
+	node /app/jsonld-merger.js -i ${MERGEDIR}/1.input.jsonld -m ${MERGEDIR}/1.translation.en.json -l en -o ${MERGEDIR}/2.merged.jsonld.0
+	jq -S . ${MERGEDIR}/2.merged.jsonld.0 > ${MERGEDIR}/2.merged.jsonld
+
+
+TRANSLATEDIR=${TESTDIR}/translation-json-generator
+translate:
+	node /app/translation-json-generator.js -i ${TRANSLATEDIR}/1.input.jsonld -m en -g nl -o ${TRANSLATEDIR}/1.translation.nl.json.0
+	jq -S . ${TRANSLATEDIR}/1.translation.nl.json.0 > ${TRANSLATEDIR}/1.translation.nl.json
+	node /app/translation-json-generator.js -i ${TRANSLATEDIR}/1.input.jsonld -m en -g en -o ${TRANSLATEDIR}/1.translation.en.json.0
+	jq -S . ${TRANSLATEDIR}/1.translation.en.json.0 > ${TRANSLATEDIR}/1.translation.en.json
+	node /app/translation-json-generator.js -i ${TRANSLATEDIR}/1.input.jsonld -m en -g de -o ${TRANSLATEDIR}/1.translation.de.json.0
+	jq -S . ${TRANSLATEDIR}/1.translation.de.json.0 > ${TRANSLATEDIR}/1.translation.de.json

@@ -13,3 +13,8 @@ exec:
 sync:
 	sudo cp /data/shacl-generator2.js /app/shacl-generator2.js
 	
+
+publish:
+	docker build -f Dockerfile.circleci -t informatievlaanderen/oslo-specification-generator:multilingual-dev .
+	docker push informatievlaanderen/oslo-specification-generator:multilingual-dev
+

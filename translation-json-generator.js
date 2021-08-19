@@ -1,5 +1,5 @@
 const jsonfile = require('jsonfile')
-var program = require('commander')
+const program = require('commander')
 
 program
   .version('1.0.0')
@@ -17,12 +17,12 @@ program.on('--help', function () {
 })
 
 program.parse(process.argv)
-const forceDomain = !!program.forceDomain
+const options = program.opts()
 
-transform_json_ld_file_to_translatable_json(program.input, program.primeLanguage, program.goalLanguage, program.output)
+transform_json_ld_file_to_translatable_json(options.input, options.primeLanguage, options.goalLanguage, options.output)
 console.log('done')
 
-function transform_json_ld_file_to_translatable_json(filename, primeLanguage, goalLanguage, outputfile) {
+function transform_json_ld_file_to_translatable_json (filename, primeLanguage, goalLanguage, outputfile) {
   console.log('Prime Language: ' + primeLanguage)
   console.log('Goal Language: ' + goalLanguage)
   console.log('start reading')
@@ -31,7 +31,7 @@ function transform_json_ld_file_to_translatable_json(filename, primeLanguage, go
       function (obj) {
         console.log('start processing')
 
-        var myJson = get_shortened_json(obj, primeLanguage, goalLanguage)
+        const myJson = get_shortened_json(obj, primeLanguage, goalLanguage)
 
         jsonfile.writeFile(outputfile, myJson)
           .then(res => {
@@ -44,63 +44,63 @@ function transform_json_ld_file_to_translatable_json(filename, primeLanguage, go
     .catch(error => { console.error(error); process.exitCode = 1 })
 }
 
-function get_shortened_json(input, primeLanguage, goalLanguage) {
-  var json = new Object()
-  var classArray = []
-  var propertyArray = []
-  var externalArray = []
-  var externalPropertyArray = []
+function get_shortened_json (input, primeLanguage, goalLanguage) {
+  const json = {}
+  const classArray = []
+  const propertyArray = []
+  const externalArray = []
+  const externalPropertyArray = []
 
-  if (primeLanguage != goalLanguage) {
-    for (i = 0; i < input.classes.length; i++) {
+  if (primeLanguage !== goalLanguage) {
+    for (let i = 0; i < input.classes.length; i++) {
       classArray[i] = create_shortened_object(input.classes[i], primeLanguage, goalLanguage)
     }
-    for (i = 0; i < input.properties.length; i++) {
+    for (let i = 0; i < input.properties.length; i++) {
       propertyArray[i] = create_shortened_object(input.properties[i], primeLanguage, goalLanguage)
     }
-    for (i = 0; i < input.externals.length; i++) {
+    for (let i = 0; i < input.externals.length; i++) {
       externalArray[i] = create_shortened_object(input.externals[i], primeLanguage, goalLanguage)
     }
-    for (i = 0; i < input.externalproperties.length; i++) {
+    for (let i = 0; i < input.externalproperties.length; i++) {
       externalPropertyArray[i] = create_shortened_object(input.externalproperties[i], primeLanguage, goalLanguage)
     }
   } else {
-    console.log("WARNING The entered language values are the same!")
-    for (i = 0; i < input.classes.length; i++) {
+    console.log('WARNING The entered language values are the same!')
+    for (let i = 0; i < input.classes.length; i++) {
       classArray[i] = create_shortened_object_one_language(input.classes[i], primeLanguage)
     }
-    for (i = 0; i < input.properties.length; i++) {
+    for (let i = 0; i < input.properties.length; i++) {
       propertyArray[i] = create_shortened_object_one_language(input.properties[i], primeLanguage)
     }
-    for (i = 0; i < input.externals.length; i++) {
+    for (let i = 0; i < input.externals.length; i++) {
       externalArray[i] = create_shortened_object_one_language(input.externals[i], primeLanguage)
     }
-    for (i = 0; i < input.externalproperties.length; i++) {
+    for (let i = 0; i < input.externalproperties.length; i++) {
       externalPropertyArray[i] = create_shortened_object_one_language(input.externalproperties[i], primeLanguage)
     }
   }
 
-  json['baseURI'] = input['baseURI']
+  json.baseURI = input.baseURI
   json.classes = classArray
   json.properties = propertyArray
-  json["externals"] = externalArray
-  json["externalproperties"] = externalPropertyArray
+  json.externals = externalArray
+  json.externalproperties = externalPropertyArray
   return json
 }
 
-//checks mandatory values: label, definintion, usage & adds the Ea-Guid
-function create_shortened_object_one_language(classObject, language) {
-  var shortClass = new Object()
-  shortClass['EA-Guid'] = classObject['extra']['EA-Guid']
+// checks mandatory values: label, definintion, usage & adds the Ea-Guid
+function create_shortened_object_one_language (classObject, language) {
+  let shortClass = {}
+  shortClass['EA-Guid'] = classObject.extra['EA-Guid']
   shortClass = set_name(shortClass, classObject, language, language)
-  shortClass = get_one_langue_value(shortClass, classObject, "label", language)
-  shortClass = get_one_langue_value(shortClass, classObject, "definition", language)
-  shortClass = get_one_langue_value(shortClass, classObject, "usage", language)
+  shortClass = get_one_langue_value(shortClass, classObject, 'label', language)
+  shortClass = get_one_langue_value(shortClass, classObject, 'definition', language)
+  shortClass = get_one_langue_value(shortClass, classObject, 'usage', language)
 
   return shortClass
 }
 
-function get_one_langue_value(shortClass, classObject, attribute, language) {
+function get_one_langue_value (shortClass, classObject, attribute, language) {
   if (!(classObject[attribute] === undefined)) {
     shortClass[attribute] = classObject[attribute]
     shortClass[attribute][language] = classObject[attribute][language]
@@ -108,28 +108,28 @@ function get_one_langue_value(shortClass, classObject, attribute, language) {
   return shortClass
 }
 
-function create_shortened_object(object, prime, goal) {
-  var shortObject = new Object()
-  console.log(object['extra']['EA-Guid'])
-  shortObject['EA-Guid'] = object['extra']['EA-Guid']
+function create_shortened_object (object, prime, goal) {
+  let shortObject = {}
+  console.log(object.extra['EA-Guid'])
+  shortObject['EA-Guid'] = object.extra['EA-Guid']
   shortObject = set_name(shortObject, object, prime, goal)
-  shortObject = get_attribute(shortObject, object, "label", prime, goal)
-  shortObject = get_attribute(shortObject, object, "definition", prime, goal)
-  shortObject = get_attribute(shortObject, object, "usage", prime, goal)
+  shortObject = get_attribute(shortObject, object, 'label', prime, goal)
+  shortObject = get_attribute(shortObject, object, 'definition', prime, goal)
+  shortObject = get_attribute(shortObject, object, 'usage', prime, goal)
   console.log(shortObject)
   return shortObject
 }
 
-function set_name(shortObject, originalObject, prime, goal) {
-  if (!(originalObject["name"] === undefined)) {
-    shortObject["name"] = originalObject["name"]
+function set_name (shortObject, originalObject, prime, goal) {
+  if (!(originalObject.name === undefined)) {
+    shortObject.name = originalObject.name
   } else {
-    shortObject["name"] = ""
+    shortObject.name = ''
   }
   return shortObject
 }
 
-function get_attribute(shortObject, originalObject, attribute, prime, goal) {
+function get_attribute (shortObject, originalObject, attribute, prime, goal) {
   if (!(originalObject[attribute] === undefined)) {
     shortObject[attribute] = originalObject[attribute]
     if (!(originalObject[attribute][prime] === undefined)) {
