@@ -1,0 +1,6 @@
+{
+    "@context": "https://data.vlaanderen.be/examples/kadastraalPlanperceel.jsonld",
+    "@type": "https://data.vlaanderen.be/ns/perceel#KadastraalPlanperceel",
+    "@id": "{{ID}}",
+    "datumBijwerking": "{{DATETIME}}"
+}

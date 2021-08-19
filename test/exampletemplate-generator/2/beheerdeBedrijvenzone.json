@@ -1,0 +1,9 @@
+{
+    "@context": "https://data.vlaanderen.be/examples/beheerdeBedrijvenzone.jsonld",
+    "@type": "https://data.vlaanderen.be/ns/bedrijventerrein#BeheerdeBedrijvenzone",
+    "@id": "{{ID}}",
+    "isDeelVan": "{{VAL}}",
+    "naam": {
+        "nl": "{{STRING}}"
+    }
+}

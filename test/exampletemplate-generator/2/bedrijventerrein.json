@@ -1,0 +1,15 @@
+{
+    "@context": "https://data.vlaanderen.be/examples/bedrijventerrein.jsonld",
+    "@type": "https://data.vlaanderen.be/ns/bedrijventerrein#Bedrijventerrein",
+    "@id": "{{ID}}",
+    "beschikbareKavels": "{{BOOLEAN}}",
+    "beschikbareOppervlakte": "{{VAL}}",
+    "isGerelateerdAanEconomischGebied": "{{VAL}}",
+    "isGerelateerdAan": "{{VAL}}",
+    "commerciëleNaam": {
+        "nl": "{{STRING}}"
+    },
+    "naam": {
+        "nl": "{{STRING}}"
+    }
+}

@@ -1,0 +1,9 @@
+{
+    "bedrijventerreinperceel": "https://data.vlaanderen.be/ns/bedrijventerrein#Bedrijventerreinperceel",
+    "bebouwing": "https://data.vlaanderen.be/ns/bedrijventerrein#bebouwing",
+    "beperking": "https://data.vlaanderen.be/ns/bedrijventerrein#beperking",
+    "beschikbaarheid": "https://data.vlaanderen.be/ns/bedrijventerrein#beschikbaarheid",
+    "functie": "https://data.vlaanderen.be/ns/bedrijventerrein#functie",
+    "inGebruik": "https://data.vlaanderen.be/ns/bedrijventerrein#inGebruik",
+    "isDeelVan": "http://purl.org/dc/terms/isPartOf"
+}

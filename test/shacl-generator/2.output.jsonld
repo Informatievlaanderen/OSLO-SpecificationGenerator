@@ -1,0 +1,1601 @@
+{
+  "@context": {
+    "sh": "http://www.w3.org/ns/shacl#",
+    "qb": "http://purl.org/linked-data/cube#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "sh:class": {
+      "@id": "sh:class",
+      "@type": "@id"
+    },
+    "sh:datatype": {
+      "@id": "sh:datatype",
+      "@type": "@id"
+    },
+    "sh:path": {
+      "@id": "sh:path",
+      "@type": "@id"
+    },
+    "sh:property": {
+      "@id": "sh:property",
+      "@type": "@id"
+    },
+    "sh:targetClass": {
+      "@id": "sh:targetClass",
+      "@type": "@id"
+    },
+    "sh:node": {
+      "@id": "sh:node",
+      "@type": "@id"
+    },
+    "sh:nodeKind": {
+      "@id": "sh:nodeKind",
+      "@type": "@id"
+    },
+    "sh:hasValue": {
+      "@id": "sh:hasValue",
+      "@type": "@id"
+    },
+    "sh:severity": {
+      "@id": "sh:severity",
+      "@type": "@id"
+    },
+    "sh:minCount": {
+      "@id": "sh:minCount",
+      "@type": "http://www.w3.org/2001/XMLSchema#integer"
+    },
+    "sh:maxCount": {
+      "@id": "sh:maxCount",
+      "@type": "http://www.w3.org/2001/XMLSchema#integer"
+    },
+    "sh:definition": {
+      "@id": "sh:definition",
+      "@container": "@language"
+    },
+    "sh:name": {
+      "@id": "sh:name",
+      "@container": "@language"
+    },
+    "qb:codeList": {
+      "@id": "qb:codeList",
+      "@type": "@id"
+    },
+    "rdfs:comment": {
+      "@id": "rdfs:comment"
+    },
+    "shapes": {
+      "@id": "rdfs:member",
+      "@type": "@id"
+    }
+  },
+  "shapes": [
+    {
+      "@id": "undefined#ObservationProcedureTypeShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://fixme.com#ObservationProcedureType",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#SamplingProcedureTypeShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://fixme.com#SamplingProcedureType",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#SamplingProcesShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://fixme.com#PreparationStep.samplingProces",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#GenericNameShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://def.isotc211.org/iso19103/2005/Names#GenericName",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#TM_ObjectShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://def.isotc211.org/iso19108/2006/TemporalObjects#TM_Object",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#PropertyTypeShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://def.isotc211.org/iso19109/2005/GeneralFeatureModel#GF_PropertyType",
+      "sh:closed": false,
+      "sh:property": [
+        {
+          "sh:path": "http://www.w3.org/ns/sosa/isObservedBy",
+          "@id": "undefined#PropertyTypeShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "https://www.w3.org/TR/vocab-ssn/#SOSASensor"
+        }
+      ]
+    },
+    {
+      "@id": "undefined#CI_responsiblePartyShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://def.isotc211.org/iso19115/2006/CitationAndResponsiblePartyInformation#CI_ResponsibleParty",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#DQ_ElementShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://def.isotc211.org/iso19115/2006/DataQualityInformation#DQ_Element",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#LI_LineageShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://def.isotc211.org/iso19115/2006/DataQualityInformation#LI_Lineage",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#MetadataShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://def.isotc211.org/iso19115/2006/MetadataEntitySetInformation#MD_Metadata",
+      "sh:closed": false,
+      "sh:property": [
+        {
+          "sh:path": "http://purl.org/dc/elements/1.1/contributor",
+          "@id": "undefined#MetadataShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "http://purl.org/dc/elements/1.1/creator",
+          "@id": "undefined#MetadataShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "http://purl.org/dc/elements/1.1/description",
+          "@id": "undefined#MetadataShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "http://purl.org/dc/elements/1.1/identifier",
+          "@id": "undefined#MetadataShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "http://purl.org/dc/elements/1.1/publisher",
+          "@id": "undefined#MetadataShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "http://purl.org/dc/elements/1.1/rights",
+          "@id": "undefined#MetadataShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "http://purl.org/dc/elements/1.1/subject",
+          "@id": "undefined#MetadataShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "http://purl.org/dc/elements/1.1/title",
+          "@id": "undefined#MetadataShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        }
+      ]
+    },
+    {
+      "@id": "undefined#ObservationShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://fixme.com#ObservationContext.observation.target",
+      "sh:closed": false,
+      "sh:property": [
+        {
+          "sh:name": {
+            "en": "feature of interest"
+          },
+          "sh:path": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation.featureOfInterest",
+          "@id": "undefined#ObservationShape/0ca52f5850f45f02205d565ac687e64b78492b3c",
+          "sh:class": "https://def.isotc211.org/iso19156/2011/GeneralFeatureInstance#GFI_Feature"
+        },
+        {
+          "sh:name": {
+            "en": "feature of interest"
+          },
+          "sh:path": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation.featureOfInterest",
+          "@id": "undefined#ObservationShape/a264253b71bc18a990b99a07a2e5b30de066d06e",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:name": {
+            "en": "feature of interest"
+          },
+          "sh:path": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation.featureOfInterest",
+          "@id": "undefined#ObservationShape/16a23079f688d2440c751804a6c37593bfafab9e",
+          "sh:minCount": "1"
+        },
+        {
+          "sh:name": {
+            "en": "feature of interest"
+          },
+          "sh:path": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation.featureOfInterest",
+          "@id": "undefined#ObservationShape/62bd5a6fe1c90a869ef8c77c83a23875af7602c1",
+          "sh:nodeKind": "sh:IRI",
+          "sh:severity": "sh:Warning",
+          "sh:node": {
+            "@type": "sh:NodeShape",
+            "rdfs:comment": "codelist restriction",
+            "sh:property": {
+              "sh:class": "skos:ConceptScheme",
+              "sh:hasValue": "http://data.vlaanderen.be/id/conceptscheme/status",
+              "sh:minCount": "1",
+              "sh:nodeKind": "sh:IRI",
+              "sh:path": "skos:inScheme"
+            }
+          }
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/sosa/hasSimpleResult",
+          "@id": "undefined#ObservationShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:datatype": "http://www.w3.org/2000/01/rdf-schema#Literal"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/sosa/hasSimpleResult",
+          "@id": "undefined#ObservationShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/sosa/hasSimpleResult",
+          "@id": "undefined#ObservationShape/0c2f1ebdbaf105d73a0a1a6d978bba7f5184d75d",
+          "sh:minCount": "1"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/sosa/hasUltimateFeatureOfInterest",
+          "@id": "undefined#ObservationShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "https://def.isotc211.org/iso19156/2011/GeneralFeatureInstance#GFI_Feature"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/sosa/hasUltimateFeatureOfInterest",
+          "@id": "undefined#ObservationShape/0c2f1ebdbaf105d73a0a1a6d978bba7f5184d75d",
+          "sh:minCount": "1"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/sosa/madeBySensor",
+          "@id": "undefined#ObservationShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "https://www.w3.org/TR/vocab-ssn/#SOSASensor"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/sosa/madeBySensor",
+          "@id": "undefined#ObservationShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/sosa/madeBySensor",
+          "@id": "undefined#ObservationShape/0c2f1ebdbaf105d73a0a1a6d978bba7f5184d75d",
+          "sh:minCount": "1"
+        },
+        {
+          "sh:path": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation.metadata",
+          "@id": "undefined#ObservationShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://def.isotc211.org/iso19115/2006/MetadataEntitySetInformation#MD_Metadata"
+        },
+        {
+          "sh:path": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation.metadata",
+          "@id": "undefined#ObservationShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/sosa/observedProperty",
+          "@id": "undefined#ObservationShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://def.isotc211.org/iso19109/2005/GeneralFeatureModel#GF_PropertyType"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/sosa/observedProperty",
+          "@id": "undefined#ObservationShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/sosa/observedProperty",
+          "@id": "undefined#ObservationShape/0c2f1ebdbaf105d73a0a1a6d978bba7f5184d75d",
+          "sh:minCount": "1"
+        },
+        {
+          "sh:path": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation.parameter",
+          "@id": "undefined#ObservationShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "https://def.isotc211.org/iso19156/2011/Observation#NamedValue"
+        },
+        {
+          "sh:path": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation.phenomenonTime",
+          "@id": "undefined#ObservationShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://def.isotc211.org/iso19108/2006/TemporalObjects#TM_Object"
+        },
+        {
+          "sh:path": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation.phenomenonTime",
+          "@id": "undefined#ObservationShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation.phenomenonTime",
+          "@id": "undefined#ObservationShape/0c2f1ebdbaf105d73a0a1a6d978bba7f5184d75d",
+          "sh:minCount": "1"
+        },
+        {
+          "sh:path": "http://def.isotc211.org/iso19156/2011/Observation#ObservationContext.relatedObservation",
+          "@id": "undefined#ObservationShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation"
+        },
+        {
+          "sh:path": "http://def.isotc211.org/iso19156/2011/Observation#Observation.result",
+          "@id": "undefined#ObservationShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://def.isotc211.org/iso19156/2011/Observation#Result"
+        },
+        {
+          "sh:path": "http://def.isotc211.org/iso19156/2011/Observation#Observation.result",
+          "@id": "undefined#ObservationShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "http://def.isotc211.org/iso19156/2011/Observation#Observation.result",
+          "@id": "undefined#ObservationShape/0c2f1ebdbaf105d73a0a1a6d978bba7f5184d75d",
+          "sh:minCount": "1"
+        },
+        {
+          "sh:path": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation.resultQuality",
+          "@id": "undefined#ObservationShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://def.isotc211.org/iso19115/2006/DataQualityInformation#DQ_Element"
+        },
+        {
+          "sh:path": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation.resultTime",
+          "@id": "undefined#ObservationShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:datatype": "http://www.w3.org/2001/XMLSchema#dateTime"
+        },
+        {
+          "sh:path": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation.resultTime",
+          "@id": "undefined#ObservationShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation.resultTime",
+          "@id": "undefined#ObservationShape/0c2f1ebdbaf105d73a0a1a6d978bba7f5184d75d",
+          "sh:minCount": "1"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/sosa/usedProcedure",
+          "@id": "undefined#ObservationShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "https://www.w3.org/TR/vocab-ssn/#SOSAProcedure"
+        }
+      ]
+    },
+    {
+      "@id": "undefined#ObservationContextShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://def.isotc211.org/iso19156/2011/Observation#ObservationContext",
+      "sh:closed": false,
+      "sh:property": [
+        {
+          "sh:path": "http://fixme.com#ObservationContext.observation.source",
+          "@id": "undefined#ObservationContextShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation"
+        },
+        {
+          "sh:path": "http://fixme.com#ObservationContext.observation.source",
+          "@id": "undefined#ObservationContextShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "http://fixme.com#ObservationContext.observation.source",
+          "@id": "undefined#ObservationContextShape/0c2f1ebdbaf105d73a0a1a6d978bba7f5184d75d",
+          "sh:minCount": "1"
+        },
+        {
+          "sh:path": "http://fixme.com#ObservationContext.observation.target",
+          "@id": "undefined#ObservationContextShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation"
+        },
+        {
+          "sh:path": "http://fixme.com#ObservationContext.observation.target",
+          "@id": "undefined#ObservationContextShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "http://fixme.com#ObservationContext.observation.target",
+          "@id": "undefined#ObservationContextShape/0c2f1ebdbaf105d73a0a1a6d978bba7f5184d75d",
+          "sh:minCount": "1"
+        },
+        {
+          "sh:path": "http://def.isotc211.org/iso19156/2011/Observation#ObservationContext.role",
+          "@id": "undefined#ObservationContextShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://def.isotc211.org/iso19103/2005/Names#GenericName"
+        },
+        {
+          "sh:path": "http://def.isotc211.org/iso19156/2011/Observation#ObservationContext.role",
+          "@id": "undefined#ObservationContextShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "http://def.isotc211.org/iso19156/2011/Observation#ObservationContext.role",
+          "@id": "undefined#ObservationContextShape/0c2f1ebdbaf105d73a0a1a6d978bba7f5184d75d",
+          "sh:minCount": "1"
+        }
+      ]
+    },
+    {
+      "@id": "undefined#PreparationStepShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://def.isotc211.org/iso19156/2011/Observation#PreparationStep",
+      "sh:closed": false,
+      "sh:property": [
+        {
+          "sh:path": "http://fixme.com#PreparationStep.samplingProces",
+          "@id": "undefined#PreparationStepShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://fixme.com/#deviceClass"
+        },
+        {
+          "sh:path": "http://fixme.com#PreparationStep.samplingProces",
+          "@id": "undefined#PreparationStepShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "http://fixme.com#PreparationStep.samplingProces",
+          "@id": "undefined#PreparationStepShape/0c2f1ebdbaf105d73a0a1a6d978bba7f5184d75d",
+          "sh:minCount": "1"
+        },
+        {
+          "sh:path": "http://fixme.com#PreparationStep.specimen",
+          "@id": "undefined#PreparationStepShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://def.isotc211.org/iso19156/2011/Specimen#SF_Specimen"
+        },
+        {
+          "sh:path": "http://fixme.com#PreparationStep.specimen",
+          "@id": "undefined#PreparationStepShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "http://fixme.com#PreparationStep.specimen",
+          "@id": "undefined#PreparationStepShape/0c2f1ebdbaf105d73a0a1a6d978bba7f5184d75d",
+          "sh:minCount": "1"
+        },
+        {
+          "sh:path": "http://def.isotc211.org/iso19156/2011/Observation#PreparationStep.processOperator",
+          "@id": "undefined#PreparationStepShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://def.isotc211.org/iso19115/2006/CitationAndResponsiblePartyInformation#CI_ResponsibleParty"
+        },
+        {
+          "sh:path": "http://def.isotc211.org/iso19156/2011/Observation#PreparationStep.processOperator",
+          "@id": "undefined#PreparationStepShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "http://def.isotc211.org/iso19156/2011/Observation#PreparationStep.time",
+          "@id": "undefined#PreparationStepShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://def.isotc211.org/iso19108/2006/TemporalObjects#TM_Object"
+        },
+        {
+          "sh:path": "http://def.isotc211.org/iso19156/2011/Observation#PreparationStep.time",
+          "@id": "undefined#PreparationStepShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "http://def.isotc211.org/iso19156/2011/Observation#PreparationStep.time",
+          "@id": "undefined#PreparationStepShape/0c2f1ebdbaf105d73a0a1a6d978bba7f5184d75d",
+          "sh:minCount": "1"
+        }
+      ]
+    },
+    {
+      "@id": "undefined#ResultShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://def.isotc211.org/iso19156/2011/Observation#Result",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#SamplingFeatureShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://fixme.com#SamplingFeaturecomplex.samplingFeature.target",
+      "sh:closed": false,
+      "sh:property": [
+        {
+          "sh:path": "http://www.w3.org/ns/sosa/isResultOf",
+          "@id": "undefined#SamplingFeatureShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://www.w3.org/ns/sosa/Sampling"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/sosa/isResultOf",
+          "@id": "undefined#SamplingFeatureShape/0c2f1ebdbaf105d73a0a1a6d978bba7f5184d75d",
+          "sh:minCount": "1"
+        },
+        {
+          "sh:path": "http://def.isotc211.org/iso19156/2011/SamplingFeature#SF_SamplingFeature.lineage",
+          "@id": "undefined#SamplingFeatureShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://def.isotc211.org/iso19115/2006/DataQualityInformation#LI_Lineage"
+        },
+        {
+          "sh:path": "http://def.isotc211.org/iso19156/2011/SamplingFeature#SF_SamplingFeature.lineage",
+          "@id": "undefined#SamplingFeatureShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "http://def.isotc211.org/iso19156/2011/SamplingFeature#SF_SamplingFeature.parameter",
+          "@id": "undefined#SamplingFeatureShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "https://def.isotc211.org/iso19156/2011/Observation#NamedValue"
+        },
+        {
+          "sh:path": "http://def.isotc211.org/iso19156/2011/SamplingFeature#SamplingFeatureComplex.relatedSamplingFeature",
+          "@id": "undefined#SamplingFeatureShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://def.isotc211.org/iso19156/2011/SamplingFeature#SF_SamplingFeature"
+        },
+        {
+          "sh:path": "http://def.isotc211.org/iso19156/2011/SamplingFeature#SF_SamplingFeature.sampledFeature",
+          "@id": "undefined#SamplingFeatureShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "https://def.isotc211.org/iso19156/2011/GeneralFeatureInstance#GFI_Feature"
+        },
+        {
+          "sh:path": "http://def.isotc211.org/iso19156/2011/SamplingFeature#SF_SamplingFeature.sampledFeature",
+          "@id": "undefined#SamplingFeatureShape/0c2f1ebdbaf105d73a0a1a6d978bba7f5184d75d",
+          "sh:minCount": "1"
+        }
+      ]
+    },
+    {
+      "@id": "undefined#SamplingFeaturecomplexShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://def.isotc211.org/iso19156/2011/SamplingFeature#SamplingFeatureComplex",
+      "sh:closed": false,
+      "sh:property": [
+        {
+          "sh:path": "http://fixme.com#SamplingFeaturecomplex.samplingFeature.source",
+          "@id": "undefined#SamplingFeaturecomplexShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://def.isotc211.org/iso19156/2011/SamplingFeature#SF_SamplingFeature"
+        },
+        {
+          "sh:path": "http://fixme.com#SamplingFeaturecomplex.samplingFeature.source",
+          "@id": "undefined#SamplingFeaturecomplexShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "http://fixme.com#SamplingFeaturecomplex.samplingFeature.source",
+          "@id": "undefined#SamplingFeaturecomplexShape/0c2f1ebdbaf105d73a0a1a6d978bba7f5184d75d",
+          "sh:minCount": "1"
+        },
+        {
+          "sh:path": "http://fixme.com#SamplingFeaturecomplex.samplingFeature.target",
+          "@id": "undefined#SamplingFeaturecomplexShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://def.isotc211.org/iso19156/2011/SamplingFeature#SF_SamplingFeature"
+        },
+        {
+          "sh:path": "http://fixme.com#SamplingFeaturecomplex.samplingFeature.target",
+          "@id": "undefined#SamplingFeaturecomplexShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "http://fixme.com#SamplingFeaturecomplex.samplingFeature.target",
+          "@id": "undefined#SamplingFeaturecomplexShape/0c2f1ebdbaf105d73a0a1a6d978bba7f5184d75d",
+          "sh:minCount": "1"
+        },
+        {
+          "sh:path": "http://def.isotc211.org/iso19156/2011/SamplingFeature#SamplingFeatureComplex.role",
+          "@id": "undefined#SamplingFeaturecomplexShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://def.isotc211.org/iso19103/2005/Names#GenericName"
+        },
+        {
+          "sh:path": "http://def.isotc211.org/iso19156/2011/SamplingFeature#SamplingFeatureComplex.role",
+          "@id": "undefined#SamplingFeaturecomplexShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "http://def.isotc211.org/iso19156/2011/SamplingFeature#SamplingFeatureComplex.role",
+          "@id": "undefined#SamplingFeaturecomplexShape/0c2f1ebdbaf105d73a0a1a6d978bba7f5184d75d",
+          "sh:minCount": "1"
+        }
+      ]
+    },
+    {
+      "@id": "undefined#SpatialSamplingFeatureShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://def.isotc211.org/iso19156/2011/SpatialSamplingFeature#SF_SpatialSamplingFeature",
+      "sh:closed": false,
+      "sh:property": [
+        {
+          "sh:path": "https://schema.org/address",
+          "@id": "undefined#SpatialSamplingFeatureShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://fixme.com#AddressRepresentation"
+        },
+        {
+          "sh:path": "https://schema.org/address",
+          "@id": "undefined#SpatialSamplingFeatureShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "https://schema.org/areaServed",
+          "@id": "undefined#SpatialSamplingFeatureShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://fixme.com#Place"
+        },
+        {
+          "sh:path": "https://schema.org/areaServed",
+          "@id": "undefined#SpatialSamplingFeatureShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "https://smart-data-models.github.io/data-models/terms.jsonld#/definitions/refPointOfInterest",
+          "@id": "undefined#SpatialSamplingFeatureShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://fixme.com#PointOfInterest"
+        },
+        {
+          "sh:path": "https://smart-data-models.github.io/data-models/terms.jsonld#/definitions/refPointOfInterest",
+          "@id": "undefined#SpatialSamplingFeatureShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        }
+      ]
+    },
+    {
+      "@id": "undefined#SpecimenShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://fixme.com#PreparationStep.specimen",
+      "sh:closed": false,
+      "sh:property": [
+        {
+          "sh:path": "http://def.isotc211.org/iso19156/2011/Specimen#SF_Specimen.materialClass",
+          "@id": "undefined#SpecimenShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://def.isotc211.org/iso19103/2005/Names#GenericName"
+        },
+        {
+          "sh:path": "http://def.isotc211.org/iso19156/2011/Specimen#SF_Specimen.materialClass",
+          "@id": "undefined#SpecimenShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "http://def.isotc211.org/iso19156/2011/Specimen#SF_Specimen.materialClass",
+          "@id": "undefined#SpecimenShape/0c2f1ebdbaf105d73a0a1a6d978bba7f5184d75d",
+          "sh:minCount": "1"
+        },
+        {
+          "sh:path": "http://def.isotc211.org/iso19156/2011/Specimen#SF_Specimen.processingDetails",
+          "@id": "undefined#SpecimenShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://fixme.com/#deviceClass"
+        },
+        {
+          "sh:path": "http://def.isotc211.org/iso19156/2011/Specimen#SF_Specimen.samplingLocation",
+          "@id": "undefined#SpecimenShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://www.w3.org/ns/locn#Geometry"
+        },
+        {
+          "sh:path": "http://def.isotc211.org/iso19156/2011/Specimen#SF_Specimen.samplingLocation",
+          "@id": "undefined#SpecimenShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "http://def.isotc211.org/iso19156/2011/Specimen#SF_Specimen.samplingMethod",
+          "@id": "undefined#SpecimenShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://fixme.com#SamplingMethodType"
+        },
+        {
+          "sh:path": "http://def.isotc211.org/iso19156/2011/Specimen#SF_Specimen.samplingMethod",
+          "@id": "undefined#SpecimenShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "http://def.isotc211.org/iso19156/2011/Specimen#SF_Specimen.samplingMethod",
+          "@id": "undefined#SpecimenShape/0c2f1ebdbaf105d73a0a1a6d978bba7f5184d75d",
+          "sh:minCount": "1"
+        },
+        {
+          "sh:path": "http://def.isotc211.org/iso19156/2011/Specimen#SF_Specimen.samplingTime",
+          "@id": "undefined#SpecimenShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://def.isotc211.org/iso19108/2006/TemporalObjects#TM_Object"
+        },
+        {
+          "sh:path": "http://def.isotc211.org/iso19156/2011/Specimen#SF_Specimen.samplingTime",
+          "@id": "undefined#SpecimenShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "http://def.isotc211.org/iso19156/2011/Specimen#SF_Specimen.samplingTime",
+          "@id": "undefined#SpecimenShape/0c2f1ebdbaf105d73a0a1a6d978bba7f5184d75d",
+          "sh:minCount": "1"
+        }
+      ]
+    },
+    {
+      "@id": "undefined#AddressRepresentationShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://fixme.com#AddressRepresentation",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#DeviceClasstypeShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://fixme.com#DeviceClasstype",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#DeviceTypeShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://fixme.com#DeviceType",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#EnergyLimitationTypeShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://fixme.com#EnergyLimitationType",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#FunctionTypeShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://fixme.com#FunctionType",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#ImageShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://fixme.com#Image",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#PlaceShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://fixme.com#Place",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#PointOfInterestShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://fixme.com#PointOfInterest",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#ProcedureShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://fixme.com#Procedure",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#ProcessShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://fixme.com#Process",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#ProtocolTypeShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://fixme.com#ProtocolType",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#RepeatablityShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://fixme.com#Repeatablity",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#SamplingMethodTypeShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://fixme.com#SamplingMethodType",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#UnitTypeShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://fixme.com#UnitType",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#GeometryShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://www.w3.org/ns/locn#Geometry",
+      "sh:closed": false,
+      "sh:property": [
+        {
+          "sh:path": "http://www.opengis.net/ont/geosparql#asGML",
+          "@id": "undefined#GeometryShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:datatype": "http://www.w3.org/2000/01/rdf-schema#Literal"
+        },
+        {
+          "sh:path": "http://www.opengis.net/ont/geosparql#asGML",
+          "@id": "undefined#GeometryShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "http://www.opengis.net/ont/geosparql#asWKT",
+          "@id": "undefined#GeometryShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:datatype": "http://www.w3.org/2000/01/rdf-schema#Literal"
+        },
+        {
+          "sh:path": "http://www.opengis.net/ont/geosparql#asWKT",
+          "@id": "undefined#GeometryShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        }
+      ]
+    },
+    {
+      "@id": "undefined#SamplingProcedureShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://www.w3.org/ns/sosa/Procedure",
+      "sh:closed": false,
+      "sh:property": [
+        {
+          "sh:path": "http://fixme.com#specification",
+          "@id": "undefined#SamplingProcedureShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:datatype": "http://www.w3.org/2001/XMLSchema#anyURI"
+        },
+        {
+          "sh:path": "http://fixme.com#type",
+          "@id": "undefined#SamplingProcedureShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://fixme.com#SamplingProcedureType"
+        }
+      ]
+    },
+    {
+      "@id": "undefined#SamplerShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://www.w3.org/ns/sosa/Sampler",
+      "sh:closed": false,
+      "sh:property": [
+        {
+          "sh:path": "http://www.w3.org/ns/sosa/madeSampling",
+          "@id": "undefined#SamplerShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://www.w3.org/ns/sosa/Sampling"
+        }
+      ]
+    },
+    {
+      "@id": "undefined#SamplingShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://www.w3.org/ns/sosa/Sampling",
+      "sh:closed": false,
+      "sh:property": [
+        {
+          "sh:path": "http://www.w3.org/ns/sosa/hasFeatureOfInterest",
+          "@id": "undefined#SamplingShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "https://def.isotc211.org/iso19156/2011/GeneralFeatureInstance#GFI_Feature"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/sosa/hasFeatureOfInterest",
+          "@id": "undefined#SamplingShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/sosa/hasFeatureOfInterest",
+          "@id": "undefined#SamplingShape/0c2f1ebdbaf105d73a0a1a6d978bba7f5184d75d",
+          "sh:minCount": "1"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/sosa/hasResult",
+          "@id": "undefined#SamplingShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://def.isotc211.org/iso19156/2011/SamplingFeature#SF_SamplingFeature"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/sosa/hasResult",
+          "@id": "undefined#SamplingShape/0c2f1ebdbaf105d73a0a1a6d978bba7f5184d75d",
+          "sh:minCount": "1"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/sosa/madeBySampler",
+          "@id": "undefined#SamplingShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://www.w3.org/ns/sosa/Sampler"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/sosa/madeBySampler",
+          "@id": "undefined#SamplingShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/sosa/madeBySampler",
+          "@id": "undefined#SamplingShape/0c2f1ebdbaf105d73a0a1a6d978bba7f5184d75d",
+          "sh:minCount": "1"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/sosa/resultTime",
+          "@id": "undefined#SamplingShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:datatype": "http://www.w3.org/2001/XMLSchema#dateTime"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/sosa/resultTime",
+          "@id": "undefined#SamplingShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/sosa/resultTime",
+          "@id": "undefined#SamplingShape/0c2f1ebdbaf105d73a0a1a6d978bba7f5184d75d",
+          "sh:minCount": "1"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/sosa/usedProcedure",
+          "@id": "undefined#SamplingShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://www.w3.org/ns/sosa/Procedure"
+        }
+      ]
+    },
+    {
+      "@id": "undefined#AccuracyShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://www.w3.org/ns/ssn/systems/Accuracy",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#BatteryLifetimeShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://www.w3.org/ns/ssn/systems/BatteryLifetime",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#ConditionShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://www.w3.org/ns/ssn/systems/Condition",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#DetectionLimitShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://www.w3.org/ns/ssn/systems/DetectionLimit",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#DriftShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://www.w3.org/ns/ssn/systems/Drift",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#FrequencyShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://www.w3.org/ns/ssn/systems/Frequency",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#LatencyShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://www.w3.org/ns/ssn/systems/Latency",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#MaintenanceScheduleShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://www.w3.org/ns/ssn/systems/MaintenanceSchedule",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#MeasurementRangeShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://www.w3.org/ns/ssn/systems/MeasurementRange",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#OperatingPowerRangeShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://www.w3.org/ns/ssn/systems/OperatingPowerRange",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#OperatingPropertyShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://www.w3.org/ns/ssn/systems/OperatingRange",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#PrecisionShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://www.w3.org/ns/ssn/systems/Precision",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#ResolutionShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://www.w3.org/ns/ssn/systems/Resolution",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#ResponseTimeShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://www.w3.org/ns/ssn/systems/ResponseTime",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#SelectivityShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://www.w3.org/ns/ssn/systems/Selectivity",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#SensitivityShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://www.w3.org/ns/ssn/systems/Sensitivity",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#SurvivalPropertyShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://www.w3.org/ns/ssn/systems/SurvivalProperty",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#SystemLifetimeShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://www.w3.org/ns/ssn/systems/SystemLifetime",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#SystemPropertyShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "http://www.w3.org/ns/ssn/systems/SystemProperty",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#FeatureShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "https://def.isotc211.org/iso19156/2011/GeneralFeatureInstance#GFI_Feature",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#CategoryObservationShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "https://def.isotc211.org/iso19156/2011/Observation#CategoryObservation",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#ComplexObservartionShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "https://def.isotc211.org/iso19156/2011/Observation#ComplexObservation",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#CountObservatiuonShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "https://def.isotc211.org/iso19156/2011/Observation#CountObservation",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#GeometryObservationShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "https://def.isotc211.org/iso19156/2011/Observation#GeometryObservation",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#MeasurementShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "https://def.isotc211.org/iso19156/2011/Observation#Measurement",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#NamedValueShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "https://def.isotc211.org/iso19156/2011/Observation#NamedValue",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#PointCoverageObservationShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "https://def.isotc211.org/iso19156/2011/Observation#PointCoverageObservation",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#TemporalObservationShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "https://def.isotc211.org/iso19156/2011/Observation#TemporalObservation",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#TimeSeriesObservationShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "https://def.isotc211.org/iso19156/2011/Observation#TimeseriesObservation",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#TruthObservationShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "https://def.isotc211.org/iso19156/2011/Observation#TruthObservation",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#DeviceShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "https://uri.fiware.org/ns/data-models#Device",
+      "sh:closed": false,
+      "sh:property": [
+        {
+          "sh:path": "https://schema.org/brand",
+          "@id": "undefined#DeviceShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:datatype": "http://www.w3.org/2001/XMLSchema#string"
+        },
+        {
+          "sh:path": "https://schema.org/brand",
+          "@id": "undefined#DeviceShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "https://schema.org/brand",
+          "@id": "undefined#DeviceShape/0c2f1ebdbaf105d73a0a1a6d978bba7f5184d75d",
+          "sh:minCount": "1"
+        },
+        {
+          "sh:path": "https://smart-data-models.github.io/data-models/terms.jsonld#/definitions/category",
+          "@id": "undefined#DeviceShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://fixme.com#DeviceType"
+        },
+        {
+          "sh:path": "https://smart-data-models.github.io/data-models/terms.jsonld#/definitions/category",
+          "@id": "undefined#DeviceShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "https://smart-data-models.github.io/data-models/terms.jsonld#/definitions/category",
+          "@id": "undefined#DeviceShape/0c2f1ebdbaf105d73a0a1a6d978bba7f5184d75d",
+          "sh:minCount": "1"
+        },
+        {
+          "sh:path": "https://uri.etsi.org/ngsi-ld/description",
+          "@id": "undefined#DeviceShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:datatype": "http://www.w3.org/2001/XMLSchema#string"
+        },
+        {
+          "sh:path": "https://uri.etsi.org/ngsi-ld/description",
+          "@id": "undefined#DeviceShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "http://fixme.com#deviceClass",
+          "@id": "undefined#DeviceShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://fixme.com#DeviceClasstype"
+        },
+        {
+          "sh:path": "http://fixme.com#deviceClass",
+          "@id": "undefined#DeviceShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "https://smart-data-models.github.io/data-models/terms.jsonld#/definitions/documentation",
+          "@id": "undefined#DeviceShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:datatype": "http://www.w3.org/2001/XMLSchema#anyURI"
+        },
+        {
+          "sh:path": "https://smart-data-models.github.io/data-models/terms.jsonld#/definitions/documentation",
+          "@id": "undefined#DeviceShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "https://smart-data-models.github.io/data-models/terms.jsonld#/definitions/energyLimitationClass",
+          "@id": "undefined#DeviceShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://fixme.com#EnergyLimitationType"
+        },
+        {
+          "sh:path": "https://smart-data-models.github.io/data-models/terms.jsonld#/definitions/energyLimitationClass",
+          "@id": "undefined#DeviceShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "https://smart-data-models.github.io/data-models/terms.jsonld#/definitions/function",
+          "@id": "undefined#DeviceShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://fixme.com#FunctionType"
+        },
+        {
+          "sh:path": "https://schema.org/image",
+          "@id": "undefined#DeviceShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://fixme.com#Image"
+        },
+        {
+          "sh:path": "https://schema.org/image",
+          "@id": "undefined#DeviceShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "https://smart-data-models.github.io/data-models/terms.jsonld#/definitions/manufacturerName",
+          "@id": "undefined#DeviceShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:datatype": "http://www.w3.org/2001/XMLSchema#string"
+        },
+        {
+          "sh:path": "https://smart-data-models.github.io/data-models/terms.jsonld#/definitions/manufacturerName",
+          "@id": "undefined#DeviceShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "https://smart-data-models.github.io/data-models/terms.jsonld#/definitions/manufacturerName",
+          "@id": "undefined#DeviceShape/0c2f1ebdbaf105d73a0a1a6d978bba7f5184d75d",
+          "sh:minCount": "1"
+        },
+        {
+          "sh:path": "https://smart-data-models.github.io/data-models/terms.jsonld#/definitions/modelName",
+          "@id": "undefined#DeviceShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:datatype": "http://www.w3.org/2001/XMLSchema#string"
+        },
+        {
+          "sh:path": "https://smart-data-models.github.io/data-models/terms.jsonld#/definitions/modelName",
+          "@id": "undefined#DeviceShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "https://smart-data-models.github.io/data-models/terms.jsonld#/definitions/modelName",
+          "@id": "undefined#DeviceShape/0c2f1ebdbaf105d73a0a1a6d978bba7f5184d75d",
+          "sh:minCount": "1"
+        },
+        {
+          "sh:path": "https://uri.etsi.org/ngsi-ld/name",
+          "@id": "undefined#DeviceShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:datatype": "http://www.w3.org/2001/XMLSchema#string"
+        },
+        {
+          "sh:path": "https://uri.etsi.org/ngsi-ld/name",
+          "@id": "undefined#DeviceShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "https://uri.etsi.org/ngsi-ld/name",
+          "@id": "undefined#DeviceShape/0c2f1ebdbaf105d73a0a1a6d978bba7f5184d75d",
+          "sh:minCount": "1"
+        },
+        {
+          "sh:path": "https://smart-data-models.github.io/data-models/terms.jsonld#/definitions/supportedProtocol",
+          "@id": "undefined#DeviceShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://fixme.com#ProtocolType"
+        },
+        {
+          "sh:path": "http://fixme.com#supportedUnits",
+          "@id": "undefined#DeviceShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://fixme.com#UnitType"
+        }
+      ]
+    },
+    {
+      "@id": "undefined#SliceShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "https://www.w3.org/TR/vocab-data-cube/#ref_qb_Slice",
+      "sh:closed": false,
+      "sh:property": []
+    },
+    {
+      "@id": "undefined#ObservationCollectionShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "https://www.w3.org/TR/vocab-ssn-ext/#sosa:ObservationCollection",
+      "sh:closed": false,
+      "sh:property": [
+        {
+          "sh:path": "http://www.w3.org/ns/sosa/hasFeatureOfInterest",
+          "@id": "undefined#ObservationCollectionShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "https://def.isotc211.org/iso19156/2011/GeneralFeatureInstance#GFI_Feature"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/sosa/hasFeatureOfInterest",
+          "@id": "undefined#ObservationCollectionShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/sosa/hasMember",
+          "@id": "undefined#ObservationCollectionShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/sosa/hasMember",
+          "@id": "undefined#ObservationCollectionShape/0c2f1ebdbaf105d73a0a1a6d978bba7f5184d75d",
+          "sh:minCount": "1"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/sosa/hasUltimateFeatureOfInterest",
+          "@id": "undefined#ObservationCollectionShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "https://def.isotc211.org/iso19156/2011/GeneralFeatureInstance#GFI_Feature"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/sosa/hasUltimateFeatureOfInterest",
+          "@id": "undefined#ObservationCollectionShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/sosa/madeBySensor",
+          "@id": "undefined#ObservationCollectionShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "https://www.w3.org/TR/vocab-ssn/#SOSASensor"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/sosa/madeBySensor",
+          "@id": "undefined#ObservationCollectionShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation.metadata",
+          "@id": "undefined#ObservationCollectionShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://def.isotc211.org/iso19115/2006/MetadataEntitySetInformation#MD_Metadata"
+        },
+        {
+          "sh:path": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation.metadata",
+          "@id": "undefined#ObservationCollectionShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/sosa/observedProperty",
+          "@id": "undefined#ObservationCollectionShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://def.isotc211.org/iso19109/2005/GeneralFeatureModel#GF_PropertyType"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/sosa/observedProperty",
+          "@id": "undefined#ObservationCollectionShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation.parameter",
+          "@id": "undefined#ObservationCollectionShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "https://def.isotc211.org/iso19156/2011/Observation#NamedValue"
+        },
+        {
+          "sh:path": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation.parameter",
+          "@id": "undefined#ObservationCollectionShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/sosa/phenomenonTime",
+          "@id": "undefined#ObservationCollectionShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://def.isotc211.org/iso19108/2006/TemporalObjects#TM_Object"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/sosa/phenomenonTime",
+          "@id": "undefined#ObservationCollectionShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/sosa/resultTime",
+          "@id": "undefined#ObservationCollectionShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:datatype": "http://www.w3.org/2001/XMLSchema#dateTime"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/sosa/resultTime",
+          "@id": "undefined#ObservationCollectionShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/sosa/usedProcedure",
+          "@id": "undefined#ObservationCollectionShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "https://www.w3.org/TR/vocab-ssn/#SOSAProcedure"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/sosa/usedProcedure",
+          "@id": "undefined#ObservationCollectionShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        }
+      ]
+    },
+    {
+      "@id": "undefined#PlatformShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "https://www.w3.org/TR/vocab-ssn/#SOSAPlatform",
+      "sh:closed": false,
+      "sh:property": [
+        {
+          "sh:path": "http://www.w3.org/ns/sosa/hosts",
+          "@id": "undefined#PlatformShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "https://www.w3.org/TR/vocab-ssn/#ssn-system"
+        }
+      ]
+    },
+    {
+      "@id": "undefined#ObservationProcedureShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "https://www.w3.org/TR/vocab-ssn/#SOSAProcedure",
+      "sh:closed": false,
+      "sh:property": [
+        {
+          "sh:path": "http://www.w3.org/ns/ssn/implementedBy",
+          "@id": "undefined#ObservationProcedureShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "https://www.w3.org/TR/vocab-ssn/#SOSASensor"
+        },
+        {
+          "sh:path": "http://fixme.com#specification",
+          "@id": "undefined#ObservationProcedureShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:datatype": "http://www.w3.org/2001/XMLSchema#anyURI"
+        },
+        {
+          "sh:path": "http://fixme.com#type",
+          "@id": "undefined#ObservationProcedureShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://fixme.com#ObservationProcedureType"
+        }
+      ]
+    },
+    {
+      "@id": "undefined#SensorShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "https://www.w3.org/TR/vocab-ssn/#SOSASensor",
+      "sh:closed": false,
+      "sh:property": [
+        {
+          "sh:path": "http://www.w3.org/ns/ssn/implements",
+          "@id": "undefined#SensorShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "https://www.w3.org/TR/vocab-ssn/#SOSAProcedure"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/ssn/implements",
+          "@id": "undefined#SensorShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/ssn/implements",
+          "@id": "undefined#SensorShape/0c2f1ebdbaf105d73a0a1a6d978bba7f5184d75d",
+          "sh:minCount": "1"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/sosa/madeObservation",
+          "@id": "undefined#SensorShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/sosa/observes",
+          "@id": "undefined#SensorShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://def.isotc211.org/iso19109/2005/GeneralFeatureModel#GF_PropertyType"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/sosa/observes",
+          "@id": "undefined#SensorShape/0c2f1ebdbaf105d73a0a1a6d978bba7f5184d75d",
+          "sh:minCount": "1"
+        }
+      ]
+    },
+    {
+      "@id": "undefined#OperatingRangeShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "https://www.w3.org/TR/vocab-ssn/#SSNSYSTEMOperatingRange",
+      "sh:closed": false,
+      "sh:property": [
+        {
+          "sh:path": "http://www.w3.org/ns/ssn/systems/hasOperatingProperty",
+          "@id": "undefined#OperatingRangeShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://www.w3.org/ns/ssn/systems/OperatingRange"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/ssn/systems/hasOperatingProperty",
+          "@id": "undefined#OperatingRangeShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/ssn/systems/hasOperatingProperty",
+          "@id": "undefined#OperatingRangeShape/0c2f1ebdbaf105d73a0a1a6d978bba7f5184d75d",
+          "sh:minCount": "1"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/ssn/systems/inCondition",
+          "@id": "undefined#OperatingRangeShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://www.w3.org/ns/ssn/systems/Condition"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/ssn/systems/inCondition",
+          "@id": "undefined#OperatingRangeShape/0c2f1ebdbaf105d73a0a1a6d978bba7f5184d75d",
+          "sh:minCount": "1"
+        }
+      ]
+    },
+    {
+      "@id": "undefined#SurvivalRangeShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "https://www.w3.org/TR/vocab-ssn/#SSNSYSTEMSurvivalRange",
+      "sh:closed": false,
+      "sh:property": [
+        {
+          "sh:path": "http://www.w3.org/ns/ssn/systems/hasSurvivalProperty",
+          "@id": "undefined#SurvivalRangeShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://www.w3.org/ns/ssn/systems/SurvivalProperty"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/ssn/systems/hasSurvivalProperty",
+          "@id": "undefined#SurvivalRangeShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/ssn/systems/hasSurvivalProperty",
+          "@id": "undefined#SurvivalRangeShape/0c2f1ebdbaf105d73a0a1a6d978bba7f5184d75d",
+          "sh:minCount": "1"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/ssn/systems/inCondition",
+          "@id": "undefined#SurvivalRangeShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://www.w3.org/ns/ssn/systems/Condition"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/ssn/systems/inCondition",
+          "@id": "undefined#SurvivalRangeShape/0c2f1ebdbaf105d73a0a1a6d978bba7f5184d75d",
+          "sh:minCount": "1"
+        }
+      ]
+    },
+    {
+      "@id": "undefined#SystemCapabilityShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "https://www.w3.org/TR/vocab-ssn/#SSNSYSTEMSystemCapability",
+      "sh:closed": false,
+      "sh:property": [
+        {
+          "sh:path": "http://www.w3.org/ns/ssn/systems/hasSystemProperty",
+          "@id": "undefined#SystemCapabilityShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://www.w3.org/ns/ssn/systems/SystemProperty"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/ssn/systems/hasSystemProperty",
+          "@id": "undefined#SystemCapabilityShape/ce012334c76fbb8723d52324457cb619f53f2527",
+          "sh:maxCount": "1"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/ssn/systems/hasSystemProperty",
+          "@id": "undefined#SystemCapabilityShape/0c2f1ebdbaf105d73a0a1a6d978bba7f5184d75d",
+          "sh:minCount": "1"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/ssn/systems/inCondition",
+          "@id": "undefined#SystemCapabilityShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://www.w3.org/ns/ssn/systems/Condition"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/ssn/systems/inCondition",
+          "@id": "undefined#SystemCapabilityShape/0c2f1ebdbaf105d73a0a1a6d978bba7f5184d75d",
+          "sh:minCount": "1"
+        }
+      ]
+    },
+    {
+      "@id": "undefined#SystemShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "https://www.w3.org/TR/vocab-ssn/#ssn-system",
+      "sh:closed": false,
+      "sh:property": [
+        {
+          "sh:path": "http://fixme.com#hasRange",
+          "@id": "undefined#SystemShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "http://www.w3.org/ns/ssn/systems/OperatingRange"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/ssn/systems/hasSurvivalRange",
+          "@id": "undefined#SystemShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "https://www.w3.org/TR/vocab-ssn/#SSNSYSTEMSurvivalRange"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/ssn/systems/hasSystemCapability",
+          "@id": "undefined#SystemShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "https://www.w3.org/TR/vocab-ssn/#SSNSYSTEMSystemCapability"
+        },
+        {
+          "sh:path": "http://www.w3.org/ns/sosa/isHostedBy",
+          "@id": "undefined#SystemShape/4d55af37dbbb6a42088d917caa1ca25428ec42c9",
+          "sh:class": "https://www.w3.org/TR/vocab-ssn/#SOSAPlatform"
+        }
+      ]
+    }
+  ]
+}

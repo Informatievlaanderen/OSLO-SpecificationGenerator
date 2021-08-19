@@ -1,0 +1,17 @@
+{
+    "ruimtelijkeEenheid": "https://data.vlaanderen.be/ns/perceel#RuimtelijkeEenheid",
+    "isGerelateerdAan": "http://purl.org/dc/terms/relation",
+    "identificator": "http://www.w3.org/ns/adms#identifier",
+    "geometrie": "https://data.vlaanderen.be/ns/perceel#RuimtelijkeEenheid.geometrie",
+    "oppervlakte": "https://data.vlaanderen.be/ns/perceel#RuimtelijkeEenheid.oppervlakte",
+    "type (ruimtelijkeEenheid)": "https://data.vlaanderen.be/ns/perceel#RuimtelijkeEenheid.type",
+    "agentMetRecht": "https://data.vlaanderen.be/ns/perceel#agentMetRecht",
+    "agentMetVerantwoordelijkheid": "https://data.vlaanderen.be/ns/perceel#agentMetVerantwoordelijkheid",
+    "dimensie": "https://data.vlaanderen.be/ns/perceel#dimensie",
+    "geldigheidsperiode": "https://data.vlaanderen.be/ns/perceel#geldigheidsperiode",
+    "landgebruik": "https://data.vlaanderen.be/ns/perceel#landgebruik",
+    "niveau": {
+        "@id": "https://data.vlaanderen.be/ns/perceel#niveau",
+        "@type": "http://www.w3.org/2001/XMLSchema#integer"
+    }
+}

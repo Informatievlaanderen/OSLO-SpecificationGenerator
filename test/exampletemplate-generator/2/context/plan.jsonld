@@ -1,0 +1,33 @@
+{
+    "plan": "https://data.vlaanderen.be/ns/bedrijventerrein#Plan",
+    "bestemming": "https://data.vlaanderen.be/ns/bedrijventerrein#bestemming",
+    "dossierfase": "https://data.vlaanderen.be/ns/bedrijventerrein#dossierfase",
+    "planningsniveau": "https://data.vlaanderen.be/ns/bedrijventerrein#planningsNiveau",
+    "publicatiedatum": {
+        "@id": "https://data.vlaanderen.be/ns/bedrijventerrein#publicatiedatum",
+        "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "schorsing": "https://data.vlaanderen.be/ns/bedrijventerrein#schorsing",
+    "startdatum": {
+        "@id": "https://data.vlaanderen.be/ns/bedrijventerrein#startdatum",
+        "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "status": "https://data.vlaanderen.be/ns/bedrijventerrein#status",
+    "stedenbouwkundigeVoorschriften": {
+        "@id": "https://data.vlaanderen.be/ns/bedrijventerrein#stedenbouwkundigeVoorschriften",
+        "@type": "http://www.w3.org/2001/XMLSchema#string"
+    },
+    "toelichtingsnota": {
+        "@id": "https://data.vlaanderen.be/ns/bedrijventerrein#toelichtingsnota",
+        "@type": "http://www.w3.org/2001/XMLSchema#string"
+    },
+    "naam": {
+        "@container": [
+            "@language",
+            "@set"
+        ],
+        "@id": "http://www.w3.org/2004/02/skos/core#prefLabel",
+        "@type": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+    },
+    "identificator": "http://www.w3.org/ns/adms#identifier"
+}

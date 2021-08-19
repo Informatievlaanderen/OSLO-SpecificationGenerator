@@ -1,0 +1,8 @@
+{
+    "@context": "https://data.vlaanderen.be/examples/recht.jsonld",
+    "@type": "https://data.vlaanderen.be/ns/perceel#Recht",
+    "@id": "{{ID}}",
+    "agent": "{{VAL}}",
+    "ruimtelijkeEenheid": "{{VAL}}",
+    "type (recht)": "{{VAL}}"
+}

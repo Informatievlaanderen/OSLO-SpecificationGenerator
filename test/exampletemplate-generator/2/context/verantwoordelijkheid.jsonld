@@ -1,0 +1,6 @@
+{
+    "verantwoordelijkheid": "https://data.vlaanderen.be/ns/perceel#Verantwoordelijkheid",
+    "agent": "https://data.vlaanderen.be/ns/perceel#Verantwoordelijkheid.agent",
+    "ruimtelijkeEenheid": "https://data.vlaanderen.be/ns/perceel#Verantwoordelijkheid.ruimtelijkeEenheid",
+    "type (verantwoordelijkheid)": "https://data.vlaanderen.be/ns/perceel#Verantwoordelijkheid.type"
+}

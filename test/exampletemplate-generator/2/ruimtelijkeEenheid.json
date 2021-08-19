@@ -1,0 +1,16 @@
+{
+    "@context": "https://data.vlaanderen.be/examples/ruimtelijkeEenheid.jsonld",
+    "@type": "https://data.vlaanderen.be/ns/perceel#RuimtelijkeEenheid",
+    "@id": "{{ID}}",
+    "isGerelateerdAan": "{{VAL}}",
+    "identificator": "{{VAL}}",
+    "geometrie": "{{VAL}}",
+    "oppervlakte": "{{VAL}}",
+    "type (ruimtelijkeEenheid)": "{{VAL}}",
+    "agentMetRecht": "{{VAL}}",
+    "agentMetVerantwoordelijkheid": "{{VAL}}",
+    "dimensie": "{{VAL}}",
+    "geldigheidsperiode": "{{VAL}}",
+    "landgebruik": "{{VAL}}",
+    "niveau": "{{INTEGER}}"
+}

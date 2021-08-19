@@ -1,0 +1,26 @@
+{
+    "bedrijventerrein": "https://data.vlaanderen.be/ns/bedrijventerrein#Bedrijventerrein",
+    "beschikbareKavels": {
+        "@id": "https://data.vlaanderen.be/ns/bedrijventerrein#beschikbareKavels",
+        "@type": "http://www.w3.org/2001/XMLSchema#boolean"
+    },
+    "beschikbareOppervlakte": "https://data.vlaanderen.be/ns/bedrijventerrein#beschikbareOppervlakte",
+    "isGerelateerdAanEconomischGebied": "https://data.vlaanderen.be/ns/bedrijventerrein#isGerelateerdAanEconomischGebied",
+    "isGerelateerdAan": "http://purl.org/dc/terms/relation",
+    "commerciëleNaam": {
+        "@container": [
+            "@language",
+            "@set"
+        ],
+        "@id": "http://www.w3.org/2004/02/skos/core#altLabel",
+        "@type": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+    },
+    "naam": {
+        "@container": [
+            "@language",
+            "@set"
+        ],
+        "@id": "http://www.w3.org/2004/02/skos/core#prefLabel",
+        "@type": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+    }
+}

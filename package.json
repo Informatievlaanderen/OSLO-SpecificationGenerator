@@ -1,41 +1,38 @@
 {
-  "name": "specificationgenerator-js",
+  "name": "OSLO-specification-generator-tools",
   "version": "1.0.0",
-  "description": "renders jinja2 based templates for OSLO",
+  "description": "Tools to support the OSLO toolchain",
   "main": "app/clj.js",
   "dependencies": {
     "axios": "^0.21.0",
-    "camelcase": "^5.3.1",
-    "collections": "^5.1.6",
-    "commander": "^2.19.0",
-    "connect": "^3.6.6",
-    "express": "^4.16.4",
-    "http": "0.0.1-security",
-    "jsonfile": "^5.0.0",
-    "jsonld": "^1.1.0",
+    "camelcase": "^6.2.0",
+    "collections": "^5.1.12",
+    "commander": "^8.1.0",
+    "jsonfile": "^6.1.0",
+    "jsonld": "^5.2.0",
     "nunjucks": "^3.1.3",
     "papaparse": "^5.0.2",
     "pluralize": "^8.0.0",
     "serve-static": "^1.13.2",
-    "string-builder": "^0.1.8"
+    "string-builder": "^0.1.8",
+    "crypto-js": "^4.1.1"
   },
   "eslintConfig": {
     "extends": "standard"
   },
   "devDependencies": {
-    "eslint": "~6.8.0",
-    "eslint-config-standard": "~14.1.1",
-    "eslint-plugin-promise": "~4.2.1",
-    "eslint-plugin-standard": "~4.0.1",
-    "eslint-plugin-import": "~2.20.0",
-    "eslint-plugin-node": "~11.1.0"
+    "eslint": "^7.32.0",
+    "eslint-config-standard": "~16.0.3",
+    "eslint-plugin-import": "~2.24.0",
+    "eslint-plugin-node": "~11.1.0",
+    "eslint-plugin-promise": "~5.1.0"
   },
   "scripts": {
     "start": "node app/cls.js",
     "lint": "./node_modules/.bin/eslint .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Jonathan Langens <jonathan.langens@tenforce.com>",
+  "author": "Bert Van Nuffelen <bert.van.nuffelen@tenforce.com>",
   "repository": "/specgenerator-js",
   "license": "Apache-2.0"
 }

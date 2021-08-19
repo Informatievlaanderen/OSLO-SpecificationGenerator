@@ -1,0 +1,7 @@
+{
+    "kadastraalPlanperceel": "https://data.vlaanderen.be/ns/perceel#KadastraalPlanperceel",
+    "datumBijwerking": {
+        "@id": "https://data.vlaanderen.be/ns/perceel#datumbijwerking",
+        "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    }
+}

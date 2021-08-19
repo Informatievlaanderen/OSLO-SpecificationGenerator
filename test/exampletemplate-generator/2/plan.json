@@ -1,0 +1,18 @@
+{
+    "@context": "https://data.vlaanderen.be/examples/plan.jsonld",
+    "@type": "https://data.vlaanderen.be/ns/bedrijventerrein#Plan",
+    "@id": "{{ID}}",
+    "bestemming": "{{VAL}}",
+    "dossierfase": "{{VAL}}",
+    "planningsniveau": "{{VAL}}",
+    "publicatiedatum": "{{DATETIME}}",
+    "schorsing": "{{VAL}}",
+    "startdatum": "{{DATETIME}}",
+    "status": "{{VAL}}",
+    "stedenbouwkundigeVoorschriften": "{{STRING}}",
+    "toelichtingsnota": "{{STRING}}",
+    "naam": {
+        "nl": "{{STRING}}"
+    },
+    "identificator": "{{VAL}}"
+}

@@ -2,8 +2,7 @@ const jsonfile = require('jsonfile')
 const Set = require('collections/set')
 const Map = require('collections/map')
 const camelCase = require('camelcase')
-
-var program = require('commander')
+const program = require('commander')
 
 program
   .version('1.0.0')
@@ -23,26 +22,27 @@ program.on('--help', function () {
 })
 
 program.parse(process.argv)
-const forceDomain = !!program.forceDomain
+const options = program.opts()
+const forceDomain = !!options.forceDomain
 
-render_context_from_json_ld_file(program.input, program.output, program.language)
+render_context_from_json_ld_file(options.input, options.output, options.language)
 console.log('done')
 
 /* ---- end of the program --- */
 
-function render_context_from_json_ld_file(filename, output_filename, language) {
+function render_context_from_json_ld_file (filename, output_filename, language) {
   console.log('start reading')
   jsonfile.readFile(filename)
     .then(
       function (obj) {
         console.log('start processing')
 
-        var duplicates = identify_duplicates(obj.properties.concat(obj.externalproperties), language)
+        const duplicates = identify_duplicates(obj.properties.concat(obj.externalproperties), language)
         console.log('the following items have for the same term different URIs assigned:')
         console.log(duplicates)
         console.log('they will be disambiguated')
-        var eanamesclasses = get_EAname(obj.classes.concat(obj.externals), language)
-        var context = make_context(classes(obj, language), properties(eanamesclasses, duplicates, obj, language), externals(obj, language), externalproperties(eanamesclasses, duplicates, obj, language))
+        const eanamesclasses = get_EAname(obj.classes.concat(obj.externals), language)
+        const context = make_context(classes(obj, language), properties(eanamesclasses, duplicates, obj, language), externals(obj, language), externalproperties(eanamesclasses, duplicates, obj, language))
 
         console.log('start writing')
 
@@ -60,14 +60,14 @@ function render_context_from_json_ld_file(filename, output_filename, language) {
  * identify duplicates by iterating over the list and comparing if the same term is
  * being used to identify multiple values
  */
-function identify_duplicates(properties, language) {
-  var acc = new Map()
+function identify_duplicates (properties, language) {
+  let acc = new Map()
   acc = properties.reduce(function (accumulator, currentValue, currentIndex, array) {
     return urireducer(accumulator, currentValue, currentIndex, array, 'nl')
   }, acc)
 
   // search for duplicates
-  var acc2 = new Map()
+  const acc2 = new Map()
   acc.forEach(function (value, key, map) {
     if (value.length > 1) {
       const tempSet = new Set(value)
@@ -95,7 +95,7 @@ const capitalizeFirst = (s) => {
 
 // auxiliary function to convert to camelcase with dealing special cases
 // TODO: what are the guidelines for contextual scoping in the labels?
-function toCamelCase(str) {
+function toCamelCase (str) {
   str = camelCase(str)
   // console.log(str)
   str = str.replace(/\s\(source\)/g, '(source)').replace(/\s\(target\)/g, '(target)')
@@ -104,9 +104,9 @@ function toCamelCase(str) {
 };
 
 // map an entity prop to its term
-function map_identifier(prop, language) {
+function map_identifier (prop, language) {
   let identifier = ''
-  if (program.useLabels === 'label') {
+  if (options.useLabels === 'label') {
     if (prop.label && prop.label[language]) {
       identifier = toCamelCase(prop.label[language])
       //      console.log(identifier)
@@ -122,7 +122,7 @@ function map_identifier(prop, language) {
 };
 
 // create a map (term -> list of uri)
-function urireducer(accumulator, currentValue, currentIndex, array, language) {
+function urireducer (accumulator, currentValue, currentIndex, array, language) {
   let currentlist = []
   const term = map_identifier(currentValue, language)
   if (accumulator.has(term)) {
@@ -135,7 +135,7 @@ function urireducer(accumulator, currentValue, currentIndex, array, language) {
   return accumulator
 };
 
-function get_EAname(entities, language) {
+function get_EAname (entities, language) {
   let acc = new Map()
   acc = entities.reduce(function (accumulator, currentValue, currentIndex, array) {
     return EAname(accumulator, currentValue, currentIndex, array, language)
@@ -145,7 +145,7 @@ function get_EAname(entities, language) {
 }
 
 // create a map (EA-Name -> term)
-function EAname(accumulator, currentValue, currentIndex, array, language) {
+function EAname (accumulator, currentValue, currentIndex, array, language) {
   let currentlist = []
   const term = map_identifier(currentValue, language)
   const eaname = currentValue.extra['EA-Name']
@@ -166,11 +166,11 @@ function EAname(accumulator, currentValue, currentIndex, array, language) {
 const accContext = (accumulator, currentValue) =>
   accumulator.addEach(currentValue)
 
-function make_context(classes, properties, externals, externalproperties) {
+function make_context (classes, properties, externals, externalproperties) {
   console.log('make context')
 
-  var context = new Map()
-  var contextbody = new Map()
+  const context = new Map()
+  let contextbody = new Map()
 
   if (classes !== null) { contextbody = classes.reduce(accContext, new Map()) }
   if (properties !== null) { contextbody = properties.reduce(accContext, contextbody) }
@@ -187,25 +187,25 @@ function make_context(classes, properties, externals, externalproperties) {
    a context file per applicationprofile per class
    This requires knowledge in the input about the class hierarchy
 */
-function map_class(c, language) {
+function map_class (c, language) {
   const mapping = new Map()
   const identifier = map_identifier(c, language)
   mapping.set(capitalizeFirst(identifier), c['@id'])
   return mapping
 };
 
-function classes(json, language) {
+function classes (json, language) {
   const classes = json.classes
   let classmapping = new Map()
   classmapping = classes.map(x => map_class(x, language))
   return classmapping
 }
 
-function map_properties(eanamesclasses, duplicates, prop, language) {
-  var mapping = new Map()
+function map_properties (eanamesclasses, duplicates, prop, language) {
+  const mapping = new Map()
 
-  var range
-  var range_uri = ''
+  let range
+  let range_uri = ''
   let identifier = ''
 
   if (prop.range.length === 0) {
@@ -229,7 +229,7 @@ function map_properties(eanamesclasses, duplicates, prop, language) {
   };
 
   identifier = map_identifier(prop, language)
-  var propc = {}
+  let propc = {}
   let key = ''
   if (duplicates.has(identifier) || forceDomain) {
     // duplicate
@@ -267,23 +267,23 @@ function map_properties(eanamesclasses, duplicates, prop, language) {
   return mapping
 }
 
-function properties(eanamesclasses, duplicates, json, language) {
-  var props = json.properties
+function properties (eanamesclasses, duplicates, json, language) {
+  const props = json.properties
 
-  var propertymapping = new Map()
+  let propertymapping = new Map()
   propertymapping = props.map(x => map_properties(eanamesclasses, duplicates, x, language))
 
   return propertymapping
 }
 
-function map_external(c, language) {
+function map_external (c, language) {
   const mapping = new Map()
   const identifier = map_identifier(c, language)
   mapping.set(capitalizeFirst(identifier), c['@id'])
   return mapping
 };
 
-function externals(json, language) {
+function externals (json, language) {
   const externs = json.externals
 
   let externalmapping = new Map()
@@ -292,10 +292,10 @@ function externals(json, language) {
   return externalmapping
 }
 
-function externalproperties(eanamesclasses, duplicates, json, language) {
-  var externs = json.externalproperties
+function externalproperties (eanamesclasses, duplicates, json, language) {
+  const externs = json.externalproperties
 
-  var externalmapping = new Map()
+  let externalmapping = new Map()
   externalmapping = externs.map(x => map_properties(eanamesclasses, duplicates, x, language))
 
   return externalmapping

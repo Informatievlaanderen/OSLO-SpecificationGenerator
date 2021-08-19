@@ -1,0 +1,23 @@
+{
+    "schorsingInfo": "https://data.vlaanderen.be/ns/bedrijventerrein#SchorsingInfo",
+    "datumSchorsing": {
+        "@id": "https://data.vlaanderen.be/ns/bedrijventerrein#datumSchorsing",
+        "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "geschorst": {
+        "@id": "https://data.vlaanderen.be/ns/bedrijventerrein#geschorst",
+        "@type": "http://www.w3.org/2001/XMLSchema#boolean"
+    },
+    "linkSchorsing": {
+        "@id": "https://data.vlaanderen.be/ns/bedrijventerrein#linkSchorsing",
+        "@type": "http://www.w3.org/2001/XMLSchema#string"
+    },
+    "schorsingOpmerking": {
+        "@container": [
+            "@language",
+            "@set"
+        ],
+        "@id": "https://data.vlaanderen.be/ns/bedrijventerrein#schorsingOpmerking",
+        "@type": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+    }
+}

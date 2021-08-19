@@ -1,0 +1,11 @@
+{
+    "@context": "https://data.vlaanderen.be/examples/bedrijventerreinperceel.jsonld",
+    "@type": "https://data.vlaanderen.be/ns/bedrijventerrein#Bedrijventerreinperceel",
+    "@id": "{{ID}}",
+    "bebouwing": "{{VAL}}",
+    "beperking": "{{VAL}}",
+    "beschikbaarheid": "{{VAL}}",
+    "functie": "{{VAL}}",
+    "inGebruik": "{{VAL}}",
+    "isDeelVan": "{{VAL}}"
+}

@@ -1,0 +1,13 @@
+{
+    "@context": "https://data.vlaanderen.be/examples/ontwikkelbareBedrijvenzone.jsonld",
+    "@type": "https://data.vlaanderen.be/ns/bedrijventerrein#OntwikkelbareBedrijvenzone",
+    "@id": "{{ID}}",
+    "statusOntwikkeling": "{{VAL}}",
+    "voorzieneUitgifte": "{{DATE}}",
+    "isDeelVan": "{{VAL}}",
+    "isGerelateerdAan": "{{VAL}}",
+    "naam": {
+        "nl": "{{STRING}}"
+    },
+    "homepage": "{{STRING}}"
+}

@@ -1,0 +1,22 @@
+{
+    "ontwikkelbareBedrijvenzone": "https://data.vlaanderen.be/ns/bedrijventerrein#OntwikkelbareBedrijvenzone",
+    "statusOntwikkeling": "https://data.vlaanderen.be/ns/bedrijventerrein#statusOntwikkeling",
+    "voorzieneUitgifte": {
+        "@id": "https://data.vlaanderen.be/ns/bedrijventerrein#voorzieneUitgifte",
+        "@type": "http://www.w3.org/2001/XMLSchema#date"
+    },
+    "isDeelVan": "http://purl.org/dc/terms/isPartOf",
+    "isGerelateerdAan": "http://purl.org/dc/terms/relation",
+    "naam": {
+        "@container": [
+            "@language",
+            "@set"
+        ],
+        "@id": "http://www.w3.org/2004/02/skos/core#prefLabel",
+        "@type": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+    },
+    "homepage": {
+        "@id": "http://xmlns.com/foaf/0.1/homepage",
+        "@type": "http://www.w3.org/2001/XMLSchema#string"
+    }
+}

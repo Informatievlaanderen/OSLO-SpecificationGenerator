@@ -1,0 +1,6 @@
+{
+    "@context": "https://data.vlaanderen.be/examples/agent.jsonld",
+    "@type": "http://purl.org/dc/terms/Agent",
+    "@id": "{{ID}}",
+    "contactinfo": "{{VAL}}"
+}

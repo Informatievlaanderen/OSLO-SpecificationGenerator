@@ -1,0 +1,8 @@
+{
+    "functiewaarde": "https://data.vlaanderen.be/ns/bedrijventerrein#Functiewaarde",
+    "type (functie)": "https://data.vlaanderen.be/ns/bedrijventerrein#Functiewaarde.type",
+    "percentage": {
+        "@id": "https://data.vlaanderen.be/ns/bedrijventerrein#percentage",
+        "@type": "http://www.w3.org/2001/XMLSchema#integer"
+    }
+}

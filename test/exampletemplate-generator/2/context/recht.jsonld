@@ -1,0 +1,6 @@
+{
+    "recht": "https://data.vlaanderen.be/ns/perceel#Recht",
+    "agent": "https://data.vlaanderen.be/ns/perceel#Recht.agent",
+    "ruimtelijkeEenheid": "https://data.vlaanderen.be/ns/perceel#Recht.ruimtelijkeEenheid",
+    "type (recht)": "https://data.vlaanderen.be/ns/perceel#Recht.type"
+}

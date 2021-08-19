@@ -1,0 +1,11 @@
+{
+    "@context": "https://data.vlaanderen.be/examples/schorsingInfo.jsonld",
+    "@type": "https://data.vlaanderen.be/ns/bedrijventerrein#SchorsingInfo",
+    "@id": "{{ID}}",
+    "datumSchorsing": "{{DATETIME}}",
+    "geschorst": "{{BOOLEAN}}",
+    "linkSchorsing": "{{STRING}}",
+    "schorsingOpmerking": {
+        "nl": "{{STRING}}"
+    }
+}

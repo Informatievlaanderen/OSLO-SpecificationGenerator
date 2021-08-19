@@ -1,4 +1,4 @@
-FROM circleci/node:10
+FROM circleci/node:14.16.1-buster
 
 #RUN useradd -m circleci
 USER circleci
@@ -7,5 +7,6 @@ RUN sudo apt-get install vim
 
 WORKDIR /app
 ADD . /app
-RUN sudo npm set unsafe-perm true
+#RUN sudo npm set unsafe-perm true
 RUN sudo npm install
+RUN sudo npm install eslint

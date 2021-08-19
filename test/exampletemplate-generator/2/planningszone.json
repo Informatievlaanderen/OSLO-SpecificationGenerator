@@ -1,0 +1,6 @@
+{
+    "@context": "https://data.vlaanderen.be/examples/planningszone.jsonld",
+    "@type": "https://data.vlaanderen.be/ns/bedrijventerrein#Planningszone",
+    "@id": "{{ID}}",
+    "isGerelateerdAan": "{{VAL}}"
+}

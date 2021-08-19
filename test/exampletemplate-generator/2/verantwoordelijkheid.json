@@ -1,0 +1,8 @@
+{
+    "@context": "https://data.vlaanderen.be/examples/verantwoordelijkheid.jsonld",
+    "@type": "https://data.vlaanderen.be/ns/perceel#Verantwoordelijkheid",
+    "@id": "{{ID}}",
+    "agent": "{{VAL}}",
+    "ruimtelijkeEenheid": "{{VAL}}",
+    "type (verantwoordelijkheid)": "{{VAL}}"
+}

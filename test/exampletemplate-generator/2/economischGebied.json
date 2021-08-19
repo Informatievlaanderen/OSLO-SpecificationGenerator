@@ -1,0 +1,6 @@
+{
+    "@context": "https://data.vlaanderen.be/examples/economischGebied.jsonld",
+    "@type": "https://data.vlaanderen.be/ns/bedrijventerrein#EconomischGebied",
+    "@id": "{{ID}}",
+    "dominanteEconomischeActiviteit": "{{VAL}}"
+}
