@@ -1,0 +1,33 @@
+{
+  "baseURI": "https://data.ai-proficiant.eu/ns#",
+  "classes": [
+    {
+      "EA-Guid": "{D60B7001-A563-491b-ABC0-AD6F865BE2BA}",
+      "definition": {
+        "en": "a non-rigid container",
+        "nl": "Enter your translation here"
+      },
+      "label": {
+        "en": "Bag",
+        "nl": "Enter your translation here"
+      },
+      "name": "Bag"
+    }
+  ],
+  "externalproperties": [],
+  "externals": [
+    {
+      "EA-Guid": "{650F8E09-8AF2-43a9-AB80-B54495ED17F9}",
+      "definition": {
+        "en": "A uniform collection of tangible objects or Lot. This can either be a collection of produced items (i.e. the outflow of products) or a collection of raw material or required material (i.e. the inflow of products). It is assumed that the objects in a batch are similar and thus have shared attributes.",
+        "nl": "Enter your translation here"
+      },
+      "label": {
+        "en": "Batch",
+        "nl": "Enter your translation here"
+      },
+      "name": "Batch"
+    }
+  ],
+  "properties": []
+}

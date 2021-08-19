@@ -110,13 +110,11 @@ function get_one_langue_value (shortClass, classObject, attribute, language) {
 
 function create_shortened_object (object, prime, goal) {
   let shortObject = {}
-  console.log(object.extra['EA-Guid'])
   shortObject['EA-Guid'] = object.extra['EA-Guid']
   shortObject = set_name(shortObject, object, prime, goal)
   shortObject = get_attribute(shortObject, object, 'label', prime, goal)
   shortObject = get_attribute(shortObject, object, 'definition', prime, goal)
   shortObject = get_attribute(shortObject, object, 'usage', prime, goal)
-  console.log(shortObject)
   return shortObject
 }
 

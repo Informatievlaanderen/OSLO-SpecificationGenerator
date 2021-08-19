@@ -49,9 +49,16 @@ merge:
 
 TRANSLATEDIR=${TESTDIR}/translation-json-generator
 translate:
+	echo " > translation generation"
 	node /app/translation-json-generator.js -i ${TRANSLATEDIR}/1.input.jsonld -m en -g nl -o ${TRANSLATEDIR}/1.translation.nl.json.0
 	jq -S . ${TRANSLATEDIR}/1.translation.nl.json.0 > ${TRANSLATEDIR}/1.translation.nl.json
 	node /app/translation-json-generator.js -i ${TRANSLATEDIR}/1.input.jsonld -m en -g en -o ${TRANSLATEDIR}/1.translation.en.json.0
 	jq -S . ${TRANSLATEDIR}/1.translation.en.json.0 > ${TRANSLATEDIR}/1.translation.en.json
 	node /app/translation-json-generator.js -i ${TRANSLATEDIR}/1.input.jsonld -m en -g de -o ${TRANSLATEDIR}/1.translation.de.json.0
 	jq -S . ${TRANSLATEDIR}/1.translation.de.json.0 > ${TRANSLATEDIR}/1.translation.de.json
+	echo " > translation updating"
+	node /app/translation-json-update.js -i ${TRANSLATEDIR}/2.translation.nl.json -f ${TRANSLATEDIR}/2.input.jsonld -m en -g nl -o ${TRANSLATEDIR}/2.output.nl.json.0
+	jq -S . ${TRANSLATEDIR}/2.output.nl.json.0 > ${TRANSLATEDIR}/2.output.nl.json
+	node /app/translation-json-update.js -i ${TRANSLATEDIR}/2.translation.nl.json -f ${TRANSLATEDIR}/3.input.jsonld -m en -g nl -o ${TRANSLATEDIR}/3.output.nl.json.0
+	jq -S . ${TRANSLATEDIR}/3.output.nl.json.0 > ${TRANSLATEDIR}/3.output.nl.json
+
