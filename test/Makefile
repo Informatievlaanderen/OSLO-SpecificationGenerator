@@ -77,3 +77,18 @@ html:
 	cp ../views/*.j2 ${HTMLDIR}/templates
 	node /app/html-generator2.js -s ap -t 1.template.j2 -d ${HTMLDIR}/templates -f -h https://data.vlaanderen.be/ -r /doc/vocabulary -x ${HTMLDIR}/1.html-nj.json.0  -m en -e /tmp -i ${HTMLDIR}/1.input.jsonld -o ${HTMLDIR}/1.output.html
 	jq -S . ${HTMLDIR}/1.html-nj.json.0 > ${HTMLDIR}/1.html-nj.json
+
+PRETTYPRINTDIR=${TESTDIR}/pretty-print
+prettyprint:
+	node /app/pretty-print.js -i ${PRETTYPRINTDIR}/1.input.jsonld -o ${PRETTYPRINTDIR}/1.output.jsonld.0
+	jq . ${PRETTYPRINTDIR}/1.output.jsonld.0 > ${PRETTYPRINTDIR}/1.output.jsonld
+	node /app/pretty-print.js --descending -i ${PRETTYPRINTDIR}/1.input.jsonld -o ${PRETTYPRINTDIR}/2.output.jsonld.0
+	jq . ${PRETTYPRINTDIR}/2.output.jsonld.0 > ${PRETTYPRINTDIR}/2.output.jsonld
+	node /app/pretty-print.js -i ${PRETTYPRINTDIR}/1.input.jsonld -o ${PRETTYPRINTDIR}/3.output.jsonld.0 
+	jq . ${PRETTYPRINTDIR}/3.output.jsonld.0 > ${PRETTYPRINTDIR}/3.output.jsonld
+	node /app/pretty-print.js -i ${PRETTYPRINTDIR}/1.input.jsonld -o ${PRETTYPRINTDIR}/4.output.jsonld.0 --sortAttributes 'foaf:FirstName'
+	jq . ${PRETTYPRINTDIR}/4.output.jsonld.0 > ${PRETTYPRINTDIR}/4.output.jsonld
+	node /app/pretty-print.js -i ${PRETTYPRINTDIR}/1.input.jsonld -o ${PRETTYPRINTDIR}/5.output.jsonld.0 --sortkeys 'editors' --sortAttributes 'asc:foaf:firstName'
+	jq . ${PRETTYPRINTDIR}/5.output.jsonld.0 > ${PRETTYPRINTDIR}/5.output.jsonld
+	node /app/pretty-print.js -i ${PRETTYPRINTDIR}/1.input.jsonld -o ${PRETTYPRINTDIR}/6.output.jsonld.0 --sortkeys 'editors' --sortAttributes 'desc:foaf:firstName'
+	jq . ${PRETTYPRINTDIR}/6.output.jsonld.0 > ${PRETTYPRINTDIR}/6.output.jsonld

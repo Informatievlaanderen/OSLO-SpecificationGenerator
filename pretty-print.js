@@ -1,87 +1,81 @@
-const fs = require('fs');  
+const fs = require('fs')
+const program = require('commander')
 
-let arguments = Array.prototype.slice.call(process.argv, 2);
-let inputPath;
-let outputPath;
-let keysToSort = ["authors", "editors", "contributors"];
+program
+  .version('0.8.0')
+  .usage('pretty-print a json-ld context')
+  .option('-i, --input <path>', 'input file (a jsonld file)')
+  .option('-o, --output <path>', 'output file (the context)')
+  .option('-s, --sortkeys [keys...]', 'keys to sort on', ['authors', 'editors', 'contributors'])
+  .option('-a, --sortAttributes [attributes...]', 'attributes to sort on. Use prefixes to set sorting order per attribute as asc: or desc: ', ['foaf:lastName', 'foaf:FirstName'])
+  .option('--descending', 'set global sorting order to descending (ascending default)', false)
 
-//reading the arguments in cmd
-if (arguments.shift() == "--input")
-{
-    inputPath = arguments.shift();
+program.on('--help', function () {
+  console.log('')
+  console.log('Examples:')
+  console.log('  $ pretty-print --help')
+  console.log('  $ pretty-print -i <input> -o <output>')
+})
+
+program.parse(process.argv)
+const options = program.opts()
+
+// Import Json-LD file and parse it + select the authors part from that file
+const dataFile = fs.readFileSync(options.input)
+let parsedData = JSON.parse(dataFile)
+
+// Create objects from these arguments and put them in the attributes array
+const attributes = []
+
+for (const index in options.sortAttributes) {
+  let ascending = options.descending
+  let element = options.sortAttributes[index]
+  if (element.startsWith('asc:')) {
+    ascending = true
+    element = element.substring(4, element.length)
+  }
+  if (element.startsWith('desc:')) {
+    ascending = false
+    element = element.substring(5, element.length)
+  }
+
+  //   console.log(element)
+  //   console.log(ascending)
+  attributes.push({ ascending: ascending, attribute: element })
 }
-else
-{
-    throw new Error("Should provide input file")
-}
-if(arguments.shift() == "--output")
-{
-    outputPath = arguments.shift();
-}
-else
-{
-    throw new Error("Should provide output file")
-}
 
-//Import Json-LD file and parse it + select the authors part from that file
-let dataFile = fs.readFileSync(inputPath);
-let parsedData = JSON.parse(dataFile);
-
-//Create objects from these arguments and put them in the attributes array
-var attributes = [];
-
-for (let index = 0; index < arguments.length; index++) 
-{
-    let ascending = true;
-    if (arguments[index] == "--descending") 
-    {
-        ascending = false;
-        index++;
+// Sort on the attributes
+const sortOnAttributes = function (a, b) {
+//   console.log(attributes)
+  for (let index = 0; index < attributes.length; index++) {
+    const element = attributes[index]
+    //     console.log(element)
+    if (element.ascending) {
+      if (a[element.attribute] < b[element.attribute]) { return -1 }
+      if (a[element.attribute] > b[element.attribute]) { return 1 }
+    } else {
+      if (a[element.attribute] < b[element.attribute]) { return 1 }
+      if (a[element.attribute] > b[element.attribute]) { return -1 }
     }
+  }
 
-    const element = arguments[index];
-    attributes.push({ascending: ascending, attribute: element});
+  return 0
 }
 
-//Sort on the attributes 
-let sortOnAttributes = function(a, b)
-{
-    debugger;
-    for (let index = 0; index < attributes.length; index++) 
-    {
-        const element = attributes[index];
-        if (element.ascending) 
-        {
-            if (a[element.attribute] < b[element.attribute]) 
-                return -1;
-            if (a[element.attribute] > b[element.attribute])
-                return 1;
-        }
-        else
-        {
-            if (a[element.attribute] < b[element.attribute]) 
-                return 1;
-            if (a[element.attribute] > b[element.attribute])
-                return -1;
-        }
-    }
-  
-    return 0;
+// sorts a certain key within a hash with the given function
+const sortOnKey = function (hash, key, sortFunction) {
+  const arrayToSort = hash[key]
+  //   console.log(arrayToSort)
+  hash[key] = arrayToSort.sort(sortFunction)
+  //   console.log(hash[key])
+  return hash
 }
 
-//sorts a certain key within a hash with the given function
-let sortOnKey = function(hash, key, sortFunction)
-{
-    let arrayToSort = hash[key];
-    hash[key] = arrayToSort.sort(sortFunction);
-    return hash;
+// loops through the keys in the keyToSort array and apply the sortOnAttributes function
+for (const key in options.sortkeys) {
+//   console.log(options.sortkeys[key])
+  parsedData = sortOnKey(parsedData, options.sortkeys[key], sortOnAttributes)
 }
 
-//loops through the keys in the keyToSort array and apply the sortOnAttributes function
-for(key in keysToSort)
-{
-    parsedData = sortOnKey(parsedData, keysToSort[key], sortOnAttributes);
-}
-
-//Output and write to file
-fs.writeFileSync(outputPath, JSON.stringify(parsedData, null, 4));
+// Output and write to file
+fs.writeFileSync(options.output, JSON.stringify(parsedData, null, 4))
