@@ -1,7 +1,7 @@
 const fs = require('fs')
 const papaparse = require('papaparse')
 
-var program = require('commander')
+const program = require('commander')
 
 program
   .version('1.0.0')
@@ -21,9 +21,10 @@ program.on('--help', function () {
 })
 
 program.parse(process.argv)
+const options = program.opts()
 
-var output = program.output || 'output.json'
-var csvoptions = {
+const output = options.output || 'output.json'
+const csvoptions = {
   header: true,
   skipEmptyLines: true,
   complete: function (results) {
@@ -31,17 +32,17 @@ var csvoptions = {
   }
 }
 
-render_csv(program.template, program.input, output)
+render_csv(options.template, options.input, output)
 console.log('done')
 
-function render_csv(templatefile, csvfilename, output) {
+function render_csv (templatefile, csvfilename, output) {
   console.log('start reading')
-  var template = fs.readFileSync(templatefile, 'utf-8')
-  var csvf = fs.readFileSync(csvfilename, 'utf-8')
-  var csv = papaparse.parse(csvf, csvoptions)
+  const template = fs.readFileSync(templatefile, 'utf-8')
+  const csvf = fs.readFileSync(csvfilename, 'utf-8')
+  const csv = papaparse.parse(csvf, csvoptions)
 
-  var pt = parse_template(template)
-  var ren = render_template(pt, csv.data)
+  const pt = parse_template(template)
+  const ren = render_template(pt, csv.data)
 
   const writeStream = fs.createWriteStream(output)
 
@@ -56,15 +57,15 @@ function render_csv(templatefile, csvfilename, output) {
   console.log('finished rendering to ' + output)
 };
 
-function parse_template(file) {
-  var parsed_template = {
+function parse_template (file) {
+  const parsed_template = {
     pt_full: [],
     pt_vars: []
   }
 
-  var file1 = file.split('{{')
-  var file2 = []
-  for (i in file1) {
+  const file1 = file.split('{{')
+  let file2 = []
+  for (let i in file1) {
     file2 = file2.concat(file1[i].split('}}'))
   };
   parsed_template.pt_full = file2
@@ -72,19 +73,19 @@ function parse_template(file) {
   return parsed_template
 }
 
-function render_template(parsed_template, data) {
-  var renderedData = []
-  for (i in data) {
+function render_template (parsed_template, data) {
+  const renderedData = []
+  for (let i in data) {
     renderedData[i] = render_template_single(parsed_template, data[i])
   }
   return renderedData
 };
 
-function render_template_single(parsed_template, data) {
+function render_template_single (parsed_template, data) {
   let render = ''
-  for (i in parsed_template.pt_full) {
+  for (let i in parsed_template.pt_full) {
     const reminder = i % 2
-    if (reminder == 0) {
+    if (reminder === 0) {
       render = render + parsed_template.pt_full[i]
     } else {
       render = render + data[parsed_template.pt_full[i]]
@@ -93,9 +94,9 @@ function render_template_single(parsed_template, data) {
   return render
 }
 
-function write_data(stream, data) {
+function write_data (stream, data) {
   stream.write('[')
-  for (i in data) {
+  for (let i in data) {
     stream.write(data[i])
     stream.write(',')
   }
