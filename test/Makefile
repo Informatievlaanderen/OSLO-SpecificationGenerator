@@ -65,3 +65,8 @@ translate:
 	node /app/generate-translation-report.js -i ${TRANSLATEDIR}/1.translation.nl.json -l nl -o ${TRANSLATEDIR}/1.report.nl.txt
 	node /app/generate-translation-report.js -i ${TRANSLATEDIR}/1.translation.en.json -l en -o ${TRANSLATEDIR}/1.report.en.txt
 	node /app/generate-translation-report.js -i ${TRANSLATEDIR}/1.translation.de.json -l de -o ${TRANSLATEDIR}/1.report.de.txt
+
+
+MUCONFIGDIR=${TESTDIR}/mu-config-generator
+mu-config:
+	node /app/mu-config-generator.js -i ${MUCONFIGDIR}/1.input.jsonld -l en -o ${MUCONFIGDIR}
