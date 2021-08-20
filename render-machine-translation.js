@@ -1,9 +1,9 @@
 const jsonfile = require('jsonfile')
-const axios = require('axios').default;
-const { v4: uuidv4 } = require('uuid');
-var program = require('commander')
+const axios = require('axios').default
+const { v4: uuidv4 } = require('uuid')
+const program = require('commander')
 
-var endpoint = "https://api.cognitive.microsofttranslator.com";
+const endpoint = 'https://api.cognitive.microsofttranslator.com'
 
 program
   .version('1.0.0')
@@ -23,89 +23,90 @@ program.on('--help', function () {
 })
 
 program.parse(process.argv)
-var subscriptionKey = program.subscriptionKey;
-var location = program.location;
+const options = program.opts()
 
-translateFile(program.input, program.mainLanguage, program.goalLanguage, program.output)
+const subscriptionKey = options.subscriptionKey
+const location = options.location
+
+translateFile(options.input, options.mainLanguage, options.goalLanguage, options.output)
 console.log('done')
 
 /* ---- end of the program --- */
-// 
-function translateFile(filename, mainlanguage, goallanguage, outputfilename) {
+//
+function translateFile (filename, mainlanguage, goallanguage, outputfilename) {
   console.log('Input: ' + filename)
   console.log('Main Language: ' + mainlanguage)
   console.log('Goal Language: ' + goallanguage)
   console.log('Output: ' + outputfilename)
-  console.log('start reading');
+  console.log('start reading')
 
   jsonfile.readFile(filename)
     .then(
       function (input) {
-        console.log('start processing');
+        console.log('start processing')
 
         createMachineTranslatedFile(input, mainlanguage, goallanguage).then((myJson) => {
           jsonfile.writeFile(outputfilename, myJson)
             .then(res => {
-              console.log('Write translated file complete, saved to: ' + outputfilename);
+              console.log('Write translated file complete, saved to: ' + outputfilename)
             })
-            .catch(error => { console.error(error); process.exitCode = 1; })
+            .catch(error => { console.error(error); process.exitCode = 1 })
         })
-          .catch(error => { console.error(error); process.exitCode = 1; })
+          .catch(error => { console.error(error); process.exitCode = 1 })
       })
-    .catch(error => { console.error(error); process.exitCode = 1; })
+    .catch(error => { console.error(error); process.exitCode = 1 })
 }
 
-//Picks only classes and properties (only fields where translations happen) and adds translated values
-async function createMachineTranslatedFile(input, mainlanguage, goallanguage) {
+// Picks only classes and properties (only fields where translations happen) and adds translated values
+async function createMachineTranslatedFile (input, mainlanguage, goallanguage) {
   try {
     console.log('creating translated file')
-    var myJson = new Object
-    myJson = input
+    let myJson = input
     myJson.classes = await getTranslatedArrays(input.classes, mainlanguage, goallanguage)
     myJson.properties = await getTranslatedArrays(input.properties, mainlanguage, goallanguage)
-    myJson["externals"] = await getTranslatedArrays(input["externals"], mainlanguage, goallanguage)
-    myJson["externalproperties"] = await getTranslatedArrays(input["externalproperties"], mainlanguage, goallanguage)
+    myJson.externals = await getTranslatedArrays(input.externals, mainlanguage, goallanguage)
+    myJson.externalproperties = await getTranslatedArrays(input.externalproperties, mainlanguage, goallanguage)
     return myJson
   } catch (error) {
-    console.error("An error occured while reading the input (function createMachineTranslatedFile)")
-    console.error("error", error);
+    console.error('An error occured while reading the input (function createMachineTranslatedFile)')
+    console.error('error', error)
   }
 }
 
-//Iterate through array of the input and translate fields that have yet to be translated,
-//Create new translated array for the updated objects
-async function getTranslatedArrays(inputArray, mainlanguage, goallanguage) {
+// Iterate through array of the input and translate fields that have yet to be translated,
+// Create new translated array for the updated objects
+async function getTranslatedArrays (inputArray, mainlanguage, goallanguage) {
   console.log('Checking array...')
 
-  var newArray = new Array()
+  const newArray = []
   try {
-    for (var i = 0; i < inputArray.length; i++) {
-      var currObject = inputArray[i]
+    for (let i = 0; i < inputArray.length; i++) {
+      const currObject = inputArray[i]
       if (currObject != null) {
-        var newObject = await translateAnObject(currObject, mainlanguage, goallanguage)
+        const newObject = await translateAnObject(currObject, mainlanguage, goallanguage)
         newArray.push(newObject)
       }
     }
     return newArray
   } catch (error) {
-    console.error("An error occured while iterating over an input array (function getTranslatedArrays)")
-    console.error("error", error);
+    console.error('An error occured while iterating over an input array (function getTranslatedArrays)')
+    console.error('error', error)
   }
 }
 
-//Translate one object
-//Translates existing attributes only if the value of the goallanguage for the given attribute exists and is either empty or "Enter your translation here"
-//Already existing translations will not be re-translated
-async function translateAnObject(object, mainlanguage, goallanguage) {
+// Translate one object
+// Translates existing attributes only if the value of the goallanguage for the given attribute exists and is either empty or "Enter your translation here"
+// Already existing translations will not be re-translated
+async function translateAnObject (object, mainlanguage, goallanguage) {
   try {
-    for (let key in object) {
+    for (const key in object) {
       if (!(object[key] === undefined) && !(object[key][mainlanguage] === undefined)) {
         if (!(object[key][goallanguage] === undefined) && (
-          object[key][goallanguage] == 'Enter your translation here' ||
-          (object[key][goallanguage] == "" && object[key][mainlanguage] != ""))) {
-          var machinetranslated = goallanguage + "-t-" + mainlanguage
+          object[key][goallanguage] === 'Enter your translation here' ||
+          (object[key][goallanguage] === '' && object[key][mainlanguage] !== ''))) {
+          const machinetranslated = goallanguage + '-t-' + mainlanguage
           if (object[key][machinetranslated] === undefined) {
-            var translation = await receiveAzureTranslation(object[key][mainlanguage], mainlanguage, goallanguage)
+            const translation = await receiveAzureTranslation(object[key][mainlanguage], mainlanguage, goallanguage)
             object[key][machinetranslated] = await checkForUpperCase(object[key][mainlanguage], translation)
           }
         }
@@ -113,30 +114,30 @@ async function translateAnObject(object, mainlanguage, goallanguage) {
     }
     return object
   } catch (error) {
-    console.error("An error occured while reading values of the object (function translateAnObject)")
-    console.error("error", error);
+    console.error('An error occured while reading values of the object (function translateAnObject)')
+    console.error('error', error)
   }
 }
 
-async function checkForUpperCase(original, translated) {
+async function checkForUpperCase (original, translated) {
   try {
-    if (translated != null && translated != "") {
-      var firstCharTranslated = translated.charAt(0)
-      var firstCharOriginal = original.charAt(0)
-      if (firstCharTranslated == firstCharTranslated.toUpperCase() && firstCharOriginal != firstCharOriginal.toUpperCase()) {
+    if (translated !== null && translated !== '') {
+      const firstCharTranslated = translated.charAt(0)
+      const firstCharOriginal = original.charAt(0)
+      if (firstCharTranslated === firstCharTranslated.toUpperCase() && firstCharOriginal !== firstCharOriginal.toUpperCase()) {
         return translated.toLowerCase()
       }
     }
     return translated
   } catch (error) {
-    console.error("An error occured while transforming the translation to lowercase (function checkForUpperCase)")
-    console.error("error: ", error);
+    console.error('An error occured while transforming the translation to lowercase (function checkForUpperCase)')
+    console.error('error: ', error)
   }
 }
 
-async function receiveAzureTranslation(line, mainlanguage, goallanguage) {
+async function receiveAzureTranslation (line, mainlanguage, goallanguage) {
   try {
-    var translationjson = await axios({
+    const translationjson = await axios({
       baseURL: endpoint,
       url: '/translate',
       method: 'post',
@@ -148,18 +149,18 @@ async function receiveAzureTranslation(line, mainlanguage, goallanguage) {
       },
       params: {
         'api-version': '3.0',
-        'from': mainlanguage,
-        'to': [goallanguage]
+        from: mainlanguage,
+        to: [goallanguage]
       },
       data: [{
-        'text': line
+        text: line
       }],
       responseType: 'json'
     })
-    console.log("Translation of " + line + ": " + translationjson["data"][0]["translations"][0]["text"])
-    return translationjson["data"][0]["translations"][0]["text"]
+    console.log('Translation of ' + line + ': ' + translationjson.data[0].translations[0].text)
+    return translationjson.data[0].translations[0].text
   } catch (error) {
-    console.error("An error occured while receiving the translated value from Azure (function receiveAzureTranslation)")
-    console.error("error: ", error);
+    console.error('An error occured while receiving the translated value from Azure (function receiveAzureTranslation)')
+    console.error('error: ', error)
   }
 }
