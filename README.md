@@ -14,10 +14,9 @@ In addition some closely related tools are:
 
 ## build
 
-This is a node.js project for node >= version 10.
+This is a node.js project for node >= version 14.
 
 ```
-npm set unsafe-perm true
 npm install
 ```
 
@@ -29,6 +28,8 @@ To run any of the tools is done on the commandline as:
 > node <tool>.js --help
 ```
 which will give a short help about the tool.
+
+Examples are found in the test-suite Makefile
 
 
 ## code style
