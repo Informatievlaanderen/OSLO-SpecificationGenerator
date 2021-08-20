@@ -1,9 +1,9 @@
-const fs = require("fs");
-const jsonfile = require('jsonfile');
-const nunjucks = require('nunjucks');
-const ldParser = require('./linkeddataparser3');
+const fs = require('fs')
+const jsonfile = require('jsonfile')
+const nunjucks = require('nunjucks')
+const ldParser = require('./linkeddataparser3')
 
-var program = require('commander');
+const program = require('commander')
 
 program
   .version('1.0.0')
@@ -20,125 +20,123 @@ program
   .option('-o, --output <path>', 'output file (the html file)')
   .option('-e, --tempdir [directory]', 'the directory for intermediate processing')
 
-
-
 program.on('--help', function () {
   console.log('')
-  console.log('Examples:');
-  console.log('  $ html-generator2 --help');
-  console.log('  $ html-generator2 -s <target> -t <template> -m <mainlanguage> -d <template directory> -i <input> -o <output>');
-});
+  console.log('Examples:')
+  console.log('  $ html-generator2 --help')
+  console.log('  $ html-generator2 -s <target> -t <template> -m <mainlanguage> -d <template directory> -i <input> -o <output>')
+})
 
-program.parse(process.argv);
+program.parse(process.argv)
+const options = program.opts()
 
-var templatedir = program.templatedir || '/app/views';
-var templatedir = program.templatedir || './views/';
+let templatedir = options.templatedir || '/app/views' // default path when using docker build
+templatedir = options.templatedir || './views/' // default path when using local build
 nunjucks.configure(templatedir, {
   autoescape: true
-});
+})
 
-render_html_from_json_ld_file(program.style, program.template, program.input, program.output, program.mainlanguage);
+render_html_from_json_ld_file(options.style, options.template, options.input, options.output, options.mainlanguage)
 
-console.log('done');
+console.log('done')
 
-function render_html_from_json_ld_file(target, template, filename, output_filename, language) {
-  console.log('start reading');
+function render_html_from_json_ld_file (target, template, filename, output_filename, language) {
+  console.log('start reading')
   jsonfile.readFile(filename)
     .then(
       function (obj) {
-        console.log('start processing');
-        var promise = {};
-        var hostname = program.hostname;
-        const forceskos = program.forceskos ? true : false;
+        console.log('start processing')
+        let promise = {}
+        const hostname = options.hostname
+        const forceskos = !!options.forceskos
         switch (target) {
-          case "voc":
-            promise = ldParser.parse_ontology_from_json_ld_file_voc(filename, hostname, language);
-            break;
-          case "ap":
-            promise = ldParser.parse_ontology_from_json_ld_file_all(filename, hostname, forceskos, language);
-            break;
-          case "oj":
-            promise = ldParser.parse_ontology_from_json_ld_file_oj(filename, hostname, forceskos, language);
-            break;
+          case 'voc':
+            promise = ldParser.parse_ontology_from_json_ld_file_voc(filename, hostname, language)
+            break
+          case 'ap':
+            promise = ldParser.parse_ontology_from_json_ld_file_all(filename, hostname, forceskos, language)
+            break
+          case 'oj':
+            promise = ldParser.parse_ontology_from_json_ld_file_oj(filename, hostname, forceskos, language)
+            break
           default:
-            console.log("unknown or not provided target for the html rendering");
+            console.log('unknown or not provided target for the html rendering')
         };
 
         promise.then(function (parsed_json) {
-          parsed_json.documentroot = program.documentpath;
-          if (program.debug) {
-            jsonfile.writeFile(program.debug, parsed_json, function (err) {
+          parsed_json.documentroot = options.documentpath
+          if (options.debug) {
+            jsonfile.writeFile(options.debug, parsed_json, function (err) {
               if (err) {
-                process.exitCode = 1;
-                console.error(err);
-                throw err; s
+                process.exitCode = 1
+                console.error(err)
+                throw err
               }
             })
           };
           parsed_json.namespaces = getNamespaces(obj)
-          var html = nunjucks.render(template, parsed_json);
+          const html = nunjucks.render(template, parsed_json)
 
-          const data = new Uint8Array(Buffer.from(html));
+          const data = new Uint8Array(Buffer.from(html))
 
-          console.log('start writing');
+          console.log('start writing')
           fs.writeFile(output_filename, data, (err) => {
             if (err) {
               process.exitCode = 1
-              throw err;
+              throw err
             }
-            console.log('The file has been saved to ' + output_filename);
-          });
-
-        }).catch(error => { console.error(error); process.exitCode = 1; });
+            console.log('The file has been saved to ' + output_filename)
+          })
+        }).catch(error => { console.error(error); process.exitCode = 1 })
       })
-    .catch(error => { console.error(error); process.exitCode = 1; })
+    .catch(error => { console.error(error); process.exitCode = 1 })
 }
 
-function getNamespaces(myJson) {
-  console.log("Checking Namespaces")
-  var namespaces = []
+function getNamespaces (myJson) {
+  console.log('Checking Namespaces')
+  let namespaces = []
 
   for (let i = 0; i < myJson.classes.length; i++) {
-    let currClass = myJson.classes[i]
-    namespaces = pushNampespace(currClass["@id"], namespaces)
-    for (let p = 0; p < currClass["parents"]; p++) {
-      namespaces = pushNampespace(currClass["parents"][p], namespaces)
+    const currClass = myJson.classes[i]
+    namespaces = pushNampespace(currClass['@id'], namespaces)
+    for (let p = 0; p < currClass.parents; p++) {
+      namespaces = pushNampespace(currClass.parents[p], namespaces)
     }
   }
 
   for (let j = 0; j < myJson.properties.length; j++) {
-    let currProperty = myJson.properties[j]
-    namespaces = pushNampespace(currProperty["@id"], namespaces)
-    for (let r = 0; r < currProperty["range"]; r++) {
-      namespaces = pushNampespace(currClass["range"][r], namespaces)
+    const currProperty = myJson.properties[j]
+    namespaces = pushNampespace(currProperty['@id'], namespaces)
+    for (let r = 0; r < currProperty.range; r++) {
+      namespaces = pushNampespace(currProperty.range[r], namespaces)
     }
-    for (let d = 0; d < currProperty["domain"]; d++) {
-      namespaces = pushNampespace(currClass["domain"][d], namespaces)
+    for (let d = 0; d < currProperty.domain; d++) {
+      namespaces = pushNampespace(currProperty.domain[d], namespaces)
     }
   }
 
-  namespaces = pushNampespace(myJson["@id"], namespaces)
-  console.log("Finished")
+  namespaces = pushNampespace(myJson['@id'], namespaces)
+  console.log('Finished')
   return namespaces
 }
 
-function pushNampespace(uri, namespaces) {
-  if (!(uri === undefined) && uri != null && uri != "") {
-    var lastIndex = uri.lastIndexOf('/')
-    var lastPart = uri.substring(lastIndex)
+function pushNampespace (uri, namespaces) {
+  if (!(uri === undefined) && uri !== null && uri !== '') {
+    const lastIndex = uri.lastIndexOf('/')
+    const lastPart = uri.substring(lastIndex)
     if (!lastPart.includes('#') && (uri.substring(0, lastIndex).length > 7)) {
       namespaces = push(namespaces, uri.substring(0, lastIndex))
     } else if (!lastPart.includes('#') && (uri.substring(0, lastIndex).length <= 7)) {
       namespaces = push(namespaces, uri)
     } else {
-      var lastHash = uri.lastIndexOf('#')
+      const lastHash = uri.lastIndexOf('#')
       namespaces = push(namespaces, uri.substring(0, lastHash))
     }
   }
   return namespaces
 }
 
-function push(namespaces, value) {
+function push (namespaces, value) {
   if (!namespaces.includes(value)) {
     namespaces.push(value)
   }

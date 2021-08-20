@@ -1,0 +1,3814 @@
+{
+  "classes": [
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [],
+      "properties": [],
+      "sort": "",
+      "uri": "http://fixme.com/#deviceClass",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [],
+      "properties": [
+        {
+          "cardinality": "0..*",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "PropertyType",
+              "uri": "http://def.isotc211.org/iso19109/2005/GeneralFeatureModel#GF_PropertyType"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "Sensor",
+              "range_uri": "https://www.w3.org/TR/vocab-ssn/#SOSASensor"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "Sensor"
+              },
+              "range_puri": "https://www.w3.org/TR/vocab-ssn/#SOSASensor",
+              "range_uri": "#Sensor"
+            }
+          ],
+          "sort": "",
+          "uri": "http://www.w3.org/ns/sosa/isObservedBy",
+          "usage": {}
+        }
+      ],
+      "sort": "",
+      "uri": "http://def.isotc211.org/iso19109/2005/GeneralFeatureModel#GF_PropertyType",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [],
+      "properties": [],
+      "sort": "",
+      "uri": "http://def.isotc211.org/iso19115/2006/DataQualityInformation#DQ_Element",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [],
+      "properties": [],
+      "sort": "",
+      "uri": "http://def.isotc211.org/iso19115/2006/DataQualityInformation#LI_Lineage",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [],
+      "properties": [
+        {
+          "cardinality": "0..1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Metadata",
+              "uri": "http://def.isotc211.org/iso19115/2006/MetadataEntitySetInformation#MD_Metadata"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [],
+          "scopedrange": [],
+          "sort": "",
+          "uri": "http://purl.org/dc/elements/1.1/contributor",
+          "usage": {}
+        },
+        {
+          "cardinality": "0..1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Metadata",
+              "uri": "http://def.isotc211.org/iso19115/2006/MetadataEntitySetInformation#MD_Metadata"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [],
+          "scopedrange": [],
+          "sort": "",
+          "uri": "http://purl.org/dc/elements/1.1/creator",
+          "usage": {}
+        },
+        {
+          "cardinality": "0..1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Metadata",
+              "uri": "http://def.isotc211.org/iso19115/2006/MetadataEntitySetInformation#MD_Metadata"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [],
+          "scopedrange": [],
+          "sort": "",
+          "uri": "http://purl.org/dc/elements/1.1/description",
+          "usage": {}
+        },
+        {
+          "cardinality": "0..1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Metadata",
+              "uri": "http://def.isotc211.org/iso19115/2006/MetadataEntitySetInformation#MD_Metadata"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [],
+          "scopedrange": [],
+          "sort": "",
+          "uri": "http://purl.org/dc/elements/1.1/identifier",
+          "usage": {}
+        },
+        {
+          "cardinality": "0..1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Metadata",
+              "uri": "http://def.isotc211.org/iso19115/2006/MetadataEntitySetInformation#MD_Metadata"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [],
+          "scopedrange": [],
+          "sort": "",
+          "uri": "http://purl.org/dc/elements/1.1/publisher",
+          "usage": {}
+        },
+        {
+          "cardinality": "0..1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Metadata",
+              "uri": "http://def.isotc211.org/iso19115/2006/MetadataEntitySetInformation#MD_Metadata"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [],
+          "scopedrange": [],
+          "sort": "",
+          "uri": "http://purl.org/dc/elements/1.1/rights",
+          "usage": {}
+        },
+        {
+          "cardinality": "0..1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Metadata",
+              "uri": "http://def.isotc211.org/iso19115/2006/MetadataEntitySetInformation#MD_Metadata"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [],
+          "scopedrange": [],
+          "sort": "",
+          "uri": "http://purl.org/dc/elements/1.1/subject",
+          "usage": {}
+        },
+        {
+          "cardinality": "0..1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Metadata",
+              "uri": "http://def.isotc211.org/iso19115/2006/MetadataEntitySetInformation#MD_Metadata"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [],
+          "scopedrange": [],
+          "sort": "",
+          "uri": "http://purl.org/dc/elements/1.1/title",
+          "usage": {}
+        }
+      ],
+      "sort": "",
+      "uri": "http://def.isotc211.org/iso19115/2006/MetadataEntitySetInformation#MD_Metadata",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [],
+      "properties": [
+        {
+          "cardinality": "1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Observation",
+              "uri": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation"
+            }
+          ],
+          "label": {
+            "en": "feature of interest"
+          },
+          "name": "",
+          "range": [
+            {
+              "range_label": "Feature",
+              "range_uri": "https://def.isotc211.org/iso19156/2011/GeneralFeatureInstance#GFI_Feature"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "Feature"
+              },
+              "range_puri": "https://def.isotc211.org/iso19156/2011/GeneralFeatureInstance#GFI_Feature",
+              "range_uri": "#Feature"
+            }
+          ],
+          "sort": "feature of interest",
+          "uri": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation.featureOfInterest",
+          "usage": {}
+        },
+        {
+          "cardinality": "0..1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Observation",
+              "uri": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "Metadata",
+              "range_uri": "http://def.isotc211.org/iso19115/2006/MetadataEntitySetInformation#MD_Metadata"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "Metadata"
+              },
+              "range_puri": "http://def.isotc211.org/iso19115/2006/MetadataEntitySetInformation#MD_Metadata",
+              "range_uri": "#Metadata"
+            }
+          ],
+          "sort": "",
+          "uri": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation.metadata",
+          "usage": {}
+        },
+        {
+          "cardinality": "0..*",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Observation",
+              "uri": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "NamedValue",
+              "range_uri": "https://def.isotc211.org/iso19156/2011/Observation#NamedValue"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "NamedValue"
+              },
+              "range_puri": "https://def.isotc211.org/iso19156/2011/Observation#NamedValue",
+              "range_uri": "#NamedValue"
+            }
+          ],
+          "sort": "",
+          "uri": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation.parameter",
+          "usage": {}
+        },
+        {
+          "cardinality": "1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Observation",
+              "uri": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "TM_Object",
+              "range_uri": "http://def.isotc211.org/iso19108/2006/TemporalObjects#TM_Object"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "TM_Object"
+              },
+              "range_puri": "http://def.isotc211.org/iso19108/2006/TemporalObjects#TM_Object",
+              "range_uri": "#TM_Object"
+            }
+          ],
+          "sort": "",
+          "uri": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation.phenomenonTime",
+          "usage": {}
+        },
+        {
+          "cardinality": "0..*",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Observation",
+              "uri": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "DQ_Element",
+              "range_uri": "http://def.isotc211.org/iso19115/2006/DataQualityInformation#DQ_Element"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "DQ_Element"
+              },
+              "range_puri": "http://def.isotc211.org/iso19115/2006/DataQualityInformation#DQ_Element",
+              "range_uri": "#DQ_Element"
+            }
+          ],
+          "sort": "",
+          "uri": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation.resultQuality",
+          "usage": {}
+        },
+        {
+          "cardinality": "1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Observation",
+              "uri": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "DateTime",
+              "range_uri": "http://www.w3.org/2001/XMLSchema#dateTime"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "DateTime"
+              },
+              "range_puri": "http://www.w3.org/2001/XMLSchema#dateTime",
+              "range_uri": "http://www.w3.org/2001/XMLSchema#dateTime"
+            }
+          ],
+          "sort": "",
+          "uri": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation.resultTime",
+          "usage": {}
+        },
+        {
+          "cardinality": "1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Observation",
+              "uri": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "Result",
+              "range_uri": "http://def.isotc211.org/iso19156/2011/Observation#Result"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "Result"
+              },
+              "range_puri": "http://def.isotc211.org/iso19156/2011/Observation#Result",
+              "range_uri": "#Result"
+            }
+          ],
+          "sort": "",
+          "uri": "http://def.isotc211.org/iso19156/2011/Observation#Observation.result",
+          "usage": {}
+        },
+        {
+          "cardinality": "0..*",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Observation",
+              "uri": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "Observation",
+              "range_uri": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "Observation"
+              },
+              "range_puri": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation",
+              "range_uri": "#Observation"
+            }
+          ],
+          "sort": "",
+          "uri": "http://def.isotc211.org/iso19156/2011/Observation#ObservationContext.relatedObservation",
+          "usage": {}
+        },
+        {
+          "cardinality": "1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Observation",
+              "uri": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "Literal",
+              "range_uri": "http://www.w3.org/2000/01/rdf-schema#Literal"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "Literal"
+              },
+              "range_puri": "http://www.w3.org/2000/01/rdf-schema#Literal",
+              "range_uri": "http://www.w3.org/2000/01/rdf-schema#Literal"
+            }
+          ],
+          "sort": "",
+          "uri": "http://www.w3.org/ns/sosa/hasSimpleResult",
+          "usage": {}
+        },
+        {
+          "cardinality": "1..*",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Observation",
+              "uri": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "Feature",
+              "range_uri": "https://def.isotc211.org/iso19156/2011/GeneralFeatureInstance#GFI_Feature"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "Feature"
+              },
+              "range_puri": "https://def.isotc211.org/iso19156/2011/GeneralFeatureInstance#GFI_Feature",
+              "range_uri": "#Feature"
+            }
+          ],
+          "sort": "",
+          "uri": "http://www.w3.org/ns/sosa/hasUltimateFeatureOfInterest",
+          "usage": {}
+        },
+        {
+          "cardinality": "1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Observation",
+              "uri": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "Sensor",
+              "range_uri": "https://www.w3.org/TR/vocab-ssn/#SOSASensor"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "Sensor"
+              },
+              "range_puri": "https://www.w3.org/TR/vocab-ssn/#SOSASensor",
+              "range_uri": "#Sensor"
+            }
+          ],
+          "sort": "",
+          "uri": "http://www.w3.org/ns/sosa/madeBySensor",
+          "usage": {}
+        },
+        {
+          "cardinality": "1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Observation",
+              "uri": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "PropertyType",
+              "range_uri": "http://def.isotc211.org/iso19109/2005/GeneralFeatureModel#GF_PropertyType"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "PropertyType"
+              },
+              "range_puri": "http://def.isotc211.org/iso19109/2005/GeneralFeatureModel#GF_PropertyType",
+              "range_uri": "#PropertyType"
+            }
+          ],
+          "sort": "",
+          "uri": "http://www.w3.org/ns/sosa/observedProperty",
+          "usage": {}
+        },
+        {
+          "cardinality": "0..*",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Observation",
+              "uri": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "ObservationProcedure",
+              "range_uri": "https://www.w3.org/TR/vocab-ssn/#SOSAProcedure"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "ObservationProcedure"
+              },
+              "range_puri": "https://www.w3.org/TR/vocab-ssn/#SOSAProcedure",
+              "range_uri": "#ObservationProcedure"
+            }
+          ],
+          "sort": "",
+          "uri": "http://www.w3.org/ns/sosa/usedProcedure",
+          "usage": {}
+        }
+      ],
+      "sort": "",
+      "uri": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [],
+      "properties": [
+        {
+          "cardinality": "1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "ObservationContext",
+              "uri": "http://def.isotc211.org/iso19156/2011/Observation#ObservationContext"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "GenericName",
+              "range_uri": "http://def.isotc211.org/iso19103/2005/Names#GenericName"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "GenericName"
+              },
+              "range_puri": "http://def.isotc211.org/iso19103/2005/Names#GenericName",
+              "range_uri": "#GenericName"
+            }
+          ],
+          "sort": "",
+          "uri": "http://def.isotc211.org/iso19156/2011/Observation#ObservationContext.role",
+          "usage": {}
+        },
+        {
+          "cardinality": "1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "ObservationContext",
+              "uri": "http://def.isotc211.org/iso19156/2011/Observation#ObservationContext"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "Observation",
+              "range_uri": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "Observation"
+              },
+              "range_puri": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation",
+              "range_uri": "#Observation"
+            }
+          ],
+          "sort": "",
+          "uri": "http://fixme.com#ObservationContext.observation.source",
+          "usage": {}
+        },
+        {
+          "cardinality": "1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "ObservationContext",
+              "uri": "http://def.isotc211.org/iso19156/2011/Observation#ObservationContext"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "Observation",
+              "range_uri": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "Observation"
+              },
+              "range_puri": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation",
+              "range_uri": "#Observation"
+            }
+          ],
+          "sort": "",
+          "uri": "http://fixme.com#ObservationContext.observation.target",
+          "usage": {}
+        }
+      ],
+      "sort": "",
+      "uri": "http://def.isotc211.org/iso19156/2011/Observation#ObservationContext",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [
+        {
+          "label": "Sampling",
+          "name": "Sampling",
+          "package": "SOSA",
+          "scoped_uri": "#Sampling",
+          "uri": "http://www.w3.org/ns/sosa/Sampling"
+        }
+      ],
+      "properties": [
+        {
+          "cardinality": "0..1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "PreparationStep",
+              "uri": "http://def.isotc211.org/iso19156/2011/Observation#PreparationStep"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "CI_responsibleParty",
+              "range_uri": "http://def.isotc211.org/iso19115/2006/CitationAndResponsiblePartyInformation#CI_ResponsibleParty"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "CI_responsibleParty"
+              },
+              "range_puri": "http://def.isotc211.org/iso19115/2006/CitationAndResponsiblePartyInformation#CI_ResponsibleParty",
+              "range_uri": "#CI_responsibleParty"
+            }
+          ],
+          "sort": "",
+          "uri": "http://def.isotc211.org/iso19156/2011/Observation#PreparationStep.processOperator",
+          "usage": {}
+        },
+        {
+          "cardinality": "1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "PreparationStep",
+              "uri": "http://def.isotc211.org/iso19156/2011/Observation#PreparationStep"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "TM_Object",
+              "range_uri": "http://def.isotc211.org/iso19108/2006/TemporalObjects#TM_Object"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "TM_Object"
+              },
+              "range_puri": "http://def.isotc211.org/iso19108/2006/TemporalObjects#TM_Object",
+              "range_uri": "#TM_Object"
+            }
+          ],
+          "sort": "",
+          "uri": "http://def.isotc211.org/iso19156/2011/Observation#PreparationStep.time",
+          "usage": {}
+        },
+        {
+          "cardinality": "1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "PreparationStep",
+              "uri": "http://def.isotc211.org/iso19156/2011/Observation#PreparationStep"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "SamplingProces",
+              "range_uri": "http://fixme.com/#deviceClass"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "SamplingProces"
+              },
+              "range_puri": "http://fixme.com/#deviceClass",
+              "range_uri": "#SamplingProces"
+            }
+          ],
+          "sort": "",
+          "uri": "http://fixme.com#PreparationStep.samplingProces",
+          "usage": {}
+        },
+        {
+          "cardinality": "1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "PreparationStep",
+              "uri": "http://def.isotc211.org/iso19156/2011/Observation#PreparationStep"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "Specimen",
+              "range_uri": "http://def.isotc211.org/iso19156/2011/Specimen#SF_Specimen"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "Specimen"
+              },
+              "range_puri": "http://def.isotc211.org/iso19156/2011/Specimen#SF_Specimen",
+              "range_uri": "#Specimen"
+            }
+          ],
+          "sort": "",
+          "uri": "http://fixme.com#PreparationStep.specimen",
+          "usage": {}
+        }
+      ],
+      "sort": "",
+      "uri": "http://def.isotc211.org/iso19156/2011/Observation#PreparationStep",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [],
+      "properties": [],
+      "sort": "",
+      "uri": "http://def.isotc211.org/iso19156/2011/Observation#Result",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [
+        {
+          "label": "Feature",
+          "name": "Feature",
+          "package": "OM",
+          "scoped_uri": "#Feature",
+          "uri": "https://def.isotc211.org/iso19156/2011/GeneralFeatureInstance#GFI_Feature"
+        }
+      ],
+      "properties": [
+        {
+          "cardinality": "0..1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "SamplingFeature",
+              "uri": "http://def.isotc211.org/iso19156/2011/SamplingFeature#SF_SamplingFeature"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "LI_Lineage",
+              "range_uri": "http://def.isotc211.org/iso19115/2006/DataQualityInformation#LI_Lineage"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "LI_Lineage"
+              },
+              "range_puri": "http://def.isotc211.org/iso19115/2006/DataQualityInformation#LI_Lineage",
+              "range_uri": "#LI_Lineage"
+            }
+          ],
+          "sort": "",
+          "uri": "http://def.isotc211.org/iso19156/2011/SamplingFeature#SF_SamplingFeature.lineage",
+          "usage": {}
+        },
+        {
+          "cardinality": "0..*",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "SamplingFeature",
+              "uri": "http://def.isotc211.org/iso19156/2011/SamplingFeature#SF_SamplingFeature"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "NamedValue",
+              "range_uri": "https://def.isotc211.org/iso19156/2011/Observation#NamedValue"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "NamedValue"
+              },
+              "range_puri": "https://def.isotc211.org/iso19156/2011/Observation#NamedValue",
+              "range_uri": "#NamedValue"
+            }
+          ],
+          "sort": "",
+          "uri": "http://def.isotc211.org/iso19156/2011/SamplingFeature#SF_SamplingFeature.parameter",
+          "usage": {}
+        },
+        {
+          "cardinality": "1..*",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "SamplingFeature",
+              "uri": "http://def.isotc211.org/iso19156/2011/SamplingFeature#SF_SamplingFeature"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "Feature",
+              "range_uri": "https://def.isotc211.org/iso19156/2011/GeneralFeatureInstance#GFI_Feature"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "Feature"
+              },
+              "range_puri": "https://def.isotc211.org/iso19156/2011/GeneralFeatureInstance#GFI_Feature",
+              "range_uri": "#Feature"
+            }
+          ],
+          "sort": "",
+          "uri": "http://def.isotc211.org/iso19156/2011/SamplingFeature#SF_SamplingFeature.sampledFeature",
+          "usage": {}
+        },
+        {
+          "cardinality": "0..*",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "SamplingFeature",
+              "uri": "http://def.isotc211.org/iso19156/2011/SamplingFeature#SF_SamplingFeature"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "SamplingFeature",
+              "range_uri": "http://def.isotc211.org/iso19156/2011/SamplingFeature#SF_SamplingFeature"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "SamplingFeature"
+              },
+              "range_puri": "http://def.isotc211.org/iso19156/2011/SamplingFeature#SF_SamplingFeature",
+              "range_uri": "#SamplingFeature"
+            }
+          ],
+          "sort": "",
+          "uri": "http://def.isotc211.org/iso19156/2011/SamplingFeature#SamplingFeatureComplex.relatedSamplingFeature",
+          "usage": {}
+        },
+        {
+          "cardinality": "1..*",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "SamplingFeature",
+              "uri": "http://def.isotc211.org/iso19156/2011/SamplingFeature#SF_SamplingFeature"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "Sampling",
+              "range_uri": "http://www.w3.org/ns/sosa/Sampling"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "Sampling"
+              },
+              "range_puri": "http://www.w3.org/ns/sosa/Sampling",
+              "range_uri": "#Sampling"
+            }
+          ],
+          "sort": "",
+          "uri": "http://www.w3.org/ns/sosa/isResultOf",
+          "usage": {}
+        }
+      ],
+      "sort": "",
+      "uri": "http://def.isotc211.org/iso19156/2011/SamplingFeature#SF_SamplingFeature",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [],
+      "properties": [
+        {
+          "cardinality": "1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "SamplingFeaturecomplex",
+              "uri": "http://def.isotc211.org/iso19156/2011/SamplingFeature#SamplingFeatureComplex"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "GenericName",
+              "range_uri": "http://def.isotc211.org/iso19103/2005/Names#GenericName"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "GenericName"
+              },
+              "range_puri": "http://def.isotc211.org/iso19103/2005/Names#GenericName",
+              "range_uri": "#GenericName"
+            }
+          ],
+          "sort": "",
+          "uri": "http://def.isotc211.org/iso19156/2011/SamplingFeature#SamplingFeatureComplex.role",
+          "usage": {}
+        },
+        {
+          "cardinality": "1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "SamplingFeaturecomplex",
+              "uri": "http://def.isotc211.org/iso19156/2011/SamplingFeature#SamplingFeatureComplex"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "SamplingFeature",
+              "range_uri": "http://def.isotc211.org/iso19156/2011/SamplingFeature#SF_SamplingFeature"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "SamplingFeature"
+              },
+              "range_puri": "http://def.isotc211.org/iso19156/2011/SamplingFeature#SF_SamplingFeature",
+              "range_uri": "#SamplingFeature"
+            }
+          ],
+          "sort": "",
+          "uri": "http://fixme.com#SamplingFeaturecomplex.samplingFeature.source",
+          "usage": {}
+        },
+        {
+          "cardinality": "1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "SamplingFeaturecomplex",
+              "uri": "http://def.isotc211.org/iso19156/2011/SamplingFeature#SamplingFeatureComplex"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "SamplingFeature",
+              "range_uri": "http://def.isotc211.org/iso19156/2011/SamplingFeature#SF_SamplingFeature"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "SamplingFeature"
+              },
+              "range_puri": "http://def.isotc211.org/iso19156/2011/SamplingFeature#SF_SamplingFeature",
+              "range_uri": "#SamplingFeature"
+            }
+          ],
+          "sort": "",
+          "uri": "http://fixme.com#SamplingFeaturecomplex.samplingFeature.target",
+          "usage": {}
+        }
+      ],
+      "sort": "",
+      "uri": "http://def.isotc211.org/iso19156/2011/SamplingFeature#SamplingFeatureComplex",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [
+        {
+          "label": "SamplingFeature",
+          "name": "SamplingFeature",
+          "package": "OM",
+          "scoped_uri": "#SamplingFeature",
+          "uri": "http://def.isotc211.org/iso19156/2011/SamplingFeature#SF_SamplingFeature"
+        }
+      ],
+      "properties": [
+        {
+          "cardinality": "0..1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "SpatialSamplingFeature",
+              "uri": "http://def.isotc211.org/iso19156/2011/SpatialSamplingFeature#SF_SpatialSamplingFeature"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "AddressRepresentation",
+              "range_uri": "http://fixme.com#AddressRepresentation"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "AddressRepresentation"
+              },
+              "range_puri": "http://fixme.com#AddressRepresentation",
+              "range_uri": "#AddressRepresentation"
+            }
+          ],
+          "sort": "",
+          "uri": "https://schema.org/address",
+          "usage": {}
+        },
+        {
+          "cardinality": "0..1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "SpatialSamplingFeature",
+              "uri": "http://def.isotc211.org/iso19156/2011/SpatialSamplingFeature#SF_SpatialSamplingFeature"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "Place",
+              "range_uri": "http://fixme.com#Place"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "Place"
+              },
+              "range_puri": "http://fixme.com#Place",
+              "range_uri": "#Place"
+            }
+          ],
+          "sort": "",
+          "uri": "https://schema.org/areaServed",
+          "usage": {}
+        },
+        {
+          "cardinality": "0..1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "SpatialSamplingFeature",
+              "uri": "http://def.isotc211.org/iso19156/2011/SpatialSamplingFeature#SF_SpatialSamplingFeature"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "PointOfInterest",
+              "range_uri": "http://fixme.com#PointOfInterest"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "PointOfInterest"
+              },
+              "range_puri": "http://fixme.com#PointOfInterest",
+              "range_uri": "#PointOfInterest"
+            }
+          ],
+          "sort": "",
+          "uri": "https://smart-data-models.github.io/data-models/terms.jsonld#/definitions/refPointOfInterest",
+          "usage": {}
+        }
+      ],
+      "sort": "",
+      "uri": "http://def.isotc211.org/iso19156/2011/SpatialSamplingFeature#SF_SpatialSamplingFeature",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [
+        {
+          "label": "SamplingFeature",
+          "name": "SamplingFeature",
+          "package": "OM",
+          "scoped_uri": "#SamplingFeature",
+          "uri": "http://def.isotc211.org/iso19156/2011/SamplingFeature#SF_SamplingFeature"
+        }
+      ],
+      "properties": [
+        {
+          "cardinality": "1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Specimen",
+              "uri": "http://def.isotc211.org/iso19156/2011/Specimen#SF_Specimen"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "GenericName",
+              "range_uri": "http://def.isotc211.org/iso19103/2005/Names#GenericName"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "GenericName"
+              },
+              "range_puri": "http://def.isotc211.org/iso19103/2005/Names#GenericName",
+              "range_uri": "#GenericName"
+            }
+          ],
+          "sort": "",
+          "uri": "http://def.isotc211.org/iso19156/2011/Specimen#SF_Specimen.materialClass",
+          "usage": {}
+        },
+        {
+          "cardinality": "0..*",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Specimen",
+              "uri": "http://def.isotc211.org/iso19156/2011/Specimen#SF_Specimen"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "SamplingProces",
+              "range_uri": "http://fixme.com/#deviceClass"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "SamplingProces"
+              },
+              "range_puri": "http://fixme.com/#deviceClass",
+              "range_uri": "#SamplingProces"
+            }
+          ],
+          "sort": "",
+          "uri": "http://def.isotc211.org/iso19156/2011/Specimen#SF_Specimen.processingDetails",
+          "usage": {}
+        },
+        {
+          "cardinality": "0..1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Specimen",
+              "uri": "http://def.isotc211.org/iso19156/2011/Specimen#SF_Specimen"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "Geometry",
+              "range_uri": "http://www.w3.org/ns/locn#Geometry"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "Geometry"
+              },
+              "range_puri": "http://www.w3.org/ns/locn#Geometry",
+              "range_uri": "#Geometry"
+            }
+          ],
+          "sort": "",
+          "uri": "http://def.isotc211.org/iso19156/2011/Specimen#SF_Specimen.samplingLocation",
+          "usage": {}
+        },
+        {
+          "cardinality": "1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Specimen",
+              "uri": "http://def.isotc211.org/iso19156/2011/Specimen#SF_Specimen"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "SamplingMethodType",
+              "range_uri": "http://fixme.com#SamplingMethodType"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "SamplingMethodType"
+              },
+              "range_puri": "http://fixme.com#SamplingMethodType",
+              "range_uri": "#SamplingMethodType"
+            }
+          ],
+          "sort": "",
+          "uri": "http://def.isotc211.org/iso19156/2011/Specimen#SF_Specimen.samplingMethod",
+          "usage": {}
+        },
+        {
+          "cardinality": "1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Specimen",
+              "uri": "http://def.isotc211.org/iso19156/2011/Specimen#SF_Specimen"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "TM_Object",
+              "range_uri": "http://def.isotc211.org/iso19108/2006/TemporalObjects#TM_Object"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "TM_Object"
+              },
+              "range_puri": "http://def.isotc211.org/iso19108/2006/TemporalObjects#TM_Object",
+              "range_uri": "#TM_Object"
+            }
+          ],
+          "sort": "",
+          "uri": "http://def.isotc211.org/iso19156/2011/Specimen#SF_Specimen.samplingTime",
+          "usage": {}
+        }
+      ],
+      "sort": "",
+      "uri": "http://def.isotc211.org/iso19156/2011/Specimen#SF_Specimen",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [],
+      "properties": [],
+      "sort": "",
+      "uri": "http://fixme.com#Image",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [],
+      "properties": [],
+      "sort": "",
+      "uri": "http://fixme.com#Place",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [],
+      "properties": [],
+      "sort": "",
+      "uri": "http://fixme.com#PointOfInterest",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [],
+      "properties": [],
+      "sort": "",
+      "uri": "http://fixme.com#Procedure",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [],
+      "properties": [],
+      "sort": "",
+      "uri": "http://fixme.com#Process",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [
+        {
+          "label": "SystemProperty",
+          "name": "SystemProperty",
+          "package": "SSN",
+          "scoped_uri": "#SystemProperty",
+          "uri": "http://www.w3.org/ns/ssn/systems/SystemProperty"
+        }
+      ],
+      "properties": [],
+      "sort": "",
+      "uri": "http://fixme.com#Repeatablity",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [
+        {
+          "label": "SamplingProces",
+          "name": "SamplingProces",
+          "package": "OM",
+          "scoped_uri": "#SamplingProces",
+          "uri": "http://fixme.com/#deviceClass"
+        },
+        {
+          "label": "Procedure",
+          "name": "Procedure",
+          "package": "SOSA",
+          "scoped_uri": "#Procedure",
+          "uri": "http://fixme.com#Procedure"
+        }
+      ],
+      "properties": [
+        {
+          "cardinality": "0..*",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "SamplingProcedure",
+              "uri": "http://www.w3.org/ns/sosa/Procedure"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "URI",
+              "range_uri": "http://www.w3.org/2001/XMLSchema#anyURI"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "URI"
+              },
+              "range_puri": "http://www.w3.org/2001/XMLSchema#anyURI",
+              "range_uri": "http://www.w3.org/2001/XMLSchema#anyURI"
+            }
+          ],
+          "sort": "",
+          "uri": "http://fixme.com#specification",
+          "usage": {}
+        },
+        {
+          "cardinality": "0..*",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "SamplingProcedure",
+              "uri": "http://www.w3.org/ns/sosa/Procedure"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "SamplingProcedureType",
+              "range_uri": "http://fixme.com#SamplingProcedureType"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "SamplingProcedureType"
+              },
+              "range_puri": "http://fixme.com#SamplingProcedureType",
+              "range_uri": "#SamplingProcedureType"
+            }
+          ],
+          "sort": "",
+          "uri": "http://fixme.com#type",
+          "usage": {}
+        }
+      ],
+      "sort": "",
+      "uri": "http://www.w3.org/ns/sosa/Procedure",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [
+        {
+          "label": "SamplingProces",
+          "name": "SamplingProces",
+          "package": "OM",
+          "scoped_uri": "#SamplingProces",
+          "uri": "http://fixme.com/#deviceClass"
+        },
+        {
+          "label": "System",
+          "name": "System",
+          "package": "SSN",
+          "scoped_uri": "#System",
+          "uri": "https://www.w3.org/TR/vocab-ssn/#ssn-system"
+        }
+      ],
+      "properties": [
+        {
+          "cardinality": "0..*",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Sampler",
+              "uri": "http://www.w3.org/ns/sosa/Sampler"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "Sampling",
+              "range_uri": "http://www.w3.org/ns/sosa/Sampling"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "Sampling"
+              },
+              "range_puri": "http://www.w3.org/ns/sosa/Sampling",
+              "range_uri": "#Sampling"
+            }
+          ],
+          "sort": "",
+          "uri": "http://www.w3.org/ns/sosa/madeSampling",
+          "usage": {}
+        }
+      ],
+      "sort": "",
+      "uri": "http://www.w3.org/ns/sosa/Sampler",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [],
+      "properties": [
+        {
+          "cardinality": "1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Sampling",
+              "uri": "http://www.w3.org/ns/sosa/Sampling"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "Feature",
+              "range_uri": "https://def.isotc211.org/iso19156/2011/GeneralFeatureInstance#GFI_Feature"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "Feature"
+              },
+              "range_puri": "https://def.isotc211.org/iso19156/2011/GeneralFeatureInstance#GFI_Feature",
+              "range_uri": "#Feature"
+            }
+          ],
+          "sort": "",
+          "uri": "http://www.w3.org/ns/sosa/hasFeatureOfInterest",
+          "usage": {}
+        },
+        {
+          "cardinality": "1..*",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Sampling",
+              "uri": "http://www.w3.org/ns/sosa/Sampling"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "SamplingFeature",
+              "range_uri": "http://def.isotc211.org/iso19156/2011/SamplingFeature#SF_SamplingFeature"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "SamplingFeature"
+              },
+              "range_puri": "http://def.isotc211.org/iso19156/2011/SamplingFeature#SF_SamplingFeature",
+              "range_uri": "#SamplingFeature"
+            }
+          ],
+          "sort": "",
+          "uri": "http://www.w3.org/ns/sosa/hasResult",
+          "usage": {}
+        },
+        {
+          "cardinality": "1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Sampling",
+              "uri": "http://www.w3.org/ns/sosa/Sampling"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "Sampler",
+              "range_uri": "http://www.w3.org/ns/sosa/Sampler"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "Sampler"
+              },
+              "range_puri": "http://www.w3.org/ns/sosa/Sampler",
+              "range_uri": "#Sampler"
+            }
+          ],
+          "sort": "",
+          "uri": "http://www.w3.org/ns/sosa/madeBySampler",
+          "usage": {}
+        },
+        {
+          "cardinality": "1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Sampling",
+              "uri": "http://www.w3.org/ns/sosa/Sampling"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "DateTime",
+              "range_uri": "http://www.w3.org/2001/XMLSchema#dateTime"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "DateTime"
+              },
+              "range_puri": "http://www.w3.org/2001/XMLSchema#dateTime",
+              "range_uri": "http://www.w3.org/2001/XMLSchema#dateTime"
+            }
+          ],
+          "sort": "",
+          "uri": "http://www.w3.org/ns/sosa/resultTime",
+          "usage": {}
+        },
+        {
+          "cardinality": "0..*",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Sampling",
+              "uri": "http://www.w3.org/ns/sosa/Sampling"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "SamplingProcedure",
+              "range_uri": "http://www.w3.org/ns/sosa/Procedure"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "SamplingProcedure"
+              },
+              "range_puri": "http://www.w3.org/ns/sosa/Procedure",
+              "range_uri": "#SamplingProcedure"
+            }
+          ],
+          "sort": "",
+          "uri": "http://www.w3.org/ns/sosa/usedProcedure",
+          "usage": {}
+        }
+      ],
+      "sort": "",
+      "uri": "http://www.w3.org/ns/sosa/Sampling",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [
+        {
+          "label": "SystemProperty",
+          "name": "SystemProperty",
+          "package": "SSN",
+          "scoped_uri": "#SystemProperty",
+          "uri": "http://www.w3.org/ns/ssn/systems/SystemProperty"
+        }
+      ],
+      "properties": [],
+      "sort": "",
+      "uri": "http://www.w3.org/ns/ssn/systems/Accuracy",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [
+        {
+          "label": "SurvivalProperty",
+          "name": "SurvivalProperty",
+          "package": "SSN",
+          "scoped_uri": "#SurvivalProperty",
+          "uri": "http://www.w3.org/ns/ssn/systems/SurvivalProperty"
+        }
+      ],
+      "properties": [],
+      "sort": "",
+      "uri": "http://www.w3.org/ns/ssn/systems/BatteryLifetime",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [],
+      "properties": [],
+      "sort": "",
+      "uri": "http://www.w3.org/ns/ssn/systems/Condition",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [
+        {
+          "label": "SystemProperty",
+          "name": "SystemProperty",
+          "package": "SSN",
+          "scoped_uri": "#SystemProperty",
+          "uri": "http://www.w3.org/ns/ssn/systems/SystemProperty"
+        }
+      ],
+      "properties": [],
+      "sort": "",
+      "uri": "http://www.w3.org/ns/ssn/systems/DetectionLimit",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [
+        {
+          "label": "SystemProperty",
+          "name": "SystemProperty",
+          "package": "SSN",
+          "scoped_uri": "#SystemProperty",
+          "uri": "http://www.w3.org/ns/ssn/systems/SystemProperty"
+        }
+      ],
+      "properties": [],
+      "sort": "",
+      "uri": "http://www.w3.org/ns/ssn/systems/Drift",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [
+        {
+          "label": "SystemProperty",
+          "name": "SystemProperty",
+          "package": "SSN",
+          "scoped_uri": "#SystemProperty",
+          "uri": "http://www.w3.org/ns/ssn/systems/SystemProperty"
+        }
+      ],
+      "properties": [],
+      "sort": "",
+      "uri": "http://www.w3.org/ns/ssn/systems/Frequency",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [
+        {
+          "label": "SystemProperty",
+          "name": "SystemProperty",
+          "package": "SSN",
+          "scoped_uri": "#SystemProperty",
+          "uri": "http://www.w3.org/ns/ssn/systems/SystemProperty"
+        }
+      ],
+      "properties": [],
+      "sort": "",
+      "uri": "http://www.w3.org/ns/ssn/systems/Latency",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [
+        {
+          "label": "OperatingProperty",
+          "name": "OperatingProperty",
+          "package": "SSN",
+          "scoped_uri": "#OperatingProperty",
+          "uri": "http://www.w3.org/ns/ssn/systems/OperatingRange"
+        }
+      ],
+      "properties": [],
+      "sort": "",
+      "uri": "http://www.w3.org/ns/ssn/systems/MaintenanceSchedule",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [
+        {
+          "label": "SystemProperty",
+          "name": "SystemProperty",
+          "package": "SSN",
+          "scoped_uri": "#SystemProperty",
+          "uri": "http://www.w3.org/ns/ssn/systems/SystemProperty"
+        }
+      ],
+      "properties": [],
+      "sort": "",
+      "uri": "http://www.w3.org/ns/ssn/systems/MeasurementRange",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [
+        {
+          "label": "OperatingProperty",
+          "name": "OperatingProperty",
+          "package": "SSN",
+          "scoped_uri": "#OperatingProperty",
+          "uri": "http://www.w3.org/ns/ssn/systems/OperatingRange"
+        }
+      ],
+      "properties": [],
+      "sort": "",
+      "uri": "http://www.w3.org/ns/ssn/systems/OperatingPowerRange",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [],
+      "properties": [],
+      "sort": "",
+      "uri": "http://www.w3.org/ns/ssn/systems/OperatingRange",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [
+        {
+          "label": "SystemProperty",
+          "name": "SystemProperty",
+          "package": "SSN",
+          "scoped_uri": "#SystemProperty",
+          "uri": "http://www.w3.org/ns/ssn/systems/SystemProperty"
+        }
+      ],
+      "properties": [],
+      "sort": "",
+      "uri": "http://www.w3.org/ns/ssn/systems/Precision",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [
+        {
+          "label": "SystemProperty",
+          "name": "SystemProperty",
+          "package": "SSN",
+          "scoped_uri": "#SystemProperty",
+          "uri": "http://www.w3.org/ns/ssn/systems/SystemProperty"
+        }
+      ],
+      "properties": [],
+      "sort": "",
+      "uri": "http://www.w3.org/ns/ssn/systems/Resolution",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [
+        {
+          "label": "SystemProperty",
+          "name": "SystemProperty",
+          "package": "SSN",
+          "scoped_uri": "#SystemProperty",
+          "uri": "http://www.w3.org/ns/ssn/systems/SystemProperty"
+        }
+      ],
+      "properties": [],
+      "sort": "",
+      "uri": "http://www.w3.org/ns/ssn/systems/ResponseTime",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [
+        {
+          "label": "SystemProperty",
+          "name": "SystemProperty",
+          "package": "SSN",
+          "scoped_uri": "#SystemProperty",
+          "uri": "http://www.w3.org/ns/ssn/systems/SystemProperty"
+        }
+      ],
+      "properties": [],
+      "sort": "",
+      "uri": "http://www.w3.org/ns/ssn/systems/Selectivity",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [
+        {
+          "label": "SystemProperty",
+          "name": "SystemProperty",
+          "package": "SSN",
+          "scoped_uri": "#SystemProperty",
+          "uri": "http://www.w3.org/ns/ssn/systems/SystemProperty"
+        }
+      ],
+      "properties": [],
+      "sort": "",
+      "uri": "http://www.w3.org/ns/ssn/systems/Sensitivity",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [],
+      "properties": [],
+      "sort": "",
+      "uri": "http://www.w3.org/ns/ssn/systems/SurvivalProperty",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [
+        {
+          "label": "SurvivalProperty",
+          "name": "SurvivalProperty",
+          "package": "SSN",
+          "scoped_uri": "#SurvivalProperty",
+          "uri": "http://www.w3.org/ns/ssn/systems/SurvivalProperty"
+        }
+      ],
+      "properties": [],
+      "sort": "",
+      "uri": "http://www.w3.org/ns/ssn/systems/SystemLifetime",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [],
+      "properties": [],
+      "sort": "",
+      "uri": "http://www.w3.org/ns/ssn/systems/SystemProperty",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [],
+      "properties": [],
+      "sort": "",
+      "uri": "https://def.isotc211.org/iso19156/2011/GeneralFeatureInstance#GFI_Feature",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [],
+      "properties": [],
+      "sort": "",
+      "uri": "https://def.isotc211.org/iso19156/2011/Observation#CategoryObservation",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [],
+      "properties": [],
+      "sort": "",
+      "uri": "https://def.isotc211.org/iso19156/2011/Observation#ComplexObservation",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [],
+      "properties": [],
+      "sort": "",
+      "uri": "https://def.isotc211.org/iso19156/2011/Observation#CountObservation",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [],
+      "properties": [],
+      "sort": "",
+      "uri": "https://def.isotc211.org/iso19156/2011/Observation#GeometryObservation",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [],
+      "properties": [],
+      "sort": "",
+      "uri": "https://def.isotc211.org/iso19156/2011/Observation#Measurement",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [],
+      "properties": [],
+      "sort": "",
+      "uri": "https://def.isotc211.org/iso19156/2011/Observation#PointCoverageObservation",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [],
+      "properties": [],
+      "sort": "",
+      "uri": "https://def.isotc211.org/iso19156/2011/Observation#TemporalObservation",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [],
+      "properties": [],
+      "sort": "",
+      "uri": "https://def.isotc211.org/iso19156/2011/Observation#TimeseriesObservation",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [],
+      "properties": [],
+      "sort": "",
+      "uri": "https://def.isotc211.org/iso19156/2011/Observation#TruthObservation",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [
+        {
+          "label": "Platform",
+          "name": "Platform",
+          "package": "SOSA",
+          "scoped_uri": "#Platform",
+          "uri": "https://www.w3.org/TR/vocab-ssn/#SOSAPlatform"
+        },
+        {
+          "label": "System",
+          "name": "System",
+          "package": "SSN",
+          "scoped_uri": "#System",
+          "uri": "https://www.w3.org/TR/vocab-ssn/#ssn-system"
+        }
+      ],
+      "properties": [
+        {
+          "cardinality": "0..1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Device",
+              "uri": "https://uri.fiware.org/ns/data-models#Device"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "DeviceClasstype",
+              "range_uri": "http://fixme.com#DeviceClasstype"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "DeviceClasstype"
+              },
+              "range_puri": "http://fixme.com#DeviceClasstype",
+              "range_uri": "#DeviceClasstype"
+            }
+          ],
+          "sort": "",
+          "uri": "http://fixme.com#deviceClass",
+          "usage": {}
+        },
+        {
+          "cardinality": "0..*",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Device",
+              "uri": "https://uri.fiware.org/ns/data-models#Device"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "UnitType",
+              "range_uri": "http://fixme.com#UnitType"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "UnitType"
+              },
+              "range_puri": "http://fixme.com#UnitType",
+              "range_uri": "#UnitType"
+            }
+          ],
+          "sort": "",
+          "uri": "http://fixme.com#supportedUnits",
+          "usage": {}
+        },
+        {
+          "cardinality": "1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Device",
+              "uri": "https://uri.fiware.org/ns/data-models#Device"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "String",
+              "range_uri": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "String"
+              },
+              "range_puri": "http://www.w3.org/2001/XMLSchema#string",
+              "range_uri": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "sort": "",
+          "uri": "https://schema.org/brand",
+          "usage": {}
+        },
+        {
+          "cardinality": "0..1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Device",
+              "uri": "https://uri.fiware.org/ns/data-models#Device"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "Image",
+              "range_uri": "http://fixme.com#Image"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "Image"
+              },
+              "range_puri": "http://fixme.com#Image",
+              "range_uri": "#Image"
+            }
+          ],
+          "sort": "",
+          "uri": "https://schema.org/image",
+          "usage": {}
+        },
+        {
+          "cardinality": "1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Device",
+              "uri": "https://uri.fiware.org/ns/data-models#Device"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "DeviceType",
+              "range_uri": "http://fixme.com#DeviceType"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "DeviceType"
+              },
+              "range_puri": "http://fixme.com#DeviceType",
+              "range_uri": "#DeviceType"
+            }
+          ],
+          "sort": "",
+          "uri": "https://smart-data-models.github.io/data-models/terms.jsonld#/definitions/category",
+          "usage": {}
+        },
+        {
+          "cardinality": "0..1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Device",
+              "uri": "https://uri.fiware.org/ns/data-models#Device"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "URI",
+              "range_uri": "http://www.w3.org/2001/XMLSchema#anyURI"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "URI"
+              },
+              "range_puri": "http://www.w3.org/2001/XMLSchema#anyURI",
+              "range_uri": "http://www.w3.org/2001/XMLSchema#anyURI"
+            }
+          ],
+          "sort": "",
+          "uri": "https://smart-data-models.github.io/data-models/terms.jsonld#/definitions/documentation",
+          "usage": {}
+        },
+        {
+          "cardinality": "0..1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Device",
+              "uri": "https://uri.fiware.org/ns/data-models#Device"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "EnergyLimitationType",
+              "range_uri": "http://fixme.com#EnergyLimitationType"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "EnergyLimitationType"
+              },
+              "range_puri": "http://fixme.com#EnergyLimitationType",
+              "range_uri": "#EnergyLimitationType"
+            }
+          ],
+          "sort": "",
+          "uri": "https://smart-data-models.github.io/data-models/terms.jsonld#/definitions/energyLimitationClass",
+          "usage": {}
+        },
+        {
+          "cardinality": "0..*",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Device",
+              "uri": "https://uri.fiware.org/ns/data-models#Device"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "FunctionType",
+              "range_uri": "http://fixme.com#FunctionType"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "FunctionType"
+              },
+              "range_puri": "http://fixme.com#FunctionType",
+              "range_uri": "#FunctionType"
+            }
+          ],
+          "sort": "",
+          "uri": "https://smart-data-models.github.io/data-models/terms.jsonld#/definitions/function",
+          "usage": {}
+        },
+        {
+          "cardinality": "1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Device",
+              "uri": "https://uri.fiware.org/ns/data-models#Device"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "String",
+              "range_uri": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "String"
+              },
+              "range_puri": "http://www.w3.org/2001/XMLSchema#string",
+              "range_uri": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "sort": "",
+          "uri": "https://smart-data-models.github.io/data-models/terms.jsonld#/definitions/manufacturerName",
+          "usage": {}
+        },
+        {
+          "cardinality": "1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Device",
+              "uri": "https://uri.fiware.org/ns/data-models#Device"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "String",
+              "range_uri": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "String"
+              },
+              "range_puri": "http://www.w3.org/2001/XMLSchema#string",
+              "range_uri": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "sort": "",
+          "uri": "https://smart-data-models.github.io/data-models/terms.jsonld#/definitions/modelName",
+          "usage": {}
+        },
+        {
+          "cardinality": "0..*",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Device",
+              "uri": "https://uri.fiware.org/ns/data-models#Device"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "ProtocolType",
+              "range_uri": "http://fixme.com#ProtocolType"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "ProtocolType"
+              },
+              "range_puri": "http://fixme.com#ProtocolType",
+              "range_uri": "#ProtocolType"
+            }
+          ],
+          "sort": "",
+          "uri": "https://smart-data-models.github.io/data-models/terms.jsonld#/definitions/supportedProtocol",
+          "usage": {}
+        },
+        {
+          "cardinality": "0..1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Device",
+              "uri": "https://uri.fiware.org/ns/data-models#Device"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "String",
+              "range_uri": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "String"
+              },
+              "range_puri": "http://www.w3.org/2001/XMLSchema#string",
+              "range_uri": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "sort": "",
+          "uri": "https://uri.etsi.org/ngsi-ld/description",
+          "usage": {}
+        },
+        {
+          "cardinality": "1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Device",
+              "uri": "https://uri.fiware.org/ns/data-models#Device"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "String",
+              "range_uri": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "String"
+              },
+              "range_puri": "http://www.w3.org/2001/XMLSchema#string",
+              "range_uri": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "sort": "",
+          "uri": "https://uri.etsi.org/ngsi-ld/name",
+          "usage": {}
+        }
+      ],
+      "sort": "",
+      "uri": "https://uri.fiware.org/ns/data-models#Device",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [
+        {
+          "label": "ObservationCollection",
+          "name": "ObservationCollection",
+          "package": "SOSA-extensions",
+          "scoped_uri": "#ObservationCollection",
+          "uri": "https://www.w3.org/TR/vocab-ssn-ext/#sosa:ObservationCollection"
+        }
+      ],
+      "properties": [],
+      "sort": "",
+      "uri": "https://www.w3.org/TR/vocab-data-cube/#ref_qb_Slice",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [],
+      "properties": [
+        {
+          "cardinality": "0..1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "ObservationCollection",
+              "uri": "https://www.w3.org/TR/vocab-ssn-ext/#sosa:ObservationCollection"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "Metadata",
+              "range_uri": "http://def.isotc211.org/iso19115/2006/MetadataEntitySetInformation#MD_Metadata"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "Metadata"
+              },
+              "range_puri": "http://def.isotc211.org/iso19115/2006/MetadataEntitySetInformation#MD_Metadata",
+              "range_uri": "#Metadata"
+            }
+          ],
+          "sort": "",
+          "uri": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation.metadata",
+          "usage": {}
+        },
+        {
+          "cardinality": "0..1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "ObservationCollection",
+              "uri": "https://www.w3.org/TR/vocab-ssn-ext/#sosa:ObservationCollection"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "NamedValue",
+              "range_uri": "https://def.isotc211.org/iso19156/2011/Observation#NamedValue"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "NamedValue"
+              },
+              "range_puri": "https://def.isotc211.org/iso19156/2011/Observation#NamedValue",
+              "range_uri": "#NamedValue"
+            }
+          ],
+          "sort": "",
+          "uri": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation.parameter",
+          "usage": {}
+        },
+        {
+          "cardinality": "0..1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "ObservationCollection",
+              "uri": "https://www.w3.org/TR/vocab-ssn-ext/#sosa:ObservationCollection"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "Feature",
+              "range_uri": "https://def.isotc211.org/iso19156/2011/GeneralFeatureInstance#GFI_Feature"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "Feature"
+              },
+              "range_puri": "https://def.isotc211.org/iso19156/2011/GeneralFeatureInstance#GFI_Feature",
+              "range_uri": "#Feature"
+            }
+          ],
+          "sort": "",
+          "uri": "http://www.w3.org/ns/sosa/hasFeatureOfInterest",
+          "usage": {}
+        },
+        {
+          "cardinality": "1..*",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "ObservationCollection",
+              "uri": "https://www.w3.org/TR/vocab-ssn-ext/#sosa:ObservationCollection"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "Observation",
+              "range_uri": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "Observation"
+              },
+              "range_puri": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation",
+              "range_uri": "#Observation"
+            }
+          ],
+          "sort": "",
+          "uri": "http://www.w3.org/ns/sosa/hasMember",
+          "usage": {}
+        },
+        {
+          "cardinality": "0..1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "ObservationCollection",
+              "uri": "https://www.w3.org/TR/vocab-ssn-ext/#sosa:ObservationCollection"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "Feature",
+              "range_uri": "https://def.isotc211.org/iso19156/2011/GeneralFeatureInstance#GFI_Feature"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "Feature"
+              },
+              "range_puri": "https://def.isotc211.org/iso19156/2011/GeneralFeatureInstance#GFI_Feature",
+              "range_uri": "#Feature"
+            }
+          ],
+          "sort": "",
+          "uri": "http://www.w3.org/ns/sosa/hasUltimateFeatureOfInterest",
+          "usage": {}
+        },
+        {
+          "cardinality": "0..1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "ObservationCollection",
+              "uri": "https://www.w3.org/TR/vocab-ssn-ext/#sosa:ObservationCollection"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "Sensor",
+              "range_uri": "https://www.w3.org/TR/vocab-ssn/#SOSASensor"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "Sensor"
+              },
+              "range_puri": "https://www.w3.org/TR/vocab-ssn/#SOSASensor",
+              "range_uri": "#Sensor"
+            }
+          ],
+          "sort": "",
+          "uri": "http://www.w3.org/ns/sosa/madeBySensor",
+          "usage": {}
+        },
+        {
+          "cardinality": "0..1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "ObservationCollection",
+              "uri": "https://www.w3.org/TR/vocab-ssn-ext/#sosa:ObservationCollection"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "PropertyType",
+              "range_uri": "http://def.isotc211.org/iso19109/2005/GeneralFeatureModel#GF_PropertyType"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "PropertyType"
+              },
+              "range_puri": "http://def.isotc211.org/iso19109/2005/GeneralFeatureModel#GF_PropertyType",
+              "range_uri": "#PropertyType"
+            }
+          ],
+          "sort": "",
+          "uri": "http://www.w3.org/ns/sosa/observedProperty",
+          "usage": {}
+        },
+        {
+          "cardinality": "0..1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "ObservationCollection",
+              "uri": "https://www.w3.org/TR/vocab-ssn-ext/#sosa:ObservationCollection"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "TM_Object",
+              "range_uri": "http://def.isotc211.org/iso19108/2006/TemporalObjects#TM_Object"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "TM_Object"
+              },
+              "range_puri": "http://def.isotc211.org/iso19108/2006/TemporalObjects#TM_Object",
+              "range_uri": "#TM_Object"
+            }
+          ],
+          "sort": "",
+          "uri": "http://www.w3.org/ns/sosa/phenomenonTime",
+          "usage": {}
+        },
+        {
+          "cardinality": "0..1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "ObservationCollection",
+              "uri": "https://www.w3.org/TR/vocab-ssn-ext/#sosa:ObservationCollection"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "DateTime",
+              "range_uri": "http://www.w3.org/2001/XMLSchema#dateTime"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "DateTime"
+              },
+              "range_puri": "http://www.w3.org/2001/XMLSchema#dateTime",
+              "range_uri": "http://www.w3.org/2001/XMLSchema#dateTime"
+            }
+          ],
+          "sort": "",
+          "uri": "http://www.w3.org/ns/sosa/resultTime",
+          "usage": {}
+        },
+        {
+          "cardinality": "0..1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "ObservationCollection",
+              "uri": "https://www.w3.org/TR/vocab-ssn-ext/#sosa:ObservationCollection"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "ObservationProcedure",
+              "range_uri": "https://www.w3.org/TR/vocab-ssn/#SOSAProcedure"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "ObservationProcedure"
+              },
+              "range_puri": "https://www.w3.org/TR/vocab-ssn/#SOSAProcedure",
+              "range_uri": "#ObservationProcedure"
+            }
+          ],
+          "sort": "",
+          "uri": "http://www.w3.org/ns/sosa/usedProcedure",
+          "usage": {}
+        }
+      ],
+      "sort": "",
+      "uri": "https://www.w3.org/TR/vocab-ssn-ext/#sosa:ObservationCollection",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [
+        {
+          "label": "Feature",
+          "name": "Feature",
+          "package": "OM",
+          "scoped_uri": "#Feature",
+          "uri": "https://def.isotc211.org/iso19156/2011/GeneralFeatureInstance#GFI_Feature"
+        }
+      ],
+      "properties": [
+        {
+          "cardinality": "0..*",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Platform",
+              "uri": "https://www.w3.org/TR/vocab-ssn/#SOSAPlatform"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "System",
+              "range_uri": "https://www.w3.org/TR/vocab-ssn/#ssn-system"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "System"
+              },
+              "range_puri": "https://www.w3.org/TR/vocab-ssn/#ssn-system",
+              "range_uri": "#System"
+            }
+          ],
+          "sort": "",
+          "uri": "http://www.w3.org/ns/sosa/hosts",
+          "usage": {}
+        }
+      ],
+      "sort": "",
+      "uri": "https://www.w3.org/TR/vocab-ssn/#SOSAPlatform",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [
+        {
+          "label": "Process",
+          "name": "Process",
+          "package": "OM",
+          "scoped_uri": "#Process",
+          "uri": "http://fixme.com#Process"
+        },
+        {
+          "label": "Procedure",
+          "name": "Procedure",
+          "package": "SOSA",
+          "scoped_uri": "#Procedure",
+          "uri": "http://fixme.com#Procedure"
+        }
+      ],
+      "properties": [
+        {
+          "cardinality": "0..*",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "ObservationProcedure",
+              "uri": "https://www.w3.org/TR/vocab-ssn/#SOSAProcedure"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "URI",
+              "range_uri": "http://www.w3.org/2001/XMLSchema#anyURI"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "URI"
+              },
+              "range_puri": "http://www.w3.org/2001/XMLSchema#anyURI",
+              "range_uri": "http://www.w3.org/2001/XMLSchema#anyURI"
+            }
+          ],
+          "sort": "",
+          "uri": "http://fixme.com#specification",
+          "usage": {}
+        },
+        {
+          "cardinality": "0..*",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "ObservationProcedure",
+              "uri": "https://www.w3.org/TR/vocab-ssn/#SOSAProcedure"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "ObservationProcedureType",
+              "range_uri": "http://fixme.com#ObservationProcedureType"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "ObservationProcedureType"
+              },
+              "range_puri": "http://fixme.com#ObservationProcedureType",
+              "range_uri": "#ObservationProcedureType"
+            }
+          ],
+          "sort": "",
+          "uri": "http://fixme.com#type",
+          "usage": {}
+        },
+        {
+          "cardinality": "0..*",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "ObservationProcedure",
+              "uri": "https://www.w3.org/TR/vocab-ssn/#SOSAProcedure"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "Sensor",
+              "range_uri": "https://www.w3.org/TR/vocab-ssn/#SOSASensor"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "Sensor"
+              },
+              "range_puri": "https://www.w3.org/TR/vocab-ssn/#SOSASensor",
+              "range_uri": "#Sensor"
+            }
+          ],
+          "sort": "",
+          "uri": "http://www.w3.org/ns/ssn/implementedBy",
+          "usage": {}
+        }
+      ],
+      "sort": "",
+      "uri": "https://www.w3.org/TR/vocab-ssn/#SOSAProcedure",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [
+        {
+          "label": "Process",
+          "name": "Process",
+          "package": "OM",
+          "scoped_uri": "#Process",
+          "uri": "http://fixme.com#Process"
+        },
+        {
+          "label": "System",
+          "name": "System",
+          "package": "SSN",
+          "scoped_uri": "#System",
+          "uri": "https://www.w3.org/TR/vocab-ssn/#ssn-system"
+        }
+      ],
+      "properties": [
+        {
+          "cardinality": "0..*",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Sensor",
+              "uri": "https://www.w3.org/TR/vocab-ssn/#SOSASensor"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "Observation",
+              "range_uri": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "Observation"
+              },
+              "range_puri": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation",
+              "range_uri": "#Observation"
+            }
+          ],
+          "sort": "",
+          "uri": "http://www.w3.org/ns/sosa/madeObservation",
+          "usage": {}
+        },
+        {
+          "cardinality": "1..*",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Sensor",
+              "uri": "https://www.w3.org/TR/vocab-ssn/#SOSASensor"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "PropertyType",
+              "range_uri": "http://def.isotc211.org/iso19109/2005/GeneralFeatureModel#GF_PropertyType"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "PropertyType"
+              },
+              "range_puri": "http://def.isotc211.org/iso19109/2005/GeneralFeatureModel#GF_PropertyType",
+              "range_uri": "#PropertyType"
+            }
+          ],
+          "sort": "",
+          "uri": "http://www.w3.org/ns/sosa/observes",
+          "usage": {}
+        },
+        {
+          "cardinality": "1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Sensor",
+              "uri": "https://www.w3.org/TR/vocab-ssn/#SOSASensor"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "ObservationProcedure",
+              "range_uri": "https://www.w3.org/TR/vocab-ssn/#SOSAProcedure"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "ObservationProcedure"
+              },
+              "range_puri": "https://www.w3.org/TR/vocab-ssn/#SOSAProcedure",
+              "range_uri": "#ObservationProcedure"
+            }
+          ],
+          "sort": "",
+          "uri": "http://www.w3.org/ns/ssn/implements",
+          "usage": {}
+        }
+      ],
+      "sort": "",
+      "uri": "https://www.w3.org/TR/vocab-ssn/#SOSASensor",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [],
+      "properties": [
+        {
+          "cardinality": "1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "OperatingRange",
+              "uri": "https://www.w3.org/TR/vocab-ssn/#SSNSYSTEMOperatingRange"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "OperatingProperty",
+              "range_uri": "http://www.w3.org/ns/ssn/systems/OperatingRange"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "OperatingProperty"
+              },
+              "range_puri": "http://www.w3.org/ns/ssn/systems/OperatingRange",
+              "range_uri": "#OperatingProperty"
+            }
+          ],
+          "sort": "",
+          "uri": "http://www.w3.org/ns/ssn/systems/hasOperatingProperty",
+          "usage": {}
+        },
+        {
+          "cardinality": "1..*",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "OperatingRange",
+              "uri": "https://www.w3.org/TR/vocab-ssn/#SSNSYSTEMOperatingRange"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "Condition",
+              "range_uri": "http://www.w3.org/ns/ssn/systems/Condition"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "Condition"
+              },
+              "range_puri": "http://www.w3.org/ns/ssn/systems/Condition",
+              "range_uri": "#Condition"
+            }
+          ],
+          "sort": "",
+          "uri": "http://www.w3.org/ns/ssn/systems/inCondition",
+          "usage": {}
+        }
+      ],
+      "sort": "",
+      "uri": "https://www.w3.org/TR/vocab-ssn/#SSNSYSTEMOperatingRange",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [],
+      "properties": [
+        {
+          "cardinality": "1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "SurvivalRange",
+              "uri": "https://www.w3.org/TR/vocab-ssn/#SSNSYSTEMSurvivalRange"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "SurvivalProperty",
+              "range_uri": "http://www.w3.org/ns/ssn/systems/SurvivalProperty"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "SurvivalProperty"
+              },
+              "range_puri": "http://www.w3.org/ns/ssn/systems/SurvivalProperty",
+              "range_uri": "#SurvivalProperty"
+            }
+          ],
+          "sort": "",
+          "uri": "http://www.w3.org/ns/ssn/systems/hasSurvivalProperty",
+          "usage": {}
+        },
+        {
+          "cardinality": "1..*",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "SurvivalRange",
+              "uri": "https://www.w3.org/TR/vocab-ssn/#SSNSYSTEMSurvivalRange"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "Condition",
+              "range_uri": "http://www.w3.org/ns/ssn/systems/Condition"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "Condition"
+              },
+              "range_puri": "http://www.w3.org/ns/ssn/systems/Condition",
+              "range_uri": "#Condition"
+            }
+          ],
+          "sort": "",
+          "uri": "http://www.w3.org/ns/ssn/systems/inCondition",
+          "usage": {}
+        }
+      ],
+      "sort": "",
+      "uri": "https://www.w3.org/TR/vocab-ssn/#SSNSYSTEMSurvivalRange",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [],
+      "properties": [
+        {
+          "cardinality": "1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "SystemCapability",
+              "uri": "https://www.w3.org/TR/vocab-ssn/#SSNSYSTEMSystemCapability"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "SystemProperty",
+              "range_uri": "http://www.w3.org/ns/ssn/systems/SystemProperty"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "SystemProperty"
+              },
+              "range_puri": "http://www.w3.org/ns/ssn/systems/SystemProperty",
+              "range_uri": "#SystemProperty"
+            }
+          ],
+          "sort": "",
+          "uri": "http://www.w3.org/ns/ssn/systems/hasSystemProperty",
+          "usage": {}
+        },
+        {
+          "cardinality": "1..*",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "SystemCapability",
+              "uri": "https://www.w3.org/TR/vocab-ssn/#SSNSYSTEMSystemCapability"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "Condition",
+              "range_uri": "http://www.w3.org/ns/ssn/systems/Condition"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "Condition"
+              },
+              "range_puri": "http://www.w3.org/ns/ssn/systems/Condition",
+              "range_uri": "#Condition"
+            }
+          ],
+          "sort": "",
+          "uri": "http://www.w3.org/ns/ssn/systems/inCondition",
+          "usage": {}
+        }
+      ],
+      "sort": "",
+      "uri": "https://www.w3.org/TR/vocab-ssn/#SSNSYSTEMSystemCapability",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [],
+      "properties": [
+        {
+          "cardinality": "0..*",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "System",
+              "uri": "https://www.w3.org/TR/vocab-ssn/#ssn-system"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "OperatingProperty",
+              "range_uri": "http://www.w3.org/ns/ssn/systems/OperatingRange"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "OperatingProperty"
+              },
+              "range_puri": "http://www.w3.org/ns/ssn/systems/OperatingRange",
+              "range_uri": "#OperatingProperty"
+            }
+          ],
+          "sort": "",
+          "uri": "http://fixme.com#hasRange",
+          "usage": {}
+        },
+        {
+          "cardinality": "0..*",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "System",
+              "uri": "https://www.w3.org/TR/vocab-ssn/#ssn-system"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "Platform",
+              "range_uri": "https://www.w3.org/TR/vocab-ssn/#SOSAPlatform"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "Platform"
+              },
+              "range_puri": "https://www.w3.org/TR/vocab-ssn/#SOSAPlatform",
+              "range_uri": "#Platform"
+            }
+          ],
+          "sort": "",
+          "uri": "http://www.w3.org/ns/sosa/isHostedBy",
+          "usage": {}
+        },
+        {
+          "cardinality": "0..*",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "System",
+              "uri": "https://www.w3.org/TR/vocab-ssn/#ssn-system"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "SurvivalRange",
+              "range_uri": "https://www.w3.org/TR/vocab-ssn/#SSNSYSTEMSurvivalRange"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "SurvivalRange"
+              },
+              "range_puri": "https://www.w3.org/TR/vocab-ssn/#SSNSYSTEMSurvivalRange",
+              "range_uri": "#SurvivalRange"
+            }
+          ],
+          "sort": "",
+          "uri": "http://www.w3.org/ns/ssn/systems/hasSurvivalRange",
+          "usage": {}
+        },
+        {
+          "cardinality": "0..*",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "System",
+              "uri": "https://www.w3.org/TR/vocab-ssn/#ssn-system"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "SystemCapability",
+              "range_uri": "https://www.w3.org/TR/vocab-ssn/#SSNSYSTEMSystemCapability"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "SystemCapability"
+              },
+              "range_puri": "https://www.w3.org/TR/vocab-ssn/#SSNSYSTEMSystemCapability",
+              "range_uri": "#SystemCapability"
+            }
+          ],
+          "sort": "",
+          "uri": "http://www.w3.org/ns/ssn/systems/hasSystemCapability",
+          "usage": {}
+        }
+      ],
+      "sort": "",
+      "uri": "https://www.w3.org/TR/vocab-ssn/#ssn-system",
+      "usage": {}
+    }
+  ],
+  "contributors": [],
+  "datatypes": [
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [],
+      "properties": [],
+      "sort": "",
+      "uri": "http://def.isotc211.org/iso19103/2005/Names#GenericName",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [],
+      "properties": [],
+      "sort": "",
+      "uri": "http://def.isotc211.org/iso19108/2006/TemporalObjects#TM_Object",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [],
+      "properties": [],
+      "sort": "",
+      "uri": "http://def.isotc211.org/iso19115/2006/CitationAndResponsiblePartyInformation#CI_ResponsibleParty",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [],
+      "properties": [],
+      "sort": "",
+      "uri": "http://fixme.com#AddressRepresentation",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [],
+      "properties": [
+        {
+          "cardinality": "0..1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Geometry",
+              "uri": "http://www.w3.org/ns/locn#Geometry"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "Literal",
+              "range_uri": "http://www.w3.org/2000/01/rdf-schema#Literal"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "Literal"
+              },
+              "range_puri": "http://www.w3.org/2000/01/rdf-schema#Literal",
+              "range_uri": "http://www.w3.org/2000/01/rdf-schema#Literal"
+            }
+          ],
+          "sort": "",
+          "uri": "http://www.opengis.net/ont/geosparql#asGML",
+          "usage": {}
+        },
+        {
+          "cardinality": "0..1",
+          "codelist_uri": "",
+          "description": {},
+          "domain": [
+            {
+              "EA-Name": "Geometry",
+              "uri": "http://www.w3.org/ns/locn#Geometry"
+            }
+          ],
+          "label": {},
+          "name": "",
+          "range": [
+            {
+              "range_label": "Literal",
+              "range_uri": "http://www.w3.org/2000/01/rdf-schema#Literal"
+            }
+          ],
+          "scopedrange": [
+            {
+              "range_label": {
+                "en": "Literal"
+              },
+              "range_puri": "http://www.w3.org/2000/01/rdf-schema#Literal",
+              "range_uri": "http://www.w3.org/2000/01/rdf-schema#Literal"
+            }
+          ],
+          "sort": "",
+          "uri": "http://www.opengis.net/ont/geosparql#asWKT",
+          "usage": {}
+        }
+      ],
+      "sort": "",
+      "uri": "http://www.w3.org/ns/locn#Geometry",
+      "usage": {}
+    },
+    {
+      "description": {},
+      "label": {},
+      "name": "",
+      "parents": [],
+      "properties": [],
+      "sort": "",
+      "uri": "https://def.isotc211.org/iso19156/2011/Observation#NamedValue",
+      "usage": {}
+    }
+  ],
+  "documentroot": "/doc/vocabulary",
+  "metadata": {
+    "changelogurl": "https://github.com/Informatievlaanderen/OSLOthema-airAndWater/blob/f82e9cb5b7799a56c22440f28c844f1de7c91068/CHANGELOG",
+    "feedbackurl": "https://github.com/Informatievlaanderen/OSLOthema-airAndWater/issues",
+    "filename": "OSLO-airAndWater-Core-ap",
+    "issued": "2021-04-16",
+    "license": "https://data.vlaanderen.be/id/licentie/modellicentie-gratis-hergebruik/v1.0",
+    "navigation": {
+      "self": "https://purl.eu/doc/applicationprofile/AirandWater/Core//2021-04-30"
+    },
+    "repositoryurl": "https://github.com/Informatievlaanderen/OSLOthema-airAndWater/tree/f82e9cb5b7799a56c22440f28c844f1de7c91068",
+    "standaardregisterurl": "https://data.vlaanderen.be/standaarden/TODO/CORRECT-URL/index.html",
+    "status": "https://data.vlaanderen.be/id/concept/StandaardStatus/OntwerpStandaard",
+    "statuslabel": "Ontwerp Standaard",
+    "title": "OSLO Air & Water - Core",
+    "uri": "http://fixme.com",
+    "usesAPs": [],
+    "usesVocs": []
+  },
+  "parents": [],
+  "properties": []
+}

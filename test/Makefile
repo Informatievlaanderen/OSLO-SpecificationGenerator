@@ -70,3 +70,10 @@ translate:
 MUCONFIGDIR=${TESTDIR}/mu-config-generator
 mu-config:
 	node /app/mu-config-generator.js -i ${MUCONFIGDIR}/1.input.jsonld -l en -o ${MUCONFIGDIR}
+
+
+HTMLDIR=${TESTDIR}/html-generator
+html:
+	cp ../views/*.j2 ${HTMLDIR}/templates
+	node /app/html-generator2.js -s ap -t 1.template.j2 -d ${HTMLDIR}/templates -f -h https://data.vlaanderen.be/ -r /doc/vocabulary -x ${HTMLDIR}/1.html-nj.json.0  -m en -e /tmp -i ${HTMLDIR}/1.input.jsonld -o ${HTMLDIR}/1.output.html
+	jq -S . ${HTMLDIR}/1.html-nj.json.0 > ${HTMLDIR}/1.html-nj.json

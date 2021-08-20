@@ -1,8 +1,8 @@
 const fs = require('fs')
 const jsonld = require('jsonld')
 const uris = require('./uris')
-var Map = require('collections/map')
-var Set = require('collections/set')
+const Map = require('collections/map')
+const Set = require('collections/set')
 
 require('collections/shim-array')
 
@@ -16,7 +16,7 @@ require('collections/shim-array')
  * defined on the data.vlaanderen.be repository can process.
  *
  * It's main entry points is parse_ontology_from_json_ld_file(json_ld_file, template_file)
- * 
+ *
  * New additions:
  * The Parser now additionally parses the file with regards to a chosen language
  **/
@@ -29,58 +29,58 @@ require('collections/shim-array')
 // by the nunjucks template.
 //
 // @param filename the name of the file that contains the json ld representation
-async function parse_ontology_from_json_ld_file_voc(json_ld_file, hostname, language) {
-  var ld = JSON.parse(fs.readFileSync(json_ld_file, 'utf-8'))
+async function parse_ontology_from_json_ld_file_voc (json_ld_file, hostname, language) {
+  const ld = JSON.parse(fs.readFileSync(json_ld_file, 'utf-8'))
   const expanded = await jsonld.expand(ld)
   console.log('html will be generated in: ' + language)
 
-  var codelist = getcodelist(ld)
-  var nj_classes = ld.classes.reduce(function (acc, elem) {
+  const codelist = getcodelist(ld)
+  const nj_classes = ld.classes.reduce(function (acc, elem) {
     acc.push(make_nj_class_voc(elem, language))
     return acc
   }, [])
-  //TODO Question, view method call
-  var nj_properties = ld.properties.reduce(function (acc, elem) {
+  // TODO Question, view method call
+  const nj_properties = ld.properties.reduce(function (acc, elem) {
     acc.push(make_nj_prop_voc(elem, codelist, language))
     return acc
   }, [])
-  var nj_ext_classes_list = ld.externals.reduce(function (acc, elem) {
-    var candidate = make_nj_ext_class_voc(elem, language)
+  const nj_ext_classes_list = ld.externals.reduce(function (acc, elem) {
+    const candidate = make_nj_ext_class_voc(elem, language)
     if (candidate.name && candidate.show) { acc.push(candidate) };
     return acc
   }, [])
-  var nj_ext_classes_set = new Set(nj_ext_classes_list)
-  var nj_ext_classes = nj_ext_classes_set.toArray()
-  var nj_ext_properties_list = ld.externalproperties.reduce(function (acc, elem) {
-    var candidate = make_nj_ext_prop_voc(elem, codelist, language)
+  const nj_ext_classes_set = new Set(nj_ext_classes_list)
+  const nj_ext_classes = nj_ext_classes_set.toArray()
+  const nj_ext_properties_list = ld.externalproperties.reduce(function (acc, elem) {
+    const candidate = make_nj_ext_prop_voc(elem, codelist, language)
     if (candidate.name && candidate.show) { acc.push(candidate) };
     return acc
   }, [])
-  var nj_ext_properties_set = new Set(nj_ext_properties_list)
-  var nj_ext_properties = nj_ext_properties_set.toArray()
-  var nj_editors = ld.editors.reduce(function (acc, elem) {
+  const nj_ext_properties_set = new Set(nj_ext_properties_list)
+  const nj_ext_properties = nj_ext_properties_set.toArray()
+  const nj_editors = ld.editors.reduce(function (acc, elem) {
     acc.push(make_nj_person(elem, 'E'))
     return acc
   }, [])
-  var nj_contributors = ld.contributors.reduce(function (acc, elem) {
+  const nj_contributors = ld.contributors.reduce(function (acc, elem) {
     acc.push(make_nj_person(elem, 'C'))
     return acc
   }, [])
-  var nj_authors = ld.authors.reduce(function (acc, elem) {
+  const nj_authors = ld.authors.reduce(function (acc, elem) {
     acc.push(make_nj_person(elem, 'A'))
     return acc
   }, [])
 
   for (const i in expanded) {
-    var vocabularium = expanded[i]
-    var nunjucks_json = {
+    const vocabularium = expanded[i]
+    const nunjucks_json = {
       metadata: make_nj_metadata(ld, hostname),
       classes: nj_classes,
       properties: nj_properties,
       contributors: nj_authors.concat(nj_editors).concat(nj_contributors),
       external_terms: nj_ext_classes.concat(nj_ext_properties)
     }
-    var datatypes = extract_datatypes_from_expanded_json(vocabularium)
+    const datatypes = extract_datatypes_from_expanded_json(vocabularium)
     if (datatypes.length > 0) {
       nunjucks_json.datatypes = datatypes
     }
@@ -88,41 +88,41 @@ async function parse_ontology_from_json_ld_file_voc(json_ld_file, hostname, lang
   }
 };
 
-async function parse_ontology_from_json_ld_file_ap(json_ld_file, hostname, forceskos) {
-  var ld = JSON.parse(fs.readFileSync(json_ld_file, 'utf-8'))
+async function parse_ontology_from_json_ld_file_ap (json_ld_file, hostname, forceskos) {
+  const ld = JSON.parse(fs.readFileSync(json_ld_file, 'utf-8'))
   const expanded = await jsonld.expand(ld)
 
-  var grouped0 = group_properties_per_class_all(ld)
-  var codelist = getcodelist(ld)
-  var package_map = get_package_map(ld)
-  var classid_map = get_classid_map(ld)
-  var dependencies = ld.dependencies
+  const grouped0 = group_properties_per_class_all(ld)
+  const codelist = getcodelist(ld)
+  const package_map = get_package_map(ld)
+  const classid_map = get_classid_map(ld)
+  let dependencies = ld.dependencies
   if (!dependencies) { dependencies = [] };
-  var aux = {
+  const aux = {
     codelist: codelist,
     dependencies: dependencies,
     package_map: package_map,
     classid_map: classid_map,
     forceskos: forceskos
   }
-  var nj_classes = make_nj_classes(ld.classes, grouped0, aux)
-  var nj_datatypes = make_nj_datatypes(ld.classes, grouped0, aux)
+  const nj_classes = make_nj_classes(ld.classes, grouped0, aux)
+  const nj_datatypes = make_nj_datatypes(ld.classes, grouped0, aux)
 
-  var nj_editors = ld.editors.reduce(function (acc, elem) {
+  const nj_editors = ld.editors.reduce(function (acc, elem) {
     acc.push(make_nj_person(elem, 'E'))
     return acc
   }, [])
-  var nj_contributors = ld.contributors.reduce(function (acc, elem) {
+  const nj_contributors = ld.contributors.reduce(function (acc, elem) {
     acc.push(make_nj_person(elem, 'C'))
     return acc
   }, [])
-  var nj_authors = ld.authors.reduce(function (acc, elem) {
+  const nj_authors = ld.authors.reduce(function (acc, elem) {
     acc.push(make_nj_person(elem, 'A'))
     return acc
   }, [])
   for (const i in expanded) {
-    var vocabularium = expanded[i]
-    var nunjucks_json = {
+    const vocabularium = expanded[i]
+    const nunjucks_json = {
       metadata: make_nj_metadata(ld, hostname),
       classes: nj_classes,
       properties: extract_properties_from_expanded_json(vocabularium),
@@ -134,41 +134,41 @@ async function parse_ontology_from_json_ld_file_ap(json_ld_file, hostname, force
   }
 };
 
-async function parse_ontology_from_json_ld_file_all(json_ld_file, hostname, forceskos, language) {
-  var ld = JSON.parse(fs.readFileSync(json_ld_file, 'utf-8'))
+async function parse_ontology_from_json_ld_file_all (json_ld_file, hostname, forceskos, language) {
+  const ld = JSON.parse(fs.readFileSync(json_ld_file, 'utf-8'))
   const expanded = await jsonld.expand(ld)
 
-  var grouped0 = group_properties_per_class_all(ld)
-  var codelist = getcodelist(ld)
-  var package_map = get_package_map(ld)
-  var classid_map = get_classid_map(ld)
-  var dependencies = ld.dependencies
+  const grouped0 = group_properties_per_class_all(ld)
+  const codelist = getcodelist(ld)
+  const package_map = get_package_map(ld)
+  const classid_map = get_classid_map(ld)
+  let dependencies = ld.dependencies
   if (!dependencies) { dependencies = [] };
-  var aux = {
+  const aux = {
     codelist: codelist,
     dependencies: dependencies,
     package_map: package_map,
     classid_map: classid_map,
     forceskos: forceskos
   }
-  var nj_classes = make_nj_classes(ld.classes.concat(ld.externals), grouped0, aux, language)
-  var nj_datatypes = make_nj_datatypes(ld.classes.concat(ld.externals), grouped0, aux, language)
-  var nj_editors = ld.editors.reduce(function (acc, elem) {
+  const nj_classes = make_nj_classes(ld.classes.concat(ld.externals), grouped0, aux, language)
+  const nj_datatypes = make_nj_datatypes(ld.classes.concat(ld.externals), grouped0, aux, language)
+  const nj_editors = ld.editors.reduce(function (acc, elem) {
     acc.push(make_nj_person(elem, 'E'))
     return acc
   }, [])
-  var nj_contributors = ld.contributors.reduce(function (acc, elem) {
+  const nj_contributors = ld.contributors.reduce(function (acc, elem) {
     acc.push(make_nj_person(elem, 'C'))
     return acc
   }, [])
-  var nj_authors = ld.authors.reduce(function (acc, elem) {
+  const nj_authors = ld.authors.reduce(function (acc, elem) {
     acc.push(make_nj_person(elem, 'A'))
     return acc
   }, [])
 
   for (const i in expanded) {
-    var vocabularium = expanded[i]
-    var nunjucks_json = {
+    const vocabularium = expanded[i]
+    const nunjucks_json = {
       metadata: make_nj_metadata(ld, hostname),
       classes: nj_classes,
       properties: extract_properties_from_expanded_json(vocabularium),
@@ -180,48 +180,44 @@ async function parse_ontology_from_json_ld_file_all(json_ld_file, hostname, forc
   }
 };
 
-async function parse_ontology_from_json_ld_file_oj(json_ld_file, hostname, forceskos, language) {
-  var ld = JSON.parse(fs.readFileSync(json_ld_file, 'utf-8'))
-  expanded = await jsonld.expand(ld)
+async function parse_ontology_from_json_ld_file_oj (json_ld_file, hostname, forceskos, language) {
+  const ld = JSON.parse(fs.readFileSync(json_ld_file, 'utf-8'))
+  const expanded = await jsonld.expand(ld)
 
-  var grouped0 = group_properties_per_class_all(ld)
+  const grouped0 = group_properties_per_class_all(ld)
   const hier = class_hierarchy_extensional(ld.classes.concat(ld.externals))
-  var grouped2 = group_properties_per_class_using_hierarchy(hier, grouped0)
-  var codelist = getcodelist(ld)
-  var package_map = get_package_map(ld)
-  var classid_map = get_classid_map(ld)
-  var dependencies = ld.dependencies
+  const grouped2 = group_properties_per_class_using_hierarchy(hier, grouped0)
+  const codelist = getcodelist(ld)
+  const package_map = get_package_map(ld)
+  const classid_map = get_classid_map(ld)
+  let dependencies = ld.dependencies
   if (!dependencies) { dependencies = [] };
-  var aux = {
+  const aux = {
     codelist: codelist,
     dependencies: dependencies,
     package_map: package_map,
     classid_map: classid_map,
     forceskos: forceskos
   }
-  var nj_classes = make_nj_classes(ld.classes, grouped2, aux, language)
-  var nj_datatypes = make_nj_datatypes(ld.classes, grouped2, aux, language)
+  const nj_classes = make_nj_classes(ld.classes, grouped2, aux, language)
+  const nj_datatypes = make_nj_datatypes(ld.classes, grouped2, aux, language)
 
-  var nj_editors = ld.editors.reduce(function (acc, elem) {
+  const nj_editors = ld.editors.reduce(function (acc, elem) {
     acc.push(make_nj_person(elem, 'E'))
     return acc
   }, [])
-  var nj_contributors = ld.contributors.reduce(function (acc, elem) {
+  const nj_contributors = ld.contributors.reduce(function (acc, elem) {
     acc.push(make_nj_person(elem, 'C'))
     return acc
   }, [])
-  var nj_authors = ld.authors.reduce(function (acc, elem) {
-    var nj_authors = ld.authors.reduce(function (acc, elem) {
-      acc.push(make_nj_person(elem, 'A'))
-      return acc
-    }, [])
+  const nj_authors = ld.authors.reduce(function (acc, elem) {
     acc.push(make_nj_person(elem, 'A'))
     return acc
   }, [])
 
   for (const i in expanded) {
-    var vocabularium = expanded[i]
-    var nunjucks_json = {
+    const vocabularium = expanded[i]
+    const nunjucks_json = {
       metadata: make_nj_metadata(ld, hostname),
       classes: nj_classes,
       properties: extract_properties_from_expanded_json(vocabularium),
@@ -233,54 +229,51 @@ async function parse_ontology_from_json_ld_file_oj(json_ld_file, hostname, force
   }
 };
 
-async function parse_json_ld_file_to_exampletemplates(json_ld_file, hostname, language) {
-  var ld = JSON.parse(fs.readFileSync(json_ld_file, 'utf-8'))
-  const expanded = await jsonld.expand(ld)
+async function parse_json_ld_file_to_exampletemplates (json_ld_file, hostname, language) {
+  const ld = JSON.parse(fs.readFileSync(json_ld_file, 'utf-8'))
+  // const expanded = await jsonld.expand(ld)
   // console.log(JSON.stringify(expanded));
 
-  var grouped0 = group_properties_per_class_all(ld)
-  var codelist = getcodelist(ld)
-  var package_map = get_package_map(ld)
-  var classid_map = get_classid_map(ld)
-  var dependencies = ld.dependencies
+  const grouped0 = group_properties_per_class_all(ld)
+  const codelist = getcodelist(ld)
+  const package_map = get_package_map(ld)
+  const classid_map = get_classid_map(ld)
+  let dependencies = ld.dependencies
   if (!dependencies) { dependencies = [] };
 
-  var aux = {
+  const aux = {
     codelist: codelist,
     dependencies: dependencies,
     package_map: package_map,
     classid_map: classid_map,
     forceskos: false
   }
-  var nj_classes = make_nj_classes(ld.classes.concat(ld.externals), grouped0, aux, language)
-  var nj_datatypes = make_nj_datatypes(ld.classes.concat(ld.externals), grouped0, aux, language)
+  const nj_classes = make_nj_classes(ld.classes.concat(ld.externals), grouped0, aux, language)
+  const nj_datatypes = make_nj_datatypes(ld.classes.concat(ld.externals), grouped0, aux, language)
   // console.log(JSON.stringify(nj_classes) );
 
-  for (const i in expanded) {
-    var vocabularium = expanded[i]
-    var classes_json = {
-      metadata: make_nj_metadata(ld, hostname),
-      classes: nj_classes,
-      datatypes: nj_datatypes,
-      parents: []
-    }
-    return classes_json
+  const classes_json = {
+    metadata: make_nj_metadata(ld, hostname),
+    classes: nj_classes,
+    datatypes: nj_datatypes,
+    parents: []
   }
+  return classes_json
 };
 
-function group_properties_per_class_all(json) {
-  var classes = json.classes
+function group_properties_per_class_all (json) {
+  let classes = json.classes
   classes = classes.concat(json.externals)
-  var properties = json.properties
+  let properties = json.properties
   properties = properties.concat(json.externalproperties)
 
   return group_properties_per_class2(classes, properties, json)
 };
 
-function group_properties_per_class2(classes, properties, json) {
-  var grouped = new Map()
-  var domain = []
-  var v = []
+function group_properties_per_class2 (classes, properties, json) {
+  const grouped = new Map()
+  let domain = []
+  let v = []
 
   for (const key in classes) {
     grouped.set(classes[key].extra['EA-Name'], [])
@@ -309,10 +302,10 @@ function group_properties_per_class2(classes, properties, json) {
 };
 
 // extensional_hierachy
-function class_hierarchy_extensional(classes) {
-  var hierarchy = new Map()
-  var ext_hierarchy = new Map()
-  var parents = []
+function class_hierarchy_extensional (classes) {
+  const hierarchy = new Map()
+  const ext_hierarchy = new Map()
+  let parents = []
 
   for (const key in classes) {
     push_value_to_map_array(hierarchy, classes[key].extra['EA-Name'], classes[key].extra['EA-Parents'])
@@ -327,16 +320,16 @@ function class_hierarchy_extensional(classes) {
   return ext_hierarchy
 };
 
-function class_parents(level, hierarchy, c) {
+function class_parents (level, hierarchy, c) {
   if (level < 1) {
     console.log('ERROR: the derivation of the parents hit the limit for ' + c)
     return []
   } else {
+    let parents = []
     if (hierarchy.has(c)) {
       const parents0 = hierarchy.get(c)
-      var parents = []
-      var ancestors = []
-      for (var p in parents0) {
+      let ancestors = []
+      for (const p in parents0) {
         ancestors = class_parents(level - 1, hierarchy, parents0[p])
         parents.push(ancestors)
         if (parents0[p] !== '') {
@@ -350,13 +343,12 @@ function class_parents(level, hierarchy, c) {
   }
 };
 
-
 //
 // map_array = map(key, [ ... ] )
 //
 // pushes a single value for a key to the map_array
-function push_value_to_map_array(mamap, key, value) {
-  var v = []
+function push_value_to_map_array (mamap, key, value) {
+  let v = []
   if (mamap.has(key)) {
     v = mamap.get(key)
     v.push(value)
@@ -372,14 +364,13 @@ function push_value_to_map_array(mamap, key, value) {
 
 //
 // add the classes serialised according to the childeren serialization...
-function group_properties_per_class_using_hierarchy(hierarchy, grouped) {
-  var hierarchy_grouped = new Map()
-  var v = []
-  var vv = []
+function group_properties_per_class_using_hierarchy (hierarchy, grouped) {
+  const hierarchy_grouped = new Map()
+  let vv = []
 
   hierarchy.forEach(function (hvalue, hkey, hmap) {
     vv = []
-    for (var akey in hvalue) {
+    for (const akey in hvalue) {
       if (grouped.has(hvalue[akey])) {
         vv.push([grouped.get(hvalue[akey])])
       };
@@ -398,7 +389,8 @@ function group_properties_per_class_using_hierarchy(hierarchy, grouped) {
 //    * dependencies as given by the user
 //    * package_map = {EA-class -> EA-Package}
 //    * property_range = the EA-range of the property
-function map_range(dependencies, package_map, property_range, property_range_uri, range_label, range_package, language) {
+function map_range (dependencies, package_map, property_range, property_range_uri, range_label, range_package, language) {
+  let scoped_range = []
   if (package_map.has(property_range)) {
     // if it has a package then it is at least defined in the local space
     scoped_range = dependencies.reduce(function (acc, elem) {
@@ -413,11 +405,11 @@ function map_range(dependencies, package_map, property_range, property_range_uri
       }
       return acc
     },
-      {
-        range_uri: '#' + range_label[language],
-        range_puri: property_range_uri,
-        range_label: range_label
-      }
+    {
+      range_uri: '#' + range_label[language],
+      range_puri: property_range_uri,
+      range_label: range_label
+    }
     )
   } else {
     // not part of any package
@@ -432,11 +424,11 @@ function map_range(dependencies, package_map, property_range, property_range_uri
       }
       return acc
     },
-      {
-        range_uri: property_range_uri,
-        range_puri: property_range_uri,
-        range_label: range_label
-      }
+    {
+      range_uri: property_range_uri,
+      range_puri: property_range_uri,
+      range_label: range_label
+    }
     )
   }
 
@@ -445,9 +437,9 @@ function map_range(dependencies, package_map, property_range, property_range_uri
 
 // if the class is member of the package_map (means the class is mentioned on the document)
 // then it gets a scoped url, otherwise it uses the default.
-function get_scoped_class_uri(dependencies, package_map, myname, mypackage, mylabel, mydefault) {
+function get_scoped_class_uri (dependencies, package_map, myname, mypackage, mylabel, mydefault) {
   // start with the default
-  var scoped_class_uri = mydefault
+  let scoped_class_uri = mydefault
   // if part of the published classes use relative scoped url
   if (package_map.has(myname)) {
     scoped_class_uri = '#' + mylabel
@@ -459,7 +451,7 @@ function get_scoped_class_uri(dependencies, package_map, myname, mypackage, myla
     }
     return acc
   },
-    scoped_class_uri
+  scoped_class_uri
   )
 
   return scoped_class_uri
@@ -467,22 +459,22 @@ function get_scoped_class_uri(dependencies, package_map, myname, mypackage, myla
 
 // note assumed is that EA-Parents is just a single value
 // map: EA-Name -> EA-Package
-function get_package_map(json) {
-  var classes = json.classes.concat(json.externals)
-  var package_map = new Map()
+function get_package_map (json) {
+  const classes = json.classes.concat(json.externals)
+  const package_map = new Map()
 
-  for (var key in classes) {
+  for (const key in classes) {
     package_map.set(classes[key].extra['EA-Name'], classes[key].extra['EA-Package'])
   }
   return package_map
 };
 
 // map: EA-Name -> label
-function get_classid_map(json) {
-  var classes = json.classes.concat(json.externals)
-  var classid_map = new Map()
+function get_classid_map (json) {
+  const classes = json.classes.concat(json.externals)
+  const classid_map = new Map()
 
-  for (var key in classes) {
+  for (const key in classes) {
     if (classes[key].label) {
       classid_map.set(classes[key].extra['EA-Name'], classes[key].label)
     }
@@ -490,8 +482,8 @@ function get_classid_map(json) {
   return classid_map
 };
 
-function get_classid(classid_map, eaname, language) {
-  var classid = { [language]: eaname }
+function get_classid (classid_map, eaname, language) {
+  let classid = { [language]: eaname }
   if (classid_map.has(eaname)) {
     classid = classid_map.get(eaname)
   };
@@ -500,12 +492,12 @@ function get_classid(classid_map, eaname, language) {
 
 //
 // map EA-classnames to codelists
-function getcodelist(json) {
-  var classes = json.classes
+function getcodelist (json) {
+  let classes = json.classes
   classes = classes.concat(json.externals)
 
-  var codelistmap = new Map()
-  for (var c in classes) {
+  const codelistmap = new Map()
+  for (const c in classes) {
     if (classes[c]['ap-codelist'] && classes[c]['ap-codelist'] !== '') {
       codelistmap.set(classes[c].extra['EA-Name'], classes[c]['ap-codelist'])
     }
@@ -513,10 +505,10 @@ function getcodelist(json) {
   return codelistmap
 };
 
-function make_nj_classes(classes, grouped, aux, language) {
+function make_nj_classes (classes, grouped, aux, language) {
   console.log('make nunjuncks classes')
 
-  var nj_classes = []
+  let nj_classes = []
 
   nj_classes = classes.reduce(function (accumulator, element) {
     if ((element.extra['EA-Type'] !== 'DATATYPE') && (element.extra['EA-Type'] !== 'ENUMERATION')) {
@@ -527,10 +519,10 @@ function make_nj_classes(classes, grouped, aux, language) {
   return nj_classes
 };
 
-function make_nj_datatypes(classes, grouped, aux, language) {
+function make_nj_datatypes (classes, grouped, aux, language) {
   console.log('make nunjuncks classes')
 
-  var nj_classes = []
+  let nj_classes = []
 
   nj_classes = classes.reduce(function (accumulator, element) {
     if (element.extra['EA-Type'] === 'DATATYPE') {
@@ -546,17 +538,17 @@ function make_nj_datatypes(classes, grouped, aux, language) {
    grouped = an auxiliary structure which contains all properties per class
    aux = an auxiliary structure consisting of a codelists, package_map, dependency information
 */
-function make_nj_class(element, grouped, aux, language) {
-  var codelist = aux.codelist
-  var dependencies = aux.dependencies
-  var package_map = aux.package_map
-  var classid_map = aux.classid_map
+function make_nj_class (element, grouped, aux, language) {
+  const codelist = aux.codelist
+  const dependencies = aux.dependencies
+  const package_map = aux.package_map
+  const classid_map = aux.classid_map
   const forceskos = aux.forceskos
-  var prop = new Map()
-  var props = []
+  let prop = new Map()
+  let props = []
 
   // basic class data
-  var nj_class = {
+  const nj_class = {
     uri: element['@id'],
     name: get_neutral_attribute(element, 'name'),
     label: get_language_attribute(element, 'label', language),
@@ -565,22 +557,22 @@ function make_nj_class(element, grouped, aux, language) {
     usage: get_language_attribute(element, 'usage', language)
   }
   // if the class is actually a reuse of an class from another applicationprofile
-  var scoped_class_uri = dependencies.reduce(function (acc, elem) {
+  const scoped_class_uri = dependencies.reduce(function (acc, elem) {
     if (elem.package === element.extra['EA-Package']) {
       // a dependency has been defined for this class
       acc = elem.packageurl + '#' + element.extra['EA-Name']
     }
     return acc
   },
-    ''
+  ''
   )
   if (scoped_class_uri !== '') {
     nj_class.scopeduri = scoped_class_uri
   };
 
   // the superclasses of the class
-  var parents = element.extra['EA-Parents2']
-  var scoped_parents = parents.reduce(function (acc, elem) {
+  const parents = element.extra['EA-Parents2']
+  const scoped_parents = parents.reduce(function (acc, elem) {
     if (elem.label !== '') {
       elem.scoped_uri = get_scoped_class_uri(dependencies, package_map, elem.name, elem.package, elem.label, elem.uri)
     } else {
@@ -591,13 +583,13 @@ function make_nj_class(element, grouped, aux, language) {
     acc.push(elem)
     return acc
   },
-    []
+  []
   )
   nj_class.parents = scoped_parents
 
-  var gindex = element.extra['EA-Name']
+  const gindex = element.extra['EA-Name']
 
-  var g = []
+  let g = []
   if (grouped.has(gindex)) {
     g = grouped[gindex]
     if (g == null) { g = [] };
@@ -607,9 +599,9 @@ function make_nj_class(element, grouped, aux, language) {
     g = []
   };
   props = []
-  var range = []
-  var codelisturi = ''
-  var card = ''
+  let range = []
+  let codelisturi = ''
+  let card = ''
   nj_class.properties = props
   Object.entries(g).forEach(
     ([pkey, value]) => {
@@ -629,7 +621,7 @@ function make_nj_class(element, grouped, aux, language) {
           }
           return racc
         }, [])
-        var rlabel = ''
+        let rlabel = ''
         scoped_range = value.range.reduce(function (racc, relem) {
           if (relem['EA-Name']) {
             rlabel = get_classid(classid_map, relem['EA-Name'], language)
@@ -691,8 +683,8 @@ function make_nj_class(element, grouped, aux, language) {
   return nj_class
 };
 
-function make_nj_class_voc(element, language) {
-  var nj_class = {
+function make_nj_class_voc (element, language) {
+  const nj_class = {
     uri: element['@id'],
     name: get_neutral_attribute(element, 'name'),
     label: get_language_attribute(element, 'label', language),
@@ -706,42 +698,40 @@ function make_nj_class_voc(element, language) {
   return nj_class
 };
 
-function get_language_attribute(element, attr, language) {
+function get_language_attribute (element, attr, language) {
   if (element[attr] !== undefined && element[attr] != null && element[attr][language] !== undefined) {
-    var attribute = element[attr]
+    const attribute = element[attr]
     return attribute
-  }
-  else {
+  } else {
     return {}
   }
 }
 
-function get_neutral_attribute(element, attr) {
+function get_neutral_attribute (element, attr) {
   if (element[attr] !== undefined && element[attr] != null) {
-    var attribute = element[attr]
+    const attribute = element[attr]
     return attribute
-  }
-  else {
+  } else {
     return {}
   }
 }
 
 // sort value: if label is present, use it, otherwise use UML name
-function get_sort(element, language) {
+function get_sort (element, language) {
   let sort = {}
-  if (element['label'] !== undefined && element['label'] != null && element['label'][language] !== undefined) {
-    sort = element['label'][language]
+  if (element.label !== undefined && element.label != null && element.label[language] !== undefined) {
+    sort = element.label[language]
   } else {
     sort = get_neutral_attribute(element, 'name')
   }
-  if (sort == {}) {
-    sort = "undefined"
+  if (sort === {}) {
+    sort = 'undefined'
   }
   return sort
 }
 
-function make_nj_ext_class_voc(element, language) {
-  var nj_class = {
+function make_nj_ext_class_voc (element, language) {
+  const nj_class = {
     uri: element['@id'],
     name: get_neutral_attribute(element, 'name'),
     label: get_language_attribute(element, 'label', language),
@@ -778,21 +768,21 @@ function make_nj_ext_class_voc(element, language) {
   return nj_class
 };
 
-//TODO Why does this only work with String value, not object (no "description":{"en:" "String@en"} but "description":"String@en")
-function make_nj_prop_voc(element, codelist, language) {
-  var domain = element.domain.reduce(function (racc, relem) {
+// TODO Why does this only work with String value, not object (no "description":{"en:" "String@en"} but "description":"String@en")
+function make_nj_prop_voc (element, codelist, language) {
+  const domain = element.domain.reduce(function (racc, relem) {
     if (relem['EA-Name']) {
       racc.push(relem.uri)
     }
     return racc
   }, [])
-  var range = element.range.reduce(function (racc, relem) {
+  const range = element.range.reduce(function (racc, relem) {
     if (relem['EA-Name']) {
       racc.push(relem.uri)
     }
     return racc
   }, [])
-  var codelisturi = element.range.reduce(function (racc, relem) {
+  const codelisturi = element.range.reduce(function (racc, relem) {
     if (relem['EA-Name']) {
       if (codelist.get(relem['EA-Name'])) {
         if (racc && racc !== '') { console.log('INFO: overwrite codelist reference: ' + racc) };
@@ -802,7 +792,7 @@ function make_nj_prop_voc(element, codelist, language) {
     return racc
   }, element.extra['ap-codelist'])
 
-  var nj_prop = {
+  const nj_prop = {
     uri: element['@id'],
     name: get_neutral_attribute(element, 'name'),
     label: get_language_attribute(element, 'label', language),
@@ -818,8 +808,8 @@ function make_nj_prop_voc(element, codelist, language) {
   return nj_prop
 };
 
-function make_nj_ext_prop_voc(element, codelist, language) {
-  var nj_prop = {
+function make_nj_ext_prop_voc (element, codelist, language) {
+  const nj_prop = {
     uri: element['@id'],
     name: get_neutral_attribute(element, 'name'),
     label: get_language_attribute(element, 'label', language),
@@ -865,15 +855,15 @@ function make_nj_ext_prop_voc(element, codelist, language) {
 // @param expanded the root class that was parsed by jsonld
 // @param domain a string containing the URI of the class that you want the
 //               domain to be restricted to
-function extract_all_properties_with_domain_from_expanded_json(expanded, domain) {
-  var properties = []
+function extract_all_properties_with_domain_from_expanded_json (expanded, domain) {
+  const properties = []
   const reverses = expanded['@reverse']
-  var defined_enitities = reverses[uris.IS_DEFINED_BY]
+  const defined_enitities = reverses[uris.IS_DEFINED_BY]
   for (const i in defined_enitities) {
-    var defined_entity = defined_enitities[i]
-    var type = defined_entity['@type']
+    const defined_entity = defined_enitities[i]
+    const type = defined_entity['@type']
     if (class_in_type(uris.PROPERTY, type)) {
-      var parsed_property = {
+      const parsed_property = {
         uri: defined_entity['@id'],
         name: extract_language_strings(defined_entity[uris.NAME]),
         description: extract_language_strings(defined_entity[uris.DESCRIPTION]),
@@ -905,15 +895,15 @@ function extract_all_properties_with_domain_from_expanded_json(expanded, domain)
 // For an example please refer to the README.md.
 //
 // @param expanded the root class as it is being read by jsonld
-function extract_datatypes_from_expanded_json(expanded) {
-  var datatypes = []
-  reverses = expanded['@reverse']
-  var defined_enitities = reverses[uris.IS_DEFINED_BY]
+function extract_datatypes_from_expanded_json (expanded) {
+  const datatypes = []
+  const reverses = expanded['@reverse']
+  const defined_enitities = reverses[uris.IS_DEFINED_BY]
   for (const i in defined_enitities) {
-    var defined_entity = defined_enitities[i]
-    var type = defined_entity['@type']
+    const defined_entity = defined_enitities[i]
+    const type = defined_entity['@type']
     if (class_in_type(uris.DATATYPE, type)) {
-      var new_datatype = {
+      const new_datatype = {
         uri: defined_entity['@id'],
         name: extract_language_strings(defined_entity[uris.NAME]),
         description: extract_language_strings(defined_entity[uris.DESCRIPTION])
@@ -921,7 +911,7 @@ function extract_datatypes_from_expanded_json(expanded) {
       if (uris.USAGE in defined_entity) {
         new_datatype.usage = extract_language_strings(defined_entity[uris.USAGE])
       }
-      var datatype_properties = extract_all_properties_with_domain_from_expanded_json(expanded, new_datatype.uri)
+      const datatype_properties = extract_all_properties_with_domain_from_expanded_json(expanded, new_datatype.uri)
       if (datatype_properties.length > 0) {
         new_datatype.properties = datatype_properties
       }
@@ -939,15 +929,15 @@ function extract_datatypes_from_expanded_json(expanded) {
 // For an example please refer to the README.md.
 //
 // @param expanded the root class as it is being read by jsonld
-function extract_properties_from_expanded_json(expanded) {
-  var properties = []
-  reverses = expanded['@reverse']
-  var defined_enitities = reverses[uris.IS_DEFINED_BY]
+function extract_properties_from_expanded_json (expanded) {
+  const properties = []
+  const reverses = expanded['@reverse']
+  const defined_enitities = reverses[uris.IS_DEFINED_BY]
   for (const i in defined_enitities) {
-    var defined_entity = defined_enitities[i]
-    var type = defined_entity['@type']
+    const defined_entity = defined_enitities[i]
+    const type = defined_entity['@type']
     if (class_in_type(uris.PROPERTY, type)) {
-      var parsed_property = {
+      const parsed_property = {
         uri: defined_entity['@id'],
         name: extract_language_strings(defined_entity[uris.NAME]),
         description: extract_language_strings(defined_entity[uris.DESCRIPTION]),
@@ -993,8 +983,8 @@ function extract_properties_from_expanded_json(expanded) {
 // ]
 //
 // @param expanded the root class as it is being read by jsonld
-function make_nj_person(element, type) {
-  var nj_person = {
+function make_nj_person (element, type) {
+  const nj_person = {
     role: type,
     first_name: element['foaf:firstName'],
     last_name: element['foaf:lastName'],
@@ -1023,8 +1013,8 @@ function make_nj_person(element, type) {
 
 // the values in this config will be always Dutch
 // translation (EN, FR, ...) are collected from other sources
-function make_nj_metadata(json, hostname) {
-  var hn = json.hostname
+function make_nj_metadata (json, hostname) {
+  let hn = json.hostname
   if (hn == null) {
     hn = (hostname != null) ? hostname : 'https://data.vlaanderen.be'
   }
@@ -1037,7 +1027,7 @@ function make_nj_metadata(json, hostname) {
     }
   }
 
-  var docstatus = json['publication-state']
+  const docstatus = json['publication-state']
   let docstatuslabel = ''
 
   switch (docstatus) {
@@ -1073,7 +1063,7 @@ function make_nj_metadata(json, hostname) {
     json.license = 'https://data.vlaanderen.be/id/licentie/modellicentie-gratis-hergebruik/v1.0'
   }
 
-  var meta = {
+  const meta = {
     title: json.title,
     uri: json['@id'],
     issued: json['publication-date'],
@@ -1107,14 +1097,14 @@ function make_nj_metadata(json, hostname) {
 //
 // @param classname the name of the class that is being checked
 // @param types an array of strings representing types
-function class_in_type(classname, types) {
+function class_in_type (classname, types) {
   for (const i in types) {
-    var type = types[i]
+    const type = types[i]
     if (type.indexOf(classname) > -1) {
       return true
     }
-    return false
   }
+  return false
 };
 
 // extract language strings
@@ -1129,10 +1119,10 @@ function class_in_type(classname, types) {
 //
 // @param expanded_string_bags an array of string as they are being
 //                             parsed by jsonld
-function extract_language_strings(expanded_string_bag) {
-  var bag = {}
+function extract_language_strings (expanded_string_bag) {
+  const bag = {}
   for (const i in expanded_string_bag) {
-    var language_string = expanded_string_bag[i]
+    const language_string = expanded_string_bag[i]
     bag[language_string['@language']] = language_string['@value']
   }
   return bag
@@ -1149,10 +1139,10 @@ function extract_language_strings(expanded_string_bag) {
 //
 // @param expanded_string_bags an array of string as they are being
 //                             parsed by jsonld
-function extract_strings(expanded_string_bag) {
-  var bag = []
+function extract_strings (expanded_string_bag) {
+  const bag = []
   for (const i in expanded_string_bag) {
-    var string = expanded_string_bag[i]
+    const string = expanded_string_bag[i]
     bag.push(string['@value'])
   }
   return bag
