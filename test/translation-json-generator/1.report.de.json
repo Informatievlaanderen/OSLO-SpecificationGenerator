@@ -1,0 +1,5 @@
+ REPORT FOR /data/test/translation-json-generator/1.translation.de.json
+ WARNING - (/data/test/translation-json-generator/1.translation.de.json) for the object with the EA-Guid {D60B7001-A563-491b-ABC0-AD6F865BE2BA} there is no de translation for the definition. 
+ WARNING - (/data/test/translation-json-generator/1.translation.de.json) for the object with the EA-Guid {D60B7001-A563-491b-ABC0-AD6F865BE2BA} there is no de translation for the label. 
+ WARNING - (/data/test/translation-json-generator/1.translation.de.json) for the object with the EA-Guid {650F8E09-8AF2-43a9-AB80-B54495ED17F9} there is no de translation for the definition. 
+ WARNING - (/data/test/translation-json-generator/1.translation.de.json) for the object with the EA-Guid {650F8E09-8AF2-43a9-AB80-B54495ED17F9} there is no de translation for the label. 

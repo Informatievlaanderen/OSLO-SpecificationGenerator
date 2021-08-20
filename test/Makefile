@@ -61,4 +61,7 @@ translate:
 	jq -S . ${TRANSLATEDIR}/2.output.nl.json.0 > ${TRANSLATEDIR}/2.output.nl.json
 	node /app/translation-json-update.js -i ${TRANSLATEDIR}/2.translation.nl.json -f ${TRANSLATEDIR}/3.input.jsonld -m en -g nl -o ${TRANSLATEDIR}/3.output.nl.json.0
 	jq -S . ${TRANSLATEDIR}/3.output.nl.json.0 > ${TRANSLATEDIR}/3.output.nl.json
-
+	echo " > translation report" 
+	node /app/generate-translation-report.js -i ${TRANSLATEDIR}/1.translation.nl.json -l nl -o ${TRANSLATEDIR}/1.report.nl.txt
+	node /app/generate-translation-report.js -i ${TRANSLATEDIR}/1.translation.en.json -l en -o ${TRANSLATEDIR}/1.report.en.txt
+	node /app/generate-translation-report.js -i ${TRANSLATEDIR}/1.translation.de.json -l de -o ${TRANSLATEDIR}/1.report.de.txt
