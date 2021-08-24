@@ -5,6 +5,9 @@ shacl:
 	jq . /data/test/shacl-generator/1.output.jsonld.0 > /data/test/shacl-generator/1.output.jsonld
 	node /app/shacl-generator2.js -i /data/test/shacl-generator/1.input.jsonld -o /data/test/shacl-generator/2.output.jsonld.0 -l en -m individual
 	jq . /data/test/shacl-generator/2.output.jsonld.0 > /data/test/shacl-generator/2.output.jsonld
+	# test for not generating a constraint in case maxCardinality has the value "n" 
+	node /app/shacl-generator2.js -i /data/test/shacl-generator/3.input.jsonld -o /data/test/shacl-generator/3.output.jsonld.0 -l nl -m individual -d https://data.vlaanderen.be/shacl/DCAT-AP-VL
+	jq -S . /data/test/shacl-generator/3.output.jsonld.0 > /data/test/shacl-generator/3.output.jsonld
 
 context: 
 	node /app/json-ld-generator2.js -d -l label -i /data/test/json-ld-generator/1.input.jsonld -o /data/test/json-ld-generator/1.output.jsonld.0 -m en

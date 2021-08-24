@@ -182,7 +182,8 @@ function make_shacl_grouped (grouped, entitymap, language) {
           }
         };
 
-        if (value.maxCardinality && value.maxCardinality !== '*') { prop['sh:maxCount'] = value.maxCardinality }
+        if ((value.maxCardinality && value.maxCardinality !== '*') && (value.maxCardinality && value.maxCardinality !== 'n'))
+	      { prop['sh:maxCount'] = value.maxCardinality }
         if (value.minCardinality && value.minCardinality !== '0') { prop['sh:minCount'] = value.minCardinality }
         if (value.extra['ap-codelist']) { prop['qb:codeList'] = value.extra['ap-codelist'] } // requires the same codelist reasoning as for the html
         props.push(prop)
@@ -262,7 +263,7 @@ function make_shacl_individual (grouped, entitymap, language) {
           }
         };
 
-        if (value.maxCardinality && value.maxCardinality !== '*') {
+        if ((value.maxCardinality && value.maxCardinality !== '*') && (value.maxCardinality && value.maxCardinality !== 'n') ) {
           prop = { ...prop0 }
           prop['@id'] = classshapeuri + '/' + SHA1(prop0name + 'maxCount')
           prop['sh:maxCount'] = value.maxCardinality
