@@ -8,6 +8,12 @@ shacl:
 	# test for not generating a constraint in case maxCardinality has the value "n" 
 	node /app/shacl-generator2.js -i /data/test/shacl-generator/3.input.jsonld -o /data/test/shacl-generator/3.output.jsonld.0 -l nl -m individual -d https://data.vlaanderen.be/shacl/DCAT-AP-VL
 	jq -S . /data/test/shacl-generator/3.output.jsonld.0 > /data/test/shacl-generator/3.output.jsonld
+	node /app/shacl-generator2.js -i /data/test/shacl-generator/3.input.jsonld -o /data/test/shacl-generator/4.output.jsonld.0 -l nl -m individual -d https://data.vlaanderen.be/shacl/DCAT-AP-VL -c 'uniqueLanguages'
+	jq -S . /data/test/shacl-generator/4.output.jsonld.0 > /data/test/shacl-generator/4.output.jsonld
+	node /app/shacl-generator2.js -i /data/test/shacl-generator/3.input.jsonld -o /data/test/shacl-generator/5.output.jsonld.0 -l nl -m individual -d https://data.vlaanderen.be/shacl/DCAT-AP-VL -c 'uniqueLanguages' -p https://data.vlaanderen.be/doc/applicatieprofiel/DCAT-AP-VL/ontwerpstandaard/2021-06-27
+	jq -S . /data/test/shacl-generator/5.output.jsonld.0 > /data/test/shacl-generator/5.output.jsonld
+	node /app/shacl-generator2.js -i /data/test/shacl-generator/3.input.jsonld -o /data/test/shacl-generator/6.output.jsonld.0 -l nl -m individual -d https://data.vlaanderen.be/shacl/DCAT-AP-VL -c 'uniqueLanguages' -c 'nodekind'  -p https://data.vlaanderen.be/doc/applicatieprofiel/DCAT-AP-VL/ontwerpstandaard/2021-06-27
+	jq -S . /data/test/shacl-generator/6.output.jsonld.0 > /data/test/shacl-generator/6.output.jsonld
 
 context: 
 	node /app/json-ld-generator2.js -d -l label -i /data/test/json-ld-generator/1.input.jsonld -o /data/test/json-ld-generator/1.output.jsonld.0 -m en

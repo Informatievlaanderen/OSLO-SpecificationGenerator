@@ -1,15 +1,18 @@
 const jsonfile = require('jsonfile')
+const jsonpath= require('jsonpath')
 const SHA1 = require('crypto-js/sha1')
 const program = require('commander')
 
 program
   .version('1.0.0')
   .usage('node shacl-generator2.js creates shacl template with regards to a langauge')
-  .option('-i, --input <path>', 'input file (a jsonld file)')
-  .option('-o, --output <path>', 'output file (shacl)')
+  .requiredOption('-i, --input <path>', 'input file (a jsonld file)')
+  .requiredOption('-o, --output <path>', 'output file (shacl)')
   .option('-d, --domain <path>', 'domain of the shacl shapes, without #')
-  .option('-l, --language <languagecode>', 'the language for the shacl')
+  .requiredOption('-l, --language <languagecode>', 'the language for the shacl')
   .option('-m, --mode <mode>', 'the generation mode of the shacl shape. One of {grouped,individual}', /^(grouped|individual)$/i)
+  .option('-c, --constraints [constraints...]','additional contraints to be generated. Possible values are [stringsNotEmpty, uniqueLanguages,nodekind]',[] )
+  .option('-p, --publishedAt <url>', 'the URL at which the specification is being published') 
 
 program.on('--help', function () {
   console.log('')
@@ -21,6 +24,8 @@ program.on('--help', function () {
 
 program.parse(process.argv)
 const options = program.opts()
+
+		    console.log(options.constraints)
 render_shacl_from_json_ld_file(options.input, options.output, options.language)
 console.log('done')
 
@@ -243,11 +248,12 @@ function make_shacl_individual (grouped, entitymap, language) {
     sorted = kvalue.sort(function (a, b) { if (a.extra['EA-Name'] < b.extra['EA-Name']) { return -1 }; if (a.extra['EA-Name'] > b.extra['EA-Name']) { return 1 }; return 0 })
     Object.entries(sorted).forEach(
       ([pkey, value]) => {
-        const prop0 = get_prop(value, language)
+        let prop00 = get_prop(value, language)
         let prop0name = ''
-        if (prop0['sh:name'] != null && prop0['sh:name'][language] != null) {
-          prop0name = prop0['sh:name'][language]
+        if (prop00['sh:name'] != null && prop00['sh:name'][language] != null) {
+          prop0name = prop00['sh:name'][language]
         }
+        const prop0 = seeAlso(prop00, kkey, prop0name)
         if (value.range.length > 1) {
           console.log('Error: range has more than one value for property ', pkey)
         } else {
@@ -260,6 +266,28 @@ function make_shacl_individual (grouped, entitymap, language) {
               prop['sh:class'] = value.range[0].uri
             }
             props.push(prop)
+
+	    if (options.constraints.includes('uniqueLanguages')) {
+		    if (value.range[0].uri === 'http://www.w3.org/1999/02/22-rdf-syntax-ns#langString' ) {
+			    console.log('add uniqueLanguage constraint')
+            		prop = { ...prop0 } // use the spread operator to construct a variant of the constraint
+            		prop['@id'] = classshapeuri + '/' + SHA1(prop0name + 'uniqueLanguage')
+			prop['sh:uniqueLang'] = 'true'
+            		props.push(prop)
+
+		    }
+	    }
+	    if (options.constraints.includes('nodekind')) {
+			console.log('add nodeKind constraint')
+            		prop = { ...prop0 } // use the spread operator to construct a variant of the constraint
+            		prop['@id'] = classshapeuri + '/' + SHA1(prop0name + 'nodekind')
+            	    if (value['@type'] === 'http://www.w3.org/2002/07/owl#DatatypeProperty') {
+			prop['sh:nodekind'] = 'sh:Literal'
+		    } else {
+			prop['sh:nodekind'] = 'sh:BlankNodeOrIRI'
+		    }
+            		props.push(prop)
+	    }
           }
         };
 
@@ -296,6 +324,8 @@ function make_shacl_individual (grouped, entitymap, language) {
           props.push(prop)
         } // requires the same codelist reasoning as for the html
       })
+
+    props = props.sort(sortOnAttributes)
     shacl['sh:property'] = props
     shaclTemplates.push(shacl)
   })
@@ -357,6 +387,10 @@ function make_shacl_individual (grouped, entitymap, language) {
       '@id': 'sh:name',
       '@container': '@language'
     },
+    "sh:uniqueLang": {
+      "@id": "sh:uniqueLang",
+      "@type": "http://www.w3.org/2001/XMLSchema#boolean"
+    },
     'qb:codeList': {
       '@id': 'qb:codeList',
       '@type': '@id'
@@ -374,6 +408,14 @@ function make_shacl_individual (grouped, entitymap, language) {
   shaclDoc.shapes = shaclTemplates
 
   return shaclDoc
+}
+
+function seeAlso(prop,ClassLabel,PropertyLabel) {
+	// handle trailing slashes at initialisation
+	if (options.publishedAt) {
+	prop['rdfs:seeAlso'] = options.publishedAt + '#' +  encodeURIComponent(ClassLabel + ':' + PropertyLabel)
+	}
+     return prop
 }
 
 // assign a URI based on the name of the shape
@@ -438,3 +480,42 @@ function get_tagged_value (value, language) {
   }
   return null
 }
+
+/* 
+ * sorting functionality 
+ *   to ensure that the json is always in the same order
+ *
+ * The code is taken from pretty-print but applied here
+ * to avoid the implementaion of a complex data selection in pretty print
+ *
+ * attributes are now jsonpath expressions so that slightly more complicated orderings can be achieved.
+ */
+
+const attributes = [
+	{ 'ascending' : true,
+          'attribute' : "$['sh:name'].nl"
+	},
+	{ 'ascending' : true,
+          'attribute' : "$['@id']"
+	}
+]
+
+// Sort on the attributes
+const sortOnAttributes = function (a, b) {
+//   console.log(attributes)
+  for (let index = 0; index < attributes.length; index++) {
+    const element = attributes[index]
+    let av = jsonpath.query(a,element.attribute)
+    let bv = jsonpath.query(b,element.attribute)
+    if (element.ascending) {
+      if (av < bv) { return -1 }
+      if (av > bv) { return 1 }
+    } else {
+      if (av < bv) { return 1 }
+      if (av > bv) { return -1 }
+    }
+  }
+
+  return 0
+}
+

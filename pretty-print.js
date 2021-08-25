@@ -4,7 +4,7 @@ const program = require('commander')
 program
   .version('0.8.0')
   .usage('pretty-print a json-ld context')
-  .option('-i, --input <path>', 'input file (a jsonld file)')
+  .requiredOption('-i, --input <path>', 'input file (a jsonld file)')
   .option('-o, --output <path>', 'output file (the context)')
   .option('-s, --sortkeys [keys...]', 'keys to sort on', ['authors', 'editors', 'contributors'])
   .option('-a, --sortAttributes [attributes...]', 'attributes to sort on. Use prefixes to set sorting order per attribute as asc: or desc: ', ['foaf:lastName', 'foaf:FirstName'])
@@ -19,6 +19,10 @@ program.on('--help', function () {
 
 program.parse(process.argv)
 const options = program.opts()
+
+if (process.argv.length < 1) {
+  program.help()
+}
 
 // Import Json-LD file and parse it + select the authors part from that file
 const dataFile = fs.readFileSync(options.input)
@@ -64,8 +68,9 @@ const sortOnAttributes = function (a, b) {
 
 // sorts a certain key within a hash with the given function
 const sortOnKey = function (hash, key, sortFunction) {
+     console.log(key)
   const arrayToSort = hash[key]
-  //   console.log(arrayToSort)
+     console.log(arrayToSort)
   hash[key] = arrayToSort.sort(sortFunction)
   //   console.log(hash[key])
   return hash
@@ -73,7 +78,7 @@ const sortOnKey = function (hash, key, sortFunction) {
 
 // loops through the keys in the keyToSort array and apply the sortOnAttributes function
 for (const key in options.sortkeys) {
-//   console.log(options.sortkeys[key])
+   console.log(options.sortkeys[key])
   parsedData = sortOnKey(parsedData, options.sortkeys[key], sortOnAttributes)
 }
 
