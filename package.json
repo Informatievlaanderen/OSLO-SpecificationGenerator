@@ -1,7 +1,29 @@
 {
-  "name": "root",
+  "name": "oslo-specificationgenerator",
+  "description": "Contains various packages to generate the artefacts needed by the OSLO Toolchain",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/informatievlaanderen/OSLO-SpecificationGenerator.git"
+  },
+  "keywords": [
+    "semantic",
+    "web",
+    "open",
+    "standards"
+  ],
+  "author": "Digitaal Vlaanderen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/informatievlaanderen/OSLO-SpecificationGenerator/issues"
+  },
+  "homepage": "https://github.com/informatievlaanderen/OSLO-SpecificationGenerator#readme",
   "private": true,
+    "scripts": {
+    "build": "npm run build:ts",
+    "build:ts": "tsc -b"
+  },
   "devDependencies": {
-    "lerna": "^4.0.0"
+    "lerna": "^4.0.0",
+    "typescript": "^4.4.3"
   }
 }
