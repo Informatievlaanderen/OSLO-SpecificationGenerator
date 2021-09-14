@@ -11,14 +11,14 @@ export class Helpers {
     return object.extra['EA-Name'];
   };
 
-  public extractIdentifier = (object: any): string => {
-    return object['@id'];
-  }
+  public extractIdentifier = (object: any): string => object['@id'];
 
   public capitalizeFirst = (name: string): string => {
-    if (typeof name !== 'string') return ''
-    return name.charAt(0).toUpperCase() + name.slice(1)
-  }
+    if (typeof name !== 'string') {
+      return '';
+    }
+    return name.charAt(0).toUpperCase() + name.slice(1);
+  };
 }
 
 export const helper = new Helpers();

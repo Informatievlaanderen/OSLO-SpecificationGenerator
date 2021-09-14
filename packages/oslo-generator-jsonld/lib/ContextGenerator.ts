@@ -1,6 +1,6 @@
 import type { ISpecification, OSLOReport } from '@oslo-flanders/types';
-import { helper } from './Helpers';
 import jsonfile = require('jsonfile');
+import { helper } from './Helpers';
 
 export interface IContextGeneratorOptions {
   outputFile: string;
@@ -22,12 +22,28 @@ export class ContextGenerator implements ISpecification {
    * Generates a JSON-LD context and writes it to a file
    */
   public generateSpecification = async (): Promise<void> => {
-    const duplicates = this.identifyDuplicates([...this.report.properties, ...this.report.externalProperties], this.options.language);
-    const enterpriseArchitectClassNames = this.getEANameClasses([...this.report.classes, ...this.report.externals], this.options.language);
+    const duplicates = this.identifyDuplicates(
+      [...this.report.properties, ...this.report.externalProperties],
+      this.options.language,
+    );
+    const enterpriseArchitectClassNames = this.getEANameClasses(
+      [...this.report.classes, ...this.report.externals],
+      this.options.language,
+    );
     const classNameIdMap = this.getClassNameIdMap(this.report.classes, this.options.language);
-    const propertyContext = this.getPropertyContext(enterpriseArchitectClassNames, duplicates, this.report.properties, this.options.language);
+    const propertyContext = this.getPropertyContext(
+      enterpriseArchitectClassNames,
+      duplicates,
+      this.report.properties,
+      this.options.language,
+    );
     const externalNameIdMap = this.getExternalsNameIdMap(this.report.externals, this.options.language);
-    const externalPropertyContext = this.getPropertyContext(enterpriseArchitectClassNames, duplicates, this.report.externalProperties, this.options.language);
+    const externalPropertyContext = this.getPropertyContext(
+      enterpriseArchitectClassNames,
+      duplicates,
+      this.report.externalProperties,
+      this.options.language,
+    );
 
     const context = this.generateContext(classNameIdMap, propertyContext, externalNameIdMap, externalPropertyContext);
 
@@ -35,31 +51,31 @@ export class ContextGenerator implements ISpecification {
       .then(res => {
         console.log(`[ContextGenerator]: JSON-LD context successfully save to ${this.options.outputFile}.`);
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(`[ContextGenerator]: Something went wrong when writing to ${this.options.outputFile}.`);
         console.log(error);
-      })
+      });
   };
 
   /**
-   * Identifies all duplicate properties in the report. Because of modelling, a term can be used multiple times within another class
+   * Identifies all duplicate properties in the report. Because of modelling,
+   * a term can be used multiple times within another class
    * and with another URI. These terms are identified by this function and must be disambiguated.
-   * 
+   *
    * @param properties
-   * @param language 
+   * @param language
    * @returns a map containing all properties and their URIs
    */
-  private identifyDuplicates = (properties: any[], language: string): Map<string, Array<string>> => {
-    const termIdMap = new Map<string, Array<string>>();
+  private readonly identifyDuplicates = (properties: any[], language: string): Map<string, string[]> => {
+    const termIdMap = new Map<string, string[]>();
 
-    properties.reduce((accumulator, currentValue) => {
-      return this.termIdReducer(accumulator, currentValue, language)
-    }, termIdMap);
+    properties.reduce(
+      (accumulator, currentValue) => this.termIdReducer(accumulator, currentValue, language), termIdMap,
+    );
 
-    const duplicates = new Map<string, Array<string>>();
-    termIdMap.forEach((value: Array<string>, key: string) => {
+    const duplicates = new Map<string, string[]>();
+    termIdMap.forEach((value: string[], key: string) => {
       if (value.length > 1) {
-        // FIXME: is this necessary? Why not just adding it?
         const unique = new Set(value);
         if (unique.size > 1) {
           duplicates.set(key, value);
@@ -68,18 +84,23 @@ export class ContextGenerator implements ISpecification {
     });
 
     return duplicates;
-  }
+  };
 
   /**
    * Generates the JSON-LD context
-   * 
-   * @param classNameIdMap 
-   * @param propertiesContext 
-   * @param externalNameIdMap 
-   * @param externalPropertiesContext 
+   *
+   * @param classNameIdMap
+   * @param propertiesContext
+   * @param externalNameIdMap
+   * @param externalPropertiesContext
    * @returns a map with '@context' as key and the actual context as value
    */
-  private generateContext = (classNameIdMap: Map<string, string>, propertiesContext: Map<string, {}>, externalNameIdMap: Map<string, string>, externalPropertiesContext: Map<string, {}>) => {
+  private readonly generateContext = (
+    classNameIdMap: Map<string, string>,
+    propertiesContext: Map<string, unknown>,
+    externalNameIdMap: Map<string, string>,
+    externalPropertiesContext: Map<string, unknown>,
+  ): Map<string, unknown> => {
     console.log(`[ContextGenerator]: Start creating context for ${this.report.documentId}`);
 
     const context = new Map<string, any>();
@@ -91,7 +112,7 @@ export class ContextGenerator implements ISpecification {
     }
 
     if (propertiesContext.size > 0) {
-      propertiesContext.forEach((value: {}, key: string) => {
+      propertiesContext.forEach((value: unknown, key: string) => {
         context.set(key, value);
       });
     }
@@ -99,11 +120,11 @@ export class ContextGenerator implements ISpecification {
     if (externalNameIdMap.size > 0) {
       externalNameIdMap.forEach((value: string, key: string) => {
         context.set(key, value);
-      })
+      });
     }
 
     if (externalPropertiesContext.size > 0) {
-      externalPropertiesContext.forEach((value: {}, key: string) => {
+      externalPropertiesContext.forEach((value: unknown, key: string) => {
         context.set(key, value);
       });
     }
@@ -112,79 +133,85 @@ export class ContextGenerator implements ISpecification {
     result.set('@context', Object.fromEntries(context));
 
     return result;
-  }
+  };
 
   /**
    * Maps class names to their identifiers
-   * 
-   * @param classes 
-   * @param language 
+   *
+   * @param classes
+   * @param language
    * @returns a map containing class names as keys and their identifiers as values
    */
-  private getClassNameIdMap = (classes: any[], language: string): Map<string, string> => {
+  private readonly getClassNameIdMap = (classes: any[], language: string): Map<string, string> => {
     const classNameIdMap = new Map<string, string>();
     classes.map(classObject => this.mapClassNameToId(classObject, language, classNameIdMap));
 
     return classNameIdMap;
-  }
+  };
 
   /**
    * Creates context object for all property (disambiguation, sets correct types, ...)
-   * 
-   * @param eaClassNames 
-   * @param duplicates 
-   * @param properties 
-   * @param language 
+   *
+   * @param eaClassNames
+   * @param duplicates
+   * @param properties
+   * @param language
    * @returns a map containing the property identifiers as keys with their context object as values
    */
-  private getPropertyContext = (eaClassNames: Map<string, string>, duplicates: Map<string, Array<string>>, properties: any[], language: string): Map<string, {}> => {
-    const propertyContextMap = new Map<string, {}>();
-    properties.map(property => this.createPropertyContext(property, eaClassNames, duplicates, language, propertyContextMap));
+  private readonly getPropertyContext = (
+    eaClassNames: Map<string, string>,
+    duplicates: Map<string, string[]>,
+    properties: any[], language: string,
+  ): Map<string, unknown> => {
+    const propertyContextMap = new Map<string, unknown>();
+    properties.map(
+      property => this.createPropertyContext(property, eaClassNames, duplicates, language, propertyContextMap),
+    );
 
     return propertyContextMap;
-  }
+  };
 
   /**
    * Maps external class names to their identifiers
-   * 
-   * @param externals 
-   * @param language 
+   *
+   * @param externals
+   * @param language
    * @returns a map containing the external class names as keys and their identifiers as values
    */
-  private getExternalsNameIdMap = (externals: any[], language: string): Map<string, string> => {
+  private readonly getExternalsNameIdMap = (externals: any[], language: string): Map<string, string> => {
     const externalsNameIdMap = new Map<string, string>();
     externals.map(external => this.mapExternalsNameToId(external, language, externalsNameIdMap));
 
     return externalsNameIdMap;
-  }
+  };
 
   /**
    * Maps label names to their respective Enterprise Architect names
    * In case the useLabel's options "uml" was provided, key and value are the same
-   * 
-   * @param classes 
-   * @param language 
+   *
+   * @param classes
+   * @param language
    * @returns a map containing the enterprise architect name as keys and their label names as values
    */
-  private getEANameClasses = (classes: any[], language: string): Map<string, string> => {
+  private readonly getEANameClasses = (classes: any[], language: string): Map<string, string> => {
     const termEaNameMap = new Map<string, string>();
 
-    classes.reduce((accumulator, currentValue) => {
-      return this.eaNameReducer(accumulator, currentValue, language);
-    }, termEaNameMap);
+    classes.reduce(
+      (accumulator, currentValue) => this.eaNameReducer(accumulator, currentValue, language), termEaNameMap,
+    );
 
     return termEaNameMap;
-  }
+  };
 
   /**
    * Reducer function to identify all duplicates in an array of properties
-   * 
-   * @param accumulator 
-   * @param object 
-   * @param language 
+   *
+   * @param accumulator
+   * @param object
+   * @param language
    * @returns an updated map of terms mapped to their URIs
    */
-  private termIdReducer = (accumulator: any, object: any, language: string): Map<string, Array<string>> => {
+  private readonly termIdReducer = (accumulator: any, object: any, language: string): Map<string, string[]> => {
     const term = helper.extractName(object, language, this.options.labelChoice);
 
     if (accumulator.has(term)) {
@@ -207,13 +234,13 @@ export class ContextGenerator implements ISpecification {
 
   /**
    * Reducer function to extract label name and/or enterprise architect names from class objects
-   * 
-   * @param accumulator 
-   * @param object 
-   * @param language 
+   *
+   * @param accumulator
+   * @param object
+   * @param language
    * @returns a map with enterprise architect names as key and their label name or enterprise architect name as value
    */
-  private eaNameReducer = (accumulator: any, object: any, language: string): Map<string, string> => {
+  private readonly eaNameReducer = (accumulator: any, object: any, language: string): Map<string, string> => {
     const term = helper.extractName(object, language, this.options.labelChoice);
     const eaName = object.extra['EA-Name'];
 
@@ -230,41 +257,46 @@ export class ContextGenerator implements ISpecification {
 
   /**
    * Extract the class name and the identifier from a class objects and adds it to a map
-   * 
-   * @param classObject 
-   * @param language 
-   * @param result 
+   *
+   * @param classObject
+   * @param language
+   * @param result
    */
-  private mapClassNameToId = (classObject: any, language: string, result: Map<string, string>): void => {
+  private readonly mapClassNameToId = (classObject: any, language: string, result: Map<string, string>): void => {
     const className = helper.extractName(classObject, language, this.options.labelChoice);
     const identifier = helper.extractIdentifier(classObject);
 
     result.set(helper.capitalizeFirst(className), identifier);
-  }
+  };
 
   /**
    * Extract the external name and the identifier from an external class object and adds it to a map
-   * 
-   * @param external 
-   * @param language 
-   * @param result 
+   *
+   * @param external
+   * @param language
+   * @param result
    */
-  private mapExternalsNameToId = (external: any, language: string, result: Map<string, string>): void => {
+  private readonly mapExternalsNameToId = (external: any, language: string, result: Map<string, string>): void => {
     const externalName = helper.extractName(external, language, this.options.labelChoice);
     const identifier = helper.extractIdentifier(external);
 
     result.set(helper.capitalizeFirst(externalName), identifier);
-  }
+  };
 
   /**
    * Generates context object for a property and adds it to a map
-   * @param property 
-   * @param eaClassNames 
-   * @param duplicates 
-   * @param language 
-   * @param result 
+   * @param property
+   * @param eaClassNames
+   * @param duplicates
+   * @param language
+   * @param result
    */
-  private createPropertyContext = (property: any, eaClassNames: Map<string, string>, duplicates: Map<string, Array<string>>, language: string, result: Map<string, {}>): void => {
+  private readonly createPropertyContext = (
+    property: any,
+    eaClassNames: Map<string, string>,
+    duplicates: Map<string, string[]>,
+    language: string, result: Map<string, unknown>,
+  ): void => {
     let rangeObject;
     let rangeUri;
 
@@ -304,17 +336,17 @@ export class ContextGenerator implements ISpecification {
       propertyIdentifier = propertyName;
     }
 
-    if (+property.maxCardinality > 1) {
+    if (Number(property.maxCardinality) > 1) {
       propertyContext = {
         '@id': property['@id'],
         '@type': propertyType,
-        '@container': '@set' // support @language case
-      }
+        '@container': '@set',
+      };
     } else {
       propertyContext = {
         '@id': property['@id'],
-        '@type': propertyType
-      }
+        '@type': propertyType,
+      };
     }
 
     if (!result.has(propertyIdentifier)) {
@@ -322,5 +354,5 @@ export class ContextGenerator implements ISpecification {
     } else {
       console.error(`[ContextGenerator]: key '${propertyIdentifier}' already exists with value '${JSON.stringify(result.get(propertyIdentifier)!)}'.`);
     }
-  }
+  };
 }

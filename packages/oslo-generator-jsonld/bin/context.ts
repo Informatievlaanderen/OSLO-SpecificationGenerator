@@ -24,8 +24,17 @@ const options = program.opts();
 const run = async (_options: OptionValues): Promise<void> => {
   const data = await jsonfile.readFile(_options.input);
   const report = new OSLOReport(data);
-  const generator = new ContextGenerator(report, { outputFile: _options.output, forceDomain: _options.forceDomain, labelChoice: _options.useLabels, language: _options.language });
-  generator.generateSpecification();
+  const generator = new ContextGenerator(
+    report,
+    {
+      outputFile: _options.output,
+      forceDomain: _options.forceDomain,
+      labelChoice: _options.useLabels,
+      language: _options.language,
+    },
+  );
+
+  await generator.generateSpecification();
 };
 
 run(options).catch(error => console.error(error));

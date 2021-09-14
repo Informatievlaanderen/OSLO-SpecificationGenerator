@@ -36,7 +36,7 @@ module.exports = {
   rules: {
     // Default
     "linebreak-style": "off",
-    "array-bracket-spacing" : "never",
+    "array-bracket-spacing": 0,
     "class-methods-use-this": "off", // Conflicts with functions from interfaces that sometimes don't require `this`
     "comma-dangle": ["error", "always-multiline"],
     "dot-location": ["error", "property"],
