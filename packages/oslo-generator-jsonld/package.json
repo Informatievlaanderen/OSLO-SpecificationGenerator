@@ -1,11 +1,11 @@
 {
   "name": "@oslo-flanders/jsonld-generator",
   "version": "0.0.0",
-  "description": "Generating a complexe JSON-LD context file",
+  "description": "Generates a JSON-LD context file",
   "author": "Dwight Van Lancker <dwight.vanlancker@hotmail.com>",
   "homepage": "https://github.com/Informatievlaanderen/OSLO-SpecificationGenerator#readme",
   "license": "ISC",
-  "main": "lib/oslo-generator-jsonld.js",
+  "main": "lib/oslo-generator-shacl.js",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
@@ -22,5 +22,14 @@
   },
   "bugs": {
     "url": "https://github.com/Informatievlaanderen/OSLO-SpecificationGenerator/issues"
+  },
+  "dependencies": {
+    "commander": "^8.2.0",
+    "jsonfile": "^6.1.0",
+    "tslog": "^3.2.2"
+  },
+  "devDependencies": {
+    "@oslo-flanders/types": "^0.0.0",
+    "@types/jsonfile": "^6.0.1"
   }
 }
