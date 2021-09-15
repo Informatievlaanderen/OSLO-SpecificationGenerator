@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { OSLOReport } from '@oslo-flanders/types';
 import type { OptionValues } from 'commander';
 import { program } from 'commander';
