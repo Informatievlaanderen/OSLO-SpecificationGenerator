@@ -1,0 +1,35 @@
+{
+  "name": "@oslo-flanders/pretty-print",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "author": "Dwight Van Lancker <dwight.vanlancker@hotmail.com>",
+  "homepage": "https://github.com/informatievlaanderen/OSLO-SpecificationGenerator/tree/main/packages/oslo-pretty-print#readme",
+  "license": "ISC",
+  "main": "lib/oslo-pretty-print.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Informatievlaanderen/OSLO-SpecificationGenerator.git"
+  },
+  "scripts": {
+    "build": "npm run build:ts",
+    "build:ts": "tsc"
+  },
+  "bugs": {
+    "url": "https://github.com/Informatievlaanderen/OSLO-SpecificationGenerator/issues"
+  },
+  "dependencies": {
+    "@oslo-flanders/types": "^0.0.0",
+    "commander": "^8.2.0",
+    "jsonfile": "^6.1.0"
+  },
+  "devDependencies": {
+    "@types/jsonfile": "^6.0.1"
+  }
+}
