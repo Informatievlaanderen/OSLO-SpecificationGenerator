@@ -1,0 +1,36 @@
+{
+  "name": "@oslo-flanders/mu-config-generator",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "author": "Dwight Van Lancker <dwight.vanlancker@hotmail.com>",
+  "homepage": "https://github.com/informatievlaanderen/OSLO-SpecificationGenerator/tree/main/packages/oslo-generator-mu-config#readme",
+  "license": "ISC",
+  "main": "lib/oslo-generator-mu-config.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Informatievlaanderen/OSLO-SpecificationGenerator.git"
+  },
+  "scripts": {
+    "build": "npm run build:ts",
+    "build:ts": "tsc"
+  },
+  "bugs": {
+    "url": "https://github.com/Informatievlaanderen/OSLO-SpecificationGenerator/issues"
+  },
+  "dependencies": {
+    "@oslo-flanders/types": "^0.0.0",
+    "camelcase": "^6.2.0",
+    "commander": "^8.2.0",
+    "pluralize": "^8.0.0"
+  },
+  "devDependencies": {
+    "@types/pluralize": "0.0.29"
+  }
+}
