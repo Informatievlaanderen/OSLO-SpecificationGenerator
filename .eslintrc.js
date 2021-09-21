@@ -163,6 +163,12 @@ module.exports = {
   },
   overrides: [
     {
+      files: ['*.ts', '*.tsx'], // All Typescript files
+      parserOptions: {
+        project: ['./tsconfig.json'], // Specify it only for TypeScript files
+      },
+    },
+    {
       // Specific rules for bin files
       files: ["**/bin/*.ts"],
       rules: {
