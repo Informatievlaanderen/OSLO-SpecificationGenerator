@@ -11,7 +11,7 @@
   },
   "directories": {
     "lib": "lib",
-    "test": "__tests__"
+    "test": "test"
   },
   "files": [
     "lib",
@@ -25,7 +25,9 @@
   "scripts": {
     "build": "npm run build:ts",
     "build:ts": "tsc",
-    "test" : "jest --colors"
+    "test" : "jest",
+    "test:silent" : "jest --silent",
+    "lint" : "eslint . --ext .ts --cache"
   },
   "bugs": {
     "url": "https://github.com/Informatievlaanderen/OSLO-SpecificationGenerator/issues"

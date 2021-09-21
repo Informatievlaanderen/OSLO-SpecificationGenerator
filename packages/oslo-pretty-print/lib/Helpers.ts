@@ -1,10 +1,10 @@
 export class Helper {
   public readonly getSortAttributeObjects = (descendingSort: boolean, sortingAttributes: any[]): any[] => {
-    let ascending = descendingSort;
     const sortAttributeObjects: any[] = [];
 
     sortingAttributes.forEach(sortAttribute => {
-      let attribute = '';
+      let ascending = !descendingSort;
+      let attribute = sortAttribute;
 
       if (sortAttribute.startsWith('asc:')) {
         ascending = true;

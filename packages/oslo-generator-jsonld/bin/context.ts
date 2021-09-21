@@ -10,15 +10,21 @@ program
   .usage('creates a json-ld context based on a chosen language')
   .requiredOption('-i, --input <path>', 'input file (a jsonld file)')
   .option('-o, --output <path>', 'output file (the context). Defaults to context.jsonld', 'context.jsonld')
-  .option('-m, --language <languagecode>',
+  .option(
+    '-m, --language <languagecode>',
     'the language for the context (the languagecode). Defaults to nl (dutch)',
-    'nl')
-  .option('-d, --forceDomain',
-    'force the domain all the terms, instead only for those that are necessary. Defaults to false false',
-    false)
-  .option('-l, --useLabels <label>',
+    'nl',
+  )
+  .option(
+    '-d, --forceDomain',
+    'force the domain all the terms, instead of only for those that are necessary. Defaults to false false',
+    false,
+  )
+  .option(
+    '-l, --useLabels <label>',
     'the terms used are { label = the labels in camelCase, uml = the names from the UML}. Defaults to "uml"',
-    'uml')
+    'uml',
+  )
   .parse();
 
 const options = program.opts();

@@ -1,7 +1,12 @@
 import type { OSLOReport, ISpecification } from '@oslo-flanders/types';
+import { logger } from '@oslo-flanders/types';
 import jsonfile = require('jsonfile');
-import type { IVocabularyGeneratorOptions } from '../bin/vocabulary';
 import { helper } from './Helpers';
+
+export interface IVocabularyGeneratorOptions {
+  outputFile: string;
+  language: string;
+}
 
 export class VocabularyGenerator implements ISpecification {
   public report: OSLOReport;
@@ -14,20 +19,22 @@ export class VocabularyGenerator implements ISpecification {
 
   public generateSpecification = async (): Promise<void> => {
     const reportObject: any = JSON.parse(JSON.stringify(this.report));
-    const preparedJsonLd = this.prepareJsonLd(reportObject, this.options.language);
-    const vocabulary = this.generateVocabulary(preparedJsonLd, this.options.language);
+    this.prepareJsonLd(reportObject, this.options.language);
+    const vocabulary = this.generateVocabulary(reportObject, this.options.language);
 
     jsonfile.writeFile(this.options.outputFile, vocabulary, { spaces: 2 })
       .then(res => {
-        console.log(`[VocabularyGenerator]: Write complete; The file was saved to: ${this.options.outputFile}.`);
+        logger.info(`[VocabularyGenerator]: Write complete and file was saved to '${this.options.outputFile}'.`);
       })
       .catch(error => {
-        console.error(error);
+        logger.error(`[VocabularyGenerator]: An error occurred while writing to '${this.options.outputFile}':`);
+        logger.error(error);
         process.exitCode = 1;
       });
   };
 
-  public prepareJsonLd = (reportObject: any, language: string): any => {
+  // FIXME: recursive function returns before all recursiveness is finished
+  public prepareJsonLd = (reportObject: any, language: string): void => {
     Object.keys(reportObject).forEach(key => {
       if (reportObject[key] && reportObject[key][language]) {
         reportObject[key][language] = helper.mapEmptyString(reportObject[key][language]);
@@ -48,48 +55,35 @@ export class VocabularyGenerator implements ISpecification {
 
         default:
           if (typeof reportObject[key] === 'object') {
-            // Give NodeJS the chance to clear the stack
-            setTimeout(() => {
-              reportObject[key] = this.prepareJsonLd(reportObject[key], this.options.language);
-            }, 100);
+            this.prepareJsonLd(reportObject[key], language);
           }
           break;
       }
     });
-
-    return reportObject;
   };
 
-  public generateVocabulary = (preparedJsonLd: OSLOReport, language: string): any => {
-    const jsonVocabulary: any = {};
-
-    jsonVocabulary['@id'] = preparedJsonLd.documentId;
-    jsonVocabulary['@type'] = preparedJsonLd.documentType;
-    jsonVocabulary.label = preparedJsonLd.label;
-    jsonVocabulary.authors = preparedJsonLd.authors;
-    jsonVocabulary.contributors = preparedJsonLd.contributors;
-    jsonVocabulary.editors = preparedJsonLd.editors;
-
-    jsonVocabulary.baseURIabbrev = preparedJsonLd.baseUriabbreviation;
-    jsonVocabulary.baseURI = preparedJsonLd.baseUri;
-    jsonVocabulary.license = preparedJsonLd.license;
-    jsonVocabulary.issued = preparedJsonLd.issued;
-    jsonVocabulary.navigation = preparedJsonLd.navigation;
-    jsonVocabulary.namespace = preparedJsonLd.namespace;
-
-    // TODO: check if this still exists and/or should be added to OSLOReport
-    // jsonVocabulary['@title']
-
-    jsonVocabulary['publication-state'] = preparedJsonLd.publicationState;
-    jsonVocabulary['publication-date'] = preparedJsonLd.publicationDate;
-
-    jsonVocabulary.classes = this.extractClasses(preparedJsonLd.classes);
-    jsonVocabulary.externals = this.extractExternals(preparedJsonLd.externals, 'rdfs:Class');
-    jsonVocabulary.properties = this.extractProperties(preparedJsonLd.properties);
-    jsonVocabulary.externalproperties = this.extractExternals(preparedJsonLd.externalProperties, 'rdf:Property');
-
-    return jsonVocabulary;
-  };
+  // TODO: check if this still exists and/or should be added to OSLOReport
+  // jsonVocabulary['@title']
+  public generateVocabulary = (preparedJsonLd: OSLOReport, language: string): any => ({
+    '@id': preparedJsonLd.documentId,
+    '@type': preparedJsonLd.documentType,
+    label: preparedJsonLd.label,
+    authors: preparedJsonLd.authors,
+    contributors: preparedJsonLd.contributors,
+    editors: preparedJsonLd.editors,
+    ...preparedJsonLd.baseUriabbreviation && { baseURIabbrev: preparedJsonLd.baseUriabbreviation },
+    ...preparedJsonLd.baseUri && { baseURI: preparedJsonLd.baseUri },
+    license: preparedJsonLd.license,
+    issued: preparedJsonLd.issued,
+    navigation: preparedJsonLd.navigation,
+    namespace: preparedJsonLd.namespace,
+    'publication-state': preparedJsonLd.publicationState,
+    'publication-date': preparedJsonLd.publicationDate,
+    classes: this.extractClasses(preparedJsonLd.classes),
+    externals: this.extractExternals(preparedJsonLd.externals, 'rdfs:Class'),
+    properties: this.extractProperties(preparedJsonLd.properties),
+    externalproperties: this.extractExternals(preparedJsonLd.externalProperties, 'rdf:Property'),
+  });
 
   public extractClasses = (classes: any[]): any[] => {
     const newClasses: any[] = [];

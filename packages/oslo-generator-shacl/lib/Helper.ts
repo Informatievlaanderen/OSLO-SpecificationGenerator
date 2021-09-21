@@ -86,10 +86,12 @@ export class Helper {
     return shaclProperty;
   };
 
-  public addSeeAlso = (propertyObject: any,
+  public addSeeAlso = (
+    propertyObject: any,
     className: string,
     shaclPropertyName: string,
-    publishedAt: string): void => {
+    publishedAt: string,
+  ): void => {
     if (publishedAt) {
       const url = `${className}:${shaclPropertyName}`;
       propertyObject['rdfs:seeAlso'] = `${publishedAt}#${encodeURIComponent(url)}`;

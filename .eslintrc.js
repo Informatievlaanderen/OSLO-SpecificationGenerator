@@ -5,10 +5,11 @@ module.exports = {
     tsconfigRootDir: __dirname, // this is the reason this is a .js file
     project: ["./tsconfig.eslint.json"],
   },
+  ignorePatterns: [".eslintrc.js"],
   plugins: [
     "eslint-plugin-tsdoc",
     "eslint-plugin-import",
-    "eslint-plugin-unused-imports",
+    "eslint-plugin-unused-imports"
   ],
   extends: [
     "es/node",
@@ -36,6 +37,12 @@ module.exports = {
   rules: {
     // Default
     "linebreak-style": "off",
+    quotes: [
+      "error",
+      "single",
+      { avoidEscape: true, allowTemplateLiterals: true },
+    ],
+    "function-paren-newline": ["error", "multiline"],
     "array-bracket-spacing": 0,
     "class-methods-use-this": "off", // Conflicts with functions from interfaces that sometimes don't require `this`
     "comma-dangle": ["error", "always-multiline"],
@@ -163,12 +170,6 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['*.ts', '*.tsx'], // All Typescript files
-      parserOptions: {
-        project: ['./tsconfig.json'], // Specify it only for TypeScript files
-      },
-    },
-    {
       // Specific rules for bin files
       files: ["**/bin/*.ts"],
       rules: {
@@ -188,6 +189,9 @@ module.exports = {
       globals: {
         spyOn: false,
         fail: false,
+      },
+      env: {
+        jest: true,
       },
       rules: {
         "mocha/no-synchronous-tests": "off",

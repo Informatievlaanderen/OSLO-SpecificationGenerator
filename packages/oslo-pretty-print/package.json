@@ -7,7 +7,7 @@
   "license": "MIT",
   "main": "index.js",
   "bin": {
-    "oslo-pretty-print" : "node bin/pretty-print.js"
+    "oslo-pretty-print": "node bin/pretty-print.js"
   },
   "directories": {
     "lib": "lib",
@@ -22,9 +22,28 @@
     "type": "git",
     "url": "git+https://github.com/Informatievlaanderen/OSLO-SpecificationGenerator.git"
   },
+  "jest": {
+    "globals": {
+      "ts-jest": {
+        "tsconfig": "../../tsconfig.json"
+      }
+    },
+    "transform": {
+      "^.+\\.ts$": "ts-jest"
+    },
+    "testRegex": "(/test/.*|(\\.|/)(test|spec))-test.ts$",
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ],
+    "collectCoverage": false
+  },
   "scripts": {
     "build": "npm run build:ts",
-    "build:ts": "tsc"
+    "build:ts": "tsc",
+    "lint": "eslint . --ext .ts --cache",
+    "test" : "jest",
+    "test:silent" : "jest --silent"
   },
   "bugs": {
     "url": "https://github.com/Informatievlaanderen/OSLO-SpecificationGenerator/issues"
@@ -35,6 +54,9 @@
     "jsonfile": "^6.1.0"
   },
   "devDependencies": {
-    "@types/jsonfile": "^6.0.1"
+    "@types/jest": "^27.0.2",
+    "@types/jsonfile": "^6.0.1",
+    "jest": "^27.2.1",
+    "ts-jest": "^27.0.5"
   }
 }

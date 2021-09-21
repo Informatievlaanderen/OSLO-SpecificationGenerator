@@ -1,4 +1,5 @@
 import type { ISpecification, OSLOReport } from '@oslo-flanders/types';
+import { logger } from '@oslo-flanders/types';
 import jsonfile = require('jsonfile');
 import { helper } from './Helpers';
 
@@ -49,11 +50,11 @@ export class ContextGenerator implements ISpecification {
 
     jsonfile.writeFile(this.options.outputFile, Object.fromEntries(context), { spaces: 2 })
       .then(res => {
-        console.log(`[ContextGenerator]: JSON-LD context successfully save to ${this.options.outputFile}.`);
+        logger.info(`[ContextGenerator]: JSON-LD context successfully save to ${this.options.outputFile}.`);
       })
       .catch(error => {
-        console.log(`[ContextGenerator]: Something went wrong when writing to ${this.options.outputFile}.`);
-        console.log(error);
+        logger.error(`[ContextGenerator]: Something went wrong when writing to ${this.options.outputFile}:`);
+        logger.error(error);
       });
   };
 
@@ -69,9 +70,8 @@ export class ContextGenerator implements ISpecification {
   private readonly identifyDuplicates = (properties: any[], language: string): Map<string, string[]> => {
     const termIdMap = new Map<string, string[]>();
 
-    properties.reduce(
-      (accumulator, currentValue) => this.termIdReducer(accumulator, currentValue, language), termIdMap,
-    );
+    properties.reduce((accumulator, currentValue) =>
+      this.termIdReducer(accumulator, currentValue, language), termIdMap);
 
     const duplicates = new Map<string, string[]>();
     termIdMap.forEach((value: string[], key: string) => {
@@ -101,7 +101,7 @@ export class ContextGenerator implements ISpecification {
     externalNameIdMap: Map<string, string>,
     externalPropertiesContext: Map<string, unknown>,
   ): Map<string, unknown> => {
-    console.log(`[ContextGenerator]: Start creating context for ${this.report.documentId}`);
+    logger.info(`[ContextGenerator]: Start creating context for ${this.report.documentId}`);
 
     const context = new Map<string, any>();
 
@@ -164,9 +164,8 @@ export class ContextGenerator implements ISpecification {
     properties: any[], language: string,
   ): Map<string, unknown> => {
     const propertyContextMap = new Map<string, unknown>();
-    properties.map(
-      property => this.createPropertyContext(property, eaClassNames, duplicates, language, propertyContextMap),
-    );
+    properties.map(property =>
+      this.createPropertyContext(property, eaClassNames, duplicates, language, propertyContextMap));
 
     return propertyContextMap;
   };
@@ -196,9 +195,8 @@ export class ContextGenerator implements ISpecification {
   private readonly getEANameClasses = (classes: any[], language: string): Map<string, string> => {
     const termEaNameMap = new Map<string, string>();
 
-    classes.reduce(
-      (accumulator, currentValue) => this.eaNameReducer(accumulator, currentValue, language), termEaNameMap,
-    );
+    classes.reduce((accumulator, currentValue) =>
+      this.eaNameReducer(accumulator, currentValue, language), termEaNameMap);
 
     return termEaNameMap;
   };
@@ -220,13 +218,8 @@ export class ContextGenerator implements ISpecification {
       accumulator.set(term, [object['@id']]);
     }
 
-    if (term === 'inhoud') {
-      if (accumulator.has(term)) {
-        console.log(`Term already in map, so adding it`);
-      } else {
-        console.log(`First time`);
-        accumulator.set(term, [object['@id']]);
-      }
+    if (term === 'inhoud' && !accumulator.has(term)) {
+      accumulator.set(term, [object['@id']]);
     }
 
     return accumulator;
@@ -245,8 +238,8 @@ export class ContextGenerator implements ISpecification {
     const eaName = object.extra['EA-Name'];
 
     if (accumulator.has(eaName)) {
-      console.log(`[ShaclGenerator]: Multiple values for the same EA-Name: ${eaName}.`);
-      console.log(`[ShaclGenerator]: Value '${accumulator.get(eaName)}'' will be overwritten with '${term}'.`);
+      logger.warn(`[ShaclGenerator]: Multiple values for the same EA-Name: ${eaName}.`);
+      logger.warn(`[ShaclGenerator]: Value '${accumulator.get(eaName)}'' will be overwritten with '${term}'.`);
       accumulator.set(eaName, term);
     } else {
       accumulator.set(eaName, term);
@@ -301,10 +294,10 @@ export class ContextGenerator implements ISpecification {
     let rangeUri;
 
     if (property.range.length === 0) {
-      console.log(`[ContextGenerator]: No range found for '${property.name}'.`);
+      logger.warn(`[ContextGenerator]: No range found for '${property.name}'.`);
     } else {
       if (property.range.length > 1) {
-        console.log(`[ContextGenerator]: More than one type was found for '${property.name}', but first type will be used.`);
+        logger.warn(`[ContextGenerator]: More than one type was found for '${property.name}', but first type will be used.`);
       }
 
       rangeObject = property.range[0];
@@ -336,7 +329,7 @@ export class ContextGenerator implements ISpecification {
       propertyIdentifier = propertyName;
     }
 
-    if (Number(property.maxCardinality) > 1) {
+    if (Number(property.maxCardinality) !== 0 && Number(property.maxCardinality) !== 1) {
       propertyContext = {
         '@id': property['@id'],
         '@type': propertyType,
@@ -345,14 +338,15 @@ export class ContextGenerator implements ISpecification {
     } else {
       propertyContext = {
         '@id': property['@id'],
-        '@type': propertyType,
+        '@type': propertyType || '',
       };
     }
 
-    if (!result.has(propertyIdentifier)) {
-      result.set(propertyIdentifier, propertyContext);
-    } else {
-      console.error(`[ContextGenerator]: key '${propertyIdentifier}' already exists with value '${JSON.stringify(result.get(propertyIdentifier)!)}'.`);
+    if (result.has(propertyIdentifier)) {
+      logger.warn(`[ContextGenerator]: Key '${propertyIdentifier}' already exists with value '${JSON.stringify(result.get(propertyIdentifier)!)}' and will be overwritten.`);
+      logger.warn(`[ContextGenerator]: New value for '${propertyIdentifier} is ${JSON.stringify(propertyContext)}`);
     }
+
+    result.set(propertyIdentifier, propertyContext);
   };
 }

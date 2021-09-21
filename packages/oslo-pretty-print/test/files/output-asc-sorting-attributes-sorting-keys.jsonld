@@ -1,0 +1,2766 @@
+{
+  "@context": {
+    "vlaanderen": "http://data.vlaanderen.be/ns/",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "void": "http://rdfs.org/ns/void#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "sdmx-dimension": "http://purl.org/linked-data/sdmx/2009/dimension#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "sdmx-attribute": "http://purl.org/linked-data/sdmx/2009/attribute#",
+    "qb": "http://purl.org/linked-data/cube#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "sdmx-concept": "http://purl.org/linked-data/sdmx/2009/concept#",
+    "foaf": "http://xmlns.com/foaf/0.1/",
+    "person": "http://www.w3.org/ns/person#",
+    "rec": "http://www.w3.org/2001/02pd/rec54#",
+    "vann": "http://purl.org/vocab/vann/",
+    "sh": "http://w3.org/ns/shacl#",
+    "label": {
+      "@id": "rdfs:label",
+      "@container": "@language"
+    },
+    "modified": {
+      "@id": "dcterms:modified",
+      "@type": "xsd:date"
+    },
+    "issued": {
+      "@id": "dcterms:issued"
+    },
+    "authors": {
+      "@type": "foaf:Person",
+      "@id": "foaf:maker"
+    },
+    "editors": {
+      "@type": "foaf:Person",
+      "@id": "rec:editor"
+    },
+    "contributors": {
+      "@type": "foaf:Person",
+      "@id": "dcterms:contributor"
+    },
+    "affiliation": {
+      "@id": "http://schema.org/affiliation"
+    },
+    "classes": {
+      "@reverse": "rdfs:isDefinedBy"
+    },
+    "datatypes": {
+      "@reverse": "rdfs:isDefinedBy"
+    },
+    "name": {
+      "@id": "rdfs:label",
+      "@container": "@language"
+    },
+    "description": {
+      "@id": "rdfs:comment",
+      "@container": "@language"
+    },
+    "properties": {
+      "@reverse": "rdfs:isDefinedBy"
+    },
+    "domain": {
+      "@id": "rdfs:domain"
+    },
+    "range": {
+      "@id": "rdfs:range"
+    },
+    "minCardinality": {
+      "@id": "sh:minCount"
+    },
+    "maxCardinality": {
+      "@id": "sh:maxCount"
+    },
+    "generalization": {
+      "@id": "rdfs:subPropertyOf"
+    },
+    "externals": {
+      "@type": "http://www.w3.org/2000/01/rdf-schema#Class",
+      "@id": "rdfs:seeAlso"
+    },
+    "usage": {
+      "@id": "vann:usageNote",
+      "@container": "@language"
+    }
+  },
+  "@id": "http://data.vlaanderen.be/ns/dcatapvl",
+  "@type": "http://www.w3.org/2002/07/owl#Ontology",
+  "label": {
+    "nl": "DCAT-AP-VL",
+    "en": "DCAT-AP-VL"
+  },
+  "baseURI": "http://data.vlaanderen.be/ns/dcatapvl#",
+  "issued": "TODO",
+  "license": "https://data.vlaanderen.be/id/licentie/modellicentie-gratis-hergebruik/v1.0",
+  "extra": {
+    "EA-Name": "OSLO-DCATAPVL",
+    "EA-Guid": "{D2C5F338-FCFC-4f4e-94EC-212DEFA9BA81}",
+    "baseURI": "http://data.vlaanderen.be/ns/dcatapvl#",
+    "issued": "TODO",
+    "license": "TODO",
+    "RawTags": [
+      {
+        "key": "baseURI",
+        "value": "http://data.vlaanderen.be/ns/dcatapvl#",
+        "note": "null"
+      },
+      {
+        "key": "title-nl",
+        "value": "Open Data Catalogus",
+        "note": "null"
+      }
+    ]
+  },
+  "authors": [],
+  "editors": [
+    {
+      "foaf:firstName": "Jens",
+      "foaf:lastName": "Scheerlinck",
+      "affiliation": {
+        "foaf:name": "PwC",
+        "foaf:homepage": "http://www.pwc.be"
+      },
+      "foaf:mbox": "jens.scheerlinck@pwc.com",
+      "@type": "foaf:Person"
+    },
+    {
+      "foaf:firstName": "Bert",
+      "foaf:lastName": "Van Nuffelen",
+      "affiliation": {
+        "foaf:name": "Tenforce",
+        "foaf:homepage": "http://tenforce.com"
+      },
+      "foaf:mbox": "bert.van.nuffelen@tenforce.com",
+      "@type": "foaf:Person"
+    }
+  ],
+  "contributors": [
+    {
+      "foaf:firstName": "Raf",
+      "foaf:lastName": "Buyle",
+      "affiliation": {
+        "foaf:name": "Informatie Vlaanderen",
+        "foaf:homepage": "https://overheid.vlaanderen.be/informatie-vlaanderen"
+      },
+      "foaf:mbox": "raf.buyle@kb.vlaanderen.be",
+      "@type": "foaf:Person"
+    },
+    {
+      "foaf:firstName": "Natasha",
+      "foaf:lastName": "Blommaert",
+      "affiliation": {
+        "foaf:name": "Agentschap Wegen en Verkeer",
+        "foaf:homepage": "http://wegenenverkeer.be/"
+      },
+      "foaf:mbox": "natasha.blommaert@mow.vlaanderen.be",
+      "@type": "foaf:Person"
+    },
+    {
+      "foaf:firstName": "Ruben",
+      "foaf:lastName": "Cappelle",
+      "affiliation": {
+        "foaf:name": "Centrum voor Informatica voor het Brusselse Gewest"
+      },
+      "@type": "foaf:Person"
+    },
+    {
+      "foaf:firstName": "Dirk",
+      "foaf:lastName": "De Baere",
+      "affiliation": {
+        "foaf:name": "Informatie Vlaanderen",
+        "foaf:homepage": "https://overheid.vlaanderen.be/informatie-vlaanderen"
+      },
+      "foaf:mbox": "dirk.debaere@kb.vlaanderen.be",
+      "@type": "foaf:Person"
+    },
+    {
+      "foaf:firstName": "Mathias",
+      "foaf:lastName": "De Schrijver",
+      "affiliation": {
+        "foaf:name": "Informatie Vlaanderen",
+        "foaf:homepage": "https://overheid.vlaanderen.be/"
+      },
+      "foaf:mbox": "mathias.deschrijver@bz.vlaanderen.be",
+      "@type": "foaf:Person"
+    },
+    {
+      "foaf:firstName": "Peter",
+      "foaf:lastName": "Desmet",
+      "affiliation": {
+        "foaf:name": "Agentschap voor Natuur en Bos",
+        "foaf:homepage": "https://www.natuurenbos.be/"
+      },
+      "@type": "foaf:Person"
+    },
+    {
+      "foaf:firstName": "Stijn",
+      "foaf:lastName": "Goedertier",
+      "affiliation": {
+        "foaf:name": "GIM",
+        "foaf:homepage": "http://gim.be"
+      },
+      "foaf:mbox": "stijn.goedertier@gim.be",
+      "@type": "foaf:Person"
+    },
+    {
+      "foaf:firstName": "Thomas",
+      "foaf:lastName": "Polfliet",
+      "affiliation": {
+        "foaf:name": "Vlaams Energiebedrijf"
+      },
+      "@type": "foaf:Person"
+    },
+    {
+      "foaf:firstName": "Sammy",
+      "foaf:lastName": "Roos",
+      "affiliation": {
+        "foaf:name": "DWVG",
+        "foaf:homepage": "http://vlaanderen.be/welzijnengezondheid"
+      },
+      "foaf:mbox": "sammy.roos@wvg.vlaanderen.be",
+      "@type": "foaf:Person"
+    },
+    {
+      "foaf:firstName": "Joost",
+      "foaf:lastName": "Schouppe",
+      "affiliation": {
+        "foaf:name": "Provincie Limburg"
+      },
+      "@type": "foaf:Person"
+    },
+    {
+      "foaf:firstName": "Koen",
+      "foaf:lastName": "Van Daele",
+      "affiliation": {
+        "foaf:name": "Agentschap Onroerend Erfgoed",
+        "foaf:homepage": "https://www.rwo.be/"
+      },
+      "foaf:mbox": "koen.vandaele@rwo.vlaanderen.be",
+      "@type": "foaf:Person"
+    },
+    {
+      "foaf:firstName": "Geert",
+      "foaf:lastName": "Van Gaever",
+      "affiliation": {
+        "foaf:name": "Agentschap Wegen en Verkeer",
+        "foaf:homepage": "http://wegenenverkeer.be/"
+      },
+      "foaf:mbox": "geert.vangaever@mow.vlaanderen.be",
+      "@type": "foaf:Person"
+    },
+    {
+      "foaf:firstName": "Geert",
+      "foaf:lastName": "Van Haute",
+      "affiliation": {
+        "foaf:name": "Departement Omgeving",
+        "foaf:homepage": "https://www.lne.be/"
+      },
+      "foaf:mbox": "geert.vanhaute@lne.vlaanderen.be",
+      "@type": "foaf:Person"
+    },
+    {
+      "foaf:firstName": "Gert",
+      "foaf:lastName": "Van Oost",
+      "affiliation": {
+        "foaf:name": "Stad Antwerpen"
+      },
+      "@type": "foaf:Person"
+    }
+  ],
+  "classes": [],
+  "properties": [],
+  "externals": [
+    {
+      "@id": "http://purl.org/dc/terms/LicenseDocument",
+      "@type": "http://www.w3.org/2002/07/owl#Class",
+      "inpackage": "OTHER_PACKAGE",
+      "ap-usageNote-nl": {
+        "nl": "Het Vlaams Open Data descreet definieert een aantal licenties. PURIs voor de verschillende mogelijkheden zijn te vinden hier: https://data.vlaanderen.be/doc/licentie/"
+      },
+      "usage": {
+        "nl": "Het Vlaams Open Data descreet definieert een aantal licenties. PURIs voor de verschillende mogelijkheden zijn te vinden hier: https://data.vlaanderen.be/doc/licentie/"
+      },
+      "definition": {
+        "nl": "Een wettelijk document dat de voorwaarden waaronder men een resource mag gebruiken."
+      },
+      "label": {
+        "nl": "Licentiedocument"
+      },
+      "ap-label-nl": {
+        "nl": "Licentiedocument"
+      },
+      "ap-definition-nl": {
+        "nl": "Een wettelijk document dat de voorwaarden waaronder men een resource mag gebruiken."
+      },
+      "extra": {
+        "EA-Name": "LicentieDocument",
+        "EA-Guid": "{7F1E3328-B5B2-4d2b-AEFF-6F158A2DFE88}",
+        "EA-Package": "OSLO-DCATAPVL",
+        "EA-Type": "CLASS",
+        "EA-Parents": "",
+        "EA-Parents2": [],
+        "parentclasses": "",
+        "label": {
+          "nl": "Licentiedocument"
+        },
+        "definition": {
+          "nl": "Een wettelijk document dat de voorwaarden waaronder men een resource mag gebruiken."
+        },
+        "usage": {
+          "nl": "Het Vlaams Open Data descreet definieert een aantal licenties. PURIs voor de verschillende mogelijkheden zijn te vinden hier: https://data.vlaanderen.be/doc/licentie/"
+        },
+        "ap-label-nl": {
+          "nl": "Licentiedocument"
+        },
+        "ap-definition-nl": {
+          "nl": "Een wettelijk document dat de voorwaarden waaronder men een resource mag gebruiken."
+        },
+        "ap-usageNote-nl": {
+          "nl": "Het Vlaams Open Data descreet definieert een aantal licenties. PURIs voor de verschillende mogelijkheden zijn te vinden hier: https://data.vlaanderen.be/doc/licentie/"
+        },
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://purl.org/dc/terms/LicenseDocument",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "Licence Document",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "A legal document giving official permission to do something with a Resource.",
+            "note": "null"
+          },
+          {
+            "key": "ap-usagenote-nl",
+            "value": "Het Vlaams Open Data descreet definieert een aantal licenties. PURIs voor de verschillende mogelijkheden zijn te vinden hier: https://data.vlaanderen.be/doc/licentie/",
+            "note": "null"
+          },
+          {
+            "key": "definition-nl",
+            "value": "Een wettelijk document dat de voorwaarden waaronder men een resource mag gebruiken.",
+            "note": "null"
+          },
+          {
+            "key": "label-nl",
+            "value": "Licentiedocument",
+            "note": "null"
+          },
+          {
+            "key": "ap-usageNote-nl",
+            "value": "NOTE",
+            "note": "Het Vlaams Open Data descreet definieert een aantal licenties. PURIs voor de verschillende mogelijkheden zijn te vinden hier: https://data.vlaanderen.be/doc/licentie/"
+          }
+        ],
+        "Scope": "TRANSLATIONS_ONLY"
+      },
+      "name": {
+        "nl": "Licentiedocument"
+      },
+      "description": {
+        "nl": "Een wettelijk document dat de voorwaarden waaronder men een resource mag gebruiken."
+      }
+    },
+    {
+      "@id": "http://www.w3.org/2006/vcard/ns#Kind",
+      "@type": "http://www.w3.org/2002/07/owl#Class",
+      "inpackage": "OTHER_PACKAGE",
+      "definition": {
+        "nl": "Een beschrijving van contact informatie."
+      },
+      "label": {
+        "nl": "Contactinfo"
+      },
+      "ap-label-nl": {
+        "nl": "Contactinfo"
+      },
+      "ap-definition-nl": {
+        "nl": "Een beschrijving van contact informatie."
+      },
+      "extra": {
+        "EA-Name": "Contactinfo ",
+        "EA-Guid": "{2E34F92D-E9C2-4971-84BA-E4502DA554BB}",
+        "EA-Package": "OSLO-DCATAPVL",
+        "EA-Type": "DATATYPE",
+        "EA-Parents": "",
+        "EA-Parents2": [],
+        "parentclasses": "",
+        "label": {
+          "nl": "Contactinfo"
+        },
+        "definition": {
+          "nl": "Een beschrijving van contact informatie."
+        },
+        "usage": "",
+        "ap-label-nl": {
+          "nl": "Contactinfo"
+        },
+        "ap-definition-nl": {
+          "nl": "Een beschrijving van contact informatie."
+        },
+        "ap-usageNote-nl": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://www.w3.org/2006/vcard/ns#Kind",
+            "note": "null"
+          },
+          {
+            "key": "label-nl",
+            "value": "Contactinfo",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "ContactPoint",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "A description following the vCard specification, e.g. to provide telephone number and e-mail address for a contact point. Note that the class Kind is the parent class for the four explicit types of vCards (Individual, Organization, Location, Group).",
+            "note": "null"
+          },
+          {
+            "key": "definition-nl",
+            "value": "Een beschrijving van contact informatie.",
+            "note": "null"
+          }
+        ],
+        "Scope": "TRANSLATIONS_ONLY"
+      },
+      "name": {
+        "nl": "Contactinfo"
+      },
+      "description": {
+        "nl": "Een beschrijving van contact informatie."
+      },
+      "usage": {}
+    },
+    {
+      "@id": "http://www.w3.org/ns/dcat#Catalog",
+      "@type": "http://www.w3.org/2002/07/owl#Class",
+      "inpackage": "OTHER_PACKAGE",
+      "definition": {
+        "nl": "Een Open Data datasetcatalogus is een verzameling van Open Data datasets."
+      },
+      "label": {
+        "nl": "Datasetcatalogus"
+      },
+      "ap-label-nl": {
+        "nl": "Datasetcatalogus"
+      },
+      "ap-definition-nl": {
+        "nl": "Een Open Data datasetcatalogus is een verzameling van Open Data datasets."
+      },
+      "extra": {
+        "EA-Name": "DatasetCatalogus",
+        "EA-Guid": "{CF9EF572-9998-4f51-AA32-F81D8248BC24}",
+        "EA-Package": "OSLO-DCATAPVL",
+        "EA-Type": "CLASS",
+        "EA-Parents": "",
+        "EA-Parents2": [],
+        "parentclasses": "",
+        "label": {
+          "nl": "Datasetcatalogus"
+        },
+        "definition": {
+          "nl": "Een Open Data datasetcatalogus is een verzameling van Open Data datasets."
+        },
+        "usage": "",
+        "ap-label-nl": {
+          "nl": "Datasetcatalogus"
+        },
+        "ap-definition-nl": {
+          "nl": "Een Open Data datasetcatalogus is een verzameling van Open Data datasets."
+        },
+        "ap-usageNote-nl": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "definition-nl",
+            "value": "Een Open Data datasetcatalogus is een verzameling van Open Data datasets.",
+            "note": "null"
+          },
+          {
+            "key": "uri",
+            "value": "http://www.w3.org/ns/dcat#Catalog",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": " A catalogue or repository that hosts the Datasets being described.",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "Catalogue",
+            "note": "null"
+          },
+          {
+            "key": "label-nl",
+            "value": "Datasetcatalogus",
+            "note": "null"
+          }
+        ],
+        "Scope": "TRANSLATIONS_ONLY"
+      },
+      "name": {
+        "nl": "Datasetcatalogus"
+      },
+      "description": {
+        "nl": "Een Open Data datasetcatalogus is een verzameling van Open Data datasets."
+      },
+      "usage": {}
+    },
+    {
+      "@id": "http://www.w3.org/ns/dcat#Dataset",
+      "@type": "http://www.w3.org/2002/07/owl#Class",
+      "inpackage": "OTHER_PACKAGE",
+      "ap-usageNote-nl": {
+        "nl": "Datasets worden geïndentificeerd door hun URI. Het gebruik volgt de DCAT-AP aanbeveling https://joinup.ec.europa.eu/release/dcat-ap-how-use-identifiers-datasets-and-distributions .\r\n"
+      },
+      "usage": {
+        "nl": "Datasets worden geïndentificeerd door hun URI. Het gebruik volgt de DCAT-AP aanbeveling https://joinup.ec.europa.eu/release/dcat-ap-how-use-identifiers-datasets-and-distributions .\r\n"
+      },
+      "definition": {
+        "nl": "Een verzameling van data, gepubliseerd en/of beheerd door een bronbeheerder, en beschikbaar in een of meerdere formaten. "
+      },
+      "label": {
+        "nl": "Dataset"
+      },
+      "ap-label-nl": {
+        "nl": "Dataset"
+      },
+      "ap-definition-nl": {
+        "nl": "Een verzameling van data, gepubliseerd en/of beheerd door een bronbeheerder, en beschikbaar in een of meerdere formaten. "
+      },
+      "extra": {
+        "EA-Name": "Dataset",
+        "EA-Guid": "{BF0250F0-446B-4104-9A83-EC4638B23361}",
+        "EA-Package": "OSLO-DCATAPVL",
+        "EA-Type": "CLASS",
+        "EA-Parents": "",
+        "EA-Parents2": [],
+        "parentclasses": "",
+        "label": {
+          "nl": "Dataset"
+        },
+        "definition": {
+          "nl": "Een verzameling van data, gepubliseerd en/of beheerd door een bronbeheerder, en beschikbaar in een of meerdere formaten. "
+        },
+        "usage": {
+          "nl": "Datasets worden geïndentificeerd door hun URI. Het gebruik volgt de DCAT-AP aanbeveling https://joinup.ec.europa.eu/release/dcat-ap-how-use-identifiers-datasets-and-distributions .\r\n"
+        },
+        "ap-label-nl": {
+          "nl": "Dataset"
+        },
+        "ap-definition-nl": {
+          "nl": "Een verzameling van data, gepubliseerd en/of beheerd door een bronbeheerder, en beschikbaar in een of meerdere formaten. "
+        },
+        "ap-usageNote-nl": {
+          "nl": "Datasets worden geïndentificeerd door hun URI. Het gebruik volgt de DCAT-AP aanbeveling https://joinup.ec.europa.eu/release/dcat-ap-how-use-identifiers-datasets-and-distributions .\r\n"
+        },
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "ap-definition-nl",
+            "value": "Een verzameling van data, gepubliseerd en/of beheerd door een bronbeheerder, en beschikbaar in een of meerdere formaten. ",
+            "note": "null"
+          },
+          {
+            "key": "definition-nl",
+            "value": "Een verzameling van data, gepubliseerd en/of beheerd door een bronbeheerder, en beschikbaar in een of meerdere formaten. ",
+            "note": "null"
+          },
+          {
+            "key": "label-nl",
+            "value": "Dataset",
+            "note": "null"
+          },
+          {
+            "key": "uri",
+            "value": "http://www.w3.org/ns/dcat#Dataset",
+            "note": "null"
+          },
+          {
+            "key": "usageNote-nl",
+            "value": "NOTE",
+            "note": "Datasets worden geïndentificeerd door hun URI. Het gebruik volgt de DCAT-AP aanbeveling https://joinup.ec.europa.eu/release/dcat-ap-how-use-identifiers-datasets-and-distributions .\r\n"
+          },
+          {
+            "key": "ap-usageNote-nl",
+            "value": "NOTE",
+            "note": "Datasets worden geïndentificeerd door hun URI. Het gebruik volgt de DCAT-AP aanbeveling https://joinup.ec.europa.eu/release/dcat-ap-how-use-identifiers-datasets-and-distributions .\r\n"
+          }
+        ],
+        "Scope": "TRANSLATIONS_ONLY"
+      },
+      "name": {
+        "nl": "Dataset"
+      },
+      "description": {
+        "nl": "Een verzameling van data, gepubliseerd en/of beheerd door een bronbeheerder, en beschikbaar in een of meerdere formaten. "
+      }
+    },
+    {
+      "@id": "http://www.w3.org/ns/dcat#Distribution",
+      "@type": "http://www.w3.org/2002/07/owl#Class",
+      "inpackage": "OTHER_PACKAGE",
+      "definition": {
+        "nl": "Een distributie is een vorm waarin de dataset wordt gepubliceerd. Dit kan als een filedump zijn, maar ook door  een API."
+      },
+      "label": {
+        "nl": "Distributie"
+      },
+      "ap-label-nl": {
+        "nl": "Distributie"
+      },
+      "ap-definition-nl": {
+        "nl": "Een distributie is een vorm waarin de dataset wordt gepubliceerd. Dit kan als een filedump zijn, maar ook door  een API."
+      },
+      "extra": {
+        "EA-Name": "Distributie",
+        "EA-Guid": "{5B8A63D9-5D7F-48cf-A8CF-F939972090E1}",
+        "EA-Package": "OSLO-DCATAPVL",
+        "EA-Type": "CLASS",
+        "EA-Parents": "",
+        "EA-Parents2": [],
+        "parentclasses": "",
+        "label": {
+          "nl": "Distributie"
+        },
+        "definition": {
+          "nl": "Een distributie is een vorm waarin de dataset wordt gepubliceerd. Dit kan als een filedump zijn, maar ook door  een API."
+        },
+        "usage": "",
+        "ap-label-nl": {
+          "nl": "Distributie"
+        },
+        "ap-definition-nl": {
+          "nl": "Een distributie is een vorm waarin de dataset wordt gepubliceerd. Dit kan als een filedump zijn, maar ook door  een API."
+        },
+        "ap-usageNote-nl": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://www.w3.org/ns/dcat#Distribution",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "Represents a specific available form of a dataset. Each dataset might be available in different forms, these forms might represent different formats of the dataset, different endpoints,... Examples of Distribution include a downloadable CSV file, an XLS f",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "Distribution",
+            "note": "null"
+          },
+          {
+            "key": "label-nl",
+            "value": "Distributie",
+            "note": "null"
+          },
+          {
+            "key": "definition-nl",
+            "value": "Een distributie is een vorm waarin de dataset wordt gepubliceerd. Dit kan als een filedump zijn, maar ook door  een API.",
+            "note": "null"
+          }
+        ],
+        "Scope": "TRANSLATIONS_ONLY"
+      },
+      "name": {
+        "nl": "Distributie"
+      },
+      "description": {
+        "nl": "Een distributie is een vorm waarin de dataset wordt gepubliceerd. Dit kan als een filedump zijn, maar ook door  een API."
+      },
+      "usage": {}
+    },
+    {
+      "@id": "http://xmlns.com/foaf/0.1/Agent",
+      "@type": "http://www.w3.org/2002/07/owl#Class",
+      "inpackage": "OTHER_PACKAGE",
+      "ap-usageNote-nl": {
+        "nl": "Bij voorkeur wordt de persistente identificator uit het organisatieregister gebruikt."
+      },
+      "usage": {
+        "nl": "Bij voorkeur wordt de persistente identificator uit het organisatieregister gebruikt."
+      },
+      "definition": {
+        "nl": "De agent in zijn rol als uitgever  is de organisatie die verantwoordelijk is voor het toegankelijk maken, dus de publicatie, van een datasetcatalogus of dataset."
+      },
+      "label": {
+        "nl": "De uitgever is de organisatie die verantwoordelijk is voor het toegankelijk maken, dus het publiceren, van de datasetcatalogus of dataset."
+      },
+      "ap-label-nl": {
+        "nl": "De uitgever is de organisatie die verantwoordelijk is voor het toegankelijk maken, dus het publiceren, van de datasetcatalogus of dataset."
+      },
+      "ap-definition-nl": {
+        "nl": "De agent in zijn rol als uitgever  is de organisatie die verantwoordelijk is voor het toegankelijk maken, dus de publicatie, van een datasetcatalogus of dataset."
+      },
+      "extra": {
+        "EA-Name": "Agent",
+        "EA-Guid": "{D55680D7-C7A2-47c9-85F8-3845760F15B3}",
+        "EA-Package": "OSLO-DCATAPVL",
+        "EA-Type": "CLASS",
+        "EA-Parents": "",
+        "EA-Parents2": [],
+        "parentclasses": "",
+        "label": {
+          "nl": "De uitgever is de organisatie die verantwoordelijk is voor het toegankelijk maken, dus het publiceren, van de datasetcatalogus of dataset."
+        },
+        "definition": {
+          "nl": "De agent in zijn rol als uitgever  is de organisatie die verantwoordelijk is voor het toegankelijk maken, dus de publicatie, van een datasetcatalogus of dataset."
+        },
+        "usage": {
+          "nl": "Bij voorkeur wordt de persistente identificator uit het organisatieregister gebruikt."
+        },
+        "ap-label-nl": {
+          "nl": "De uitgever is de organisatie die verantwoordelijk is voor het toegankelijk maken, dus het publiceren, van de datasetcatalogus of dataset."
+        },
+        "ap-definition-nl": {
+          "nl": "De agent in zijn rol als uitgever  is de organisatie die verantwoordelijk is voor het toegankelijk maken, dus de publicatie, van een datasetcatalogus of dataset."
+        },
+        "ap-usageNote-nl": {
+          "nl": "Bij voorkeur wordt de persistente identificator uit het organisatieregister gebruikt."
+        },
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://xmlns.com/foaf/0.1/Agent",
+            "note": "null"
+          },
+          {
+            "key": "label-nl",
+            "value": "Uitgever",
+            "note": "null"
+          },
+          {
+            "key": "label-nl",
+            "value": "De uitgever is de organisatie die verantwoordelijk is voor het toegankelijk maken, dus het publiceren, van de datasetcatalogus of dataset.",
+            "note": "null"
+          },
+          {
+            "key": "definition-nl",
+            "value": "De agent in zijn rol als uitgever  is de organisatie die verantwoordelijk is voor het toegankelijk maken, dus de publicatie, van een datasetcatalogus of dataset.",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "Publisher",
+            "note": "null"
+          },
+          {
+            "key": "usageNote-nl",
+            "value": "Bij voorkeur wordt de persistente identificator uit het organisatieregister gebruikt.",
+            "note": "null"
+          },
+          {
+            "key": "ap-usageNote-nl",
+            "value": "NOTE",
+            "note": "Bij voorkeur wordt de persistente identificator uit het organisatieregister gebruikt."
+          }
+        ],
+        "Scope": "TRANSLATIONS_ONLY"
+      },
+      "name": {
+        "nl": "De uitgever is de organisatie die verantwoordelijk is voor het toegankelijk maken, dus het publiceren, van de datasetcatalogus of dataset."
+      },
+      "description": {
+        "nl": "De agent in zijn rol als uitgever  is de organisatie die verantwoordelijk is voor het toegankelijk maken, dus de publicatie, van een datasetcatalogus of dataset."
+      }
+    }
+  ],
+  "externalproperties": [
+    {
+      "@id": "http://purl.org/dc/terms/accessRights",
+      "@type": "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "name": {
+        "nl": "toegankelijkheid"
+      },
+      "inpackage": "OTHER_PACKAGE",
+      "ap-codelist": "https://publications.europa.eu/en/web/eu-vocabularies/at-dataset/-/resource/dataset/access-right",
+      "ap-usageNote-nl": {
+        "nl": "De waarde hiervan is steeds publiek voor Open Data. Beperkende waarden zoals 'beperkte toegang' of 'niet-publiek' worden niet opgenomen als waarde. De waarde is dus steeds http://publications.europa.eu/resource/authority/access-right/PUBLIC ."
+      },
+      "usage": {
+        "nl": "De waarde hiervan is steeds publiek voor Open Data. Beperkende waarden zoals 'beperkte toegang' of 'niet-publiek' worden niet opgenomen als waarde. De waarde is dus steeds http://publications.europa.eu/resource/authority/access-right/PUBLIC ."
+      },
+      "definition": {
+        "nl": "De toegankelijkheidscategorie van de dataset."
+      },
+      "label": {
+        "nl": "toegankelijkheid"
+      },
+      "ap-label-nl": {
+        "nl": "toegankelijkheid"
+      },
+      "ap-definition-nl": {
+        "nl": "De toegankelijkheidscategorie van de dataset."
+      },
+      "extra": {
+        "EA-Name": "toegankelijkheid",
+        "EA-Guid": "{89B2B04F-D159-4d50-BFE7-703212803A44}",
+        "EA-Package": "OSLO-DCATAPVL",
+        "EA-Type": "attribute",
+        "EA-Domain": "Dataset",
+        "EA-Domain-Guid": "{BF0250F0-446B-4104-9A83-EC4638B23361}",
+        "EA-Range": "Code",
+        "RangeData": {
+          "EA-Name": "Code",
+          "EA-GUID": "{E052E2A8-E33D-4c5d-BD5B-BC855707DF51}",
+          "EA-Package": "OSLO-Generiek",
+          "uri": "http://www.w3.org/2004/02/skos/core#Concept"
+        },
+        "label": {
+          "nl": "toegankelijkheid"
+        },
+        "definition": {
+          "nl": "De toegankelijkheidscategorie van de dataset."
+        },
+        "usage": {
+          "nl": "De waarde hiervan is steeds publiek voor Open Data. Beperkende waarden zoals 'beperkte toegang' of 'niet-publiek' worden niet opgenomen als waarde. De waarde is dus steeds http://publications.europa.eu/resource/authority/access-right/PUBLIC ."
+        },
+        "ap-label-nl": {
+          "nl": "toegankelijkheid"
+        },
+        "ap-definition-nl": {
+          "nl": "De toegankelijkheidscategorie van de dataset."
+        },
+        "ap-usageNote-nl": {
+          "nl": "De waarde hiervan is steeds publiek voor Open Data. Beperkende waarden zoals 'beperkte toegang' of 'niet-publiek' worden niet opgenomen als waarde. De waarde is dus steeds http://publications.europa.eu/resource/authority/access-right/PUBLIC ."
+        },
+        "ap-codelist": "https://publications.europa.eu/en/web/eu-vocabularies/at-dataset/-/resource/dataset/access-right",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://purl.org/dc/terms/accessRights",
+            "note": "null"
+          },
+          {
+            "key": "label-nl",
+            "value": "toegankelijkheid",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "This property refers to information that indicates whether the Dataset is open data, has access restrictions or is not public.",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "access rights",
+            "note": "null"
+          },
+          {
+            "key": "definition-nl",
+            "value": "De toegankelijkheidscategorie van de dataset.",
+            "note": "null"
+          },
+          {
+            "key": "usagenote-nl",
+            "value": "De waarde hiervan is steeds publiek voor Open Data. Beperkende waarden zoals 'beperkte toegang' of 'niet-publiek' worden niet opgenomen als waarde.",
+            "note": "null"
+          },
+          {
+            "key": "ap-usageNote-nl",
+            "value": "De waarde hiervan is steeds publiek voor Open Data. Beperkende waarden zoals 'beperkte toegang' of 'niet-publiek' worden niet opgenomen als waarde. De waarde is dus steeds http://publications.europa.eu/resource/authority/access-right/PUBLIC .",
+            "note": "null"
+          },
+          {
+            "key": "ap-codelist",
+            "value": "https://publications.europa.eu/en/web/eu-vocabularies/at-dataset/-/resource/dataset/access-right",
+            "note": "null"
+          }
+        ],
+        "Scope": "TRANSLATIONS_ONLY"
+      },
+      "description": {
+        "nl": "De toegankelijkheidscategorie van de dataset."
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/dcat#Dataset",
+          "EA-Name": "Dataset"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "Code",
+          "EA-GUID": "{E052E2A8-E33D-4c5d-BD5B-BC855707DF51}",
+          "EA-Package": "OSLO-Generiek",
+          "uri": "http://www.w3.org/2004/02/skos/core#Concept"
+        }
+      ],
+      "generalization": [],
+      "minCardinality": "1",
+      "maxCardinality": "1"
+    },
+    {
+      "@id": "http://purl.org/dc/terms/description",
+      "@type": "http://www.w3.org/2002/07/owl#DatatypeProperty",
+      "name": {
+        "nl": "beschrijving"
+      },
+      "inpackage": "OTHER_PACKAGE",
+      "ap-usageNote-nl": {
+        "nl": "Omwille van de meertaligheid kunnen er meerdere waarden zijn. De gewenste interpretatie van de cardinaliteit is: per taal slechts 1 waarde."
+      },
+      "usage": {
+        "nl": "Omwille van de meertaligheid kunnen er meerdere waarden zijn. De gewenste interpretatie van de cardinaliteit is: per taal slechts 1 waarde."
+      },
+      "definition": {
+        "nl": "Een bondige omschrijving van de datasetcatalogus. "
+      },
+      "label": {
+        "nl": "beschrijving"
+      },
+      "ap-label-nl": {
+        "nl": "beschrijving"
+      },
+      "ap-definition-nl": {
+        "nl": "Een bondige omschrijving van de datasetcatalogus. "
+      },
+      "extra": {
+        "EA-Name": "beschrijving",
+        "EA-Guid": "{B5015B37-892E-4bc5-B182-89DA9102670B}",
+        "EA-Package": "OSLO-DCATAPVL",
+        "EA-Type": "attribute",
+        "EA-Domain": "DatasetCatalogus",
+        "EA-Domain-Guid": "{CF9EF572-9998-4f51-AA32-F81D8248BC24}",
+        "EA-Range": "TaalString",
+        "RangeData": {
+          "EA-Name": "TaalString",
+          "EA-GUID": "{527085CB-79BC-4703-925B-A73E38A6182B}",
+          "EA-Package": "OSLO-Generiek",
+          "uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+        },
+        "label": {
+          "nl": "beschrijving"
+        },
+        "definition": {
+          "nl": "Een bondige omschrijving van de datasetcatalogus. "
+        },
+        "usage": {
+          "nl": "Omwille van de meertaligheid kunnen er meerdere waarden zijn. De gewenste interpretatie van de cardinaliteit is: per taal slechts 1 waarde."
+        },
+        "ap-label-nl": {
+          "nl": "beschrijving"
+        },
+        "ap-definition-nl": {
+          "nl": "Een bondige omschrijving van de datasetcatalogus. "
+        },
+        "ap-usageNote-nl": {
+          "nl": "Omwille van de meertaligheid kunnen er meerdere waarden zijn. De gewenste interpretatie van de cardinaliteit is: per taal slechts 1 waarde."
+        },
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://purl.org/dc/terms/description",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "This property contains a free-text account of the Catalogue. This property can be repeated for parallel language versions of the description.",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "description",
+            "note": "null"
+          },
+          {
+            "key": "label-nl",
+            "value": "beschrijving",
+            "note": "null"
+          },
+          {
+            "key": "definition-nl",
+            "value": "Een bondige omschrijving van de datasetcatalogus. ",
+            "note": "null"
+          },
+          {
+            "key": "usageNote-nl",
+            "value": "Omwille van de meertaligheid kunnen er meerdere waarden zijn. De gewenste interpretatie van de cardinaliteit is: per taal slechts 1 waarde.",
+            "note": "null"
+          },
+          {
+            "key": "ap-usageNote-nl",
+            "value": "Omwille van de meertaligheid kunnen er meerdere waarden zijn. De gewenste interpretatie van de cardinaliteit is: per taal slechts 1 waarde.",
+            "note": "null"
+          }
+        ],
+        "Scope": "TRANSLATIONS_ONLY"
+      },
+      "description": {
+        "nl": "Een bondige omschrijving van de datasetcatalogus. "
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/dcat#Catalog",
+          "EA-Name": "DatasetCatalogus"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "TaalString",
+          "EA-GUID": "{527085CB-79BC-4703-925B-A73E38A6182B}",
+          "EA-Package": "OSLO-Generiek",
+          "uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+        }
+      ],
+      "generalization": [],
+      "minCardinality": "1",
+      "maxCardinality": "n"
+    },
+    {
+      "@id": "http://purl.org/dc/terms/description",
+      "@type": "http://www.w3.org/2002/07/owl#DatatypeProperty",
+      "name": {
+        "nl": "beschrijving"
+      },
+      "inpackage": "OTHER_PACKAGE",
+      "ap-usageNote-nl": {
+        "nl": "Omwille van de meertaligheid kunnen er meerdere waarden zijn. De gewenste interpretatie van de cardinaliteit is: per taal slechts 1 waarde."
+      },
+      "usage": {
+        "nl": "Omwille van de meertaligheid kunnen er meerdere waarden zijn. De gewenste interpretatie van de cardinaliteit is: per taal slechts 1 waarde."
+      },
+      "definition": {
+        "nl": "Een bondige omschrijving van de dataset."
+      },
+      "label": {
+        "nl": "beschrijving"
+      },
+      "ap-label-nl": {
+        "nl": "beschrijving"
+      },
+      "ap-definition-nl": {
+        "nl": "Een bondige omschrijving van de dataset."
+      },
+      "extra": {
+        "EA-Name": "beschrijving",
+        "EA-Guid": "{CD97D484-3EAA-4306-B4AC-2AA29EAFAC3F}",
+        "EA-Package": "OSLO-DCATAPVL",
+        "EA-Type": "attribute",
+        "EA-Domain": "Dataset",
+        "EA-Domain-Guid": "{BF0250F0-446B-4104-9A83-EC4638B23361}",
+        "EA-Range": "TaalString",
+        "RangeData": {
+          "EA-Name": "TaalString",
+          "EA-GUID": "{527085CB-79BC-4703-925B-A73E38A6182B}",
+          "EA-Package": "OSLO-Generiek",
+          "uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+        },
+        "label": {
+          "nl": "beschrijving"
+        },
+        "definition": {
+          "nl": "Een bondige omschrijving van de dataset."
+        },
+        "usage": {
+          "nl": "Omwille van de meertaligheid kunnen er meerdere waarden zijn. De gewenste interpretatie van de cardinaliteit is: per taal slechts 1 waarde."
+        },
+        "ap-label-nl": {
+          "nl": "beschrijving"
+        },
+        "ap-definition-nl": {
+          "nl": "Een bondige omschrijving van de dataset."
+        },
+        "ap-usageNote-nl": {
+          "nl": "Omwille van de meertaligheid kunnen er meerdere waarden zijn. De gewenste interpretatie van de cardinaliteit is: per taal slechts 1 waarde."
+        },
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://purl.org/dc/terms/description",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "description",
+            "note": "null"
+          },
+          {
+            "key": "label-nl",
+            "value": "beschrijving",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "This property contains a free-text account of the Dataset. This property can be repeated for parallel language versions of the description.",
+            "note": "null"
+          },
+          {
+            "key": "definition-nl",
+            "value": "Een bondige omschrijving van de dataset.",
+            "note": "null"
+          },
+          {
+            "key": "usageNote-nl",
+            "value": "Omwille van de meertaligheid kunnen er meerdere waarden zijn. De gewenste interpretatie van de cardinaliteit is: per taal slechts 1 waarde.",
+            "note": "null"
+          },
+          {
+            "key": "ap-usageNote-nl",
+            "value": "Omwille van de meertaligheid kunnen er meerdere waarden zijn. De gewenste interpretatie van de cardinaliteit is: per taal slechts 1 waarde.",
+            "note": "null"
+          }
+        ],
+        "Scope": "TRANSLATIONS_ONLY"
+      },
+      "description": {
+        "nl": "Een bondige omschrijving van de dataset."
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/dcat#Dataset",
+          "EA-Name": "Dataset"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "TaalString",
+          "EA-GUID": "{527085CB-79BC-4703-925B-A73E38A6182B}",
+          "EA-Package": "OSLO-Generiek",
+          "uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+        }
+      ],
+      "generalization": [],
+      "minCardinality": "1",
+      "maxCardinality": "n"
+    },
+    {
+      "@id": "http://purl.org/dc/terms/license",
+      "@type": "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "name": {
+        "nl": "heeft licentie"
+      },
+      "inpackage": "ACTIVE_PACKAGE",
+      "ap-usageNote-nl": {
+        "nl": "Omdat de voorwaarden kunnen verschillen naargelang de distributie is er gekozen om de licentie enkel op het meest granulaire niveau te behouden.\r\nBijvoorkeur worden de Vlaamse modellicenties gebruikt. "
+      },
+      "usage": {
+        "nl": "Omdat de voorwaarden kunnen verschillen naargelang de distributie is er gekozen om de licentie enkel op het meest granulaire niveau te behouden.\r\nBijvoorkeur worden de Vlaamse modellicenties gebruikt. "
+      },
+      "definition": {
+        "nl": "De licentie van de distributie"
+      },
+      "label": {
+        "nl": "heeft licentie"
+      },
+      "ap-label-nl": {
+        "nl": "heeft licentie"
+      },
+      "ap-definition-nl": {
+        "nl": "De licentie van de distributie"
+      },
+      "extra": {
+        "EA-Name": "heeftLicentie",
+        "EA-Guid": "{FF5B5E01-ACCA-4f8c-8717-D6BC7D62F231}",
+        "derived": "false",
+        "EA-Package": "",
+        "EA-Type": "connector",
+        "EA-Domain": "Distributie",
+        "EA-Domain-Guid": "{5B8A63D9-5D7F-48cf-A8CF-F939972090E1}",
+        "EA-Range": "LicentieDocument",
+        "RangeData": {
+          "EA-Name": "LicentieDocument",
+          "EA-GUID": "{7F1E3328-B5B2-4d2b-AEFF-6F158A2DFE88}",
+          "EA-Package": "OSLO-DCATAPVL",
+          "uri": "http://purl.org/dc/terms/LicenseDocument"
+        },
+        "sourceRole": "null",
+        "destRole": "null",
+        "label": {
+          "nl": "heeft licentie"
+        },
+        "definition": {
+          "nl": "De licentie van de distributie"
+        },
+        "usage": {
+          "nl": "Omdat de voorwaarden kunnen verschillen naargelang de distributie is er gekozen om de licentie enkel op het meest granulaire niveau te behouden.\r\nBijvoorkeur worden de Vlaamse modellicenties gebruikt. "
+        },
+        "ap-label-nl": {
+          "nl": "heeft licentie"
+        },
+        "ap-definition-nl": {
+          "nl": "De licentie van de distributie"
+        },
+        "ap-usageNote-nl": {
+          "nl": "Omdat de voorwaarden kunnen verschillen naargelang de distributie is er gekozen om de licentie enkel op het meest granulaire niveau te behouden.\r\nBijvoorkeur worden de Vlaamse modellicenties gebruikt. "
+        },
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://purl.org/dc/terms/license",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "This property refers to the licence under which the Distribution is made available.",
+            "note": "null"
+          },
+          {
+            "key": "label-nl",
+            "value": "licentie",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "licence",
+            "note": "null"
+          },
+          {
+            "key": "ap-usagenote-nl",
+            "value": "Omdat de voorwaarden kunnen verschillen naargelang de distributie is er gekozen om de licentie enkel op het meest granulaire niveau te behouden.",
+            "note": "null"
+          },
+          {
+            "key": "definition-nl",
+            "value": "De licentie van de distributie",
+            "note": "null"
+          },
+          {
+            "key": "ap-label-nl",
+            "value": "heeft licentie",
+            "note": "null"
+          },
+          {
+            "key": "ap-usageNote-nl",
+            "value": "NOTE",
+            "note": "Omdat de voorwaarden kunnen verschillen naargelang de distributie is er gekozen om de licentie enkel op het meest granulaire niveau te behouden.\r\nBijvoorkeur worden de Vlaamse modellicenties gebruikt. "
+          }
+        ],
+        "DestRoleTags": [],
+        "Scope": "TRANSLATIONS_ONLY"
+      },
+      "description": {
+        "nl": "De licentie van de distributie"
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/dcat#Distribution",
+          "EA-Name": "Distributie"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "LicentieDocument",
+          "EA-GUID": "{7F1E3328-B5B2-4d2b-AEFF-6F158A2DFE88}",
+          "EA-Package": "OSLO-DCATAPVL",
+          "uri": "http://purl.org/dc/terms/LicenseDocument"
+        }
+      ],
+      "generalization": [],
+      "minCardinality": "1",
+      "maxCardinality": "1"
+    },
+    {
+      "@id": "http://purl.org/dc/terms/license",
+      "@type": "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "name": {
+        "nl": "heeft licentie"
+      },
+      "inpackage": "ACTIVE_PACKAGE",
+      "ap-usageNote-nl": {
+        "nl": "De licentie voor het Vlaams Open Data Portaal is vastgelegd op https://data.vlaanderen.be/id/licentie/creative-commons-zero-verklaring/v1.0 ."
+      },
+      "usage": {
+        "nl": "De licentie voor het Vlaams Open Data Portaal is vastgelegd op https://data.vlaanderen.be/id/licentie/creative-commons-zero-verklaring/v1.0 ."
+      },
+      "definition": {
+        "nl": "De licentie van de datasetcatalogus."
+      },
+      "label": {
+        "nl": "heeft licentie"
+      },
+      "ap-label-nl": {
+        "nl": "heeft licentie"
+      },
+      "ap-definition-nl": {
+        "nl": "De licentie van de datasetcatalogus."
+      },
+      "extra": {
+        "EA-Name": "heeftLicentie",
+        "EA-Guid": "{0D2AA7BC-C9C5-4f4c-AC59-5E34D045AB70}",
+        "derived": "false",
+        "EA-Package": "",
+        "EA-Type": "connector",
+        "EA-Domain": "DatasetCatalogus",
+        "EA-Domain-Guid": "{CF9EF572-9998-4f51-AA32-F81D8248BC24}",
+        "EA-Range": "LicentieDocument",
+        "RangeData": {
+          "EA-Name": "LicentieDocument",
+          "EA-GUID": "{7F1E3328-B5B2-4d2b-AEFF-6F158A2DFE88}",
+          "EA-Package": "OSLO-DCATAPVL",
+          "uri": "http://purl.org/dc/terms/LicenseDocument"
+        },
+        "sourceRole": "null",
+        "destRole": "null",
+        "label": {
+          "nl": "heeft licentie"
+        },
+        "definition": {
+          "nl": "De licentie van de datasetcatalogus."
+        },
+        "usage": {
+          "nl": "De licentie voor het Vlaams Open Data Portaal is vastgelegd op https://data.vlaanderen.be/id/licentie/creative-commons-zero-verklaring/v1.0 ."
+        },
+        "ap-label-nl": {
+          "nl": "heeft licentie"
+        },
+        "ap-definition-nl": {
+          "nl": "De licentie van de datasetcatalogus."
+        },
+        "ap-usageNote-nl": {
+          "nl": "De licentie voor het Vlaams Open Data Portaal is vastgelegd op https://data.vlaanderen.be/id/licentie/creative-commons-zero-verklaring/v1.0 ."
+        },
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://purl.org/dc/terms/license",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "licence",
+            "note": "null"
+          },
+          {
+            "key": "label-nl",
+            "value": "licentie",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "This property refers to the licence under which the Catalogue can be used or reused.",
+            "note": "null"
+          },
+          {
+            "key": "definition-nl",
+            "value": "De licentie van de datasetcatalogus.",
+            "note": "null"
+          },
+          {
+            "key": "ap-usageNote-nl",
+            "value": "De licentie voor het Vlaams Open Data Portaal is vastgelegd op https://data.vlaanderen.be/id/licentie/creative-commons-zero-verklaring/v1.0 .",
+            "note": "null"
+          },
+          {
+            "key": "ap-label-nl",
+            "value": "heeft licentie",
+            "note": "null"
+          }
+        ],
+        "DestRoleTags": [],
+        "Scope": "TRANSLATIONS_ONLY"
+      },
+      "description": {
+        "nl": "De licentie van de datasetcatalogus."
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/dcat#Catalog",
+          "EA-Name": "DatasetCatalogus"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "LicentieDocument",
+          "EA-GUID": "{7F1E3328-B5B2-4d2b-AEFF-6F158A2DFE88}",
+          "EA-Package": "OSLO-DCATAPVL",
+          "uri": "http://purl.org/dc/terms/LicenseDocument"
+        }
+      ],
+      "generalization": [],
+      "minCardinality": "1",
+      "maxCardinality": "1"
+    },
+    {
+      "@id": "http://purl.org/dc/terms/publisher",
+      "@type": "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "name": {
+        "nl": "heeft uitgever"
+      },
+      "inpackage": "ACTIVE_PACKAGE",
+      "definition": {
+        "nl": "De uitgever van de dataset. "
+      },
+      "label": {
+        "nl": "heeft uitgever"
+      },
+      "ap-label-nl": {
+        "nl": "heeft uitgever"
+      },
+      "ap-definition-nl": {
+        "nl": "De uitgever van de dataset. "
+      },
+      "extra": {
+        "EA-Name": "heeftUitgever",
+        "EA-Guid": "{EC2B0C78-CCA9-4a60-B2DB-649CFF8B32ED}",
+        "derived": "false",
+        "EA-Package": "",
+        "EA-Type": "connector",
+        "EA-Domain": "Dataset",
+        "EA-Domain-Guid": "{BF0250F0-446B-4104-9A83-EC4638B23361}",
+        "EA-Range": "Agent",
+        "RangeData": {
+          "EA-Name": "Agent",
+          "EA-GUID": "{D55680D7-C7A2-47c9-85F8-3845760F15B3}",
+          "EA-Package": "OSLO-DCATAPVL",
+          "uri": "http://xmlns.com/foaf/0.1/Agent"
+        },
+        "sourceRole": "null",
+        "destRole": "null",
+        "label": {
+          "nl": "heeft uitgever"
+        },
+        "definition": {
+          "nl": "De uitgever van de dataset. "
+        },
+        "usage": "",
+        "ap-label-nl": {
+          "nl": "heeft uitgever"
+        },
+        "ap-definition-nl": {
+          "nl": "De uitgever van de dataset. "
+        },
+        "ap-usageNote-nl": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://purl.org/dc/terms/publisher",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "This property refers to an entity (organisation) responsible for making the Dataset available",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "publisher",
+            "note": "null"
+          },
+          {
+            "key": "label-nl",
+            "value": "heeftUitgever",
+            "note": "null"
+          },
+          {
+            "key": "ap-usagenote-nl",
+            "value": "Dikwijls vallen de uitgever en de beheerder van de dataset samen, echter als beide verschillend zijn dan is de waarde hier de uitgever.",
+            "note": "null"
+          },
+          {
+            "key": "definition-nl",
+            "value": "De uitgever van de dataset. ",
+            "note": "null"
+          },
+          {
+            "key": "ap-label-nl",
+            "value": "heeft uitgever",
+            "note": "null"
+          }
+        ],
+        "DestRoleTags": [],
+        "Scope": "TRANSLATIONS_ONLY"
+      },
+      "description": {
+        "nl": "De uitgever van de dataset. "
+      },
+      "usage": {},
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/dcat#Dataset",
+          "EA-Name": "Dataset"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "Agent",
+          "EA-GUID": "{D55680D7-C7A2-47c9-85F8-3845760F15B3}",
+          "EA-Package": "OSLO-DCATAPVL",
+          "uri": "http://xmlns.com/foaf/0.1/Agent"
+        }
+      ],
+      "generalization": [],
+      "minCardinality": "1",
+      "maxCardinality": "1"
+    },
+    {
+      "@id": "http://purl.org/dc/terms/publisher",
+      "@type": "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "name": {
+        "nl": "heeft uitgever"
+      },
+      "inpackage": "ACTIVE_PACKAGE",
+      "definition": {
+        "nl": "De uitgever van de datasetcatalogus"
+      },
+      "label": {
+        "nl": "heeft uitgever"
+      },
+      "ap-label-nl": {
+        "nl": "heeft uitgever"
+      },
+      "ap-definition-nl": {
+        "nl": "De uitgever van de datasetcatalogus"
+      },
+      "extra": {
+        "EA-Name": "heeftUitgever",
+        "EA-Guid": "{0033AE3C-6294-4e4f-BCF6-7AEF87C4AF87}",
+        "derived": "false",
+        "EA-Package": "",
+        "EA-Type": "connector",
+        "EA-Domain": "DatasetCatalogus",
+        "EA-Domain-Guid": "{CF9EF572-9998-4f51-AA32-F81D8248BC24}",
+        "EA-Range": "Agent",
+        "RangeData": {
+          "EA-Name": "Agent",
+          "EA-GUID": "{D55680D7-C7A2-47c9-85F8-3845760F15B3}",
+          "EA-Package": "OSLO-DCATAPVL",
+          "uri": "http://xmlns.com/foaf/0.1/Agent"
+        },
+        "sourceRole": "null",
+        "destRole": "null",
+        "label": {
+          "nl": "heeft uitgever"
+        },
+        "definition": {
+          "nl": "De uitgever van de datasetcatalogus"
+        },
+        "usage": "",
+        "ap-label-nl": {
+          "nl": "heeft uitgever"
+        },
+        "ap-definition-nl": {
+          "nl": "De uitgever van de datasetcatalogus"
+        },
+        "ap-usageNote-nl": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://purl.org/dc/terms/publisher",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "This property refers to an entity (organisation) responsible for making the Catalogue available.",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "publisher",
+            "note": "null"
+          },
+          {
+            "key": "label-nl",
+            "value": "heeftUitgever",
+            "note": "null"
+          },
+          {
+            "key": "definition-nl",
+            "value": "De uitgever van de datasetcatalogus",
+            "note": "null"
+          },
+          {
+            "key": "ap-label-nl",
+            "value": "heeft uitgever",
+            "note": "null"
+          }
+        ],
+        "DestRoleTags": [],
+        "Scope": "TRANSLATIONS_ONLY"
+      },
+      "description": {
+        "nl": "De uitgever van de datasetcatalogus"
+      },
+      "usage": {},
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/dcat#Catalog",
+          "EA-Name": "DatasetCatalogus"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "Agent",
+          "EA-GUID": "{D55680D7-C7A2-47c9-85F8-3845760F15B3}",
+          "EA-Package": "OSLO-DCATAPVL",
+          "uri": "http://xmlns.com/foaf/0.1/Agent"
+        }
+      ],
+      "generalization": [],
+      "minCardinality": "1",
+      "maxCardinality": "1"
+    },
+    {
+      "@id": "http://purl.org/dc/terms/title",
+      "@type": "http://www.w3.org/2002/07/owl#DatatypeProperty",
+      "name": {
+        "nl": "titel"
+      },
+      "inpackage": "OTHER_PACKAGE",
+      "ap-usageNote-nl": {
+        "nl": "Omwille van de meertaligheid kunnen er meerdere waarden zijn. De gewenste interpretatie van de cardinaliteit is: per taal slechts 1 waarde."
+      },
+      "usage": {
+        "nl": "Omwille van de meertaligheid kunnen er meerdere waarden zijn. De gewenste interpretatie van de cardinaliteit is: per taal slechts 1 waarde."
+      },
+      "definition": {
+        "nl": "De naam van de datasetcatalogus."
+      },
+      "label": {
+        "nl": "titel"
+      },
+      "ap-label-nl": {
+        "nl": "titel"
+      },
+      "ap-definition-nl": {
+        "nl": "De naam van de datasetcatalogus."
+      },
+      "extra": {
+        "EA-Name": "titel",
+        "EA-Guid": "{3F3B67A9-4853-472a-8F24-DD328184FE2D}",
+        "EA-Package": "OSLO-DCATAPVL",
+        "EA-Type": "attribute",
+        "EA-Domain": "DatasetCatalogus",
+        "EA-Domain-Guid": "{CF9EF572-9998-4f51-AA32-F81D8248BC24}",
+        "EA-Range": "TaalString",
+        "RangeData": {
+          "EA-Name": "TaalString",
+          "EA-GUID": "{527085CB-79BC-4703-925B-A73E38A6182B}",
+          "EA-Package": "OSLO-Generiek",
+          "uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+        },
+        "label": {
+          "nl": "titel"
+        },
+        "definition": {
+          "nl": "De naam van de datasetcatalogus."
+        },
+        "usage": {
+          "nl": "Omwille van de meertaligheid kunnen er meerdere waarden zijn. De gewenste interpretatie van de cardinaliteit is: per taal slechts 1 waarde."
+        },
+        "ap-label-nl": {
+          "nl": "titel"
+        },
+        "ap-definition-nl": {
+          "nl": "De naam van de datasetcatalogus."
+        },
+        "ap-usageNote-nl": {
+          "nl": "Omwille van de meertaligheid kunnen er meerdere waarden zijn. De gewenste interpretatie van de cardinaliteit is: per taal slechts 1 waarde."
+        },
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://purl.org/dc/terms/title",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "title",
+            "note": "null"
+          },
+          {
+            "key": "label-nl",
+            "value": "titel",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "This property contains a name given to the Catalogue. This property can be repeated for parallel language versions of the name.",
+            "note": "null"
+          },
+          {
+            "key": "definition-nl",
+            "value": "De naam van de datasetcatalogus.",
+            "note": "null"
+          },
+          {
+            "key": "usageNote-nl",
+            "value": "Omwille van de meertaligheid kunnen er meerdere waarden zijn. De gewenste interpretatie van de cardinaliteit is: per taal slechts 1 waarde.",
+            "note": "null"
+          },
+          {
+            "key": "ap-usageNote-nl",
+            "value": "Omwille van de meertaligheid kunnen er meerdere waarden zijn. De gewenste interpretatie van de cardinaliteit is: per taal slechts 1 waarde.",
+            "note": "null"
+          }
+        ],
+        "Scope": "TRANSLATIONS_ONLY"
+      },
+      "description": {
+        "nl": "De naam van de datasetcatalogus."
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/dcat#Catalog",
+          "EA-Name": "DatasetCatalogus"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "TaalString",
+          "EA-GUID": "{527085CB-79BC-4703-925B-A73E38A6182B}",
+          "EA-Package": "OSLO-Generiek",
+          "uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+        }
+      ],
+      "generalization": [],
+      "minCardinality": "1",
+      "maxCardinality": "n"
+    },
+    {
+      "@id": "http://purl.org/dc/terms/title",
+      "@type": "http://www.w3.org/2002/07/owl#DatatypeProperty",
+      "name": {
+        "nl": "titel"
+      },
+      "inpackage": "OTHER_PACKAGE",
+      "ap-usageNote-nl": {
+        "nl": "Omwille van de meertaligheid kunnen er meerdere waarden zijn. De gewenste interpretatie van de cardinaliteit is: per taal slechts 1 waarde."
+      },
+      "usage": {
+        "nl": "Omwille van de meertaligheid kunnen er meerdere waarden zijn. De gewenste interpretatie van de cardinaliteit is: per taal slechts 1 waarde."
+      },
+      "definition": {
+        "nl": "De naam van de dataset"
+      },
+      "label": {
+        "nl": "titel"
+      },
+      "ap-label-nl": {
+        "nl": "titel"
+      },
+      "ap-definition-nl": {
+        "nl": "De naam van de dataset"
+      },
+      "extra": {
+        "EA-Name": "titel",
+        "EA-Guid": "{535918FC-0EBF-44dc-BC4E-C8DC98AA221A}",
+        "EA-Package": "OSLO-DCATAPVL",
+        "EA-Type": "attribute",
+        "EA-Domain": "Dataset",
+        "EA-Domain-Guid": "{BF0250F0-446B-4104-9A83-EC4638B23361}",
+        "EA-Range": "TaalString",
+        "RangeData": {
+          "EA-Name": "TaalString",
+          "EA-GUID": "{527085CB-79BC-4703-925B-A73E38A6182B}",
+          "EA-Package": "OSLO-Generiek",
+          "uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+        },
+        "label": {
+          "nl": "titel"
+        },
+        "definition": {
+          "nl": "De naam van de dataset"
+        },
+        "usage": {
+          "nl": "Omwille van de meertaligheid kunnen er meerdere waarden zijn. De gewenste interpretatie van de cardinaliteit is: per taal slechts 1 waarde."
+        },
+        "ap-label-nl": {
+          "nl": "titel"
+        },
+        "ap-definition-nl": {
+          "nl": "De naam van de dataset"
+        },
+        "ap-usageNote-nl": {
+          "nl": "Omwille van de meertaligheid kunnen er meerdere waarden zijn. De gewenste interpretatie van de cardinaliteit is: per taal slechts 1 waarde."
+        },
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://purl.org/dc/terms/title",
+            "note": "null"
+          },
+          {
+            "key": "label-nl",
+            "value": "titel",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "title",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "This property contains a name given to the Dataset. This property can be repeated for parallel language versions of the name.",
+            "note": "null"
+          },
+          {
+            "key": "definition-nl",
+            "value": "De naam van de dataset",
+            "note": "null"
+          },
+          {
+            "key": "usageNote-nl",
+            "value": "Omwille van de meertaligheid kunnen er meerdere waarden zijn. De gewenste interpretatie van de cardinaliteit is: per taal slechts 1 waarde.",
+            "note": "null"
+          },
+          {
+            "key": "ap-usageNote-nl",
+            "value": "Omwille van de meertaligheid kunnen er meerdere waarden zijn. De gewenste interpretatie van de cardinaliteit is: per taal slechts 1 waarde.",
+            "note": "null"
+          }
+        ],
+        "Scope": "TRANSLATIONS_ONLY"
+      },
+      "description": {
+        "nl": "De naam van de dataset"
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/dcat#Dataset",
+          "EA-Name": "Dataset"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "TaalString",
+          "EA-GUID": "{527085CB-79BC-4703-925B-A73E38A6182B}",
+          "EA-Package": "OSLO-Generiek",
+          "uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+        }
+      ],
+      "generalization": [],
+      "minCardinality": "1",
+      "maxCardinality": "n"
+    },
+    {
+      "@id": "http://purl.org/dc/terms/title",
+      "@type": "http://www.w3.org/2002/07/owl#DatatypeProperty",
+      "name": {
+        "nl": "titel"
+      },
+      "inpackage": "OTHER_PACKAGE",
+      "ap-usageNote-nl": {
+        "nl": "Omwille van de meertaligheid kunnen er meerdere waarden zijn. De gewenste interpretatie van de cardinaliteit is: per taal slechts 1 waarde."
+      },
+      "usage": {
+        "nl": "Omwille van de meertaligheid kunnen er meerdere waarden zijn. De gewenste interpretatie van de cardinaliteit is: per taal slechts 1 waarde."
+      },
+      "definition": {
+        "nl": "Een naam voor de distributie"
+      },
+      "label": {
+        "nl": "titel"
+      },
+      "ap-label-nl": {
+        "nl": "titel"
+      },
+      "ap-definition-nl": {
+        "nl": "Een naam voor de distributie"
+      },
+      "extra": {
+        "EA-Name": "titel",
+        "EA-Guid": "{EA83BAC1-7A98-4c3d-8A47-3D6A2586327D}",
+        "EA-Package": "OSLO-DCATAPVL",
+        "EA-Type": "attribute",
+        "EA-Domain": "Distributie",
+        "EA-Domain-Guid": "{5B8A63D9-5D7F-48cf-A8CF-F939972090E1}",
+        "EA-Range": "TaalString",
+        "RangeData": {
+          "EA-Name": "TaalString",
+          "EA-GUID": "{527085CB-79BC-4703-925B-A73E38A6182B}",
+          "EA-Package": "OSLO-Generiek",
+          "uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+        },
+        "label": {
+          "nl": "titel"
+        },
+        "definition": {
+          "nl": "Een naam voor de distributie"
+        },
+        "usage": {
+          "nl": "Omwille van de meertaligheid kunnen er meerdere waarden zijn. De gewenste interpretatie van de cardinaliteit is: per taal slechts 1 waarde."
+        },
+        "ap-label-nl": {
+          "nl": "titel"
+        },
+        "ap-definition-nl": {
+          "nl": "Een naam voor de distributie"
+        },
+        "ap-usageNote-nl": {
+          "nl": "Omwille van de meertaligheid kunnen er meerdere waarden zijn. De gewenste interpretatie van de cardinaliteit is: per taal slechts 1 waarde."
+        },
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://purl.org/dc/terms/title",
+            "note": "null"
+          },
+          {
+            "key": "label-nl",
+            "value": "titel",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "title",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "this property contains a name given to the Distribution. This property can be repeated for parallel language versions of the description.",
+            "note": "null"
+          },
+          {
+            "key": "ap-usagenote-nl",
+            "value": "Deze eigenschap is noodzakelijk voor een mooie visualisatie van de distributie",
+            "note": "null"
+          },
+          {
+            "key": "definition-nl",
+            "value": "Een naam voor de distributie",
+            "note": "null"
+          },
+          {
+            "key": "usageNote-nl",
+            "value": "Omwille van de meertaligheid kunnen er meerdere waarden zijn. De gewenste interpretatie van de cardinaliteit is: per taal slechts 1 waarde.",
+            "note": "null"
+          },
+          {
+            "key": "ap-usageNote-nl",
+            "value": "Omwille van de meertaligheid kunnen er meerdere waarden zijn. De gewenste interpretatie van de cardinaliteit is: per taal slechts 1 waarde.",
+            "note": "null"
+          }
+        ],
+        "Scope": "TRANSLATIONS_ONLY"
+      },
+      "description": {
+        "nl": "Een naam voor de distributie"
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/dcat#Distribution",
+          "EA-Name": "Distributie"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "TaalString",
+          "EA-GUID": "{527085CB-79BC-4703-925B-A73E38A6182B}",
+          "EA-Package": "OSLO-Generiek",
+          "uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+        }
+      ],
+      "generalization": [],
+      "minCardinality": "1",
+      "maxCardinality": "n"
+    },
+    {
+      "@id": "http://www.w3.org/2006/vcard/ns#hasEmail",
+      "@type": "http://www.w3.org/2002/07/owl#DatatypeProperty",
+      "name": {
+        "nl": "e-mail"
+      },
+      "inpackage": "OTHER_PACKAGE",
+      "ap-usageNote-nl": {
+        "nl": "Een e-mail adres in de vorm van een mailto URI volgens de standaard https://tools.ietf.org/html/rfc6068 ."
+      },
+      "usage": {
+        "nl": "Een e-mail adres in de vorm van een mailto URI volgens de standaard https://tools.ietf.org/html/rfc6068 ."
+      },
+      "definition": {
+        "nl": "Het e-mail adres waarmee je contact kan opnemen"
+      },
+      "label": {
+        "nl": "e-mail"
+      },
+      "ap-label-nl": {
+        "nl": "e-mail"
+      },
+      "ap-definition-nl": {
+        "nl": "Het e-mail adres waarmee je contact kan opnemen"
+      },
+      "extra": {
+        "EA-Name": "e-mail",
+        "EA-Guid": "{51B7DB5B-4522-44cf-9877-95396DF309F1}",
+        "EA-Package": "OSLO-DCATAPVL",
+        "EA-Type": "attribute",
+        "EA-Domain": "Contactinfo ",
+        "EA-Domain-Guid": "{2E34F92D-E9C2-4971-84BA-E4502DA554BB}",
+        "EA-Range": "URI",
+        "RangeData": {
+          "EA-Name": "URI",
+          "EA-Package": "",
+          "uri": "http://www.w3.org/2001/XMLSchema#anyURI"
+        },
+        "label": {
+          "nl": "e-mail"
+        },
+        "definition": {
+          "nl": "Het e-mail adres waarmee je contact kan opnemen"
+        },
+        "usage": {
+          "nl": "Een e-mail adres in de vorm van een mailto URI volgens de standaard https://tools.ietf.org/html/rfc6068 ."
+        },
+        "ap-label-nl": {
+          "nl": "e-mail"
+        },
+        "ap-definition-nl": {
+          "nl": "Het e-mail adres waarmee je contact kan opnemen"
+        },
+        "ap-usageNote-nl": {
+          "nl": "Een e-mail adres in de vorm van een mailto URI volgens de standaard https://tools.ietf.org/html/rfc6068 ."
+        },
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://www.w3.org/2006/vcard/ns#hasEmail",
+            "note": "null"
+          },
+          {
+            "key": "label-nl",
+            "value": "e-mail",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "email",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "TODO",
+            "note": "null"
+          },
+          {
+            "key": "definition-nl",
+            "value": "Het e-mail adres waarmee je contact kan opnemen",
+            "note": "null"
+          },
+          {
+            "key": "ap-usageNote-nl",
+            "value": "Een e-mail adres in de vorm van een mailto URI volgens de standaard https://tools.ietf.org/html/rfc6068 .",
+            "note": "null"
+          }
+        ],
+        "Scope": "TRANSLATIONS_ONLY"
+      },
+      "description": {
+        "nl": "Het e-mail adres waarmee je contact kan opnemen"
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/2006/vcard/ns#Kind",
+          "EA-Name": "Contactinfo "
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "URI",
+          "EA-Package": "",
+          "uri": "http://www.w3.org/2001/XMLSchema#anyURI"
+        }
+      ],
+      "generalization": [],
+      "minCardinality": "1",
+      "maxCardinality": "1"
+    },
+    {
+      "@id": "http://www.w3.org/ns/dcat#accessURL",
+      "@type": "http://www.w3.org/2002/07/owl#DatatypeProperty",
+      "name": {
+        "nl": "toegangsURL"
+      },
+      "inpackage": "OTHER_PACKAGE",
+      "ap-usageNote-nl": {
+        "nl": "Een valide absolute URL is gewenst. Relatieve URLs worden geïnterpreteerd t.o.v. het document en dat levert in de praktijk ongewenste interpretatiefouten op. Daarom worden relatieve URLs niet toegelaten. "
+      },
+      "usage": {
+        "nl": "Een valide absolute URL is gewenst. Relatieve URLs worden geïnterpreteerd t.o.v. het document en dat levert in de praktijk ongewenste interpretatiefouten op. Daarom worden relatieve URLs niet toegelaten. "
+      },
+      "definition": {
+        "nl": "De URL waar de data kan gevonden worden."
+      },
+      "label": {
+        "nl": "toegangsURL"
+      },
+      "ap-label-nl": {
+        "nl": "toegangsURL"
+      },
+      "ap-definition-nl": {
+        "nl": "De URL waar de data kan gevonden worden."
+      },
+      "extra": {
+        "EA-Name": "toegangsURL",
+        "EA-Guid": "{42A9C4D4-863B-4dee-A6CC-3BA341F2B05B}",
+        "EA-Package": "OSLO-DCATAPVL",
+        "EA-Type": "attribute",
+        "EA-Domain": "Distributie",
+        "EA-Domain-Guid": "{5B8A63D9-5D7F-48cf-A8CF-F939972090E1}",
+        "EA-Range": "URI",
+        "RangeData": {
+          "EA-Name": "URI",
+          "EA-Package": "",
+          "uri": "http://www.w3.org/2001/XMLSchema#anyURI"
+        },
+        "label": {
+          "nl": "toegangsURL"
+        },
+        "definition": {
+          "nl": "De URL waar de data kan gevonden worden."
+        },
+        "usage": {
+          "nl": "Een valide absolute URL is gewenst. Relatieve URLs worden geïnterpreteerd t.o.v. het document en dat levert in de praktijk ongewenste interpretatiefouten op. Daarom worden relatieve URLs niet toegelaten. "
+        },
+        "ap-label-nl": {
+          "nl": "toegangsURL"
+        },
+        "ap-definition-nl": {
+          "nl": "De URL waar de data kan gevonden worden."
+        },
+        "ap-usageNote-nl": {
+          "nl": "Een valide absolute URL is gewenst. Relatieve URLs worden geïnterpreteerd t.o.v. het document en dat levert in de praktijk ongewenste interpretatiefouten op. Daarom worden relatieve URLs niet toegelaten. "
+        },
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://www.w3.org/ns/dcat#accessURL",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "This property contains a URL that gives access to a Distribution of the Dataset. The resource at the access URL may contain information about how to get the Dataset.",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "access URL",
+            "note": "null"
+          },
+          {
+            "key": "label-nl",
+            "value": "toegangsURL",
+            "note": "null"
+          },
+          {
+            "key": "definition-nl",
+            "value": "De URL waar de data kan gevonden worden.",
+            "note": "null"
+          },
+          {
+            "key": "usageNote-nl",
+            "value": "NOTE",
+            "note": "Een valide absolute URL is gewenst. Relatieve URLs worden geïnterpreteerd t.o.v. het document en dat levert in de praktijk ongewenste interpretatiefouten op. Daarom worden relatieve URLs niet toegelaten. "
+          },
+          {
+            "key": "ap-usageNote-nl",
+            "value": "NOTE",
+            "note": "Een valide absolute URL is gewenst. Relatieve URLs worden geïnterpreteerd t.o.v. het document en dat levert in de praktijk ongewenste interpretatiefouten op. Daarom worden relatieve URLs niet toegelaten. "
+          }
+        ],
+        "Scope": "TRANSLATIONS_ONLY"
+      },
+      "description": {
+        "nl": "De URL waar de data kan gevonden worden."
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/dcat#Distribution",
+          "EA-Name": "Distributie"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "URI",
+          "EA-Package": "",
+          "uri": "http://www.w3.org/2001/XMLSchema#anyURI"
+        }
+      ],
+      "generalization": [],
+      "minCardinality": "1",
+      "maxCardinality": "1"
+    },
+    {
+      "@id": "http://www.w3.org/ns/dcat#contactPoint",
+      "@type": "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "name": {
+        "nl": "contactinfo"
+      },
+      "inpackage": "OTHER_PACKAGE",
+      "definition": {
+        "nl": "De contactinformatie via men in contact kan treden met de verantwoordelijken van de dataset. "
+      },
+      "label": {
+        "nl": "contactinfo"
+      },
+      "ap-label-nl": {
+        "nl": "contactinfo"
+      },
+      "ap-definition-nl": {
+        "nl": "De contactinformatie via men in contact kan treden met de verantwoordelijken van de dataset. "
+      },
+      "extra": {
+        "EA-Name": "contactinfo",
+        "EA-Guid": "{5934966B-4916-4230-B281-0B6F4AC89597}",
+        "EA-Package": "OSLO-DCATAPVL",
+        "EA-Type": "attribute",
+        "EA-Domain": "Dataset",
+        "EA-Domain-Guid": "{BF0250F0-446B-4104-9A83-EC4638B23361}",
+        "EA-Range": "Contactinfo ",
+        "RangeData": {
+          "EA-Name": "Contactinfo ",
+          "EA-GUID": "{2E34F92D-E9C2-4971-84BA-E4502DA554BB}",
+          "EA-Package": "OSLO-DCATAPVL",
+          "uri": "http://www.w3.org/2006/vcard/ns#Kind"
+        },
+        "label": {
+          "nl": "contactinfo"
+        },
+        "definition": {
+          "nl": "De contactinformatie via men in contact kan treden met de verantwoordelijken van de dataset. "
+        },
+        "usage": "",
+        "ap-label-nl": {
+          "nl": "contactinfo"
+        },
+        "ap-definition-nl": {
+          "nl": "De contactinformatie via men in contact kan treden met de verantwoordelijken van de dataset. "
+        },
+        "ap-usageNote-nl": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://www.w3.org/ns/dcat#contactPoint",
+            "note": "null"
+          },
+          {
+            "key": "label-nl",
+            "value": "contactinfo",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "contact point",
+            "note": "null"
+          },
+          {
+            "key": "definition-nl",
+            "value": "De contactinformatie via men in contact kan treden met de verantwoordelijken van de dataset. ",
+            "note": "null"
+          }
+        ],
+        "Scope": "TRANSLATIONS_ONLY"
+      },
+      "description": {
+        "nl": "De contactinformatie via men in contact kan treden met de verantwoordelijken van de dataset. "
+      },
+      "usage": {},
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/dcat#Dataset",
+          "EA-Name": "Dataset"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "Contactinfo ",
+          "EA-GUID": "{2E34F92D-E9C2-4971-84BA-E4502DA554BB}",
+          "EA-Package": "OSLO-DCATAPVL",
+          "uri": "http://www.w3.org/2006/vcard/ns#Kind"
+        }
+      ],
+      "generalization": [],
+      "minCardinality": "1",
+      "maxCardinality": "n"
+    },
+    {
+      "@id": "http://www.w3.org/ns/dcat#dataset",
+      "@type": "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "name": {
+        "nl": "heeft dataset"
+      },
+      "inpackage": "ACTIVE_PACKAGE",
+      "definition": {
+        "nl": "Een dataset die behoort tot de datasetcatalogus"
+      },
+      "label": {
+        "nl": "heeft dataset"
+      },
+      "ap-label-nl": {
+        "nl": "heeft dataset"
+      },
+      "ap-definition-nl": {
+        "nl": "Een dataset die behoort tot de datasetcatalogus"
+      },
+      "extra": {
+        "EA-Name": "heeftDataset",
+        "EA-Guid": "{AC0E6B4D-0403-4d40-8D51-4E8CD45632EA}",
+        "derived": "false",
+        "EA-Package": "",
+        "EA-Type": "connector",
+        "EA-Domain": "DatasetCatalogus",
+        "EA-Domain-Guid": "{CF9EF572-9998-4f51-AA32-F81D8248BC24}",
+        "EA-Range": "Dataset",
+        "RangeData": {
+          "EA-Name": "Dataset",
+          "EA-GUID": "{BF0250F0-446B-4104-9A83-EC4638B23361}",
+          "EA-Package": "OSLO-DCATAPVL",
+          "uri": "http://www.w3.org/ns/dcat#Dataset"
+        },
+        "sourceRole": "null",
+        "destRole": "null",
+        "label": {
+          "nl": "heeft dataset"
+        },
+        "definition": {
+          "nl": "Een dataset die behoort tot de datasetcatalogus"
+        },
+        "usage": "",
+        "ap-label-nl": {
+          "nl": "heeft dataset"
+        },
+        "ap-definition-nl": {
+          "nl": "Een dataset die behoort tot de datasetcatalogus"
+        },
+        "ap-usageNote-nl": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://www.w3.org/ns/dcat#dataset",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "dataset",
+            "note": "null"
+          },
+          {
+            "key": "label-nl",
+            "value": "heeft dataset",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "A dataset that is part of the catalog.",
+            "note": "null"
+          },
+          {
+            "key": "definition-nl",
+            "value": "Een dataset die behoort tot de datasetcatalogus",
+            "note": "null"
+          }
+        ],
+        "DestRoleTags": [],
+        "Scope": "TRANSLATIONS_ONLY"
+      },
+      "description": {
+        "nl": "Een dataset die behoort tot de datasetcatalogus"
+      },
+      "usage": {},
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/dcat#Catalog",
+          "EA-Name": "DatasetCatalogus"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "Dataset",
+          "EA-GUID": "{BF0250F0-446B-4104-9A83-EC4638B23361}",
+          "EA-Package": "OSLO-DCATAPVL",
+          "uri": "http://www.w3.org/ns/dcat#Dataset"
+        }
+      ],
+      "generalization": [],
+      "minCardinality": "1",
+      "maxCardinality": "n"
+    },
+    {
+      "@id": "http://www.w3.org/ns/dcat#distribution",
+      "@type": "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "name": {
+        "nl": "heeft distributie"
+      },
+      "inpackage": "ACTIVE_PACKAGE",
+      "definition": {
+        "nl": "De distributie van een dataset."
+      },
+      "label": {
+        "nl": "heeft distributie"
+      },
+      "ap-label-nl": {
+        "nl": "heeft distributie"
+      },
+      "ap-definition-nl": {
+        "nl": "De distributie van een dataset."
+      },
+      "extra": {
+        "EA-Name": "heeftDistributie",
+        "EA-Guid": "{57528CFA-6F47-4076-83DF-74CB331C00A9}",
+        "derived": "false",
+        "EA-Package": "",
+        "EA-Type": "connector",
+        "EA-Domain": "Dataset",
+        "EA-Domain-Guid": "{BF0250F0-446B-4104-9A83-EC4638B23361}",
+        "EA-Range": "Distributie",
+        "RangeData": {
+          "EA-Name": "Distributie",
+          "EA-GUID": "{5B8A63D9-5D7F-48cf-A8CF-F939972090E1}",
+          "EA-Package": "OSLO-DCATAPVL",
+          "uri": "http://www.w3.org/ns/dcat#Distribution"
+        },
+        "sourceRole": "null",
+        "destRole": "null",
+        "label": {
+          "nl": "heeft distributie"
+        },
+        "definition": {
+          "nl": "De distributie van een dataset."
+        },
+        "usage": "",
+        "ap-label-nl": {
+          "nl": "heeft distributie"
+        },
+        "ap-definition-nl": {
+          "nl": "De distributie van een dataset."
+        },
+        "ap-usageNote-nl": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://www.w3.org/ns/dcat#distribution",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "distribution",
+            "note": "null"
+          },
+          {
+            "key": "label-nl",
+            "value": "heeft distributie",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "This property links the Dataset to an available Distribution.",
+            "note": "null"
+          },
+          {
+            "key": "definition-nl",
+            "value": "De distributie van een dataset.",
+            "note": "null"
+          }
+        ],
+        "DestRoleTags": [],
+        "Scope": "TRANSLATIONS_ONLY"
+      },
+      "description": {
+        "nl": "De distributie van een dataset."
+      },
+      "usage": {},
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/dcat#Dataset",
+          "EA-Name": "Dataset"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "Distributie",
+          "EA-GUID": "{5B8A63D9-5D7F-48cf-A8CF-F939972090E1}",
+          "EA-Package": "OSLO-DCATAPVL",
+          "uri": "http://www.w3.org/ns/dcat#Distribution"
+        }
+      ],
+      "generalization": [],
+      "minCardinality": "1",
+      "maxCardinality": "n"
+    },
+    {
+      "@id": "http://www.w3.org/ns/dcat#theme",
+      "@type": "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "name": {
+        "nl": "thema"
+      },
+      "inpackage": "OTHER_PACKAGE",
+      "ap-codelist": "https://vocab.belgif.be/auth/datatheme",
+      "ap-usageNote-nl": {
+        "nl": "Gebruik bij voorkeur de Belgische dcat:theme lijst, al dan niet aanvullend t.o.v. andere codelijsten. De Belgische dcat:theme lijst is een uitbreiding van de verplichte Europese codelijst. Het is dus voldoende om enkel de Belgische lijst te gebruiken."
+      },
+      "usage": {
+        "nl": "Gebruik bij voorkeur de Belgische dcat:theme lijst, al dan niet aanvullend t.o.v. andere codelijsten. De Belgische dcat:theme lijst is een uitbreiding van de verplichte Europese codelijst. Het is dus voldoende om enkel de Belgische lijst te gebruiken."
+      },
+      "definition": {
+        "nl": "Het thema waartoe de dataset behoort."
+      },
+      "label": {
+        "nl": "thema"
+      },
+      "ap-label-nl": {
+        "nl": "thema"
+      },
+      "ap-definition-nl": {
+        "nl": "Het thema waartoe de dataset behoort."
+      },
+      "extra": {
+        "EA-Name": "thema",
+        "EA-Guid": "{1854FA37-EE1A-45fc-B1B3-35E73B738CE7}",
+        "EA-Package": "OSLO-DCATAPVL",
+        "EA-Type": "attribute",
+        "EA-Domain": "Dataset",
+        "EA-Domain-Guid": "{BF0250F0-446B-4104-9A83-EC4638B23361}",
+        "EA-Range": "Code",
+        "RangeData": {
+          "EA-Name": "Code",
+          "EA-GUID": "{E052E2A8-E33D-4c5d-BD5B-BC855707DF51}",
+          "EA-Package": "OSLO-Generiek",
+          "uri": "http://www.w3.org/2004/02/skos/core#Concept"
+        },
+        "label": {
+          "nl": "thema"
+        },
+        "definition": {
+          "nl": "Het thema waartoe de dataset behoort."
+        },
+        "usage": {
+          "nl": "Gebruik bij voorkeur de Belgische dcat:theme lijst, al dan niet aanvullend t.o.v. andere codelijsten. De Belgische dcat:theme lijst is een uitbreiding van de verplichte Europese codelijst. Het is dus voldoende om enkel de Belgische lijst te gebruiken."
+        },
+        "ap-label-nl": {
+          "nl": "thema"
+        },
+        "ap-definition-nl": {
+          "nl": "Het thema waartoe de dataset behoort."
+        },
+        "ap-usageNote-nl": {
+          "nl": "Gebruik bij voorkeur de Belgische dcat:theme lijst, al dan niet aanvullend t.o.v. andere codelijsten. De Belgische dcat:theme lijst is een uitbreiding van de verplichte Europese codelijst. Het is dus voldoende om enkel de Belgische lijst te gebruiken."
+        },
+        "ap-codelist": "https://vocab.belgif.be/auth/datatheme",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://www.w3.org/ns/dcat#theme",
+            "note": "null"
+          },
+          {
+            "key": "label-nl",
+            "value": "thema",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "theme",
+            "note": "null"
+          },
+          {
+            "key": "definition-nl",
+            "value": "Het thema waartoe de dataset behoort.",
+            "note": "null"
+          },
+          {
+            "key": "usageNote-nl",
+            "value": "Gebruik bij voorkeur de Belgische dcat:theme lijst, al dan niet aanvullend t.o.v. andere codelijsten.",
+            "note": "null"
+          },
+          {
+            "key": "ap-codelist",
+            "value": "https://vocab.belgif.be/auth/datatheme",
+            "note": "null"
+          },
+          {
+            "key": "ap-usageNote-nl",
+            "value": "NOTE",
+            "note": "Gebruik bij voorkeur de Belgische dcat:theme lijst, al dan niet aanvullend t.o.v. andere codelijsten. De Belgische dcat:theme lijst is een uitbreiding van de verplichte Europese codelijst. Het is dus voldoende om enkel de Belgische lijst te gebruiken."
+          }
+        ],
+        "Scope": "TRANSLATIONS_ONLY"
+      },
+      "description": {
+        "nl": "Het thema waartoe de dataset behoort."
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/dcat#Dataset",
+          "EA-Name": "Dataset"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "Code",
+          "EA-GUID": "{E052E2A8-E33D-4c5d-BD5B-BC855707DF51}",
+          "EA-Package": "OSLO-Generiek",
+          "uri": "http://www.w3.org/2004/02/skos/core#Concept"
+        }
+      ],
+      "generalization": [],
+      "minCardinality": "0",
+      "maxCardinality": "n"
+    },
+    {
+      "@id": "http://xmlns.com/foaf/0.1/name",
+      "@type": "http://www.w3.org/2002/07/owl#DatatypeProperty",
+      "name": {
+        "nl": "naam"
+      },
+      "inpackage": "OTHER_PACKAGE",
+      "ap-usageNote-nl": {
+        "nl": "Omwille van de meertaligheid kunnen er meerdere waarden zijn. De gewenste interpretatie van de cardinaliteit is: per taal slechts 1 waarde."
+      },
+      "usage": {
+        "nl": "Omwille van de meertaligheid kunnen er meerdere waarden zijn. De gewenste interpretatie van de cardinaliteit is: per taal slechts 1 waarde."
+      },
+      "definition": {
+        "nl": "De naam van de uitgever"
+      },
+      "label": {
+        "nl": "naam"
+      },
+      "ap-label-nl": {
+        "nl": "naam"
+      },
+      "ap-definition-nl": {
+        "nl": "De naam van de uitgever"
+      },
+      "extra": {
+        "EA-Name": "naam",
+        "EA-Guid": "{5A632542-36F8-4117-8188-3EC61C1B6590}",
+        "EA-Package": "OSLO-DCATAPVL",
+        "EA-Type": "attribute",
+        "EA-Domain": "Agent",
+        "EA-Domain-Guid": "{D55680D7-C7A2-47c9-85F8-3845760F15B3}",
+        "EA-Range": "TaalString",
+        "RangeData": {
+          "EA-Name": "TaalString",
+          "EA-GUID": "{527085CB-79BC-4703-925B-A73E38A6182B}",
+          "EA-Package": "OSLO-Generiek",
+          "uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+        },
+        "label": {
+          "nl": "naam"
+        },
+        "definition": {
+          "nl": "De naam van de uitgever"
+        },
+        "usage": {
+          "nl": "Omwille van de meertaligheid kunnen er meerdere waarden zijn. De gewenste interpretatie van de cardinaliteit is: per taal slechts 1 waarde."
+        },
+        "ap-label-nl": {
+          "nl": "naam"
+        },
+        "ap-definition-nl": {
+          "nl": "De naam van de uitgever"
+        },
+        "ap-usageNote-nl": {
+          "nl": "Omwille van de meertaligheid kunnen er meerdere waarden zijn. De gewenste interpretatie van de cardinaliteit is: per taal slechts 1 waarde."
+        },
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://xmlns.com/foaf/0.1/name",
+            "note": "null"
+          },
+          {
+            "key": "definition-nl",
+            "value": "De naam van de uitgever",
+            "note": "null"
+          },
+          {
+            "key": "ap-usageNote-nl",
+            "value": "Omwille van de meertaligheid kunnen er meerdere waarden zijn. De gewenste interpretatie van de cardinaliteit is: per taal slechts 1 waarde.",
+            "note": "null"
+          },
+          {
+            "key": "ap-label-nl",
+            "value": "naam",
+            "note": "null"
+          }
+        ],
+        "Scope": "TRANSLATIONS_ONLY"
+      },
+      "description": {
+        "nl": "De naam van de uitgever"
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://xmlns.com/foaf/0.1/Agent",
+          "EA-Name": "Agent"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "TaalString",
+          "EA-GUID": "{527085CB-79BC-4703-925B-A73E38A6182B}",
+          "EA-Package": "OSLO-Generiek",
+          "uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+        }
+      ],
+      "generalization": [],
+      "minCardinality": "1",
+      "maxCardinality": "n"
+    }
+  ],
+  "name": "DCAT-AP-VL",
+  "type": "ap",
+  "eap": "OSLO-DCATAPVL-AP.eap",
+  "diagram": "OSLO-DCATAPVL",
+  "template": "dcatapvl-ap.j2",
+  "title": "DCAT-AP Vlaanderen",
+  "publication-state": "https://data.vlaanderen.be/id/concept/StandaardStatus/Standaard",
+  "publication-date": "13-06-2019",
+  "contributors-file": "stakeholders.csv",
+  "contributors-column": "DCATAPVL",
+  "site": "site-skeleton",
+  "feedbackurl": "https://github.com/Informatievlaanderen/OSLO-Discussion/issues?q=is%3Aopen+is%3Aissue+label%3AThema%2FDCAT-AP-VL",
+  "standaardregisterurl": "https://data.vlaanderen.be/standaarden/kandidaat-standaarden/applicatieprofiel-dcat-ap-vl/applicatieprofiel-dcat-ap-vl.html",
+  "dependencies": [],
+  "config": "config/config-ap.json",
+  "urlref": "/doc/applicatieprofiel/DCAT-AP-VL/ontwerpdocument/2018-12-21",
+  "repository": "https://github.com/Informatievlaanderen/OSLOthema-DCATAPVlaanderen",
+  "branchtag": "ontwerp-2018-12-21",
+  "filename": "config/DCAT-AP-VL.json",
+  "navigation": {
+    "next": "/doc/applicatieprofiel/DCAT-AP-VL/kandidaatstandaard/2019-01-20"
+  },
+  "documentcommit": "1e3ce0e94342a3051fb574467c7918475c5aecea",
+  "toolchaincommit": "fd9f4801dd15416aa5cfdc2d356173b95ffd26e0",
+  "hostname": "https://test.data.vlaanderen.be"
+}

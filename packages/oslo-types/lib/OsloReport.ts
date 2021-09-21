@@ -43,7 +43,11 @@ export class OSLOReport {
   public baseUri: string;
   public namespace: string;
 
+  private readonly originalObject: any;
+
   public constructor(data: any) {
+    this.originalObject = data;
+
     this.context = data['@context'] || {};
     this.documentId = data['@id'] || '';
     this.documentType = data['@type'] || '';
@@ -99,4 +103,6 @@ export class OSLOReport {
     this.baseUriabbreviation = data.baseURIabbrev || '';
     this.baseUri = data.baseURI || '';
   }
+
+  public getOriginalData = (): any => this.originalObject;
 }

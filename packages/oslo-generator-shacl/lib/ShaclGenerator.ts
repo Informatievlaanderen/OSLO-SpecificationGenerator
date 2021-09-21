@@ -1,4 +1,5 @@
 import type { ISpecification, OSLOReport } from '@oslo-flanders/types';
+import { logger } from '@oslo-flanders/types';
 import { SHA1 } from 'crypto-js';
 import jsonfile = require('jsonfile');
 import { helper } from './Helper';
@@ -33,10 +34,10 @@ export class ShaclGenerator implements ISpecification {
     try {
       await jsonfile.writeFile(this.options.outputFile, Object.fromEntries(shacl), { spaces: 2 });
     } catch (error: unknown) {
-      console.error(error);
+      logger.error(error);
     }
 
-    console.log(`[ShaclGenerator]: Write complete, file saved to: ${this.options.outputFile}`);
+    logger.info(`[ShaclGenerator]: Write complete, file saved to: ${this.options.outputFile}`);
   };
 
   public groupPropertiesPerClass = (classes: any[], properties: any[]): Map<string, any> => {
@@ -77,9 +78,11 @@ export class ShaclGenerator implements ISpecification {
     return entityNameObjectMap;
   };
 
-  public generateShacl = (mode: string,
+  public generateShacl = (
+    mode: string,
     classPropertiesMap: Map<string, any>,
-    entityNameObjectMap: Map<string, any>): any => {
+    entityNameObjectMap: Map<string, any>,
+  ): any => {
     let shacl;
     if (mode === 'grouped') {
       shacl = this.createGroupedShacl(classPropertiesMap, entityNameObjectMap, this.options.language);
@@ -90,9 +93,11 @@ export class ShaclGenerator implements ISpecification {
     return shacl;
   };
 
-  public createGroupedShacl = (classPropertiesMap: Map<string, any>,
+  public createGroupedShacl = (
+    classPropertiesMap: Map<string, any>,
     entityNameObjectMap: Map<string, any>,
-    language: string): any => {
+    language: string,
+  ): any => {
     const shaclMap = new Map<string, any>();
     const shaclShapes: any[] = [];
 
@@ -105,7 +110,7 @@ export class ShaclGenerator implements ISpecification {
       if (entityNameObjectMap.has(className)) {
         shape['sh:targetClass'] = entityNameObjectMap.get(className)['@id'];
       } else {
-        console.log(`[ShaclGenerator]: Shacl shape for unknown class: ${className}`);
+        logger.error(`[ShaclGenerator]: Shacl shape for unknown class: ${className}`);
       }
 
       shape['sh:closed'] = false;
@@ -116,7 +121,7 @@ export class ShaclGenerator implements ISpecification {
         const shaclProperty = helper.createShaclProperty(propertyObject, language);
 
         if (propertyObject.range && propertyObject.range.length > 1) {
-          console.log(`[ShaclGenerator]: More than 1 range for property: ${propertyObject['@id']}.`);
+          logger.warn(`[ShaclGenerator]: More than 1 range for property: ${propertyObject['@id']}.`);
         } else if (propertyObject.range && propertyObject.range.length === 1) {
           if (propertyObject['@type'] === 'http://www.w3.org/2002/07/owl#DatatypeProperty') {
             shaclProperty['sh:datatype'] = propertyObject.range[0].uri;
@@ -158,9 +163,11 @@ export class ShaclGenerator implements ISpecification {
     return shaclMap;
   };
 
-  public createIndividualShacl = (classPropertiesMap: Map<string, any>,
+  public createIndividualShacl = (
+    classPropertiesMap: Map<string, any>,
     entityNameObjectMap: Map<string, any>,
-    language: string): any => {
+    language: string,
+  ): any => {
     const shaclMap = new Map<string, any>();
     const shaclShapes: any[] = [];
 
@@ -174,9 +181,10 @@ export class ShaclGenerator implements ISpecification {
       if (entityNameObjectMap.has(className)) {
         shape['sh:targetClass'] = entityNameObjectMap.get(className)['@id'];
       } else {
-        console.log(`[ShaclGenerator]: Shacl shape for unknown class: ${className}.`);
+        logger.error(`[ShaclGenerator]: Shacl shape for unknown class: ${className}.`);
       }
-      shape['sh:closed'] = false; //TODO: test if we can move this before if
+      // TODO: test if we can move this before if
+      shape['sh:closed'] = false;
 
       let shaclProperties: any[] = [];
       const sortedProperties = properties.sort(helper.alphabeticalSort);
@@ -191,7 +199,7 @@ export class ShaclGenerator implements ISpecification {
         helper.addSeeAlso(shaclProperty, className, shaclPropertyName, this.options.publishedAt);
 
         if (propertyObject.range && propertyObject.range.length > 1) {
-          console.log(`[ShaclGenerator]: Range has more than one value for property: ${propertyObject['@id']}.`);
+          logger.warn(`[ShaclGenerator]: Range has more than one value for property: ${propertyObject['@id']}.`);
         } else if (propertyObject.range && propertyObject.range.length === 1) {
           let shaclPropertyCopy = { ...shaclProperty };
           let shaInput = `${shaclPropertyName}range`;
@@ -207,7 +215,7 @@ export class ShaclGenerator implements ISpecification {
 
           if (this.options.constraints.includes('uniqueLanguages') &&
             propertyObject.range[0].uri === 'http://www.w3.org/1999/02/22-rdf-syntax-ns#langString') {
-            console.log(`[ShaclGenerator]: Adding uniqueLanguage constraint.`);
+            logger.info(`[ShaclGenerator]: Adding uniqueLanguage constraint.`);
 
             shaclPropertyCopy = { ...shaclProperty };
             shaInput = `${shaclPropertyName}uniqueLanguage`;
@@ -218,7 +226,7 @@ export class ShaclGenerator implements ISpecification {
           }
 
           if (this.options.constraints.includes('nodeKind')) {
-            console.log(`[ShaclGenerator]: Adding nodeKind constraint.`);
+            logger.info(`[ShaclGenerator]: Adding nodeKind constraint.`);
 
             shaclPropertyCopy = { ...shaclProperty };
             shaInput = `${shaclPropertyName}nodekind`;

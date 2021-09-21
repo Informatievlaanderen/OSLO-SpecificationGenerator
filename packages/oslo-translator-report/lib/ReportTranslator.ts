@@ -1,4 +1,5 @@
 import type { ISpecification, OSLOReport } from '@oslo-flanders/types';
+import { logger } from '@oslo-flanders/types';
 import jsonfile = require('jsonfile');
 import { helper } from './Helpers';
 
@@ -24,16 +25,21 @@ export class ReportTranslator implements ISpecification {
       this.options.baseLanguage,
       this.options.targetLanguage,
     );
-    const translatedReportObject = this.mergeTranslation(
-      translationSimplifiedReportObject, reportObject, this.options.baseLanguage, this.options.targetLanguage,
-    );
+    const translatedReportObject =
+      this.mergeTranslation(
+        translationSimplifiedReportObject,
+        reportObject,
+        this.options.baseLanguage,
+        this.options.targetLanguage,
+      );
 
     jsonfile.writeFile(this.options.outputFile, translatedReportObject)
       .then(res => {
-        console.log(`[ReportTranslator]: Write complete, file saved to: ${this.options.outputFile}`);
+        logger.info(`[ReportTranslator]: Write complete, file saved to: ${this.options.outputFile}`);
       })
       .catch(error => {
-        console.error(error);
+        logger.error(`[ReportTranslator]: Something went wrong when writing to file ${this.options.outputFile}:`);
+        logger.error(error);
         process.exitCode = 1;
       });
   };
@@ -73,17 +79,32 @@ export class ReportTranslator implements ISpecification {
       translatedReportObject.baseURI = translationSimplifiedReportObject.baseURI;
     }
 
-    translatedReportObject.classes = helper.translateProperty(
-      translationSimplifiedReportObject.classes, originalReportObject, baseLanguage, targetLanguage, 'classes',
-    );
+    translatedReportObject.classes =
+      helper.translateProperty(
+        translationSimplifiedReportObject.classes,
+        originalReportObject,
+        baseLanguage,
+        targetLanguage,
+        'classes',
+      );
 
-    translatedReportObject.properties = helper.translateProperty(
-      translationSimplifiedReportObject.properties, originalReportObject, baseLanguage, targetLanguage, 'properties',
-    );
+    translatedReportObject.properties =
+      helper.translateProperty(
+        translationSimplifiedReportObject.properties,
+        originalReportObject,
+        baseLanguage,
+        targetLanguage,
+        'properties',
+      );
 
-    translatedReportObject.externals = helper.translateProperty(
-      translationSimplifiedReportObject.externals, originalReportObject, baseLanguage, targetLanguage, 'externals',
-    );
+    translatedReportObject.externals =
+      helper.translateProperty(
+        translationSimplifiedReportObject.externals,
+        originalReportObject,
+        baseLanguage,
+        targetLanguage,
+        'externals',
+      );
 
     translatedReportObject.externalproperties = helper.translateProperty(
       translationSimplifiedReportObject.externalproperties,

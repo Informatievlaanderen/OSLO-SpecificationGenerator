@@ -1,0 +1,432 @@
+{
+  "@context": {
+    "Accuracy": "http://www.w3.org/ns/ssn/systems/Accuracy",
+    "AddressRepresentation": "http://fixme.com#AddressRepresentation",
+    "BatteryLifetime": "http://www.w3.org/ns/ssn/systems/BatteryLifetime",
+    "CI_responsibleParty": "http://def.isotc211.org/iso19115/2006/CitationAndResponsiblePartyInformation#CI_ResponsibleParty",
+    "CategoryObservation": "https://def.isotc211.org/iso19156/2011/Observation#CategoryObservation",
+    "ComplexObservartion": "https://def.isotc211.org/iso19156/2011/Observation#ComplexObservation",
+    "Condition": "http://www.w3.org/ns/ssn/systems/Condition",
+    "CountObservatiuon": "https://def.isotc211.org/iso19156/2011/Observation#CountObservation",
+    "DQ_Element": "http://def.isotc211.org/iso19115/2006/DataQualityInformation#DQ_Element",
+    "DetectionLimit": "http://www.w3.org/ns/ssn/systems/DetectionLimit",
+    "Device": "https://uri.fiware.org/ns/data-models#Device",
+    "Device.description": {
+      "@id": "https://uri.etsi.org/ngsi-ld/description",
+      "@type": "http://www.w3.org/2001/XMLSchema#string"
+    },
+    "DeviceClasstype": "http://fixme.com#DeviceClasstype",
+    "DeviceType": "http://fixme.com#DeviceType",
+    "Drift": "http://www.w3.org/ns/ssn/systems/Drift",
+    "EnergyLimitationType": "http://fixme.com#EnergyLimitationType",
+    "Feature": "https://def.isotc211.org/iso19156/2011/GeneralFeatureInstance#GFI_Feature",
+    "Frequency": "http://www.w3.org/ns/ssn/systems/Frequency",
+    "FunctionType": "http://fixme.com#FunctionType",
+    "GenericName": "http://def.isotc211.org/iso19103/2005/Names#GenericName",
+    "Geometry": "http://www.w3.org/ns/locn#Geometry",
+    "GeometryObservation": "https://def.isotc211.org/iso19156/2011/Observation#GeometryObservation",
+    "Image": "http://fixme.com#Image",
+    "LI_Lineage": "http://def.isotc211.org/iso19115/2006/DataQualityInformation#LI_Lineage",
+    "Latency": "http://www.w3.org/ns/ssn/systems/Latency",
+    "MaintenanceSchedule": "http://www.w3.org/ns/ssn/systems/MaintenanceSchedule",
+    "Measurement": "https://def.isotc211.org/iso19156/2011/Observation#Measurement",
+    "MeasurementRange": "http://www.w3.org/ns/ssn/systems/MeasurementRange",
+    "Metadata": "http://def.isotc211.org/iso19115/2006/MetadataEntitySetInformation#MD_Metadata",
+    "Metadata.description": {
+      "@id": "http://purl.org/dc/elements/1.1/description",
+      "@type": ""
+    },
+    "NamedValue": "https://def.isotc211.org/iso19156/2011/Observation#NamedValue",
+    "Observation": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation",
+    "Observation.parameter": {
+      "@container": "@set",
+      "@id": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation.parameter",
+      "@type": "@id"
+    },
+    "Observation.phenomenonTime": {
+      "@id": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation.phenomenonTime",
+      "@type": "@id"
+    },
+    "Observation.resultTime": {
+      "@id": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation.resultTime",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "ObservationCollection": "https://www.w3.org/TR/vocab-ssn-ext/#sosa:ObservationCollection",
+    "ObservationCollection.parameter": {
+      "@id": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation.parameter",
+      "@type": "@id"
+    },
+    "ObservationCollection.phenomenonTime": {
+      "@id": "http://www.w3.org/ns/sosa/phenomenonTime",
+      "@type": "@id"
+    },
+    "ObservationCollection.resultTime": {
+      "@id": "http://www.w3.org/ns/sosa/resultTime",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "ObservationContext": "http://def.isotc211.org/iso19156/2011/Observation#ObservationContext",
+    "ObservationContext.Observation": {
+      "@id": "http://fixme.com#ObservationContext.observation.target",
+      "@type": "@id"
+    },
+    "ObservationContext.role": {
+      "@id": "http://def.isotc211.org/iso19156/2011/Observation#ObservationContext.role",
+      "@type": "@id"
+    },
+    "ObservationProcedure": "https://www.w3.org/TR/vocab-ssn/#SOSAProcedure",
+    "ObservationProcedureType": "http://fixme.com#ObservationProcedureType",
+    "OperatingPowerRange": "http://www.w3.org/ns/ssn/systems/OperatingPowerRange",
+    "OperatingProperty": "http://www.w3.org/ns/ssn/systems/OperatingRange",
+    "OperatingRange": "https://www.w3.org/TR/vocab-ssn/#SSNSYSTEMOperatingRange",
+    "Place": "http://fixme.com#Place",
+    "Platform": "https://www.w3.org/TR/vocab-ssn/#SOSAPlatform",
+    "PointCoverageObservation": "https://def.isotc211.org/iso19156/2011/Observation#PointCoverageObservation",
+    "PointOfInterest": "http://fixme.com#PointOfInterest",
+    "Precision": "http://www.w3.org/ns/ssn/systems/Precision",
+    "PreparationStep": "http://def.isotc211.org/iso19156/2011/Observation#PreparationStep",
+    "Procedure": "http://fixme.com#Procedure",
+    "Process": "http://fixme.com#Process",
+    "PropertyType": "http://def.isotc211.org/iso19109/2005/GeneralFeatureModel#GF_PropertyType",
+    "ProtocolType": "http://fixme.com#ProtocolType",
+    "Repeatablity": "http://fixme.com#Repeatablity",
+    "Resolution": "http://www.w3.org/ns/ssn/systems/Resolution",
+    "ResponseTime": "http://www.w3.org/ns/ssn/systems/ResponseTime",
+    "Result": "http://def.isotc211.org/iso19156/2011/Observation#Result",
+    "Sampler": "http://www.w3.org/ns/sosa/Sampler",
+    "Sampling": "http://www.w3.org/ns/sosa/Sampling",
+    "Sampling.resultTime": {
+      "@id": "http://www.w3.org/ns/sosa/resultTime",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "SamplingFeature": "http://def.isotc211.org/iso19156/2011/SamplingFeature#SF_SamplingFeature",
+    "SamplingFeature.parameter": {
+      "@container": "@set",
+      "@id": "http://def.isotc211.org/iso19156/2011/SamplingFeature#SF_SamplingFeature.parameter",
+      "@type": "@id"
+    },
+    "SamplingFeaturecomplex": "http://def.isotc211.org/iso19156/2011/SamplingFeature#SamplingFeatureComplex",
+    "SamplingFeaturecomplex.SamplingFeature": {
+      "@id": "http://fixme.com#SamplingFeaturecomplex.samplingFeature.target",
+      "@type": "@id"
+    },
+    "SamplingFeaturecomplex.role": {
+      "@id": "http://def.isotc211.org/iso19156/2011/SamplingFeature#SamplingFeatureComplex.role",
+      "@type": "@id"
+    },
+    "SamplingMethodType": "http://fixme.com#SamplingMethodType",
+    "SamplingProcedure": "http://www.w3.org/ns/sosa/Procedure",
+    "SamplingProcedureType": "http://fixme.com#SamplingProcedureType",
+    "SamplingProces": {
+      "@id": "http://fixme.com#PreparationStep.samplingProces",
+      "@type": "@id"
+    },
+    "Selectivity": "http://www.w3.org/ns/ssn/systems/Selectivity",
+    "Sensitivity": "http://www.w3.org/ns/ssn/systems/Sensitivity",
+    "Sensor": "https://www.w3.org/TR/vocab-ssn/#SOSASensor",
+    "Slice": "https://www.w3.org/TR/vocab-data-cube/#ref_qb_Slice",
+    "SpatialSamplingFeature": "http://def.isotc211.org/iso19156/2011/SpatialSamplingFeature#SF_SpatialSamplingFeature",
+    "Specimen": {
+      "@id": "http://fixme.com#PreparationStep.specimen",
+      "@type": "@id"
+    },
+    "SurvivalProperty": "http://www.w3.org/ns/ssn/systems/SurvivalProperty",
+    "SurvivalRange": "https://www.w3.org/TR/vocab-ssn/#SSNSYSTEMSurvivalRange",
+    "System": "https://www.w3.org/TR/vocab-ssn/#ssn-system",
+    "SystemCapability": "https://www.w3.org/TR/vocab-ssn/#SSNSYSTEMSystemCapability",
+    "SystemLifetime": "http://www.w3.org/ns/ssn/systems/SystemLifetime",
+    "SystemProperty": "http://www.w3.org/ns/ssn/systems/SystemProperty",
+    "TM_Object": "http://def.isotc211.org/iso19108/2006/TemporalObjects#TM_Object",
+    "TemporalObservation": "https://def.isotc211.org/iso19156/2011/Observation#TemporalObservation",
+    "TimeSeriesObservation": "https://def.isotc211.org/iso19156/2011/Observation#TimeseriesObservation",
+    "TruthObservation": "https://def.isotc211.org/iso19156/2011/Observation#TruthObservation",
+    "UnitType": "http://fixme.com#UnitType",
+    "address": {
+      "@id": "https://schema.org/address",
+      "@type": "@id"
+    },
+    "areaServed": {
+      "@id": "https://schema.org/areaServed",
+      "@type": "@id"
+    },
+    "brandName": {
+      "@id": "https://schema.org/brand",
+      "@type": "http://www.w3.org/2001/XMLSchema#string"
+    },
+    "category": {
+      "@id": "https://smart-data-models.github.io/data-models/terms.jsonld#/definitions/category",
+      "@type": "@id"
+    },
+    "contributor": {
+      "@id": "http://purl.org/dc/elements/1.1/contributor",
+      "@type": ""
+    },
+    "creator": {
+      "@id": "http://purl.org/dc/elements/1.1/creator",
+      "@type": ""
+    },
+    "deviceClass": {
+      "@id": "http://fixme.com#deviceClass",
+      "@type": "@id"
+    },
+    "documentation": {
+      "@id": "https://smart-data-models.github.io/data-models/terms.jsonld#/definitions/documentation",
+      "@type": "http://www.w3.org/2001/XMLSchema#anyURI"
+    },
+    "energyLimitationClass": {
+      "@id": "https://smart-data-models.github.io/data-models/terms.jsonld#/definitions/energyLimitationClass",
+      "@type": "@id"
+    },
+    "featureOfInterest": {
+      "@id": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation.featureOfInterest",
+      "@type": "@id"
+    },
+    "function": {
+      "@container": "@set",
+      "@id": "https://smart-data-models.github.io/data-models/terms.jsonld#/definitions/function",
+      "@type": "@id"
+    },
+    "gml": {
+      "@id": "http://www.opengis.net/ont/geosparql#asGML",
+      "@type": "http://www.w3.org/2000/01/rdf-schema#Literal"
+    },
+    "hasFeatureOfInterest": {
+      "@id": "http://www.w3.org/ns/sosa/hasFeatureOfInterest",
+      "@type": "@id"
+    },
+    "hasMember": {
+      "@container": "@set",
+      "@id": "http://www.w3.org/ns/sosa/hasMember",
+      "@type": "@id"
+    },
+    "hasOperatingProperty": {
+      "@id": "http://www.w3.org/ns/ssn/systems/hasOperatingProperty",
+      "@type": "@id"
+    },
+    "hasRange": {
+      "@container": "@set",
+      "@id": "http://fixme.com#hasRange",
+      "@type": "@id"
+    },
+    "hasResult": {
+      "@container": "@set",
+      "@id": "http://www.w3.org/ns/sosa/hasResult",
+      "@type": "@id"
+    },
+    "hasSimpleResult": {
+      "@id": "http://www.w3.org/ns/sosa/hasSimpleResult",
+      "@type": "http://www.w3.org/2000/01/rdf-schema#Literal"
+    },
+    "hasSurvivalProperty": {
+      "@id": "http://www.w3.org/ns/ssn/systems/hasSurvivalProperty",
+      "@type": "@id"
+    },
+    "hasSurvivalRange": {
+      "@container": "@set",
+      "@id": "http://www.w3.org/ns/ssn/systems/hasSurvivalRange",
+      "@type": "@id"
+    },
+    "hasSystemCapability": {
+      "@container": "@set",
+      "@id": "http://www.w3.org/ns/ssn/systems/hasSystemCapability",
+      "@type": "@id"
+    },
+    "hasSystemProperty": {
+      "@id": "http://www.w3.org/ns/ssn/systems/hasSystemProperty",
+      "@type": "@id"
+    },
+    "hasUltimateFeatureOfInterest": {
+      "@id": "http://www.w3.org/ns/sosa/hasUltimateFeatureOfInterest",
+      "@type": "@id"
+    },
+    "hosts": {
+      "@container": "@set",
+      "@id": "http://www.w3.org/ns/sosa/hosts",
+      "@type": "@id"
+    },
+    "identifier": {
+      "@id": "http://purl.org/dc/elements/1.1/identifier",
+      "@type": ""
+    },
+    "image": {
+      "@id": "https://schema.org/image",
+      "@type": "@id"
+    },
+    "implementedBy": {
+      "@container": "@set",
+      "@id": "http://www.w3.org/ns/ssn/implementedBy",
+      "@type": "@id"
+    },
+    "implements": {
+      "@id": "http://www.w3.org/ns/ssn/implements",
+      "@type": "@id"
+    },
+    "inCondition": {
+      "@container": "@set",
+      "@id": "http://www.w3.org/ns/ssn/systems/inCondition",
+      "@type": "@id"
+    },
+    "isHostedBy": {
+      "@container": "@set",
+      "@id": "http://www.w3.org/ns/sosa/isHostedBy",
+      "@type": "@id"
+    },
+    "isObservedBy": {
+      "@container": "@set",
+      "@id": "http://www.w3.org/ns/sosa/isObservedBy",
+      "@type": "@id"
+    },
+    "isResultOf": {
+      "@container": "@set",
+      "@id": "http://www.w3.org/ns/sosa/isResultOf",
+      "@type": "@id"
+    },
+    "lineage": {
+      "@id": "http://def.isotc211.org/iso19156/2011/SamplingFeature#SF_SamplingFeature.lineage",
+      "@type": "@id"
+    },
+    "madeBySampler": {
+      "@id": "http://www.w3.org/ns/sosa/madeBySampler",
+      "@type": "@id"
+    },
+    "madeBySensor": {
+      "@id": "http://www.w3.org/ns/sosa/madeBySensor",
+      "@type": "@id"
+    },
+    "madeObservation": {
+      "@container": "@set",
+      "@id": "http://www.w3.org/ns/sosa/madeObservation",
+      "@type": "@id"
+    },
+    "madeSampling": {
+      "@container": "@set",
+      "@id": "http://www.w3.org/ns/sosa/madeSampling",
+      "@type": "@id"
+    },
+    "manufacturerName": {
+      "@id": "https://smart-data-models.github.io/data-models/terms.jsonld#/definitions/manufacturerName",
+      "@type": "http://www.w3.org/2001/XMLSchema#string"
+    },
+    "materialClass": {
+      "@id": "http://def.isotc211.org/iso19156/2011/Specimen#SF_Specimen.materialClass",
+      "@type": "@id"
+    },
+    "metadata": {
+      "@id": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation.metadata",
+      "@type": "@id"
+    },
+    "modelName": {
+      "@id": "https://smart-data-models.github.io/data-models/terms.jsonld#/definitions/modelName",
+      "@type": "http://www.w3.org/2001/XMLSchema#string"
+    },
+    "name": {
+      "@id": "https://uri.etsi.org/ngsi-ld/name",
+      "@type": "http://www.w3.org/2001/XMLSchema#string"
+    },
+    "observedProperty": {
+      "@id": "http://www.w3.org/ns/sosa/observedProperty",
+      "@type": "@id"
+    },
+    "observes": {
+      "@container": "@set",
+      "@id": "http://www.w3.org/ns/sosa/observes",
+      "@type": "@id"
+    },
+    "processOperator": {
+      "@id": "http://def.isotc211.org/iso19156/2011/Observation#PreparationStep.processOperator",
+      "@type": "@id"
+    },
+    "processingDetails": {
+      "@container": "@set",
+      "@id": "http://def.isotc211.org/iso19156/2011/Specimen#SF_Specimen.processingDetails",
+      "@type": "@id"
+    },
+    "publisher": {
+      "@id": "http://purl.org/dc/elements/1.1/publisher",
+      "@type": ""
+    },
+    "refPointOfInterest": {
+      "@id": "https://smart-data-models.github.io/data-models/terms.jsonld#/definitions/refPointOfInterest",
+      "@type": "@id"
+    },
+    "relatedObservation": {
+      "@container": "@set",
+      "@id": "http://def.isotc211.org/iso19156/2011/Observation#ObservationContext.relatedObservation",
+      "@type": "@id"
+    },
+    "relatedSamplingFeature": {
+      "@container": "@set",
+      "@id": "http://def.isotc211.org/iso19156/2011/SamplingFeature#SamplingFeatureComplex.relatedSamplingFeature",
+      "@type": "@id"
+    },
+    "result": {
+      "@id": "http://def.isotc211.org/iso19156/2011/Observation#Observation.result",
+      "@type": "@id"
+    },
+    "resultQuality": {
+      "@container": "@set",
+      "@id": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation.resultQuality",
+      "@type": "@id"
+    },
+    "rights": {
+      "@id": "http://purl.org/dc/elements/1.1/rights",
+      "@type": ""
+    },
+    "sampledFeature": {
+      "@container": "@set",
+      "@id": "http://def.isotc211.org/iso19156/2011/SamplingFeature#SF_SamplingFeature.sampledFeature",
+      "@type": "@id"
+    },
+    "samplingLocation": {
+      "@id": "http://def.isotc211.org/iso19156/2011/Specimen#SF_Specimen.samplingLocation",
+      "@type": "@id"
+    },
+    "samplingMethod": {
+      "@id": "http://def.isotc211.org/iso19156/2011/Specimen#SF_Specimen.samplingMethod",
+      "@type": "@id"
+    },
+    "samplingTime": {
+      "@id": "http://def.isotc211.org/iso19156/2011/Specimen#SF_Specimen.samplingTime",
+      "@type": "@id"
+    },
+    "specification": {
+      "@container": "@set",
+      "@id": "http://fixme.com#specification",
+      "@type": "http://www.w3.org/2001/XMLSchema#anyURI"
+    },
+    "subject": {
+      "@id": "http://purl.org/dc/elements/1.1/subject",
+      "@type": ""
+    },
+    "supportedProtocol": {
+      "@container": "@set",
+      "@id": "https://smart-data-models.github.io/data-models/terms.jsonld#/definitions/supportedProtocol",
+      "@type": "@id"
+    },
+    "supportedUnits": {
+      "@container": "@set",
+      "@id": "http://fixme.com#supportedUnits",
+      "@type": "@id"
+    },
+    "time": {
+      "@id": "http://def.isotc211.org/iso19156/2011/Observation#PreparationStep.time",
+      "@type": "@id"
+    },
+    "title": {
+      "@id": "http://purl.org/dc/elements/1.1/title",
+      "@type": ""
+    },
+    "type": {
+      "@container": "@set",
+      "@id": "http://fixme.com#type",
+      "@type": "@id"
+    },
+    "usedProcedure": {
+      "@id": "http://www.w3.org/ns/sosa/usedProcedure",
+      "@type": "@id"
+    },
+    "wkt": {
+      "@id": "http://www.opengis.net/ont/geosparql#asWKT",
+      "@type": "http://www.w3.org/2000/01/rdf-schema#Literal"
+    }
+  }
+}

@@ -1,21 +1,26 @@
+import fs = require('fs/promises');
+import { logger } from '@oslo-flanders/types';
 import camelCase = require('camelcase');
+const StringBuilder = require('string-builder');
 
 export class Helper {
   public mergeExternals = (reportObject: any): void => {
     reportObject.classes = [...reportObject.classes, ...reportObject.externals];
-    reportObject.properties = [...reportObject.properties, ...reportObject.externalproperties];
+    reportObject.properties = [...reportObject.properties, ...reportObject.externalProperties];
   };
 
   public readonly addPropertiesToDomain = (
+    domainLispContent: typeof StringBuilder,
     classObject: any,
     reportObject: any,
     language: string,
     stringType: string,
-  ): string => {
+  ): void => {
     const propertyIdLiteral = this.extractPropertiesForClassObject(classObject, reportObject, language);
     let config = '';
 
     if (propertyIdLiteral.length > 0) {
+      domainLispContent.append('   :properties `((').appendLine();
       config += `   :properties \`((`;
 
       propertyIdLiteral.forEach((literal: any, index: number) => {
@@ -23,23 +28,21 @@ export class Helper {
         const id = literal.id;
 
         if (index !== 0) {
-          config += '\n';
-          config += '                 (';
+          domainLispContent.appendLine();
+          domainLispContent.append('                 (');
         }
-        config += `:${name} ${stringType} ,(s-url "${id}"))`;
+        domainLispContent.append(`:${name} ${stringType} ,(s-url "${id}"))`);
       });
 
-      config += ')\n';
+      domainLispContent.append(')').appendLine();
     }
-
-    return config;
   };
 
   public readonly extractPropertiesForClassObject = (classObject: any, reportObject: any, language: string): any[] => {
     let propertyIdLiteral: any[] = [];
 
-    reportObject.properties.array.forEach((propertyObject: any) => {
-      propertyObject.domain.array.forEach((domainObject: any) => {
+    reportObject.properties.forEach((propertyObject: any) => {
+      propertyObject.domain.forEach((domainObject: any) => {
         if (domainObject.uri === classObject['@id']) {
           propertyIdLiteral = this.extractPropertyLiterals(propertyObject, language);
         }
@@ -52,7 +55,7 @@ export class Helper {
   public extractPropertyLiterals = (propertObject: any, language: string): any[] => {
     const propertyIdLiteral: any[] = [];
 
-    propertObject.range.array.forEach((rangeObject: any) => {
+    propertObject.range.forEach((rangeObject: any) => {
       if (this.propertyIsLiteral(rangeObject.uri)) {
         let label = this.getLabel(propertObject, language);
         label = this.lowerCaseFirstLetter(label);
@@ -84,7 +87,7 @@ export class Helper {
       return this.capitalizeFirstLetter(label);
     }
 
-    console.log(`[MuConfigGenerator]: No label present for language '${language}', using EA - Name instead.`);
+    logger.info(`[MuConfigGenerator]: No label present for language '${language}', using EA - Name instead.`);
     return propertyObject.extra['EA-Name'];
   };
 
@@ -105,6 +108,16 @@ export class Helper {
     }
 
     return ':string';
+  };
+
+  public writeResultToFile = async (outputFile: string, result: string): Promise<void> => {
+    try {
+      await fs.writeFile(outputFile, result);
+      logger.info(`[MuConfigGenerator]: Succesfully saved content to ${outputFile}.`);
+    } catch (error: unknown) {
+      logger.error(`[MuConfigGenerator]: Encountered error while writing to ${outputFile}:`);
+      console.error(error);
+    }
   };
 }
 

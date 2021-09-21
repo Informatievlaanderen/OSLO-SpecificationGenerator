@@ -15,10 +15,12 @@ export class Helper {
     }
   };
 
-  public addLanguageDependingValue = (result: any,
+  public addLanguageDependingValue = (
+    result: any,
     object: any,
     label: string,
-    language: string): void => {
+    language: string,
+  ): void => {
     if (object[label] && object[label][language]) {
       const value = object[label][language];
       if (!result[label]) {

@@ -17,11 +17,14 @@
     "url": "git+https://github.com/Informatievlaanderen/OSLO-SpecificationGenerator.git"
   },
   "scripts": {
+    "build": "npm run build:ts",
+    "build:ts": "tsc",
+    "lint": "eslint . --ext .ts --cache"
   },
   "bugs": {
     "url": "https://github.com/Informatievlaanderen/OSLO-SpecificationGenerator/issues"
   },
   "dependencies": {
-    "tslog": "^3.2.2"
+    "winston": "^3.3.3"
   }
 }

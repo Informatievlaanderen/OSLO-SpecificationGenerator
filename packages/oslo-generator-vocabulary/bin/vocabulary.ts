@@ -10,17 +10,14 @@ program
   .usage('creates a json-ld vocabulary based on a chosen language')
   .requiredOption('-i, --input <path>', 'input file (a jsonld file)')
   .option('-o, --output <path>', 'output file (the context). Defaults to vocabulary.jsonld', 'vocabulary.jsonld')
-  .option('-l, --language <languagecode>',
+  .option(
+    '-l, --language <languagecode>',
     'the language for the context (the languagecode). Defaults to nl (dutch)',
-    'nl')
+    'nl',
+  )
   .parse();
 
 const options = program.opts();
-
-export interface IVocabularyGeneratorOptions {
-  outputFile: string;
-  language: string;
-}
 
 const run = async (_options: OptionValues): Promise<void> => {
   const data = await jsonfile.readFile(_options.input);
