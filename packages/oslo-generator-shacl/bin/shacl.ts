@@ -9,8 +9,7 @@ import { ShaclGenerator } from '../lib/ShaclGenerator';
 program
   .requiredOption('-i, --input <path>', 'path to an JSON-LD input file')
   .option('-d, --domain <path>',
-    'domain of the shacl shapes, without #. Default http://example.org',
-    'http://example.org')
+    'domain of the shacl shapes, without #. Default undefined')
   .option('-l, --language <languagecode>',
     'the language in which shacl must be generated. Default: nl (dutch)',
     'nl')
@@ -37,7 +36,7 @@ const run = async (_options: OptionValues): Promise<void> => {
     {
       outputFile: _options.output,
       language: _options.language,
-      domain: _options.domain || '',
+      domain: _options.domain || 'undefined',
       mode: _options.mode,
       constraints: _options.constraints || [],
       publishedAt: _options.publishedAt || '',

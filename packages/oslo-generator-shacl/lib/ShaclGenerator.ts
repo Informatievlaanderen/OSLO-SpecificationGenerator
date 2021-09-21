@@ -30,14 +30,13 @@ export class ShaclGenerator implements ISpecification {
     const entityNameObjectMap = this.mapEntityNameToObject([...classes, ...properties]);
     const shacl = this.generateShacl(this.options.mode, classPropertiesMap, entityNameObjectMap);
 
-    jsonfile.writeFile(this.options.outputFile, shacl)
-      .then(res => {
-        console.log(`[ShaclGenerator]: Write complete, file saved to: ${this.options.outputFile}`);
-      })
-      .catch(error => {
-        console.error(error);
-        process.exitCode = 1;
-      });
+    try {
+      await jsonfile.writeFile(this.options.outputFile, Object.fromEntries(shacl), { spaces: 2 });
+    } catch (error: unknown) {
+      console.error(error);
+    }
+
+    console.log(`[ShaclGenerator]: Write complete, file saved to: ${this.options.outputFile}`);
   };
 
   public groupPropertiesPerClass = (classes: any[], properties: any[]): Map<string, any> => {
@@ -149,7 +148,11 @@ export class ShaclGenerator implements ISpecification {
     });
 
     shaclMap.set('@context', helper.getGroupedShaclContext(this.options.domain));
-    shaclMap.set('@id', this.options.domain);
+
+    if (this.options.domain !== 'undefined') {
+      shaclMap.set('@id', this.options.domain);
+    }
+
     shaclMap.set('shapes', shaclShapes);
 
     return shaclMap;
@@ -167,13 +170,13 @@ export class ShaclGenerator implements ISpecification {
 
       shape['@id'] = classShapeUri;
       shape['@type'] = `sh:NodeShape`;
-      shape['sh:closed'] = false;
 
       if (entityNameObjectMap.has(className)) {
-        shape['sh:targetClass'] = entityNameObjectMap.get(className);
+        shape['sh:targetClass'] = entityNameObjectMap.get(className)['@id'];
       } else {
         console.log(`[ShaclGenerator]: Shacl shape for unknown class: ${className}.`);
       }
+      shape['sh:closed'] = false; //TODO: test if we can move this before if
 
       let shaclProperties: any[] = [];
       const sortedProperties = properties.sort(helper.alphabeticalSort);
@@ -185,11 +188,11 @@ export class ShaclGenerator implements ISpecification {
         if (shaclProperty['sh:name'] && shaclProperty['sh:name'][language]) {
           shaclPropertyName = shaclProperty['sh:name'][language];
         }
-        helper.addSeeAlso(propertyObject, className, shaclPropertyName, this.options.publishedAt);
+        helper.addSeeAlso(shaclProperty, className, shaclPropertyName, this.options.publishedAt);
 
         if (propertyObject.range && propertyObject.range.length > 1) {
           console.log(`[ShaclGenerator]: Range has more than one value for property: ${propertyObject['@id']}.`);
-        } else if (propertyObject.raneg && propertyObject.range.length === 1) {
+        } else if (propertyObject.range && propertyObject.range.length === 1) {
           let shaclPropertyCopy = { ...shaclProperty };
           let shaInput = `${shaclPropertyName}range`;
 
@@ -208,13 +211,13 @@ export class ShaclGenerator implements ISpecification {
 
             shaclPropertyCopy = { ...shaclProperty };
             shaInput = `${shaclPropertyName}uniqueLanguage`;
-            shaclPropertyCopy = `${classShapeUri}/${SHA1(shaInput)}`;
+            shaclPropertyCopy['@id'] = `${classShapeUri}/${SHA1(shaInput)}`;
             shaclPropertyCopy['sh:uniqueLang'] = 'true';
 
             shaclProperties.push(shaclPropertyCopy);
           }
 
-          if (this.options.constraints.includes('nodekind')) {
+          if (this.options.constraints.includes('nodeKind')) {
             console.log(`[ShaclGenerator]: Adding nodeKind constraint.`);
 
             shaclPropertyCopy = { ...shaclProperty };
@@ -237,8 +240,8 @@ export class ShaclGenerator implements ISpecification {
           const shaclPropertyCopy = { ...shaclProperty };
           const shaInput = `${shaclPropertyName}maxCount`;
           shaclPropertyCopy['@id'] = `${classShapeUri}/${SHA1(shaInput)}`;
-
           shaclPropertyCopy['sh:maxCount'] = propertyObject.maxCardinality;
+
           shaclProperties.push(shaclPropertyCopy);
         }
 
@@ -282,7 +285,10 @@ export class ShaclGenerator implements ISpecification {
     });
 
     shaclMap.set('@context', helper.getIndividalShaclContext(this.options.domain));
-    shaclMap.set('@id', this.options.domain);
+
+    if (this.options.domain !== 'undefined') {
+      shaclMap.set('@id', this.options.domain);
+    }
     shaclMap.set('shapes', shaclShapes);
 
     return shaclMap;

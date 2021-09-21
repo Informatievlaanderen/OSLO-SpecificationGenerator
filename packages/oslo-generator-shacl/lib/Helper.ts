@@ -25,7 +25,7 @@ export class Helper {
   };
 
   public attributeSort = (objectA: any, objectB: any): number => {
-    attributes.forEach(element => {
+    for (const element of attributes) {
       const aAttribute = jsonpath.query(objectA, element.attribute);
       const bAttribute = jsonpath.query(objectB, element.attribute);
 
@@ -33,7 +33,6 @@ export class Helper {
         if (aAttribute < bAttribute) {
           return -1;
         }
-
         if (aAttribute > bAttribute) {
           return 1;
         }
@@ -45,10 +44,10 @@ export class Helper {
           return -1;
         }
       }
-    });
+    }
 
     return 0;
-  }
+  };
 
   public createShaclProperty = (propertyObject: any, language: string): any => {
     const name = (propertyObject.label && propertyObject.label[language]) || null;
@@ -58,18 +57,26 @@ export class Helper {
     let shaclProperty: any;
     if (name && definition) {
       shaclProperty = {
-        'sh:name': name,
-        'sh:definition': definition,
+        'sh:name': {
+          [language]: name,
+        },
+        'sh:definition': {
+          [language]: definition,
+        },
         'sh:path': identifier,
       };
     } else if (name && !definition) {
       shaclProperty = {
-        'sh:definition': definition,
+        'sh:name': {
+          [language]: name,
+        },
         'sh:path': identifier,
       };
     } else if (!name && definition) {
       shaclProperty = {
-        'sh:name': name,
+        'sh:definition': {
+          [language]: definition,
+        },
         'sh:path': identifier,
       };
     } else {
@@ -108,7 +115,7 @@ export class Helper {
       'qb:codeList': {
         '@type': '@id',
       },
-      '@vocab': domain,
+      ...domain !== 'undefined' && { '@vocab': domain },
       'sh:definition': { '@container': '@language' },
       'sh:name': { '@container': '@language' },
     }
@@ -187,7 +194,7 @@ export class Helper {
         '@id': 'rdfs:member',
         '@type': '@id',
       },
-      '@vocab': domain,
+      ...domain !== 'undefined' && { '@vocab': domain },
     }
   );
 }
