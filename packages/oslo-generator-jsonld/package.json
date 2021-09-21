@@ -2,16 +2,21 @@
   "name": "@oslo-flanders/jsonld-generator",
   "version": "0.0.0",
   "description": "Generates a JSON-LD context file",
-  "author": "Dwight Van Lancker <dwight.vanlancker@hotmail.com>",
+  "author": "Open Standards for Linked Organizations (OSLO) Flanders ",
   "homepage": "https://github.com/Informatievlaanderen/OSLO-SpecificationGenerator#readme",
-  "license": "ISC",
-  "main": "lib/oslo-generator-shacl.js",
+  "license": "MIT",
+  "main": "index.js",
+  "bin": {
+    "generate-jsonld-context" : "node bin/context.js"
+  },
   "directories": {
     "lib": "lib",
     "test": "__tests__"
   },
   "files": [
-    "lib"
+    "lib",
+    "bin",
+    "index.ts"
   ],
   "repository": {
     "type": "git",

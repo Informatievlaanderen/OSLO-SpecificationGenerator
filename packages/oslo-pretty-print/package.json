@@ -1,17 +1,22 @@
 {
   "name": "@oslo-flanders/pretty-print",
   "version": "0.0.0",
-  "description": "> TODO: description",
-  "author": "Dwight Van Lancker <dwight.vanlancker@hotmail.com>",
+  "description": "Pretty prints a JSON-LD file",
+  "author": "Open Standards for Linked Organizations (OSLO) Flanders",
   "homepage": "https://github.com/informatievlaanderen/OSLO-SpecificationGenerator/tree/main/packages/oslo-pretty-print#readme",
-  "license": "ISC",
-  "main": "lib/oslo-pretty-print.js",
+  "license": "MIT",
+  "main": "index.js",
+  "bin": {
+    "oslo-pretty-print" : "node bin/pretty-print.js"
+  },
   "directories": {
     "lib": "lib",
     "test": "__tests__"
   },
   "files": [
-    "lib"
+    "lib",
+    "bin",
+    "index.ts"
   ],
   "repository": {
     "type": "git",

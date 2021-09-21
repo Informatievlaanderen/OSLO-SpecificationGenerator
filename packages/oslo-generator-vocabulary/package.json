@@ -2,16 +2,21 @@
   "name": "@oslo-flanders/vocabulary-generator",
   "version": "0.0.0",
   "description": "> TODO: description",
-  "author": "Dwight Van Lancker <dwight.vanlancker@hotmail.com>",
+  "author": "Open Standards for Linked Organizations (OSLO) Flanders",
   "homepage": "https://github.com/informatievlaanderen/OSLO-SpecificationGenerator/tree/main/packages/oslo-generator-vocabulary#readme",
-  "license": "ISC",
-  "main": "lib/oslo-generator-vocabulary.js",
+  "license": "MIT",
+  "main": "index.ts",
+  "bin" : {
+    "generate-vocabulary" : "node bin/vocabulary.js"
+  },
   "directories": {
     "lib": "lib",
     "test": "__tests__"
   },
   "files": [
-    "lib"
+    "lib",
+    "bin",
+    "index.ts"
   ],
   "repository": {
     "type": "git",
