@@ -12,6 +12,7 @@
     "resolveJsonModule": true,
     "downlevelIteration": true,
     "skipLibCheck": true,
+    "declaration": true,
     "strict": true,
     "strictFunctionTypes": false,
     "strictPropertyInitialization": false
