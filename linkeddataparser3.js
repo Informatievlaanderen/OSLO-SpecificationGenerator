@@ -1074,6 +1074,8 @@ function make_nj_metadata (json, hostname) {
     license: json.license,
     status: docstatus,
     statuslabel: docstatuslabel,
+    documenttype: json.type,
+    documentconfig: json.documentconfig,
     repositoryurl: json.repository + '/tree/' + json.documentcommit,
     changelogurl: json.repository + '/blob/' + json.documentcommit + '/CHANGELOG',
     feedbackurl: json.feedbackurl,

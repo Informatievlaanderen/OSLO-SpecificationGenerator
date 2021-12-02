@@ -3793,6 +3793,13 @@
   "documentroot": "/doc/vocabulary",
   "metadata": {
     "changelogurl": "https://github.com/Informatievlaanderen/OSLOthema-airAndWater/blob/f82e9cb5b7799a56c22440f28c844f1de7c91068/CHANGELOG",
+    "documentconfig": {
+      "nl": {
+        "introduction": "mijn intro",
+        "summary": "<p>ABV</p>"
+      }
+    },
+    "documenttype": "ap",
     "feedbackurl": "https://github.com/Informatievlaanderen/OSLOthema-airAndWater/issues",
     "filename": "OSLO-airAndWater-Core-ap",
     "issued": "2021-04-16",

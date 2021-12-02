@@ -1386,7 +1386,7 @@
         "nl": "Een beschrijving van contactinformatie."
       },
       "extra": {
-        "EA-Name": "Contactinfo ",
+        "EA-Name": "Contactinfo",
         "EA-Guid": "{95D45D84-9ADA-4a95-9C6E-8E523E910C22}",
         "EA-Package": "OSLO-DCATAPVL-2.0",
         "EA-Type": "DATATYPE",
@@ -3738,135 +3738,6 @@
         "nl": "[Zie <a href=\"https://www.w3.org/TR/2020/REC-vocab-dcat-2-20200204/#Property:resource_publisher\">DCAT</a>]"
       },
       "definition": {
-        "nl": "De uitgever, de entiteit die verantwoordelijk is voor het beschikbaar stellen, van de resource in de catalogus."
-      },
-      "label": {
-        "nl": "uitgever"
-      },
-      "ap-label-nl": {
-        "nl": "uitgever"
-      },
-      "ap-definition-nl": {
-        "nl": "De uitgever, de entiteit die verantwoordelijk is voor het beschikbaar stellen, van de resource in de catalogus."
-      },
-      "extra": {
-        "EA-Name": "uitgever",
-        "EA-Guid": "{DD9D2FCD-2980-473a-9810-16242CD5BCFD}",
-        "derived": "false",
-        "EA-Package": "",
-        "EA-Type": "connector",
-        "EA-Domain": "CatalogusResource",
-        "EA-Domain-Guid": "{86AF39EF-D666-45a1-A77E-CA427938CDA4}",
-        "EA-Range": "Agent",
-        "RangeData": {
-          "EA-Name": "Agent",
-          "EA-GUID": "{9373B7C5-B37B-4c94-A47B-44AC43F34274}",
-          "EA-Package": "OSLO-Generiek",
-          "uri": "http://purl.org/dc/terms/Agent"
-        },
-        "sourceRole": "null",
-        "destRole": "uitgever",
-        "label": {
-          "nl": "uitgever"
-        },
-        "definition": {
-          "nl": "De uitgever, de entiteit die verantwoordelijk is voor het beschikbaar stellen, van de resource in de catalogus."
-        },
-        "usage": {
-          "nl": "[Zie <a href=\"https://www.w3.org/TR/2020/REC-vocab-dcat-2-20200204/#Property:resource_publisher\">DCAT</a>]"
-        },
-        "ap-label-nl": {
-          "nl": "uitgever"
-        },
-        "ap-definition-nl": {
-          "nl": "De uitgever, de entiteit die verantwoordelijk is voor het beschikbaar stellen, van de resource in de catalogus."
-        },
-        "ap-usageNote-nl": {
-          "nl": "[Zie <a href=\"https://www.w3.org/TR/2020/REC-vocab-dcat-2-20200204/#Property:resource_publisher\">DCAT</a>]"
-        },
-        "ap-codelist": "",
-        "RawTags": [
-          {
-            "key": "ap-definition-nl",
-            "value": "NOTE",
-            "note": "De uitgever, de entiteit die verantwoordelijk is voor het beschikbaar stellen, van de resource in de catalogus."
-          },
-          {
-            "key": "ap-label-nl",
-            "value": "NOTE",
-            "note": "uitgever"
-          },
-          {
-            "key": "ap-usageNote-nl",
-            "value": "NOTE",
-            "note": "[Zie <a href=\"https://www.w3.org/TR/2020/REC-vocab-dcat-2-20200204/#Property:resource_publisher\">DCAT</a>]"
-          },
-          {
-            "key": "uri",
-            "value": "NOTE",
-            "note": "http://purl.org/dc/terms/publisher"
-          }
-        ],
-        "DestRoleTags": [
-          {
-            "key": "ap-definition-nl",
-            "value": "NOTE",
-            "note": "De uitgever, de entiteit die verantwoordelijk is voor het beschikbaar stellen, van de resource in de catalogus."
-          },
-          {
-            "key": "ap-label-nl",
-            "value": "NOTE",
-            "note": "uitgever"
-          },
-          {
-            "key": "ap-usageNote-nl",
-            "value": "NOTE",
-            "note": "[Zie <a href=\"https://www.w3.org/TR/2020/REC-vocab-dcat-2-20200204/#Property:resource_publisher\">DCAT</a>]"
-          },
-          {
-            "key": "uri",
-            "value": "NOTE",
-            "note": "http://purl.org/dc/terms/publisher"
-          }
-        ],
-        "Scope": "NOTHING"
-      },
-      "description": {
-        "nl": "De uitgever, de entiteit die verantwoordelijk is voor het beschikbaar stellen, van de resource in de catalogus."
-      },
-      "codelist": [],
-      "domain": [
-        {
-          "uri": "http://www.w3.org/ns/dcat#Resource",
-          "EA-Name": "CatalogusResource"
-        }
-      ],
-      "range": [
-        {
-          "EA-Name": "Agent",
-          "EA-GUID": "{9373B7C5-B37B-4c94-A47B-44AC43F34274}",
-          "EA-Package": "OSLO-Generiek",
-          "uri": "http://purl.org/dc/terms/Agent"
-        }
-      ],
-      "generalization": [],
-      "minCardinality": "1",
-      "maxCardinality": "1"
-    },
-    {
-      "@id": "http://purl.org/dc/terms/publisher",
-      "@type": "http://www.w3.org/2002/07/owl#ObjectProperty",
-      "name": {
-        "nl": "uitgever"
-      },
-      "inpackage": "UNKNOWN",
-      "ap-usageNote-nl": {
-        "nl": "[Zie <a href=\"https://www.w3.org/TR/2020/REC-vocab-dcat-2-20200204/#Property:resource_publisher\">DCAT</a>]"
-      },
-      "usage": {
-        "nl": "[Zie <a href=\"https://www.w3.org/TR/2020/REC-vocab-dcat-2-20200204/#Property:resource_publisher\">DCAT</a>]"
-      },
-      "definition": {
         "nl": "De uitgever, de entiteit die verantwoordelijk is voor het beschikbaar stellen, van de catalogus."
       },
       "label": {
@@ -3968,6 +3839,135 @@
         {
           "uri": "http://www.w3.org/ns/dcat#Catalog",
           "EA-Name": "Catalogus"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "Agent",
+          "EA-GUID": "{9373B7C5-B37B-4c94-A47B-44AC43F34274}",
+          "EA-Package": "OSLO-Generiek",
+          "uri": "http://purl.org/dc/terms/Agent"
+        }
+      ],
+      "generalization": [],
+      "minCardinality": "1",
+      "maxCardinality": "1"
+    },
+    {
+      "@id": "http://purl.org/dc/terms/publisher",
+      "@type": "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "name": {
+        "nl": "uitgever"
+      },
+      "inpackage": "UNKNOWN",
+      "ap-usageNote-nl": {
+        "nl": "[Zie <a href=\"https://www.w3.org/TR/2020/REC-vocab-dcat-2-20200204/#Property:resource_publisher\">DCAT</a>]"
+      },
+      "usage": {
+        "nl": "[Zie <a href=\"https://www.w3.org/TR/2020/REC-vocab-dcat-2-20200204/#Property:resource_publisher\">DCAT</a>]"
+      },
+      "definition": {
+        "nl": "De uitgever, de entiteit die verantwoordelijk is voor het beschikbaar stellen, van de resource in de catalogus."
+      },
+      "label": {
+        "nl": "uitgever"
+      },
+      "ap-label-nl": {
+        "nl": "uitgever"
+      },
+      "ap-definition-nl": {
+        "nl": "De uitgever, de entiteit die verantwoordelijk is voor het beschikbaar stellen, van de resource in de catalogus."
+      },
+      "extra": {
+        "EA-Name": "uitgever",
+        "EA-Guid": "{DD9D2FCD-2980-473a-9810-16242CD5BCFD}",
+        "derived": "false",
+        "EA-Package": "",
+        "EA-Type": "connector",
+        "EA-Domain": "CatalogusResource",
+        "EA-Domain-Guid": "{86AF39EF-D666-45a1-A77E-CA427938CDA4}",
+        "EA-Range": "Agent",
+        "RangeData": {
+          "EA-Name": "Agent",
+          "EA-GUID": "{9373B7C5-B37B-4c94-A47B-44AC43F34274}",
+          "EA-Package": "OSLO-Generiek",
+          "uri": "http://purl.org/dc/terms/Agent"
+        },
+        "sourceRole": "null",
+        "destRole": "uitgever",
+        "label": {
+          "nl": "uitgever"
+        },
+        "definition": {
+          "nl": "De uitgever, de entiteit die verantwoordelijk is voor het beschikbaar stellen, van de resource in de catalogus."
+        },
+        "usage": {
+          "nl": "[Zie <a href=\"https://www.w3.org/TR/2020/REC-vocab-dcat-2-20200204/#Property:resource_publisher\">DCAT</a>]"
+        },
+        "ap-label-nl": {
+          "nl": "uitgever"
+        },
+        "ap-definition-nl": {
+          "nl": "De uitgever, de entiteit die verantwoordelijk is voor het beschikbaar stellen, van de resource in de catalogus."
+        },
+        "ap-usageNote-nl": {
+          "nl": "[Zie <a href=\"https://www.w3.org/TR/2020/REC-vocab-dcat-2-20200204/#Property:resource_publisher\">DCAT</a>]"
+        },
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "ap-definition-nl",
+            "value": "NOTE",
+            "note": "De uitgever, de entiteit die verantwoordelijk is voor het beschikbaar stellen, van de resource in de catalogus."
+          },
+          {
+            "key": "ap-label-nl",
+            "value": "NOTE",
+            "note": "uitgever"
+          },
+          {
+            "key": "ap-usageNote-nl",
+            "value": "NOTE",
+            "note": "[Zie <a href=\"https://www.w3.org/TR/2020/REC-vocab-dcat-2-20200204/#Property:resource_publisher\">DCAT</a>]"
+          },
+          {
+            "key": "uri",
+            "value": "NOTE",
+            "note": "http://purl.org/dc/terms/publisher"
+          }
+        ],
+        "DestRoleTags": [
+          {
+            "key": "ap-definition-nl",
+            "value": "NOTE",
+            "note": "De uitgever, de entiteit die verantwoordelijk is voor het beschikbaar stellen, van de resource in de catalogus."
+          },
+          {
+            "key": "ap-label-nl",
+            "value": "NOTE",
+            "note": "uitgever"
+          },
+          {
+            "key": "ap-usageNote-nl",
+            "value": "NOTE",
+            "note": "[Zie <a href=\"https://www.w3.org/TR/2020/REC-vocab-dcat-2-20200204/#Property:resource_publisher\">DCAT</a>]"
+          },
+          {
+            "key": "uri",
+            "value": "NOTE",
+            "note": "http://purl.org/dc/terms/publisher"
+          }
+        ],
+        "Scope": "NOTHING"
+      },
+      "description": {
+        "nl": "De uitgever, de entiteit die verantwoordelijk is voor het beschikbaar stellen, van de resource in de catalogus."
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/dcat#Resource",
+          "EA-Name": "CatalogusResource"
         }
       ],
       "range": [
@@ -4944,7 +4944,7 @@
         "EA-Guid": "{3BEC3AB6-B9EB-447c-8E7A-2AAC1900AD0B}",
         "EA-Package": "OSLO-DCATAPVL-2.0",
         "EA-Type": "attribute",
-        "EA-Domain": "Contactinfo ",
+        "EA-Domain": "Contactinfo",
         "EA-Domain-Guid": "{95D45D84-9ADA-4a95-9C6E-8E523E910C22}",
         "EA-Range": "URI",
         "RangeData": {
@@ -5002,7 +5002,7 @@
       "domain": [
         {
           "uri": "http://www.w3.org/2006/vcard/ns#Kind",
-          "EA-Name": "Contactinfo "
+          "EA-Name": "Contactinfo"
         }
       ],
       "range": [
@@ -5804,11 +5804,11 @@
         "EA-Type": "attribute",
         "EA-Domain": "Catalogus",
         "EA-Domain-Guid": "{850D4EA2-3394-43d3-832D-54D8824D5AE3}",
-        "EA-Range": "Contactinfo ",
+        "EA-Range": "Contactinfo",
         "RangeData": {
-          "EA-Name": "Contactinfo ",
-          "EA-GUID": "{2E34F92D-E9C2-4971-84BA-E4502DA554BB}",
-          "EA-Package": "OSLO-DCATAPVL-1.0",
+          "EA-Name": "Contactinfo",
+          "EA-GUID": "{95D45D84-9ADA-4a95-9C6E-8E523E910C22}",
+          "EA-Package": "OSLO-DCATAPVL-2.0",
           "uri": "http://www.w3.org/2006/vcard/ns#Kind"
         },
         "label": {
@@ -5866,9 +5866,9 @@
       ],
       "range": [
         {
-          "EA-Name": "Contactinfo ",
-          "EA-GUID": "{2E34F92D-E9C2-4971-84BA-E4502DA554BB}",
-          "EA-Package": "OSLO-DCATAPVL-1.0",
+          "EA-Name": "Contactinfo",
+          "EA-GUID": "{95D45D84-9ADA-4a95-9C6E-8E523E910C22}",
+          "EA-Package": "OSLO-DCATAPVL-2.0",
           "uri": "http://www.w3.org/2006/vcard/ns#Kind"
         }
       ],
@@ -5908,11 +5908,11 @@
         "EA-Type": "attribute",
         "EA-Domain": "DataService",
         "EA-Domain-Guid": "{0ABCEF0E-58F5-46fa-8D87-9BBCDEDA6599}",
-        "EA-Range": "Contactinfo ",
+        "EA-Range": "Contactinfo",
         "RangeData": {
-          "EA-Name": "Contactinfo ",
-          "EA-GUID": "{2E34F92D-E9C2-4971-84BA-E4502DA554BB}",
-          "EA-Package": "OSLO-DCATAPVL-1.0",
+          "EA-Name": "Contactinfo",
+          "EA-GUID": "{95D45D84-9ADA-4a95-9C6E-8E523E910C22}",
+          "EA-Package": "OSLO-DCATAPVL-2.0",
           "uri": "http://www.w3.org/2006/vcard/ns#Kind"
         },
         "label": {
@@ -5970,9 +5970,9 @@
       ],
       "range": [
         {
-          "EA-Name": "Contactinfo ",
-          "EA-GUID": "{2E34F92D-E9C2-4971-84BA-E4502DA554BB}",
-          "EA-Package": "OSLO-DCATAPVL-1.0",
+          "EA-Name": "Contactinfo",
+          "EA-GUID": "{95D45D84-9ADA-4a95-9C6E-8E523E910C22}",
+          "EA-Package": "OSLO-DCATAPVL-2.0",
           "uri": "http://www.w3.org/2006/vcard/ns#Kind"
         }
       ],
@@ -7818,7 +7818,7 @@
         "EA-Guid": "{1E43A217-A18C-4d63-9C21-E27E7B11281B}",
         "EA-Package": "OSLO-DCATAPVL-2.0",
         "EA-Type": "attribute",
-        "EA-Domain": "Contactinfo ",
+        "EA-Domain": "Contactinfo",
         "EA-Domain-Guid": "{95D45D84-9ADA-4a95-9C6E-8E523E910C22}",
         "EA-Range": "URI",
         "RangeData": {
@@ -7876,7 +7876,7 @@
       "domain": [
         {
           "uri": "http://www.w3.org/2006/vcard/ns#Kind",
-          "EA-Name": "Contactinfo "
+          "EA-Name": "Contactinfo"
         }
       ],
       "range": [
@@ -8026,24 +8026,24 @@
   "diagram": "OSLO-DCATAPVL-2.0",
   "template": "dcatapvl20-ap.j2",
   "title": "DCAT-AP Vlaanderen",
-  "publication-state": "https://data.vlaanderen.be/id/concept/StandaardStatus/OntwerpStandaard",
-  "publication-date": "27-05-2021",
+  "publication-state": "https://data.vlaanderen.be/id/concept/StandaardStatus/KandidaatStandaard",
+  "publication-date": "16-09-2021",
   "contributors-file": "stakeholders.csv",
   "contributors-column": "DCATAPVL",
   "site": "site-skeleton",
   "feedbackurl": "https://github.com/Informatievlaanderen/OSLOthema-DCATAPVlaanderen/issues",
-  "standaardregisterurl": "https://data.vlaanderen.be/standaarden/erkende-standaarden/applicatieprofiel-dcat-ap-vl/applicatieprofiel-dcat-ap-vl.html",
+  "standaardregisterurl": "https://data.vlaanderen.be/standaarden/standaard-in-ontwikkeling/applicatieprofiel-dcat-ap-vl-2.0.html",
   "dependencies": [],
   "config": "config/config-ap.json",
-  "dummy": 7,
-  "urlref": "/doc/applicatieprofiel/DCAT-AP-VL/ontwerpstandaard/2021-06-27",
+  "dummy": 8,
+  "urlref": "/doc/applicatieprofiel/DCAT-AP-VL/ontwerpstandaard/2021-10-26",
   "repository": "https://github.com/Informatievlaanderen/OSLOthema-DCATAPVlaanderen",
   "branchtag": "master",
   "filename": "config/DCAT-AP-VL-20.json",
   "navigation": {
-    "prev": "/doc/applicatieprofiel/DCAT-AP-VL/erkendestandaard/2019-10-03"
+    "pref": "/doc/applicatieprofiel/DCAT-AP-VL/kandidaatstandaard/2021-09-16"
   },
-  "documentcommit": "e6a2b3f73394491effcb9fb927c385c73f26b761",
-  "toolchaincommit": "adb45f23b99eb27b350145ddefd679370d59b9c9",
-  "hostname": "https://data.vlaanderen.be"
+  "documentcommit": "5be63575a350252c37e47ca921c584de81738e77",
+  "toolchaincommit": "a7d8d70dfdc7bccf7d889db8cebea6fce0355e92",
+  "hostname": "https://test.data.vlaanderen.be"
 }

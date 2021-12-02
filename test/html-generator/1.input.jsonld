@@ -12433,5 +12433,11 @@
   "dummy": "Dummy-004",
   "documentcommit": "f82e9cb5b7799a56c22440f28c844f1de7c91068",
   "toolchaincommit": "b7aaa295439ab2e10ad38cd2a6dcd61e50d5d874",
-  "hostname": "https://purl.eu"
+  "hostname": "https://purl.eu",
+  "documentconfig" : { 
+    "nl"  : { 
+    "introduction" : "mijn intro",
+    "summary" : "<p>ABV</p>"
+    }
+   }
 }

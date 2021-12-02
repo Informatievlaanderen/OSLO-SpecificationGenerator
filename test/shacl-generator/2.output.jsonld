@@ -48,8 +48,8 @@
       "@id": "sh:maxCount",
       "@type": "http://www.w3.org/2001/XMLSchema#integer"
     },
-    "sh:definition": {
-      "@id": "sh:definition",
+    "sh:description": {
+      "@id": "sh:description",
       "@container": "@language"
     },
     "sh:name": {

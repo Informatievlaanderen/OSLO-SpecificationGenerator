@@ -200,6 +200,7 @@ function make_shacl_grouped (grouped, entitymap, language) {
   shaclDoc['@context'] = {
     sh: 'http://www.w3.org/ns/shacl#',
     qb: 'http://purl.org/linked-data/cube#',
+    vl: 'https://data.vlaanderen.be/ns/shacl#',
     'sh:class': { '@type': '@id' },
     'sh:datatype': { '@type': '@id' },
     'sh:path': { '@type': '@id' },
@@ -216,7 +217,7 @@ function make_shacl_grouped (grouped, entitymap, language) {
       '@type': '@id'
     },
     '@vocab': options.domain,
-    'sh:definition': { '@container': '@language' },
+    'sh:description': { '@container': '@language' },
     'sh:name': { '@container': '@language' }
   }
   shaclDoc['@id'] = options.domain
@@ -260,10 +261,14 @@ function make_shacl_individual (grouped, entitymap, language) {
           if (value.range.length === 1) {
             prop = { ...prop0 } // use the spread operator to construct a variant of the constraint
             prop['@id'] = classshapeuri + '/' + SHA1(prop0name + 'range')
+            prop['vl:message'] = {}
+	    prop['vl:rule'] = ''
             if (value['@type'] === 'http://www.w3.org/2002/07/owl#DatatypeProperty') {
               prop['sh:datatype'] = value.range[0].uri
+              prop['vl:message'][language] = "De range van " + prop['sh:name'][language] + " moet van het type <" + prop['sh:datatype'] + "> zijn."
             } else {
               prop['sh:class'] = value.range[0].uri
+              prop['vl:message'][language] = "De range van " + prop['sh:name'][language] + " moet van het type <" + prop['sh:class'] + "> zijn."
             }
             props.push(prop)
 
@@ -273,6 +278,9 @@ function make_shacl_individual (grouped, entitymap, language) {
             		prop = { ...prop0 } // use the spread operator to construct a variant of the constraint
             		prop['@id'] = classshapeuri + '/' + SHA1(prop0name + 'uniqueLanguage')
 			prop['sh:uniqueLang'] = 'true'
+            		prop['vl:message'] = {}
+                        prop['vl:message'][language] = "Slechts 1 waarde voor elke taal toegelaten voor " + prop['sh:name'][language] 
+	    		prop['vl:rule'] = ''
             		props.push(prop)
 
 		    }
@@ -281,10 +289,14 @@ function make_shacl_individual (grouped, entitymap, language) {
 			console.log('add nodeKind constraint')
             		prop = { ...prop0 } // use the spread operator to construct a variant of the constraint
             		prop['@id'] = classshapeuri + '/' + SHA1(prop0name + 'nodekind')
+            		prop['vl:message'] = {}
+	    		prop['vl:rule'] = ''
             	    if (value['@type'] === 'http://www.w3.org/2002/07/owl#DatatypeProperty') {
 			prop['sh:nodekind'] = 'sh:Literal'
+                        prop['vl:message'][language] = "De verwachte waarde voor " + prop['sh:name'][language] + " is een Literal"
 		    } else {
 			prop['sh:nodekind'] = 'sh:BlankNodeOrIRI'
+                        prop['vl:message'][language] = "De verwachte waarde voor " + prop['sh:name'][language] + " is een rdfs:Resource (URI of blank node)"
 		    }
             		props.push(prop)
 	    }
@@ -295,12 +307,18 @@ function make_shacl_individual (grouped, entitymap, language) {
           prop = { ...prop0 }
           prop['@id'] = classshapeuri + '/' + SHA1(prop0name + 'maxCount')
           prop['sh:maxCount'] = value.maxCardinality
+          prop['vl:message'] = {}
+          prop['vl:message'][language] = "Maximaal " +  prop['sh:maxCount'] + " waarden toegelaten voor " + prop['sh:name'][language] 
+	  prop['vl:rule'] = ''
           props.push(prop)
         }
         if (value.minCardinality && value.minCardinality !== '0') {
           prop = { ...prop0 }
           prop['@id'] = classshapeuri + '/' + SHA1(prop0name + 'minCount')
           prop['sh:minCount'] = value.minCardinality
+          prop['vl:message'] = {}
+          prop['vl:message'][language] = "Minimaal " +  prop['sh:minCount'] + " waarden verwacht voor " + prop['sh:name'][language] 
+	  prop['vl:rule'] = ''
           props.push(prop)
         }
         if (value['ap-codelist']) {
@@ -320,7 +338,10 @@ function make_shacl_individual (grouped, entitymap, language) {
           prop['@id'] = classshapeuri + '/' + SHA1(prop0name + 'codelist')
           prop['sh:nodeKind'] = 'sh:IRI'
           prop['sh:severity'] = 'sh:Warning'
+          prop['vl:message'] = {}
+          prop['vl:message'][language] = "Enkel waarden uit codelijst <" + value['ap-codelist'] + "> verwacht voor " + prop['sh:name'][language] 
           prop['sh:node'] = noderestriction
+	  prop['vl:rule'] = ''
           props.push(prop)
         } // requires the same codelist reasoning as for the html
       })
@@ -335,6 +356,7 @@ function make_shacl_individual (grouped, entitymap, language) {
     qb: 'http://purl.org/linked-data/cube#',
     skos: 'http://www.w3.org/2004/02/skos/core#',
     rdfs: 'http://www.w3.org/2000/01/rdf-schema#',
+    vl: 'https://data.vlaanderen.be/ns/shacl#',
     'sh:class': {
       '@id': 'sh:class',
       '@type': '@id'
@@ -379,8 +401,8 @@ function make_shacl_individual (grouped, entitymap, language) {
       '@id': 'sh:maxCount',
       '@type': 'http://www.w3.org/2001/XMLSchema#integer'
     },
-    'sh:definition': {
-      '@id': 'sh:definition',
+    'sh:description': {
+      '@id': 'sh:description',
       '@container': '@language'
     },
     'sh:name': {
@@ -427,7 +449,7 @@ function get_prop_named (classshapeuri, value, language) {
     return { 'sh:path': value['@id'] }
   } else if (name == null && definition != null) {
     return {
-      'sh:definition': definition,
+      'sh:description': definition,
       'sh:path': value['@id']
     }
   } else if (name != null && definition == null) {
@@ -439,7 +461,7 @@ function get_prop_named (classshapeuri, value, language) {
   } else {
     return {
       'sh:name': name,
-      'sh:definition': definition,
+      'sh:description': definition,
       'sh:path': value['@id'],
       '@id': classshapeuri + '/' + SHA1(name[language])
     }
@@ -450,10 +472,12 @@ function get_prop (value, language) {
   const name = get_tagged_value(value.label, language)
   const definition = get_tagged_value(value.definition, language)
   if (name == null && definition == null) {
-    return { 'sh:path': value['@id'] }
+    return { 'sh:path': value['@id'],
+	    'sh:description': ''
+    }
   } else if (name == null && definition != null) {
     return {
-      'sh:definition': definition,
+      'sh:description': definition,
       'sh:path': value['@id']
     }
   } else if (name != null && definition == null) {
@@ -464,7 +488,19 @@ function get_prop (value, language) {
   } else {
     return {
       'sh:name': name,
-      'sh:definition': definition,
+      'sh:description': definition,
+      'sh:path': value['@id']
+    }
+  }
+}
+
+function get_prop_name (value, language) {
+  const name = get_tagged_value(value.label, language)
+  if (name == null ) {
+    return { 'sh:path': value['@id'] }
+  } else {
+    return {
+      'sh:name': name,
       'sh:path': value['@id']
     }
   }
