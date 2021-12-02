@@ -1063,11 +1063,12 @@ function make_nj_metadata (json, hostname) {
     json.license = 'https://data.vlaanderen.be/id/licentie/modellicentie-gratis-hergebruik/v1.0'
   }
 
+  let documentconfig = {}	
   if (!json.documentconfig || json.documentconfig === '') {
     // set default value
-    documentconfig: {}
+    documentconfig = {}
   } else {
-    documentconfig: json.documentconfig
+    documentconfig = json.documentconfig
   }
 
 
@@ -1081,6 +1082,7 @@ function make_nj_metadata (json, hostname) {
     navigation: json.navigation,
     license: json.license,
     documenttype: json.type,
+    documentconfig: documentconfig,	  
     status: docstatus,
     statuslabel: docstatuslabel,
     repositoryurl: json.repository + '/tree/' + json.documentcommit,
