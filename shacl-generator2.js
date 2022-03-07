@@ -385,8 +385,23 @@ function make_shacl_individual (grouped, entitymap, language) {
       '@id': 'sh:nodeKind',
       '@type': '@id'
     },
+    'sh:in': {
+      '@id': 'sh:in',
+      '@container' : '@set',
+      '@type': '@id'
+    },
     'sh:hasValue': {
       '@id': 'sh:hasValue',
+      '@type': '@id'
+    },
+    'sh:and': {
+      '@id': 'sh:and',
+      '@container' : '@set',
+      '@type': '@id'
+    },
+    'sh:or': {
+      '@id': 'sh:or',
+      '@container' : '@set',
       '@type': '@id'
     },
     'sh:severity': {
