@@ -16,6 +16,8 @@ shacl:
 	jq -S . /data/test/shacl-generator/6.output.jsonld.0 > /data/test/shacl-generator/6.output.jsonld
 	node /app/shacl-generator2.js -i /data/test/shacl-generator/7.input.jsonld -o /data/test/shacl-generator/7.output.jsonld.0 -l nl -m individual -d https://data.vlaanderen.be/shacl/metadata_dcat -c 'uniqueLanguages' -c 'nodekind'  -p https://data.vlaanderen.be/doc/applicatieprofiel/metadata-dcat/erkendestandaard/2021-04-22
 	jq -S . /data/test/shacl-generator/7.output.jsonld.0 > /data/test/shacl-generator/7.output.jsonld
+	node /app/shacl-generator2.js -i /data/test/shacl-generator/8.input.jsonld -o /data/test/shacl-generator/8.output.jsonld.0 -l nl -m individual -d https://data.vlaanderen.be/shacl/GEODCAT-AP-VL -c 'uniqueLanguages' -c 'nodekind'  -p https://data.vlaanderen.be/doc/applicatieprofiel/GEODCAT-AP-VL/erkendestandaard/2022-01-23
+	jq -S . /data/test/shacl-generator/8.output.jsonld.0 > /data/test/shacl-generator/8.output.jsonld
 
 
 context: 
@@ -112,6 +114,10 @@ ruby:
 	rdf serialize --input-format jsonld --processingMode json-ld-1.1 ${RUBYDIR}/assocafdalen-SHACL.jsonld --output-format turtle -o ${RUBYDIR}/assocafdalen-SHACL.ttl
 	rdf serialize --input-format jsonld --processingMode json-ld-1.1 --ordered --canonicalize -d --verbose --unique-bnodes ${RUBYDIR}/assocafdalen-SHACL.jsonld --output-format turtle -o ${RUBYDIR}/assocafdalen-SHACL.ttl.2
 	rdf serialize --input-format jsonld --processingMode json-ld-1.1 --ordered --canonicalize --unique-bnodes ${RUBYDIR}/assocafdalen-SHACL.jsonld --output-format turtle -o ${RUBYDIR}/assocafdalen-SHACL.ttl.3
+
+RUBYVOCDIR=${TESTDIR}/render-voc
+rubyvoc:
+	rdf serialize --input-format jsonld --processingMode json-ld-1.1 ${RUBYVOCDIR}/1.output.jsonld --output-format turtle -o ${RUBYVOCDIR}/1.output.ttl
 
 
 XMLDIR=${TESTDIR}/xml-generator
