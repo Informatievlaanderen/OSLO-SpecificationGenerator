@@ -1,0 +1,4411 @@
+{
+  "@context": {
+    "vlaanderen": "http://data.vlaanderen.be/ns/",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "void": "http://rdfs.org/ns/void#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "sdmx-dimension": "http://purl.org/linked-data/sdmx/2009/dimension#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "sdmx-attribute": "http://purl.org/linked-data/sdmx/2009/attribute#",
+    "qb": "http://purl.org/linked-data/cube#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "sdmx-concept": "http://purl.org/linked-data/sdmx/2009/concept#",
+    "foaf": "http://xmlns.com/foaf/0.1/",
+    "person": "http://www.w3.org/ns/person#",
+    "rec": "http://www.w3.org/2001/02pd/rec54#",
+    "vann": "http://purl.org/vocab/vann/",
+    "sh": "http://w3.org/ns/shacl#",
+    "label": {
+      "@id": "rdfs:label",
+      "@container": "@language"
+    },
+    "modified": {
+      "@id": "dcterms:modified",
+      "@type": "xsd:date"
+    },
+    "issued": {
+      "@id": "dcterms:issued"
+    },
+    "authors": {
+      "@type": "foaf:Person",
+      "@id": "foaf:maker"
+    },
+    "editors": {
+      "@type": "foaf:Person",
+      "@id": "rec:editor"
+    },
+    "contributors": {
+      "@type": "foaf:Person",
+      "@id": "dcterms:contributor"
+    },
+    "affiliation": {
+      "@id": "http://schema.org/affiliation"
+    },
+    "classes": {
+      "@reverse": "rdfs:isDefinedBy"
+    },
+    "datatypes": {
+      "@reverse": "rdfs:isDefinedBy"
+    },
+    "name": {
+      "@id": "rdfs:label"
+    },
+    "properties": {
+      "@reverse": "rdfs:isDefinedBy"
+    },
+    "domain": {
+      "@id": "rdfs:domain"
+    },
+    "range": {
+      "@id": "rdfs:range"
+    },
+    "minCardinality": {
+      "@id": "sh:minCount"
+    },
+    "maxCardinality": {
+      "@id": "sh:maxCount"
+    },
+    "generalization": {
+      "@id": "rdfs:subPropertyOf"
+    },
+    "externals": {
+      "@type": "http://www.w3.org/2000/01/rdf-schema#Class",
+      "@id": "rdfs:seeAlso"
+    }
+  },
+  "@id": "https://data.europa.eu/m8g",
+  "@type": "http://www.w3.org/2002/07/owl#Ontology",
+  "label": {
+    "nl": "core-person-ap",
+    "en": "core-person-ap"
+  },
+  "baseURI": "https://data.europa.eu/m8g/",
+  "issued": "TODO",
+  "license": "https://joinup.ec.europa.eu/collection/semantic-interoperability-community-semic",
+  "extra": {
+    "EA-Name": "Core Person",
+    "EA-Guid": "{2408F5C0-C02F-4c92-8AC7-52AAD22F4A3F}",
+    "baseURI": "https://data.europa.eu/m8g/",
+    "issued": "TODO",
+    "license": "TODO",
+    "RawTags": [
+      {
+        "key": "baseURI",
+        "value": "https://data.europa.eu/m8g/",
+        "note": "null"
+      }
+    ]
+  },
+  "authors": [
+    {
+      "foaf:firstName": "Core Vocabularies Working Group",
+      "@type": "foaf:Person"
+    }
+  ],
+  "editors": [
+    {
+      "foaf:firstName": "Florian",
+      "foaf:lastName": "Barthelemy",
+      "affiliation": {
+        "foaf:name": "PwC EU Services"
+      },
+      "@type": "foaf:Person"
+    },
+    {
+      "foaf:firstName": "Alexandre",
+      "foaf:lastName": "Beaufays",
+      "affiliation": {
+        "foaf:name": "PwC EU Services"
+      },
+      "@type": "foaf:Person"
+    },
+    {
+      "foaf:firstName": "Michiel",
+      "foaf:lastName": "De Keyzer",
+      "affiliation": {
+        "foaf:name": "PwC EU Services"
+      },
+      "@type": "foaf:Person"
+    },
+    {
+      "foaf:firstName": "Pavlina",
+      "foaf:lastName": "Fragkou",
+      "affiliation": {
+        "foaf:name": "European Commission"
+      },
+      "@type": "foaf:Person"
+    },
+    {
+      "foaf:firstName": "Dimitri",
+      "foaf:lastName": "Schepers",
+      "affiliation": {
+        "foaf:name": "PwC EU Services"
+      },
+      "@type": "foaf:Person"
+    },
+    {
+      "foaf:firstName": "Bert",
+      "foaf:lastName": "Van Nuffelen",
+      "affiliation": {
+        "foaf:name": "TenForce"
+      },
+      "@type": "foaf:Person"
+    }
+  ],
+  "contributors": [
+    {
+      "foaf:firstName": "Seth",
+      "foaf:lastName": "van Hooland",
+      "affiliation": {
+        "foaf:name": "European Commission"
+      },
+      "@type": "foaf:Person"
+    }
+  ],
+  "classes": [],
+  "properties": [],
+  "externals": [
+    {
+      "@id": "http://purl.org/dc/terms/Jurisdiction",
+      "@type": "http://www.w3.org/2002/07/owl#Class",
+      "inpackage": "OTHER_PACKAGE",
+      "ap-definition-en": {
+        "en": "The extent or range of judicial, law enforcement, or other authority."
+      },
+      "ap-label-en": {
+        "en": "Jurisdiction"
+      },
+      "definition": {
+        "en": "The extent or range of judicial, law enforcement, or other authority."
+      },
+      "label": {
+        "en": "Jurisdiction"
+      },
+      "extra": {
+        "EA-Name": "Jurisdiction",
+        "EA-Guid": "{1F35C0ED-487E-44cf-B155-FAA631266668}",
+        "EA-Package": "dct",
+        "EA-Type": "CLASS",
+        "EA-Parents": "",
+        "EA-Parents2": [],
+        "parentclasses": "",
+        "label": {
+          "en": "Jurisdiction"
+        },
+        "definition": {
+          "en": "The extent or range of judicial, law enforcement, or other authority."
+        },
+        "usage": "",
+        "ap-label-en": {
+          "en": "Jurisdiction"
+        },
+        "ap-definition-en": {
+          "en": "The extent or range of judicial, law enforcement, or other authority."
+        },
+        "ap-usageNote-en": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://purl.org/dc/terms/Jurisdiction",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "Jurisdiction",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "The extent or range of judicial, law enforcement, or other authority.",
+            "note": "null"
+          }
+        ],
+        "Scope": "NOTHING"
+      },
+      "name": "Jurisdiction"
+    },
+    {
+      "@id": "http://purl.org/dc/terms/Location",
+      "@type": "http://www.w3.org/2002/07/owl#Class",
+      "inpackage": "OTHER_PACKAGE",
+      "ap-definition-en": {
+        "en": "An identifiable geographic place or named place."
+      },
+      "ap-label-en": {
+        "en": "Location"
+      },
+      "definition": {
+        "en": "An identifiable geographic place or named place."
+      },
+      "label": {
+        "en": "Location"
+      },
+      "extra": {
+        "EA-Name": "Location",
+        "EA-Guid": "{C893D9C5-F21F-401b-A896-22D5EB56D6A7}",
+        "EA-Package": "dct",
+        "EA-Type": "CLASS",
+        "EA-Parents": "",
+        "EA-Parents2": [],
+        "parentclasses": "",
+        "label": {
+          "en": "Location"
+        },
+        "definition": {
+          "en": "An identifiable geographic place or named place."
+        },
+        "usage": "",
+        "ap-label-en": {
+          "en": "Location"
+        },
+        "ap-definition-en": {
+          "en": "An identifiable geographic place or named place."
+        },
+        "ap-usageNote-en": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://purl.org/dc/terms/Location",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "Location",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "An identifiable geographic place or named place.",
+            "note": "null"
+          }
+        ],
+        "Scope": "NOTHING"
+      },
+      "name": "Location"
+    },
+    {
+      "@id": "http://www.w3.org/2004/02/skos/core#Concept",
+      "@type": "http://www.w3.org/2002/07/owl#Class",
+      "inpackage": "OTHER_PACKAGE",
+      "ap-definition-en": {
+        "en": "A SKOS Concept can be viewed as an idea or notion; a unit of thought. However,what constitutes a unit of thought is subjective,and this definition is meant to be suggestive,rather than restrictive."
+      },
+      "ap-label-en": {
+        "en": "Concept"
+      },
+      "definition": {
+        "en": "A SKOS Concept can be viewed as an idea or notion; a unit of thought. However,what constitutes a unit of thought is subjective,and this definition is meant to be suggestive,rather than restrictive."
+      },
+      "label": {
+        "en": "Concept"
+      },
+      "extra": {
+        "EA-Name": "Concept",
+        "EA-Guid": "{E537CD26-90D7-47e6-859F-D083793E1CCB}",
+        "EA-Package": "skos",
+        "EA-Type": "CLASS",
+        "EA-Parents": "",
+        "EA-Parents2": [],
+        "parentclasses": "",
+        "label": {
+          "en": "Concept"
+        },
+        "definition": {
+          "en": "A SKOS Concept can be viewed as an idea or notion; a unit of thought. However,what constitutes a unit of thought is subjective,and this definition is meant to be suggestive,rather than restrictive."
+        },
+        "usage": "",
+        "ap-label-en": {
+          "en": "Concept"
+        },
+        "ap-definition-en": {
+          "en": "A SKOS Concept can be viewed as an idea or notion; a unit of thought. However,what constitutes a unit of thought is subjective,and this definition is meant to be suggestive,rather than restrictive."
+        },
+        "ap-usageNote-en": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "definition-en",
+            "value": "A SKOS Concept can be viewed as an idea or notion; a unit of thought. However,what constitutes a unit of thought is subjective,and this definition is meant to be suggestive,rather than restrictive.",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "Concept",
+            "note": "null"
+          },
+          {
+            "key": "uri",
+            "value": "http://www.w3.org/2004/02/skos/core#Concept",
+            "note": "null"
+          }
+        ],
+        "Scope": "NOTHING"
+      },
+      "name": "Concept"
+    },
+    {
+      "@id": "http://www.w3.org/ns/adms#Identifier",
+      "@type": "http://www.w3.org/2002/07/owl#Class",
+      "inpackage": "OTHER_PACKAGE",
+      "ap-definition-en": {
+        "en": "The Identifier class represents any identifier issued by any authority, whether a government agency or not. It captures the identifier itself, the type of identifier, and details of the issuing authority, the date on which the identifier was issued."
+      },
+      "usage": {
+        "en": "The Identifier class is based on the UN/CEFACT class of the same name and is defined under the ADMS namespace."
+      },
+      "ap-label-en": {
+        "en": "Identifier"
+      },
+      "definition": {
+        "en": "The Identifier class represents any identifier issued by any authority, whether a government agency or not. It captures the identifier itself, the type of identifier, and details of the issuing authority, the date on which the identifier was issued."
+      },
+      "label": {
+        "en": "Identifier"
+      },
+      "extra": {
+        "EA-Name": "Identifier",
+        "EA-Guid": "{4252FD49-50E1-4fa8-AE37-1FE59010D3AB}",
+        "EA-Package": "adms",
+        "EA-Type": "CLASS",
+        "EA-Parents": "",
+        "EA-Parents2": [],
+        "parentclasses": "",
+        "label": {
+          "en": "Identifier"
+        },
+        "definition": {
+          "en": "The Identifier class represents any identifier issued by any authority, whether a government agency or not. It captures the identifier itself, the type of identifier, and details of the issuing authority, the date on which the identifier was issued."
+        },
+        "usage": {
+          "en": "The Identifier class is based on the UN/CEFACT class of the same name and is defined under the ADMS namespace."
+        },
+        "ap-label-en": {
+          "en": "Identifier"
+        },
+        "ap-definition-en": {
+          "en": "The Identifier class represents any identifier issued by any authority, whether a government agency or not. It captures the identifier itself, the type of identifier, and details of the issuing authority, the date on which the identifier was issued."
+        },
+        "ap-usageNote-en": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://www.w3.org/ns/adms#Identifier",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "The Identifier class represents any identifier issued by any authority, whether a government agency or not. It captures the identifier itself, the type of identifier, and details of the issuing authority, the date on which the identifier was issued.",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "Identifier",
+            "note": "null"
+          },
+          {
+            "key": "usageNote-en",
+            "value": "The Identifier class is based on the UN/CEFACT class of the same name and is defined under the ADMS namespace.",
+            "note": "null"
+          }
+        ],
+        "Scope": "NOTHING"
+      },
+      "name": "Identifier"
+    },
+    {
+      "@id": "http://www.w3.org/ns/locn#Address",
+      "@type": "http://www.w3.org/2002/07/owl#Class",
+      "inpackage": "OTHER_PACKAGE",
+      "ap-definition-en": {
+        "en": "A spatial object that in a human-readable way identifies a fixed location of a property."
+      },
+      "usage": {
+        "en": "<p>\r\nAn \"address representation\" as conceptually defined by the <a href=\"https://inspire-regadmin.jrc.ec.europa.eu/dataspecification/ScopeObjectDetail.action?objectDetailId=9353\r\n\">INSPIRE Address Representation data type: \"Representation of an address spatial object for use in external application schemas that need to include the basic, address information in a readable way.\"</a>.\r\n</p></br>\r\n\r\n<p>\r\nThe representation of Addresses varies widely from one country's postal system to another. Even within countries, there are almost always examples of Addresses that do not conform to the stated national standard. At the time of publication, work is progressing on <a href=\"https://www.iso.org/standard/61710.html\">ISO 19160-1</a> that defines a method through which different Addresses can be converted from one conceptual model to another.\r\n</p></br>\r\n\r\n<p>\r\nThis specification was heavily based on the INSPIRE Address Representation data type. It is noteworthy that if an Address is provided using the detailed breakdown suggested by the properties for this class, then it will be INSPIRE-conformant. To this very granular set of\r\nproperties, we add two further properties:\r\n<ul>\r\n  <li>- full address (the complete address as a formatted string)</li>\r\n  <li>- addressID (a unique identifier for the address)</li>\r\n</ul>\r\nThe first of these allows publishers to simply provide the complete Address as one string, with or without formatting. This is analogous to <a href=\"http://www.w3.org/2006/vcard/ns#label\">vCard's label property</a>.\r\n</p></br>\r\n\r\n<p>\r\nThe addressID is part of the INSPIRE guidelines and provides a hook that can be used to link the Address to an alternative representation, such as vCard or OASIS xAL.\r\n</p>"
+      },
+      "ap-label-en": {
+        "en": "Address"
+      },
+      "definition": {
+        "en": "A spatial object that in a human-readable way identifies a fixed location of a property."
+      },
+      "label": {
+        "en": "Address"
+      },
+      "extra": {
+        "EA-Name": "Address",
+        "EA-Guid": "{650BCC62-B5E6-4070-8DC6-A39F0953E191}",
+        "EA-Package": "Core Location",
+        "EA-Type": "CLASS",
+        "EA-Parents": "",
+        "EA-Parents2": [],
+        "parentclasses": "",
+        "label": {
+          "en": "Address"
+        },
+        "definition": {
+          "en": "A spatial object that in a human-readable way identifies a fixed location of a property."
+        },
+        "usage": {
+          "en": "<p>\r\nAn \"address representation\" as conceptually defined by the <a href=\"https://inspire-regadmin.jrc.ec.europa.eu/dataspecification/ScopeObjectDetail.action?objectDetailId=9353\r\n\">INSPIRE Address Representation data type: \"Representation of an address spatial object for use in external application schemas that need to include the basic, address information in a readable way.\"</a>.\r\n</p></br>\r\n\r\n<p>\r\nThe representation of Addresses varies widely from one country's postal system to another. Even within countries, there are almost always examples of Addresses that do not conform to the stated national standard. At the time of publication, work is progressing on <a href=\"https://www.iso.org/standard/61710.html\">ISO 19160-1</a> that defines a method through which different Addresses can be converted from one conceptual model to another.\r\n</p></br>\r\n\r\n<p>\r\nThis specification was heavily based on the INSPIRE Address Representation data type. It is noteworthy that if an Address is provided using the detailed breakdown suggested by the properties for this class, then it will be INSPIRE-conformant. To this very granular set of\r\nproperties, we add two further properties:\r\n<ul>\r\n  <li>- full address (the complete address as a formatted string)</li>\r\n  <li>- addressID (a unique identifier for the address)</li>\r\n</ul>\r\nThe first of these allows publishers to simply provide the complete Address as one string, with or without formatting. This is analogous to <a href=\"http://www.w3.org/2006/vcard/ns#label\">vCard's label property</a>.\r\n</p></br>\r\n\r\n<p>\r\nThe addressID is part of the INSPIRE guidelines and provides a hook that can be used to link the Address to an alternative representation, such as vCard or OASIS xAL.\r\n</p>"
+        },
+        "ap-label-en": {
+          "en": "Address"
+        },
+        "ap-definition-en": {
+          "en": "A spatial object that in a human-readable way identifies a fixed location of a property."
+        },
+        "ap-usageNote-en": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://www.w3.org/ns/locn#Address",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "Address",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "NOTE",
+            "note": "A spatial object that in a human-readable way identifies a fixed location of a property."
+          },
+          {
+            "key": "usageNote-en",
+            "value": "NOTE",
+            "note": "<p>\r\nAn \"address representation\" as conceptually defined by the <a href=\"https://inspire-regadmin.jrc.ec.europa.eu/dataspecification/ScopeObjectDetail.action?objectDetailId=9353\r\n\">INSPIRE Address Representation data type: \"Representation of an address spatial object for use in external application schemas that need to include the basic, address information in a readable way.\"</a>.\r\n</p></br>\r\n\r\n<p>\r\nThe representation of Addresses varies widely from one country's postal system to another. Even within countries, there are almost always examples of Addresses that do not conform to the stated national standard. At the time of publication, work is progressing on <a href=\"https://www.iso.org/standard/61710.html\">ISO 19160-1</a> that defines a method through which different Addresses can be converted from one conceptual model to another.\r\n</p></br>\r\n\r\n<p>\r\nThis specification was heavily based on the INSPIRE Address Representation data type. It is noteworthy that if an Address is provided using the detailed breakdown suggested by the properties for this class, then it will be INSPIRE-conformant. To this very granular set of\r\nproperties, we add two further properties:\r\n<ul>\r\n  <li>- full address (the complete address as a formatted string)</li>\r\n  <li>- addressID (a unique identifier for the address)</li>\r\n</ul>\r\nThe first of these allows publishers to simply provide the complete Address as one string, with or without formatting. This is analogous to <a href=\"http://www.w3.org/2006/vcard/ns#label\">vCard's label property</a>.\r\n</p></br>\r\n\r\n<p>\r\nThe addressID is part of the INSPIRE guidelines and provides a hook that can be used to link the Address to an alternative representation, such as vCard or OASIS xAL.\r\n</p>"
+          }
+        ],
+        "Scope": "NOTHING"
+      },
+      "name": "Address"
+    },
+    {
+      "@id": "http://www.w3.org/ns/person#Person",
+      "@type": "http://www.w3.org/2002/07/owl#Class",
+      "inpackage": "OTHER_PACKAGE",
+      "ap-definition-en": {
+        "en": "An individual person who may be dead or alive, but not imaginary."
+      },
+      "usage": {
+        "en": "The fact that a person in the context of Core Person Vocabulary cannot be imaginary makes person:Person a subclass of both foaf:Person and schema:Person which both cover imaginary characters as well as real people.\n\nThe Person Class is a subclass of the more general 'Agent' class that encompasses organisations, legal entities, groups etc. - any entity that is able to carry out actions."
+      },
+      "ap-label-en": {
+        "en": "Person"
+      },
+      "definition": {
+        "en": "An individual person who may be dead or alive, but not imaginary."
+      },
+      "label": {
+        "en": "Person"
+      },
+      "extra": {
+        "EA-Name": "Person",
+        "EA-Guid": "{A0ECD6E2-3D19-4928-8FAC-33C504817515}",
+        "EA-Package": "Core Person",
+        "EA-Type": "CLASS",
+        "EA-Parents": "Person",
+        "EA-Parents2": [
+          {
+            "name": "Person",
+            "label": "Person",
+            "package": "foaf",
+            "uri": "http://xmlns.com/foaf/0.1/Person"
+          }
+        ],
+        "parentclasses": "http://xmlns.com/foaf/0.1/Person",
+        "label": {
+          "en": "Person"
+        },
+        "definition": {
+          "en": "An individual person who may be dead or alive, but not imaginary."
+        },
+        "usage": {
+          "en": "The fact that a person in the context of Core Person Vocabulary cannot be imaginary makes person:Person a subclass of both foaf:Person and schema:Person which both cover imaginary characters as well as real people.\n\nThe Person Class is a subclass of the more general 'Agent' class that encompasses organisations, legal entities, groups etc. - any entity that is able to carry out actions."
+        },
+        "ap-label-en": {
+          "en": "Person"
+        },
+        "ap-definition-en": {
+          "en": "An individual person who may be dead or alive, but not imaginary."
+        },
+        "ap-usageNote-en": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://www.w3.org/ns/person#Person",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "An individual person who may be dead or alive, but not imaginary.",
+            "note": "null"
+          },
+          {
+            "key": "usageNote-en",
+            "value": "NOTE",
+            "note": "The fact that a person in the context of Core Person Vocabulary cannot be imaginary makes person:Person a subclass of both foaf:Person and schema:Person which both cover imaginary characters as well as real people.\n\nThe Person Class is a subclass of the more general 'Agent' class that encompasses organisations, legal entities, groups etc. - any entity that is able to carry out actions."
+          },
+          {
+            "key": "label-en",
+            "value": "Person",
+            "note": "null"
+          }
+        ],
+        "Scope": "TRANSLATIONS_ONLY"
+      },
+      "name": "Person"
+    },
+    {
+      "@id": "http://xmlns.com/foaf/0.1/Person",
+      "@type": "http://www.w3.org/2002/07/owl#Class",
+      "inpackage": "OTHER_PACKAGE",
+      "ap-definition-en": {
+        "en": "A person that is alive, dead, real, or imaginary."
+      },
+      "ap-label-en": {
+        "en": "Person"
+      },
+      "definition": {
+        "en": "A person that is alive, dead, real, or imaginary."
+      },
+      "label": {
+        "en": "Person"
+      },
+      "extra": {
+        "EA-Name": "Person",
+        "EA-Guid": "{D862BFE3-8B9A-4715-96CD-14BE188AFF56}",
+        "EA-Package": "foaf",
+        "EA-Type": "CLASS",
+        "EA-Parents": "",
+        "EA-Parents2": [],
+        "parentclasses": "",
+        "label": {
+          "en": "Person"
+        },
+        "definition": {
+          "en": "A person that is alive, dead, real, or imaginary."
+        },
+        "usage": "",
+        "ap-label-en": {
+          "en": "Person"
+        },
+        "ap-definition-en": {
+          "en": "A person that is alive, dead, real, or imaginary."
+        },
+        "ap-usageNote-en": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "label-en",
+            "value": "Person",
+            "note": "null"
+          },
+          {
+            "key": "uri",
+            "value": "http://xmlns.com/foaf/0.1/Person",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "A person that is alive, dead, real, or imaginary.",
+            "note": "null"
+          }
+        ],
+        "Scope": "NOTHING"
+      },
+      "name": "Person"
+    }
+  ],
+  "externalproperties": [
+    {
+      "@id": "NOTE",
+      "@type": "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "name": "place of birth",
+      "inpackage": "ACTIVE_PACKAGE",
+      "ap-definition-en": {
+        "en": "The Location where the Person was born."
+      },
+      "usage": {
+        "en": "When geographic identifiers are used, the associated country of birth property is unnecessary. When geographic names are used, however, it is recommended to also provide the country of birth property as there might be some disambiguity, e.g. Paris in France or Paris in Texas, USA."
+      },
+      "ap-label-en": {
+        "en": "place of birth"
+      },
+      "definition": {
+        "en": "The Location where the Person was born."
+      },
+      "label": {
+        "en": "place of birth"
+      },
+      "extra": {
+        "EA-Name": "placeOfBirth",
+        "EA-Guid": "{27689A5A-510A-4f2b-9384-F6EE5C04AE07}",
+        "derived": "false",
+        "EA-Package": "",
+        "EA-Type": "connector",
+        "EA-Domain": "Person",
+        "EA-Domain-Guid": "{A0ECD6E2-3D19-4928-8FAC-33C504817515}",
+        "EA-Range": "Location",
+        "RangeData": {
+          "EA-Name": "Location",
+          "EA-GUID": "{C893D9C5-F21F-401b-A896-22D5EB56D6A7}",
+          "EA-Package": "dct",
+          "uri": "http://purl.org/dc/terms/Location"
+        },
+        "sourceRole": "null",
+        "destRole": "placeOfBirth",
+        "label": {
+          "en": "place of birth"
+        },
+        "definition": {
+          "en": "The Location where the Person was born."
+        },
+        "usage": {
+          "en": "When geographic identifiers are used, the associated country of birth property is unnecessary. When geographic names are used, however, it is recommended to also provide the country of birth property as there might be some disambiguity, e.g. Paris in France or Paris in Texas, USA."
+        },
+        "ap-label-en": {
+          "en": "place of birth"
+        },
+        "ap-definition-en": {
+          "en": "The Location where the Person was born."
+        },
+        "ap-usageNote-en": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "NOTE",
+            "note": "NOTE"
+          },
+          {
+            "key": "package",
+            "value": "NOTE",
+            "note": "Core Person"
+          },
+          {
+            "key": "usageNote-en",
+            "value": "NOTE",
+            "note": "NOTE$ea_notes=When geographic identifiers are used, the associated country of birth property is unnecessary. When geographic names are used, however, it is recommended to also provide the country of birth property as there might be some disambiguity, e.g. Paris in France or Paris in Texas, USA."
+          },
+          {
+            "key": "definition-en",
+            "value": "NOTE",
+            "note": "The Location where the Person was born."
+          },
+          {
+            "key": "label-en",
+            "value": "NOTE",
+            "note": "place of birth"
+          }
+        ],
+        "DestRoleTags": [
+          {
+            "key": "uri",
+            "value": "NOTE",
+            "note": "NOTE"
+          },
+          {
+            "key": "package",
+            "value": "NOTE",
+            "note": "Core Person"
+          },
+          {
+            "key": "usageNote-en",
+            "value": "NOTE",
+            "note": "NOTE$ea_notes=When geographic identifiers are used, the associated country of birth property is unnecessary. When geographic names are used, however, it is recommended to also provide the country of birth property as there might be some disambiguity, e.g. Paris in France or Paris in Texas, USA."
+          },
+          {
+            "key": "definition-en",
+            "value": "NOTE",
+            "note": "The Location where the Person was born."
+          },
+          {
+            "key": "label-en",
+            "value": "NOTE",
+            "note": "place of birth"
+          }
+        ],
+        "Scope": "TRANSLATIONS_ONLY"
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/person#Person",
+          "EA-Name": "Person"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "Location",
+          "EA-GUID": "{C893D9C5-F21F-401b-A896-22D5EB56D6A7}",
+          "EA-Package": "dct",
+          "uri": "http://purl.org/dc/terms/Location"
+        }
+      ],
+      "generalization": []
+    },
+    {
+      "@id": "http://purl.org/dc/terms/alternative",
+      "@type": "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "name": "alternative name",
+      "inpackage": "OTHER_PACKAGE",
+      "ap-definition-en": {
+        "en": "Any name by which an individual is known other than their full name."
+      },
+      "usage": {
+        "en": "Many individuals use a short form of their name, a 'middle' name as a 'first' name or a professional name. For example, the British politician and former UN High Representative for Bosnia and Herzegovina, Jeremy John Durham Ashdown, Baron Ashdown of Norton-sub-Hamdon, is usually referred to simply as 'Paddy Ashdown' or 'Lord Ashdown.' \nIt is not the role of the alternative name property to record nick names, pet names or other 'familiar names' that will be of no consequence in public sector data exchange.\nFurthermore, some individuals have more than one legal name in which case the full name property should be used multiple times. \nAlternative name gives a means of recording names by which an individual is generally known, or professionally known, even though such names are no more than secondary from a legal point of view."
+      },
+      "ap-label-en": {
+        "en": "alternative name"
+      },
+      "definition": {
+        "en": "Any name by which an individual is known other than their full name."
+      },
+      "label": {
+        "en": "alternative name"
+      },
+      "extra": {
+        "EA-Name": "alternativeName",
+        "EA-Guid": "{66096EA6-6E71-4645-B320-B2CA36192ACE}",
+        "EA-Package": "Core Person",
+        "EA-Type": "attribute",
+        "EA-Domain": "Person",
+        "EA-Domain-Guid": "{A0ECD6E2-3D19-4928-8FAC-33C504817515}",
+        "EA-Range": "Text",
+        "RangeData": {
+          "EA-Name": "Text",
+          "EA-GUID": "{01DDF84E-BA04-467c-B657-9A8877C293F9}",
+          "EA-Package": "Core Vocabulary",
+          "uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+        },
+        "label": {
+          "en": "alternative name"
+        },
+        "definition": {
+          "en": "Any name by which an individual is known other than their full name."
+        },
+        "usage": {
+          "en": "Many individuals use a short form of their name, a 'middle' name as a 'first' name or a professional name. For example, the British politician and former UN High Representative for Bosnia and Herzegovina, Jeremy John Durham Ashdown, Baron Ashdown of Norton-sub-Hamdon, is usually referred to simply as 'Paddy Ashdown' or 'Lord Ashdown.' \nIt is not the role of the alternative name property to record nick names, pet names or other 'familiar names' that will be of no consequence in public sector data exchange.\nFurthermore, some individuals have more than one legal name in which case the full name property should be used multiple times. \nAlternative name gives a means of recording names by which an individual is generally known, or professionally known, even though such names are no more than secondary from a legal point of view."
+        },
+        "ap-label-en": {
+          "en": "alternative name"
+        },
+        "ap-definition-en": {
+          "en": "Any name by which an individual is known other than their full name."
+        },
+        "ap-usageNote-en": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://purl.org/dc/terms/alternative",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "Any name by which an individual is known other than their full name.",
+            "note": "null"
+          },
+          {
+            "key": "usageNote-en",
+            "value": "NOTE",
+            "note": "Many individuals use a short form of their name, a 'middle' name as a 'first' name or a professional name. For example, the British politician and former UN High Representative for Bosnia and Herzegovina, Jeremy John Durham Ashdown, Baron Ashdown of Norton-sub-Hamdon, is usually referred to simply as 'Paddy Ashdown' or 'Lord Ashdown.' \nIt is not the role of the alternative name property to record nick names, pet names or other 'familiar names' that will be of no consequence in public sector data exchange.\nFurthermore, some individuals have more than one legal name in which case the full name property should be used multiple times. \nAlternative name gives a means of recording names by which an individual is generally known, or professionally known, even though such names are no more than secondary from a legal point of view."
+          },
+          {
+            "key": "label-en",
+            "value": "alternative name",
+            "note": "null"
+          }
+        ],
+        "Scope": "TRANSLATIONS_ONLY"
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/person#Person",
+          "EA-Name": "Person"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "Text",
+          "EA-GUID": "{01DDF84E-BA04-467c-B657-9A8877C293F9}",
+          "EA-Package": "Core Vocabulary",
+          "uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+        }
+      ],
+      "generalization": [],
+      "minCardinality": "1",
+      "maxCardinality": "1"
+    },
+    {
+      "@id": "http://purl.org/dc/terms/citizenship",
+      "@type": "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "name": "citizenship",
+      "inpackage": "ACTIVE_PACKAGE",
+      "ap-definition-en": {
+        "en": "The citizenship relationship links a Person to a Jurisdiction that has conferred citizenship rights on the individual such as the right to vote, to receive certain protection from the community or the issuance of a passport."
+      },
+      "usage": {
+        "en": "Citizenship is information needed by many cross-border use cases and is a legal status as opposed to the more culturally-focussed and less well-defined term \"nationality\". A Person has one, multiple or even no citizenship status. Multiple citizenships are recorded as multiple instances of the citizenship relationship."
+      },
+      "ap-label-en": {
+        "en": "citizenship"
+      },
+      "definition": {
+        "en": "The citizenship relationship links a Person to a Jurisdiction that has conferred citizenship rights on the individual such as the right to vote, to receive certain protection from the community or the issuance of a passport."
+      },
+      "label": {
+        "en": "citizenship"
+      },
+      "extra": {
+        "EA-Name": "citizenship",
+        "EA-Guid": "{0ACB7958-D4C3-4cee-AE1C-AFD35C31074B}",
+        "derived": "false",
+        "EA-Package": "",
+        "EA-Type": "connector",
+        "EA-Domain": "Person",
+        "EA-Domain-Guid": "{A0ECD6E2-3D19-4928-8FAC-33C504817515}",
+        "EA-Range": "Jurisdiction",
+        "RangeData": {
+          "EA-Name": "Jurisdiction",
+          "EA-GUID": "{1F35C0ED-487E-44cf-B155-FAA631266668}",
+          "EA-Package": "dct",
+          "uri": "http://purl.org/dc/terms/Jurisdiction"
+        },
+        "sourceRole": "null",
+        "destRole": "citizenship",
+        "label": {
+          "en": "citizenship"
+        },
+        "definition": {
+          "en": "The citizenship relationship links a Person to a Jurisdiction that has conferred citizenship rights on the individual such as the right to vote, to receive certain protection from the community or the issuance of a passport."
+        },
+        "usage": {
+          "en": "Citizenship is information needed by many cross-border use cases and is a legal status as opposed to the more culturally-focussed and less well-defined term \"nationality\". A Person has one, multiple or even no citizenship status. Multiple citizenships are recorded as multiple instances of the citizenship relationship."
+        },
+        "ap-label-en": {
+          "en": "citizenship"
+        },
+        "ap-definition-en": {
+          "en": "The citizenship relationship links a Person to a Jurisdiction that has conferred citizenship rights on the individual such as the right to vote, to receive certain protection from the community or the issuance of a passport."
+        },
+        "ap-usageNote-en": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "NOTE",
+            "note": "http://purl.org/dc/terms/citizenship"
+          },
+          {
+            "key": "definition-en",
+            "value": "NOTE",
+            "note": "The citizenship relationship links a Person to a Jurisdiction that has conferred citizenship rights on the individual such as the right to vote, to receive certain protection from the community or the issuance of a passport."
+          },
+          {
+            "key": "usageNote-en",
+            "value": "NOTE",
+            "note": "NOTE$ea_notes=Citizenship is information needed by many cross-border use cases and is a legal status as opposed to the more culturally-focussed and less well-defined term \"nationality\". A Person has one, multiple or even no citizenship status. Multiple citizenships are recorded as multiple instances of the citizenship relationship."
+          },
+          {
+            "key": "package",
+            "value": "NOTE",
+            "note": "Core Person"
+          },
+          {
+            "key": "label-en",
+            "value": "NOTE",
+            "note": "citizenship"
+          }
+        ],
+        "DestRoleTags": [
+          {
+            "key": "uri",
+            "value": "NOTE",
+            "note": "http://purl.org/dc/terms/citizenship"
+          },
+          {
+            "key": "definition-en",
+            "value": "NOTE",
+            "note": "The citizenship relationship links a Person to a Jurisdiction that has conferred citizenship rights on the individual such as the right to vote, to receive certain protection from the community or the issuance of a passport."
+          },
+          {
+            "key": "usageNote-en",
+            "value": "NOTE",
+            "note": "NOTE$ea_notes=Citizenship is information needed by many cross-border use cases and is a legal status as opposed to the more culturally-focussed and less well-defined term \"nationality\". A Person has one, multiple or even no citizenship status. Multiple citizenships are recorded as multiple instances of the citizenship relationship."
+          },
+          {
+            "key": "package",
+            "value": "NOTE",
+            "note": "Core Person"
+          },
+          {
+            "key": "label-en",
+            "value": "NOTE",
+            "note": "citizenship"
+          }
+        ],
+        "Scope": "TRANSLATIONS_ONLY"
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/person#Person",
+          "EA-Name": "Person"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "Jurisdiction",
+          "EA-GUID": "{1F35C0ED-487E-44cf-B155-FAA631266668}",
+          "EA-Package": "dct",
+          "uri": "http://purl.org/dc/terms/Jurisdiction"
+        }
+      ],
+      "generalization": []
+    },
+    {
+      "@id": "http://purl.org/dc/terms/conformsTo",
+      "@type": "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "name": "scheme name",
+      "inpackage": "OTHER_PACKAGE",
+      "ap-definition-en": {
+        "en": "Name of the scheme used to construct the identifier."
+      },
+      "ap-label-en": {
+        "en": "scheme name"
+      },
+      "definition": {
+        "en": "Name of the scheme used to construct the identifier."
+      },
+      "label": {
+        "en": "scheme name"
+      },
+      "extra": {
+        "EA-Name": "schemeName",
+        "EA-Guid": "{F9250A30-C64A-4cf8-B6E9-A15F1441C964}",
+        "EA-Package": "adms",
+        "EA-Type": "attribute",
+        "EA-Domain": "Identifier",
+        "EA-Domain-Guid": "{4252FD49-50E1-4fa8-AE37-1FE59010D3AB}",
+        "EA-Range": "Text",
+        "RangeData": {
+          "EA-Name": "Text",
+          "EA-GUID": "{01DDF84E-BA04-467c-B657-9A8877C293F9}",
+          "EA-Package": "Core Vocabulary",
+          "uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+        },
+        "label": {
+          "en": "scheme name"
+        },
+        "definition": {
+          "en": "Name of the scheme used to construct the identifier."
+        },
+        "usage": "",
+        "ap-label-en": {
+          "en": "scheme name"
+        },
+        "ap-definition-en": {
+          "en": "Name of the scheme used to construct the identifier."
+        },
+        "ap-usageNote-en": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://purl.org/dc/terms/conformsTo",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "scheme name",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "Name of the scheme used to construct the identifier.",
+            "note": "null"
+          }
+        ],
+        "Scope": "NOTHING"
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/adms#Identifier",
+          "EA-Name": "Identifier"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "Text",
+          "EA-GUID": "{01DDF84E-BA04-467c-B657-9A8877C293F9}",
+          "EA-Package": "Core Vocabulary",
+          "uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+        }
+      ],
+      "generalization": [],
+      "minCardinality": "1",
+      "maxCardinality": "1"
+    },
+    {
+      "@id": "http://purl.org/dc/terms/conformsTo",
+      "@type": "http://www.w3.org/2002/07/owl#DatatypeProperty",
+      "name": "scheme URI",
+      "inpackage": "OTHER_PACKAGE",
+      "ap-definition-en": {
+        "en": "URI of the scheme used to construct the identifier."
+      },
+      "ap-label-en": {
+        "en": "scheme URI"
+      },
+      "definition": {
+        "en": "URI of the scheme used to construct the identifier."
+      },
+      "label": {
+        "en": "scheme URI"
+      },
+      "extra": {
+        "EA-Name": "schemeURI",
+        "EA-Guid": "{A145710E-6B8F-4a53-B0F3-3AB50C244C08}",
+        "EA-Package": "adms",
+        "EA-Type": "attribute",
+        "EA-Domain": "Identifier",
+        "EA-Domain-Guid": "{4252FD49-50E1-4fa8-AE37-1FE59010D3AB}",
+        "EA-Range": "URI",
+        "RangeData": {
+          "EA-Name": "URI",
+          "EA-Package": "",
+          "uri": "http://www.w3.org/2001/XMLSchema#anyURI"
+        },
+        "label": {
+          "en": "scheme URI"
+        },
+        "definition": {
+          "en": "URI of the scheme used to construct the identifier."
+        },
+        "usage": "",
+        "ap-label-en": {
+          "en": "scheme URI"
+        },
+        "ap-definition-en": {
+          "en": "URI of the scheme used to construct the identifier."
+        },
+        "ap-usageNote-en": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "definition-en",
+            "value": "URI of the scheme used to construct the identifier.",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "scheme URI",
+            "note": "null"
+          },
+          {
+            "key": "uri",
+            "value": "http://purl.org/dc/terms/conformsTo",
+            "note": "null"
+          }
+        ],
+        "Scope": "NOTHING"
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/adms#Identifier",
+          "EA-Name": "Identifier"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "URI",
+          "EA-Package": "",
+          "uri": "http://www.w3.org/2001/XMLSchema#anyURI"
+        }
+      ],
+      "generalization": [],
+      "minCardinality": "1",
+      "maxCardinality": "1"
+    },
+    {
+      "@id": "http://purl.org/dc/terms/creator",
+      "@type": "http://www.w3.org/2002/07/owl#DatatypeProperty",
+      "name": "issuing authority URI",
+      "inpackage": "OTHER_PACKAGE",
+      "ap-definition-en": {
+        "en": "The URI of the issuing authority."
+      },
+      "usage": {
+        "en": "Example: <https://belgium.be/id/organizations/1233>."
+      },
+      "ap-label-en": {
+        "en": "issuing authority URI"
+      },
+      "definition": {
+        "en": "The URI of the issuing authority."
+      },
+      "label": {
+        "en": "issuing authority URI"
+      },
+      "extra": {
+        "EA-Name": "issuingAuthorityURI",
+        "EA-Guid": "{C2B744EF-A0CC-4489-8270-82FFED3EDAE9}",
+        "EA-Package": "adms",
+        "EA-Type": "attribute",
+        "EA-Domain": "Identifier",
+        "EA-Domain-Guid": "{4252FD49-50E1-4fa8-AE37-1FE59010D3AB}",
+        "EA-Range": "URI",
+        "RangeData": {
+          "EA-Name": "URI",
+          "EA-Package": "",
+          "uri": "http://www.w3.org/2001/XMLSchema#anyURI"
+        },
+        "label": {
+          "en": "issuing authority URI"
+        },
+        "definition": {
+          "en": "The URI of the issuing authority."
+        },
+        "usage": {
+          "en": "Example: <https://belgium.be/id/organizations/1233>."
+        },
+        "ap-label-en": {
+          "en": "issuing authority URI"
+        },
+        "ap-definition-en": {
+          "en": "The URI of the issuing authority."
+        },
+        "ap-usageNote-en": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "label-en",
+            "value": "issuing authority URI",
+            "note": "null"
+          },
+          {
+            "key": "uri",
+            "value": "http://purl.org/dc/terms/creator",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "The URI of the issuing authority.",
+            "note": "null"
+          },
+          {
+            "key": "usageNote-en",
+            "value": "Example: <https://belgium.be/id/organizations/1233>.",
+            "note": "null"
+          }
+        ],
+        "Scope": "NOTHING"
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/adms#Identifier",
+          "EA-Name": "Identifier"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "URI",
+          "EA-Package": "",
+          "uri": "http://www.w3.org/2001/XMLSchema#anyURI"
+        }
+      ],
+      "generalization": [],
+      "minCardinality": "1",
+      "maxCardinality": "1"
+    },
+    {
+      "@id": "http://purl.org/dc/terms/identifier",
+      "@type": "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "name": "identifier",
+      "inpackage": "ACTIVE_PACKAGE",
+      "ap-definition-en": {
+        "en": "An Identifier for the Person."
+      },
+      "usage": {
+        "en": "Examples include a national identification number, a student ID, national fiscal number, etc. We also refer to <a href=\"http://data.europa.eu/eli/reg/2014/910/oj\">the eIDAS regulation</a> on \"electronic identification and trust services\" and its <a href=\"https://ec.europa.eu/cefdigital/wiki/download/attachments/82773108/eIDAS%20SAML%20Attribute%20Profile%20v1.1_2.pdf?version=3&modificationDate=1528362598014&api=v2\">mapping</a> to the Core Person Vocabulary."
+      },
+      "ap-label-en": {
+        "en": "identifier"
+      },
+      "definition": {
+        "en": "An Identifier for the Person."
+      },
+      "label": {
+        "en": "identifier"
+      },
+      "extra": {
+        "EA-Name": "identifier",
+        "EA-Guid": "{65D836C7-63CE-4888-B742-5B14EC72C697}",
+        "derived": "false",
+        "EA-Package": "",
+        "EA-Type": "connector",
+        "EA-Domain": "Person",
+        "EA-Domain-Guid": "{A0ECD6E2-3D19-4928-8FAC-33C504817515}",
+        "EA-Range": "Identifier",
+        "RangeData": {
+          "EA-Name": "Identifier",
+          "EA-GUID": "{4252FD49-50E1-4fa8-AE37-1FE59010D3AB}",
+          "EA-Package": "adms",
+          "uri": "http://www.w3.org/ns/adms#Identifier"
+        },
+        "sourceRole": "null",
+        "destRole": "identifier",
+        "label": {
+          "en": "identifier"
+        },
+        "definition": {
+          "en": "An Identifier for the Person."
+        },
+        "usage": {
+          "en": "Examples include a national identification number, a student ID, national fiscal number, etc. We also refer to <a href=\"http://data.europa.eu/eli/reg/2014/910/oj\">the eIDAS regulation</a> on \"electronic identification and trust services\" and its <a href=\"https://ec.europa.eu/cefdigital/wiki/download/attachments/82773108/eIDAS%20SAML%20Attribute%20Profile%20v1.1_2.pdf?version=3&modificationDate=1528362598014&api=v2\">mapping</a> to the Core Person Vocabulary."
+        },
+        "ap-label-en": {
+          "en": "identifier"
+        },
+        "ap-definition-en": {
+          "en": "An Identifier for the Person."
+        },
+        "ap-usageNote-en": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "definition-en",
+            "value": "NOTE",
+            "note": "An Identifier for the Person."
+          },
+          {
+            "key": "label-en",
+            "value": "NOTE",
+            "note": "identifier"
+          },
+          {
+            "key": "usageNote-en",
+            "value": "NOTE",
+            "note": "NOTE$ea_notes=Examples include a national identification number, a student ID, national fiscal number, etc. We also refer to <a href=\"http://data.europa.eu/eli/reg/2014/910/oj\">the eIDAS regulation</a> on \"electronic identification and trust services\" and its <a href=\"https://ec.europa.eu/cefdigital/wiki/download/attachments/82773108/eIDAS%20SAML%20Attribute%20Profile%20v1.1_2.pdf?version=3&modificationDate=1528362598014&api=v2\">mapping</a> to the Core Person Vocabulary."
+          },
+          {
+            "key": "package",
+            "value": "NOTE",
+            "note": "Core Person"
+          },
+          {
+            "key": "uri",
+            "value": "NOTE",
+            "note": "http://purl.org/dc/terms/identifier"
+          }
+        ],
+        "DestRoleTags": [
+          {
+            "key": "definition-en",
+            "value": "NOTE",
+            "note": "An Identifier for the Person."
+          },
+          {
+            "key": "label-en",
+            "value": "NOTE",
+            "note": "identifier"
+          },
+          {
+            "key": "usageNote-en",
+            "value": "NOTE",
+            "note": "NOTE$ea_notes=Examples include a national identification number, a student ID, national fiscal number, etc. We also refer to <a href=\"http://data.europa.eu/eli/reg/2014/910/oj\">the eIDAS regulation</a> on \"electronic identification and trust services\" and its <a href=\"https://ec.europa.eu/cefdigital/wiki/download/attachments/82773108/eIDAS%20SAML%20Attribute%20Profile%20v1.1_2.pdf?version=3&modificationDate=1528362598014&api=v2\">mapping</a> to the Core Person Vocabulary."
+          },
+          {
+            "key": "package",
+            "value": "NOTE",
+            "note": "Core Person"
+          },
+          {
+            "key": "uri",
+            "value": "NOTE",
+            "note": "http://purl.org/dc/terms/identifier"
+          }
+        ],
+        "Scope": "TRANSLATIONS_ONLY"
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/person#Person",
+          "EA-Name": "Person"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "Identifier",
+          "EA-GUID": "{4252FD49-50E1-4fa8-AE37-1FE59010D3AB}",
+          "EA-Package": "adms",
+          "uri": "http://www.w3.org/ns/adms#Identifier"
+        }
+      ],
+      "generalization": []
+    },
+    {
+      "@id": "http://purl.org/dc/terms/identifier",
+      "@type": "http://www.w3.org/2002/07/owl#DatatypeProperty",
+      "name": "id",
+      "inpackage": "OTHER_PACKAGE",
+      "ap-definition-en": {
+        "en": "The value for the id property is a URI for that Jurisdiction."
+      },
+      "ap-label-en": {
+        "en": "id"
+      },
+      "definition": {
+        "en": "The value for the id property is a URI for that Jurisdiction."
+      },
+      "label": {
+        "en": "id"
+      },
+      "extra": {
+        "EA-Name": "id",
+        "EA-Guid": "{21E06F91-BEE4-4ce8-BE8F-2A3D3AC2A367}",
+        "EA-Package": "dct",
+        "EA-Type": "attribute",
+        "EA-Domain": "Jurisdiction",
+        "EA-Domain-Guid": "{1F35C0ED-487E-44cf-B155-FAA631266668}",
+        "EA-Range": "URI",
+        "RangeData": {
+          "EA-Name": "URI",
+          "EA-Package": "",
+          "uri": "http://www.w3.org/2001/XMLSchema#anyURI"
+        },
+        "label": {
+          "en": "id"
+        },
+        "definition": {
+          "en": "The value for the id property is a URI for that Jurisdiction."
+        },
+        "usage": "",
+        "ap-label-en": {
+          "en": "id"
+        },
+        "ap-definition-en": {
+          "en": "The value for the id property is a URI for that Jurisdiction."
+        },
+        "ap-usageNote-en": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "label-en",
+            "value": "id",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "NOTE",
+            "note": "The value for the id property is a URI for that Jurisdiction."
+          },
+          {
+            "key": "uri",
+            "value": "http://purl.org/dc/terms/identifier",
+            "note": "null"
+          }
+        ],
+        "Scope": "NOTHING"
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://purl.org/dc/terms/Jurisdiction",
+          "EA-Name": "Jurisdiction"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "URI",
+          "EA-Package": "",
+          "uri": "http://www.w3.org/2001/XMLSchema#anyURI"
+        }
+      ],
+      "generalization": [],
+      "minCardinality": "1",
+      "maxCardinality": "1"
+    },
+    {
+      "@id": "http://purl.org/dc/terms/issued",
+      "@type": "http://www.w3.org/2002/07/owl#DatatypeProperty",
+      "name": "date of issue",
+      "inpackage": "OTHER_PACKAGE",
+      "ap-definition-en": {
+        "en": "The date on which the Identifier was assigned."
+      },
+      "ap-label-en": {
+        "en": "date of issue"
+      },
+      "definition": {
+        "en": "The date on which the Identifier was assigned."
+      },
+      "label": {
+        "en": "date of issue"
+      },
+      "extra": {
+        "EA-Name": "dateOfIssue",
+        "EA-Guid": "{DF953D05-18CC-40fd-A09C-3ED1D82948E5}",
+        "EA-Package": "adms",
+        "EA-Type": "attribute",
+        "EA-Domain": "Identifier",
+        "EA-Domain-Guid": "{4252FD49-50E1-4fa8-AE37-1FE59010D3AB}",
+        "EA-Range": "DateTime",
+        "RangeData": {
+          "EA-Name": "DateTime",
+          "EA-Package": "",
+          "uri": "http://www.w3.org/2001/XMLSchema#dateTime"
+        },
+        "label": {
+          "en": "date of issue"
+        },
+        "definition": {
+          "en": "The date on which the Identifier was assigned."
+        },
+        "usage": "",
+        "ap-label-en": {
+          "en": "date of issue"
+        },
+        "ap-definition-en": {
+          "en": "The date on which the Identifier was assigned."
+        },
+        "ap-usageNote-en": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "label-en",
+            "value": "date of issue",
+            "note": "null"
+          },
+          {
+            "key": "uri",
+            "value": "http://purl.org/dc/terms/issued",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "The date on which the Identifier was assigned.",
+            "note": "null"
+          }
+        ],
+        "Scope": "NOTHING"
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/adms#Identifier",
+          "EA-Name": "Identifier"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "DateTime",
+          "EA-Package": "",
+          "uri": "http://www.w3.org/2001/XMLSchema#dateTime"
+        }
+      ],
+      "generalization": [],
+      "minCardinality": "1",
+      "maxCardinality": "1"
+    },
+    {
+      "@id": "http://schema.org/birthDate",
+      "@type": "http://www.w3.org/2002/07/owl#DatatypeProperty",
+      "name": "date of birth",
+      "inpackage": "OTHER_PACKAGE",
+      "ap-definition-en": {
+        "en": "The day on which the Person was born."
+      },
+      "ap-label-en": {
+        "en": "date of birth"
+      },
+      "definition": {
+        "en": "The day on which the Person was born."
+      },
+      "label": {
+        "en": "date of birth"
+      },
+      "extra": {
+        "EA-Name": "dateOfBirth",
+        "EA-Guid": "{56AD65A9-282B-41f4-91CB-D4164FF48280}",
+        "EA-Package": "Core Person",
+        "EA-Type": "attribute",
+        "EA-Domain": "Person",
+        "EA-Domain-Guid": "{A0ECD6E2-3D19-4928-8FAC-33C504817515}",
+        "EA-Range": "DateTime",
+        "RangeData": {
+          "EA-Name": "DateTime",
+          "EA-Package": "",
+          "uri": "http://www.w3.org/2001/XMLSchema#dateTime"
+        },
+        "label": {
+          "en": "date of birth"
+        },
+        "definition": {
+          "en": "The day on which the Person was born."
+        },
+        "usage": "",
+        "ap-label-en": {
+          "en": "date of birth"
+        },
+        "ap-definition-en": {
+          "en": "The day on which the Person was born."
+        },
+        "ap-usageNote-en": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://schema.org/birthDate",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "The day on which the Person was born.",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "date of birth",
+            "note": "null"
+          }
+        ],
+        "Scope": "TRANSLATIONS_ONLY"
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/person#Person",
+          "EA-Name": "Person"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "DateTime",
+          "EA-Package": "",
+          "uri": "http://www.w3.org/2001/XMLSchema#dateTime"
+        }
+      ],
+      "generalization": [],
+      "minCardinality": "1",
+      "maxCardinality": "1"
+    },
+    {
+      "@id": "http://schema.org/deathDate",
+      "@type": "http://www.w3.org/2002/07/owl#DatatypeProperty",
+      "name": "date of death",
+      "inpackage": "OTHER_PACKAGE",
+      "ap-definition-en": {
+        "en": "The day on which the Person died."
+      },
+      "ap-label-en": {
+        "en": "date of death"
+      },
+      "definition": {
+        "en": "The day on which the Person died."
+      },
+      "label": {
+        "en": "date of death"
+      },
+      "extra": {
+        "EA-Name": "dateOfDeath",
+        "EA-Guid": "{FB55B6A4-83A7-4f4d-925A-44CD35B2D54E}",
+        "EA-Package": "Core Person",
+        "EA-Type": "attribute",
+        "EA-Domain": "Person",
+        "EA-Domain-Guid": "{A0ECD6E2-3D19-4928-8FAC-33C504817515}",
+        "EA-Range": "DateTime",
+        "RangeData": {
+          "EA-Name": "DateTime",
+          "EA-Package": "",
+          "uri": "http://www.w3.org/2001/XMLSchema#dateTime"
+        },
+        "label": {
+          "en": "date of death"
+        },
+        "definition": {
+          "en": "The day on which the Person died."
+        },
+        "usage": "",
+        "ap-label-en": {
+          "en": "date of death"
+        },
+        "ap-definition-en": {
+          "en": "The day on which the Person died."
+        },
+        "ap-usageNote-en": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://schema.org/deathDate",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "The day on which the Person died.",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "date of death",
+            "note": "null"
+          }
+        ],
+        "Scope": "TRANSLATIONS_ONLY"
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/person#Person",
+          "EA-Name": "Person"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "DateTime",
+          "EA-Package": "",
+          "uri": "http://www.w3.org/2001/XMLSchema#dateTime"
+        }
+      ],
+      "generalization": [],
+      "minCardinality": "1",
+      "maxCardinality": "1"
+    },
+    {
+      "@id": "http://schema.org/gender",
+      "@type": "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "name": "gender",
+      "inpackage": "UNKNOWN",
+      "ap-definition-en": {
+        "en": "Gender of the Person."
+      },
+      "usage": {
+        "en": "The gender of an individual should be recorded using a controlled vocabulary that is appropriate for the specific context. In some cases the chromosomal or physical state of an individual will be more important than the gender that they express, in others the reverse will be true. What is always important is that the controlled vocabulary used to describe an individual's gender is stated explicitly."
+      },
+      "ap-label-en": {
+        "en": "gender"
+      },
+      "definition": {
+        "en": "Gender of the Person."
+      },
+      "label": {
+        "en": "gender"
+      },
+      "extra": {
+        "EA-Name": "gender",
+        "EA-Guid": "{C7FD0696-726D-4ee4-8C16-856E95F4A5C4}",
+        "derived": "false",
+        "EA-Package": "",
+        "EA-Type": "connector",
+        "EA-Domain": "Person",
+        "EA-Domain-Guid": "{A0ECD6E2-3D19-4928-8FAC-33C504817515}",
+        "EA-Range": "Concept",
+        "RangeData": {
+          "EA-Name": "Concept",
+          "EA-GUID": "{E537CD26-90D7-47e6-859F-D083793E1CCB}",
+          "EA-Package": "skos",
+          "uri": "http://www.w3.org/2004/02/skos/core#Concept"
+        },
+        "sourceRole": "null",
+        "destRole": "gender",
+        "label": {
+          "en": "gender"
+        },
+        "definition": {
+          "en": "Gender of the Person."
+        },
+        "usage": {
+          "en": "The gender of an individual should be recorded using a controlled vocabulary that is appropriate for the specific context. In some cases the chromosomal or physical state of an individual will be more important than the gender that they express, in others the reverse will be true. What is always important is that the controlled vocabulary used to describe an individual's gender is stated explicitly."
+        },
+        "ap-label-en": {
+          "en": "gender"
+        },
+        "ap-definition-en": {
+          "en": "Gender of the Person."
+        },
+        "ap-usageNote-en": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "NOTE",
+            "note": "http://schema.org/gender"
+          },
+          {
+            "key": "label-en",
+            "value": "NOTE",
+            "note": "gender"
+          },
+          {
+            "key": "usageNote-en",
+            "value": "NOTE",
+            "note": "NOTE$ea_notes=The gender of an individual should be recorded using a controlled vocabulary that is appropriate for the specific context. In some cases the chromosomal or physical state of an individual will be more important than the gender that they express, in others the reverse will be true. What is always important is that the controlled vocabulary used to describe an individual's gender is stated explicitly."
+          },
+          {
+            "key": "definition-en",
+            "value": "NOTE",
+            "note": "Gender of the Person."
+          }
+        ],
+        "DestRoleTags": [
+          {
+            "key": "uri",
+            "value": "NOTE",
+            "note": "http://schema.org/gender"
+          },
+          {
+            "key": "label-en",
+            "value": "NOTE",
+            "note": "gender"
+          },
+          {
+            "key": "usageNote-en",
+            "value": "NOTE",
+            "note": "NOTE$ea_notes=The gender of an individual should be recorded using a controlled vocabulary that is appropriate for the specific context. In some cases the chromosomal or physical state of an individual will be more important than the gender that they express, in others the reverse will be true. What is always important is that the controlled vocabulary used to describe an individual's gender is stated explicitly."
+          },
+          {
+            "key": "definition-en",
+            "value": "NOTE",
+            "note": "Gender of the Person."
+          }
+        ],
+        "Scope": "NOTHING"
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/person#Person",
+          "EA-Name": "Person"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "Concept",
+          "EA-GUID": "{E537CD26-90D7-47e6-859F-D083793E1CCB}",
+          "EA-Package": "skos",
+          "uri": "http://www.w3.org/2004/02/skos/core#Concept"
+        }
+      ],
+      "generalization": []
+    },
+    {
+      "@id": "http://www.w3.org/2000/01/rdf-schema#label",
+      "@type": "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "name": "name",
+      "inpackage": "OTHER_PACKAGE",
+      "ap-definition-en": {
+        "en": "The name is simply a string that identifies the Jurisdiction, typically a country, with or without a language tag."
+      },
+      "ap-label-en": {
+        "en": "name"
+      },
+      "definition": {
+        "en": "The name is simply a string that identifies the Jurisdiction, typically a country, with or without a language tag."
+      },
+      "label": {
+        "en": "name"
+      },
+      "extra": {
+        "EA-Name": "name",
+        "EA-Guid": "{2396D9EF-E00E-42ad-9F3F-BCD5B7112D5B}",
+        "EA-Package": "dct",
+        "EA-Type": "attribute",
+        "EA-Domain": "Jurisdiction",
+        "EA-Domain-Guid": "{1F35C0ED-487E-44cf-B155-FAA631266668}",
+        "EA-Range": "Text",
+        "RangeData": {
+          "EA-Name": "Text",
+          "EA-GUID": "{01DDF84E-BA04-467c-B657-9A8877C293F9}",
+          "EA-Package": "Core Vocabulary",
+          "uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+        },
+        "label": {
+          "en": "name"
+        },
+        "definition": {
+          "en": "The name is simply a string that identifies the Jurisdiction, typically a country, with or without a language tag."
+        },
+        "usage": "",
+        "ap-label-en": {
+          "en": "name"
+        },
+        "ap-definition-en": {
+          "en": "The name is simply a string that identifies the Jurisdiction, typically a country, with or without a language tag."
+        },
+        "ap-usageNote-en": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://www.w3.org/2000/01/rdf-schema#label",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "name",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "The name is simply a string that identifies the Jurisdiction, typically a country, with or without a language tag.",
+            "note": "null"
+          }
+        ],
+        "Scope": "NOTHING"
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://purl.org/dc/terms/Jurisdiction",
+          "EA-Name": "Jurisdiction"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "Text",
+          "EA-GUID": "{01DDF84E-BA04-467c-B657-9A8877C293F9}",
+          "EA-Package": "Core Vocabulary",
+          "uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+        }
+      ],
+      "generalization": [],
+      "minCardinality": "1",
+      "maxCardinality": "1"
+    },
+    {
+      "@id": "http://www.w3.org/2000/01/rdf-schema#seeAlso",
+      "@type": "http://www.w3.org/2002/07/owl#DatatypeProperty",
+      "name": "geographic identifier",
+      "inpackage": "OTHER_PACKAGE",
+      "ap-definition-en": {
+        "en": "A URI that identifies the Location."
+      },
+      "usage": {
+        "en": "<p>\r\nGeoNames.org provides stable, widely recognised identifiers for more than 10 million geographical names that can be used as links to further information. For example, http://sws.geonames.org/593116/ identifies the Lithuanian capital Vilnius. Unfortunately these URIs cannot easily be automatically deduced since the URI scheme uses simple numeric codes. Finding a GeoNames identifier for a Location is almost always a manual process. Where such identifiers are known or can be found, however, it is recommended that they be used.\r\n</p></br>\r\n\r\n<p>\r\nWhere the Location Class is used to identify a country, if the geonames URI is not known, the recommendation is to use DBpedia URIs of the form http://dbpedia.org/resource/ISO_3166-1:XX where XX is the ISO 3166 two character code for the country.\r\n</p></br>\r\n\r\n<p>\r\nThe EU's Publication Office diverges from ISO 3166-1 and uses EL and UK for Greece and the United Kingdom respectively. DBpedia sticks to\r\nthe ISO codes and so the correct URIs for these countries are:\r\n<ul>\r\n  <li>- http://dbpedia.org/resource/ISO_3166-1:GR</li>\r\n  <li>- http://dbpedia.org/resource/ISO_3166-1:GB</li>\r\n<ul>\r\neven when the geographic name is given as EL or UK.\r\n</p></br>\r\n\r\n<p>\r\nThe use of a URIs has added advantages:\r\n<ul>\r\n  <li>- it can be used by automated systems to look up additional data (linked data);</li>\r\n  <li>- a triple store may store only one copy of the URI, whereas if a string is used, a copy of that string is always stored for each and every person in the database. Thus, in large data sets, the saving on memory capacity and the improvement in transmission efficiency can be substantial.</li>\r\n</ul>\r\n</p>"
+      },
+      "ap-label-en": {
+        "en": "geographic identifier"
+      },
+      "definition": {
+        "en": "A URI that identifies the Location."
+      },
+      "label": {
+        "en": "geographic identifier"
+      },
+      "extra": {
+        "EA-Name": "geographicIdentifier",
+        "EA-Guid": "{18B1572F-CC98-472c-8363-43739E1F52DA}",
+        "EA-Package": "dct",
+        "EA-Type": "attribute",
+        "EA-Domain": "Location",
+        "EA-Domain-Guid": "{C893D9C5-F21F-401b-A896-22D5EB56D6A7}",
+        "EA-Range": "URI",
+        "RangeData": {
+          "EA-Name": "URI",
+          "EA-Package": "",
+          "uri": "http://www.w3.org/2001/XMLSchema#anyURI"
+        },
+        "label": {
+          "en": "geographic identifier"
+        },
+        "definition": {
+          "en": "A URI that identifies the Location."
+        },
+        "usage": {
+          "en": "<p>\r\nGeoNames.org provides stable, widely recognised identifiers for more than 10 million geographical names that can be used as links to further information. For example, http://sws.geonames.org/593116/ identifies the Lithuanian capital Vilnius. Unfortunately these URIs cannot easily be automatically deduced since the URI scheme uses simple numeric codes. Finding a GeoNames identifier for a Location is almost always a manual process. Where such identifiers are known or can be found, however, it is recommended that they be used.\r\n</p></br>\r\n\r\n<p>\r\nWhere the Location Class is used to identify a country, if the geonames URI is not known, the recommendation is to use DBpedia URIs of the form http://dbpedia.org/resource/ISO_3166-1:XX where XX is the ISO 3166 two character code for the country.\r\n</p></br>\r\n\r\n<p>\r\nThe EU's Publication Office diverges from ISO 3166-1 and uses EL and UK for Greece and the United Kingdom respectively. DBpedia sticks to\r\nthe ISO codes and so the correct URIs for these countries are:\r\n<ul>\r\n  <li>- http://dbpedia.org/resource/ISO_3166-1:GR</li>\r\n  <li>- http://dbpedia.org/resource/ISO_3166-1:GB</li>\r\n<ul>\r\neven when the geographic name is given as EL or UK.\r\n</p></br>\r\n\r\n<p>\r\nThe use of a URIs has added advantages:\r\n<ul>\r\n  <li>- it can be used by automated systems to look up additional data (linked data);</li>\r\n  <li>- a triple store may store only one copy of the URI, whereas if a string is used, a copy of that string is always stored for each and every person in the database. Thus, in large data sets, the saving on memory capacity and the improvement in transmission efficiency can be substantial.</li>\r\n</ul>\r\n</p>"
+        },
+        "ap-label-en": {
+          "en": "geographic identifier"
+        },
+        "ap-definition-en": {
+          "en": "A URI that identifies the Location."
+        },
+        "ap-usageNote-en": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://www.w3.org/2000/01/rdf-schema#seeAlso",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "geographic identifier",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "A URI that identifies the Location.",
+            "note": "null"
+          },
+          {
+            "key": "usageNote-en",
+            "value": "NOTE",
+            "note": "<p>\r\nGeoNames.org provides stable, widely recognised identifiers for more than 10 million geographical names that can be used as links to further information. For example, http://sws.geonames.org/593116/ identifies the Lithuanian capital Vilnius. Unfortunately these URIs cannot easily be automatically deduced since the URI scheme uses simple numeric codes. Finding a GeoNames identifier for a Location is almost always a manual process. Where such identifiers are known or can be found, however, it is recommended that they be used.\r\n</p></br>\r\n\r\n<p>\r\nWhere the Location Class is used to identify a country, if the geonames URI is not known, the recommendation is to use DBpedia URIs of the form http://dbpedia.org/resource/ISO_3166-1:XX where XX is the ISO 3166 two character code for the country.\r\n</p></br>\r\n\r\n<p>\r\nThe EU's Publication Office diverges from ISO 3166-1 and uses EL and UK for Greece and the United Kingdom respectively. DBpedia sticks to\r\nthe ISO codes and so the correct URIs for these countries are:\r\n<ul>\r\n  <li>- http://dbpedia.org/resource/ISO_3166-1:GR</li>\r\n  <li>- http://dbpedia.org/resource/ISO_3166-1:GB</li>\r\n<ul>\r\neven when the geographic name is given as EL or UK.\r\n</p></br>\r\n\r\n<p>\r\nThe use of a URIs has added advantages:\r\n<ul>\r\n  <li>- it can be used by automated systems to look up additional data (linked data);</li>\r\n  <li>- a triple store may store only one copy of the URI, whereas if a string is used, a copy of that string is always stored for each and every person in the database. Thus, in large data sets, the saving on memory capacity and the improvement in transmission efficiency can be substantial.</li>\r\n</ul>\r\n</p>"
+          }
+        ],
+        "Scope": "NOTHING"
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://purl.org/dc/terms/Location",
+          "EA-Name": "Location"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "URI",
+          "EA-Package": "",
+          "uri": "http://www.w3.org/2001/XMLSchema#anyURI"
+        }
+      ],
+      "generalization": [],
+      "minCardinality": "1",
+      "maxCardinality": "1"
+    },
+    {
+      "@id": "http://www.w3.org/2004/02/skos/core#notation",
+      "@type": "http://www.w3.org/2002/07/owl#DatatypeProperty",
+      "name": "identifier",
+      "inpackage": "OTHER_PACKAGE",
+      "ap-definition-en": {
+        "en": "The value of this property is the Identifier itself."
+      },
+      "usage": {
+        "en": "Example: \"abc-12345-de\"^^&lt;https://belgium.be/scheme/nationalIDnumber&gt;."
+      },
+      "ap-label-en": {
+        "en": "identifier"
+      },
+      "definition": {
+        "en": "The value of this property is the Identifier itself."
+      },
+      "label": {
+        "en": "identifier"
+      },
+      "extra": {
+        "EA-Name": "identifier",
+        "EA-Guid": "{1387E307-13D3-40fd-B618-26538B4FF177}",
+        "EA-Package": "adms",
+        "EA-Type": "attribute",
+        "EA-Domain": "Identifier",
+        "EA-Domain-Guid": "{4252FD49-50E1-4fa8-AE37-1FE59010D3AB}",
+        "EA-Range": "Literal",
+        "RangeData": {
+          "EA-Name": "Literal",
+          "EA-Package": "",
+          "uri": "http://www.w3.org/2000/01/rdf-schema#Literal"
+        },
+        "label": {
+          "en": "identifier"
+        },
+        "definition": {
+          "en": "The value of this property is the Identifier itself."
+        },
+        "usage": {
+          "en": "Example: \"abc-12345-de\"^^&lt;https://belgium.be/scheme/nationalIDnumber&gt;."
+        },
+        "ap-label-en": {
+          "en": "identifier"
+        },
+        "ap-definition-en": {
+          "en": "The value of this property is the Identifier itself."
+        },
+        "ap-usageNote-en": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://www.w3.org/2004/02/skos/core#notation",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "identifier",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "The value of this property is the Identifier itself.",
+            "note": "null"
+          },
+          {
+            "key": "usageNote-en",
+            "value": "NOTE",
+            "note": "Example: \"abc-12345-de\"^^&lt;https://belgium.be/scheme/nationalIDnumber&gt;."
+          }
+        ],
+        "Scope": "NOTHING"
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/adms#Identifier",
+          "EA-Name": "Identifier"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "Literal",
+          "EA-Package": "",
+          "uri": "http://www.w3.org/2000/01/rdf-schema#Literal"
+        }
+      ],
+      "generalization": [],
+      "minCardinality": "1",
+      "maxCardinality": "1"
+    },
+    {
+      "@id": "http://www.w3.org/ns/adms#identifies",
+      "@type": "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "name": "identifies",
+      "inpackage": "UNKNOWN",
+      "ap-definition-en": {
+        "en": "The identifies relationship links an Identifier class to the resource it identifies."
+      },
+      "ap-label-en": {
+        "en": "identifies"
+      },
+      "definition": {
+        "en": "The identifies relationship links an Identifier class to the resource it identifies."
+      },
+      "label": {
+        "en": "identifies"
+      },
+      "extra": {
+        "EA-Name": "identifies",
+        "EA-Guid": "{F1960C10-04AE-4f8a-89EE-1ED9424B37E0}",
+        "derived": "false",
+        "EA-Package": "",
+        "EA-Type": "connector",
+        "EA-Domain": "Identifier",
+        "EA-Domain-Guid": "{4252FD49-50E1-4fa8-AE37-1FE59010D3AB}",
+        "EA-Range": "Person",
+        "RangeData": {
+          "EA-Name": "Person",
+          "EA-GUID": "{A0ECD6E2-3D19-4928-8FAC-33C504817515}",
+          "EA-Package": "Core Person",
+          "uri": "http://www.w3.org/ns/person#Person"
+        },
+        "sourceRole": "null",
+        "destRole": "identifies",
+        "label": {
+          "en": "identifies"
+        },
+        "definition": {
+          "en": "The identifies relationship links an Identifier class to the resource it identifies."
+        },
+        "usage": "",
+        "ap-label-en": {
+          "en": "identifies"
+        },
+        "ap-definition-en": {
+          "en": "The identifies relationship links an Identifier class to the resource it identifies."
+        },
+        "ap-usageNote-en": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "definition-en",
+            "value": "NOTE",
+            "note": "The identifies relationship links an Identifier class to the resource it identifies."
+          },
+          {
+            "key": "uri",
+            "value": "NOTE",
+            "note": "http://www.w3.org/ns/adms#identifies"
+          },
+          {
+            "key": "label-en",
+            "value": "NOTE",
+            "note": "identifies"
+          }
+        ],
+        "DestRoleTags": [
+          {
+            "key": "definition-en",
+            "value": "NOTE",
+            "note": "The identifies relationship links an Identifier class to the resource it identifies."
+          },
+          {
+            "key": "uri",
+            "value": "NOTE",
+            "note": "http://www.w3.org/ns/adms#identifies"
+          },
+          {
+            "key": "label-en",
+            "value": "NOTE",
+            "note": "identifies"
+          }
+        ],
+        "Scope": "NOTHING"
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/adms#Identifier",
+          "EA-Name": "Identifier"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "Person",
+          "EA-GUID": "{A0ECD6E2-3D19-4928-8FAC-33C504817515}",
+          "EA-Package": "Core Person",
+          "uri": "http://www.w3.org/ns/person#Person"
+        }
+      ],
+      "generalization": []
+    },
+    {
+      "@id": "http://www.w3.org/ns/adms#schemeAgency",
+      "@type": "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "name": "issuing authority name",
+      "inpackage": "OTHER_PACKAGE",
+      "ap-definition-en": {
+        "en": "The name of the agency responsible for issuing the Identifier."
+      },
+      "usage": {
+        "en": "Example: \"Federal Public Service Interior\"@en."
+      },
+      "ap-label-en": {
+        "en": "issuing authority name"
+      },
+      "definition": {
+        "en": "The name of the agency responsible for issuing the Identifier."
+      },
+      "label": {
+        "en": "issuing authority name"
+      },
+      "extra": {
+        "EA-Name": "issuingAuthorityName",
+        "EA-Guid": "{898C9352-2AE7-446e-9F20-26A8DBD97C02}",
+        "EA-Package": "adms",
+        "EA-Type": "attribute",
+        "EA-Domain": "Identifier",
+        "EA-Domain-Guid": "{4252FD49-50E1-4fa8-AE37-1FE59010D3AB}",
+        "EA-Range": "Text",
+        "RangeData": {
+          "EA-Name": "Text",
+          "EA-GUID": "{01DDF84E-BA04-467c-B657-9A8877C293F9}",
+          "EA-Package": "Core Vocabulary",
+          "uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+        },
+        "label": {
+          "en": "issuing authority name"
+        },
+        "definition": {
+          "en": "The name of the agency responsible for issuing the Identifier."
+        },
+        "usage": {
+          "en": "Example: \"Federal Public Service Interior\"@en."
+        },
+        "ap-label-en": {
+          "en": "issuing authority name"
+        },
+        "ap-definition-en": {
+          "en": "The name of the agency responsible for issuing the Identifier."
+        },
+        "ap-usageNote-en": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "label-en",
+            "value": "issuing authority name",
+            "note": "null"
+          },
+          {
+            "key": "uri",
+            "value": "http://www.w3.org/ns/adms#schemeAgency",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "The name of the agency responsible for issuing the Identifier.",
+            "note": "null"
+          },
+          {
+            "key": "usageNote-en",
+            "value": "Example: \"Federal Public Service Interior\"@en.",
+            "note": "null"
+          }
+        ],
+        "Scope": "NOTHING"
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/adms#Identifier",
+          "EA-Name": "Identifier"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "Text",
+          "EA-GUID": "{01DDF84E-BA04-467c-B657-9A8877C293F9}",
+          "EA-Package": "Core Vocabulary",
+          "uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+        }
+      ],
+      "generalization": [],
+      "minCardinality": "1",
+      "maxCardinality": "1"
+    },
+    {
+      "@id": "http://www.w3.org/ns/locn#addressArea",
+      "@type": "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "name": "address area",
+      "inpackage": "OTHER_PACKAGE",
+      "ap-definition-en": {
+        "en": "The name or names of a geographic area or locality that groups a number of addressable objects for addressing purposes, without being an administrative unit."
+      },
+      "usage": {
+        "en": "This would typically be part of a city, a neighbourhood or village, e.g. Montmartre."
+      },
+      "ap-label-en": {
+        "en": "address area"
+      },
+      "definition": {
+        "en": "The name or names of a geographic area or locality that groups a number of addressable objects for addressing purposes, without being an administrative unit."
+      },
+      "label": {
+        "en": "address area"
+      },
+      "extra": {
+        "EA-Name": "addressArea",
+        "EA-Guid": "{42A3291F-2C59-4432-9003-3E6719430A52}",
+        "EA-Package": "Core Location",
+        "EA-Type": "attribute",
+        "EA-Domain": "Address",
+        "EA-Domain-Guid": "{650BCC62-B5E6-4070-8DC6-A39F0953E191}",
+        "EA-Range": "Text",
+        "RangeData": {
+          "EA-Name": "Text",
+          "EA-GUID": "{01DDF84E-BA04-467c-B657-9A8877C293F9}",
+          "EA-Package": "Core Vocabulary",
+          "uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+        },
+        "label": {
+          "en": "address area"
+        },
+        "definition": {
+          "en": "The name or names of a geographic area or locality that groups a number of addressable objects for addressing purposes, without being an administrative unit."
+        },
+        "usage": {
+          "en": "This would typically be part of a city, a neighbourhood or village, e.g. Montmartre."
+        },
+        "ap-label-en": {
+          "en": "address area"
+        },
+        "ap-definition-en": {
+          "en": "The name or names of a geographic area or locality that groups a number of addressable objects for addressing purposes, without being an administrative unit."
+        },
+        "ap-usageNote-en": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://www.w3.org/ns/locn#addressArea",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "address area",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "The name or names of a geographic area or locality that groups a number of addressable objects for addressing purposes, without being an administrative unit.",
+            "note": "null"
+          },
+          {
+            "key": "usageNote-en",
+            "value": "NOTE",
+            "note": "This would typically be part of a city, a neighbourhood or village, e.g. Montmartre."
+          }
+        ],
+        "Scope": "NOTHING"
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/locn#Address",
+          "EA-Name": "Address"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "Text",
+          "EA-GUID": "{01DDF84E-BA04-467c-B657-9A8877C293F9}",
+          "EA-Package": "Core Vocabulary",
+          "uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+        }
+      ],
+      "generalization": [],
+      "minCardinality": "1",
+      "maxCardinality": "1"
+    },
+    {
+      "@id": "http://www.w3.org/ns/locn#addressID",
+      "@type": "http://www.w3.org/2002/07/owl#DatatypeProperty",
+      "name": "address ID",
+      "inpackage": "OTHER_PACKAGE",
+      "ap-definition-en": {
+        "en": "A globally unique identifier for each instance of an Address."
+      },
+      "usage": {
+        "en": "<p>\r\nThe concept of adding a globally unique identifier for each instance of an address is a crucial part of the INSPIRE data spec. A number of EU countries have already implemented an ID (a UUID) in their Address Register/gazetteer, among them Denmark. OASIS xAL also includes an\r\naddress identifier. It is the address Identifier that allows an address to be represented in a format other than INSPIRE whilst remaining conformant to the Core Vocabulary.\r\n</p></br>\r\n<p>\r\nThe INSPIRE method of representing addresses is very detailed, designed primarily for use in databases of addresses. Whilst data that is published in full conformance with the INSPIRE data structure can be made available using the Location Core Vocabulary the reverse is not true since the Core Vocabulary allows much greater flexibility.\r\n</p></br>\r\n<p>\r\nMany datasets that include address data as one piece of information about something else are likely to have that data in simpler formats. These might be tailored to the specific need of the dataset, follow a national norm, or make use of a standard like vCard.\r\n</p></br>\r\n<p>\r\nTo provide maximum flexibility in the Core Vocabulary, whilst remaining interoperable with INSPIRE Address Guidelines (which EU Member States are obliged to use), the Location Core Vocabulary provides the extra property of full address and makes use of INSPIRE's addressID.\r\n</p>"
+      },
+      "ap-label-en": {
+        "en": "address ID"
+      },
+      "definition": {
+        "en": "A globally unique identifier for each instance of an Address."
+      },
+      "label": {
+        "en": "address ID"
+      },
+      "extra": {
+        "EA-Name": "addressID",
+        "EA-Guid": "{54C88647-E707-48f6-8433-7328EB434759}",
+        "EA-Package": "Core Location",
+        "EA-Type": "attribute",
+        "EA-Domain": "Address",
+        "EA-Domain-Guid": "{650BCC62-B5E6-4070-8DC6-A39F0953E191}",
+        "EA-Range": "String",
+        "RangeData": {
+          "EA-Name": "String",
+          "EA-Package": "",
+          "uri": "http://www.w3.org/2001/XMLSchema#string"
+        },
+        "label": {
+          "en": "address ID"
+        },
+        "definition": {
+          "en": "A globally unique identifier for each instance of an Address."
+        },
+        "usage": {
+          "en": "<p>\r\nThe concept of adding a globally unique identifier for each instance of an address is a crucial part of the INSPIRE data spec. A number of EU countries have already implemented an ID (a UUID) in their Address Register/gazetteer, among them Denmark. OASIS xAL also includes an\r\naddress identifier. It is the address Identifier that allows an address to be represented in a format other than INSPIRE whilst remaining conformant to the Core Vocabulary.\r\n</p></br>\r\n<p>\r\nThe INSPIRE method of representing addresses is very detailed, designed primarily for use in databases of addresses. Whilst data that is published in full conformance with the INSPIRE data structure can be made available using the Location Core Vocabulary the reverse is not true since the Core Vocabulary allows much greater flexibility.\r\n</p></br>\r\n<p>\r\nMany datasets that include address data as one piece of information about something else are likely to have that data in simpler formats. These might be tailored to the specific need of the dataset, follow a national norm, or make use of a standard like vCard.\r\n</p></br>\r\n<p>\r\nTo provide maximum flexibility in the Core Vocabulary, whilst remaining interoperable with INSPIRE Address Guidelines (which EU Member States are obliged to use), the Location Core Vocabulary provides the extra property of full address and makes use of INSPIRE's addressID.\r\n</p>"
+        },
+        "ap-label-en": {
+          "en": "address ID"
+        },
+        "ap-definition-en": {
+          "en": "A globally unique identifier for each instance of an Address."
+        },
+        "ap-usageNote-en": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://www.w3.org/ns/locn#addressID",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "address ID",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "A globally unique identifier for each instance of an Address.",
+            "note": "null"
+          },
+          {
+            "key": "usageNote-en",
+            "value": "NOTE",
+            "note": "<p>\r\nThe concept of adding a globally unique identifier for each instance of an address is a crucial part of the INSPIRE data spec. A number of EU countries have already implemented an ID (a UUID) in their Address Register/gazetteer, among them Denmark. OASIS xAL also includes an\r\naddress identifier. It is the address Identifier that allows an address to be represented in a format other than INSPIRE whilst remaining conformant to the Core Vocabulary.\r\n</p></br>\r\n<p>\r\nThe INSPIRE method of representing addresses is very detailed, designed primarily for use in databases of addresses. Whilst data that is published in full conformance with the INSPIRE data structure can be made available using the Location Core Vocabulary the reverse is not true since the Core Vocabulary allows much greater flexibility.\r\n</p></br>\r\n<p>\r\nMany datasets that include address data as one piece of information about something else are likely to have that data in simpler formats. These might be tailored to the specific need of the dataset, follow a national norm, or make use of a standard like vCard.\r\n</p></br>\r\n<p>\r\nTo provide maximum flexibility in the Core Vocabulary, whilst remaining interoperable with INSPIRE Address Guidelines (which EU Member States are obliged to use), the Location Core Vocabulary provides the extra property of full address and makes use of INSPIRE's addressID.\r\n</p>"
+          }
+        ],
+        "Scope": "NOTHING"
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/locn#Address",
+          "EA-Name": "Address"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "String",
+          "EA-Package": "",
+          "uri": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "generalization": [],
+      "minCardinality": "1",
+      "maxCardinality": "1"
+    },
+    {
+      "@id": "http://www.w3.org/ns/locn#adminUnitL1",
+      "@type": "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property",
+      "name": "administrative unit level 1 (country)",
+      "inpackage": "OTHER_PACKAGE",
+      "ap-definition-en": {
+        "en": "The name or names of a unit of administration where a Member State has and/or exercises jurisdictional rights, for local, regional and national governance. Level 1 refers to the uppermost administrative unit for the address, almost always a country."
+      },
+      "usage": {
+        "en": "Best practice is to use the ISO 3166-1 code but if this is inappropriate for the context, country names should be provided in a consistent manner to reduce ambiguity. For example, either write 'France' or 'FRA' consistently throughout the dataset and avoid mixing the two. The <a href=\"http://publications.europa.eu/resource/dataset/country\">Country controlled vocabulary from the Publications Office can be reused for this."
+      },
+      "ap-label-en": {
+        "en": "administrative unit level 1 (country)"
+      },
+      "definition": {
+        "en": "The name or names of a unit of administration where a Member State has and/or exercises jurisdictional rights, for local, regional and national governance. Level 1 refers to the uppermost administrative unit for the address, almost always a country."
+      },
+      "label": {
+        "en": "administrative unit level 1 (country)"
+      },
+      "extra": {
+        "EA-Name": "adminUnitL1",
+        "EA-Guid": "{EFCE2B24-F154-487f-BDC4-0C162CA80935}",
+        "EA-Package": "Core Location",
+        "EA-Type": "attribute",
+        "EA-Domain": "Address",
+        "EA-Domain-Guid": "{650BCC62-B5E6-4070-8DC6-A39F0953E191}",
+        "EA-Range": "Code",
+        "RangeData": {
+          "EA-Name": "",
+          "EA-Package": "",
+          "uri": "null"
+        },
+        "label": {
+          "en": "administrative unit level 1 (country)"
+        },
+        "definition": {
+          "en": "The name or names of a unit of administration where a Member State has and/or exercises jurisdictional rights, for local, regional and national governance. Level 1 refers to the uppermost administrative unit for the address, almost always a country."
+        },
+        "usage": {
+          "en": "Best practice is to use the ISO 3166-1 code but if this is inappropriate for the context, country names should be provided in a consistent manner to reduce ambiguity. For example, either write 'France' or 'FRA' consistently throughout the dataset and avoid mixing the two. The <a href=\"http://publications.europa.eu/resource/dataset/country\">Country controlled vocabulary from the Publications Office can be reused for this."
+        },
+        "ap-label-en": {
+          "en": "administrative unit level 1 (country)"
+        },
+        "ap-definition-en": {
+          "en": "The name or names of a unit of administration where a Member State has and/or exercises jurisdictional rights, for local, regional and national governance. Level 1 refers to the uppermost administrative unit for the address, almost always a country."
+        },
+        "ap-usageNote-en": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://www.w3.org/ns/locn#adminUnitL1",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "administrative unit level 1 (country)",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "NOTE",
+            "note": "The name or names of a unit of administration where a Member State has and/or exercises jurisdictional rights, for local, regional and national governance. Level 1 refers to the uppermost administrative unit for the address, almost always a country."
+          },
+          {
+            "key": "usageNote-en",
+            "value": "NOTE",
+            "note": "Best practice is to use the ISO 3166-1 code but if this is inappropriate for the context, country names should be provided in a consistent manner to reduce ambiguity. For example, either write 'France' or 'FRA' consistently throughout the dataset and avoid mixing the two. The <a href=\"http://publications.europa.eu/resource/dataset/country\">Country controlled vocabulary from the Publications Office can be reused for this."
+          }
+        ],
+        "Scope": "NOTHING"
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/locn#Address",
+          "EA-Name": "Address"
+        }
+      ],
+      "range": [],
+      "generalization": [],
+      "minCardinality": "1",
+      "maxCardinality": "1"
+    },
+    {
+      "@id": "http://www.w3.org/ns/locn#adminUnitL2",
+      "@type": "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "name": "administrative unit level 2 (country/region/state)",
+      "inpackage": "OTHER_PACKAGE",
+      "ap-definition-en": {
+        "en": "The name or names of a unit of administration where a Member State has and/or exercises jurisdictional rights, for local, regional and national governance. Level 2 referst to the region of the address, usually a county, state or other such area that typically encompasses several localities."
+      },
+      "usage": {
+        "en": "Some recommended codelists from the EU Publications Office include:\r\n<a href=\"http://publications.europa.eu/resource/authority/atu\">Administrative Territorial Units (ATU)</a>,\r\n<a href=\"https://ec.europa.eu/eurostat/web/nuts/background\">NUTS</a> and\r\n<a href=\"https://ec.europa.eu/eurostat/web/nuts/local-administrative-units\">Local Administrative Units (LAU)</a>. The first arrondissement of Paris is for example expressed as \"http://publications.europa.eu/resource/authority/atu/FRA_AR_PAR01\" in the ATU controlled vocabulary."
+      },
+      "ap-label-en": {
+        "en": "administrative unit level 2 (country/region/state)"
+      },
+      "definition": {
+        "en": "The name or names of a unit of administration where a Member State has and/or exercises jurisdictional rights, for local, regional and national governance. Level 2 referst to the region of the address, usually a county, state or other such area that typically encompasses several localities."
+      },
+      "label": {
+        "en": "administrative unit level 2 (country/region/state)"
+      },
+      "extra": {
+        "EA-Name": "adminUnitL2",
+        "EA-Guid": "{958C6E0B-EB04-416c-BC1A-5B3459FD355A}",
+        "EA-Package": "Core Location",
+        "EA-Type": "attribute",
+        "EA-Domain": "Address",
+        "EA-Domain-Guid": "{650BCC62-B5E6-4070-8DC6-A39F0953E191}",
+        "EA-Range": "Text",
+        "RangeData": {
+          "EA-Name": "Text",
+          "EA-GUID": "{01DDF84E-BA04-467c-B657-9A8877C293F9}",
+          "EA-Package": "Core Vocabulary",
+          "uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+        },
+        "label": {
+          "en": "administrative unit level 2 (country/region/state)"
+        },
+        "definition": {
+          "en": "The name or names of a unit of administration where a Member State has and/or exercises jurisdictional rights, for local, regional and national governance. Level 2 referst to the region of the address, usually a county, state or other such area that typically encompasses several localities."
+        },
+        "usage": {
+          "en": "Some recommended codelists from the EU Publications Office include:\r\n<a href=\"http://publications.europa.eu/resource/authority/atu\">Administrative Territorial Units (ATU)</a>,\r\n<a href=\"https://ec.europa.eu/eurostat/web/nuts/background\">NUTS</a> and\r\n<a href=\"https://ec.europa.eu/eurostat/web/nuts/local-administrative-units\">Local Administrative Units (LAU)</a>. The first arrondissement of Paris is for example expressed as \"http://publications.europa.eu/resource/authority/atu/FRA_AR_PAR01\" in the ATU controlled vocabulary."
+        },
+        "ap-label-en": {
+          "en": "administrative unit level 2 (country/region/state)"
+        },
+        "ap-definition-en": {
+          "en": "The name or names of a unit of administration where a Member State has and/or exercises jurisdictional rights, for local, regional and national governance. Level 2 referst to the region of the address, usually a county, state or other such area that typically encompasses several localities."
+        },
+        "ap-usageNote-en": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://www.w3.org/ns/locn#adminUnitL2",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "administrative unit level 2 (country/region/state)",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "NOTE",
+            "note": "The name or names of a unit of administration where a Member State has and/or exercises jurisdictional rights, for local, regional and national governance. Level 2 referst to the region of the address, usually a county, state or other such area that typically encompasses several localities."
+          },
+          {
+            "key": "usageNote-en",
+            "value": "NOTE",
+            "note": "Some recommended codelists from the EU Publications Office include:\r\n<a href=\"http://publications.europa.eu/resource/authority/atu\">Administrative Territorial Units (ATU)</a>,\r\n<a href=\"https://ec.europa.eu/eurostat/web/nuts/background\">NUTS</a> and\r\n<a href=\"https://ec.europa.eu/eurostat/web/nuts/local-administrative-units\">Local Administrative Units (LAU)</a>. The first arrondissement of Paris is for example expressed as \"http://publications.europa.eu/resource/authority/atu/FRA_AR_PAR01\" in the ATU controlled vocabulary."
+          }
+        ],
+        "Scope": "NOTHING"
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/locn#Address",
+          "EA-Name": "Address"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "Text",
+          "EA-GUID": "{01DDF84E-BA04-467c-B657-9A8877C293F9}",
+          "EA-Package": "Core Vocabulary",
+          "uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+        }
+      ],
+      "generalization": [],
+      "minCardinality": "1",
+      "maxCardinality": "1"
+    },
+    {
+      "@id": "http://www.w3.org/ns/locn#fullAddress",
+      "@type": "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "name": "full address",
+      "inpackage": "OTHER_PACKAGE",
+      "ap-definition-en": {
+        "en": "The complete address written as a formatted string."
+      },
+      "usage": {
+        "en": "Use of this property is recommended as it will not suffer any misunderstandings that might arise through the breaking up of an address into its component parts. This property is analogous to vCard's label property but with two important differences: (1) formatting is not assumed so that, unlike vCard label, it may not be suitable to print this on an address label, (2) vCard's label property has a domain of vCard Address; the fullAddress property has no such restriction. An example of a full address is \"Champ de Mars, 5 Avenue Anatole France, 75007 Paris, France\"."
+      },
+      "ap-label-en": {
+        "en": "full address"
+      },
+      "definition": {
+        "en": "The complete address written as a formatted string."
+      },
+      "label": {
+        "en": "full address"
+      },
+      "extra": {
+        "EA-Name": "fullAddress",
+        "EA-Guid": "{CACD1A53-7E91-4570-BE69-F842DE505549}",
+        "EA-Package": "Core Location",
+        "EA-Type": "attribute",
+        "EA-Domain": "Address",
+        "EA-Domain-Guid": "{650BCC62-B5E6-4070-8DC6-A39F0953E191}",
+        "EA-Range": "Text",
+        "RangeData": {
+          "EA-Name": "Text",
+          "EA-GUID": "{01DDF84E-BA04-467c-B657-9A8877C293F9}",
+          "EA-Package": "Core Vocabulary",
+          "uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+        },
+        "label": {
+          "en": "full address"
+        },
+        "definition": {
+          "en": "The complete address written as a formatted string."
+        },
+        "usage": {
+          "en": "Use of this property is recommended as it will not suffer any misunderstandings that might arise through the breaking up of an address into its component parts. This property is analogous to vCard's label property but with two important differences: (1) formatting is not assumed so that, unlike vCard label, it may not be suitable to print this on an address label, (2) vCard's label property has a domain of vCard Address; the fullAddress property has no such restriction. An example of a full address is \"Champ de Mars, 5 Avenue Anatole France, 75007 Paris, France\"."
+        },
+        "ap-label-en": {
+          "en": "full address"
+        },
+        "ap-definition-en": {
+          "en": "The complete address written as a formatted string."
+        },
+        "ap-usageNote-en": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://www.w3.org/ns/locn#fullAddress",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "full address",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "The complete address written as a formatted string.",
+            "note": "null"
+          },
+          {
+            "key": "usageNote-en",
+            "value": "NOTE",
+            "note": "Use of this property is recommended as it will not suffer any misunderstandings that might arise through the breaking up of an address into its component parts. This property is analogous to vCard's label property but with two important differences: (1) formatting is not assumed so that, unlike vCard label, it may not be suitable to print this on an address label, (2) vCard's label property has a domain of vCard Address; the fullAddress property has no such restriction. An example of a full address is \"Champ de Mars, 5 Avenue Anatole France, 75007 Paris, France\"."
+          }
+        ],
+        "Scope": "NOTHING"
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/locn#Address",
+          "EA-Name": "Address"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "Text",
+          "EA-GUID": "{01DDF84E-BA04-467c-B657-9A8877C293F9}",
+          "EA-Package": "Core Vocabulary",
+          "uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+        }
+      ],
+      "generalization": [],
+      "minCardinality": "1",
+      "maxCardinality": "1"
+    },
+    {
+      "@id": "http://www.w3.org/ns/locn#geographicName",
+      "@type": "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "name": "geographic name",
+      "inpackage": "OTHER_PACKAGE",
+      "ap-definition-en": {
+        "en": "A geographic name is a proper noun applied to a spatial object."
+      },
+      "usage": {
+        "en": "<p>The <a href=\"https://inspire.ec.europa.eu/Themes/132/2892\">INSPIRE Data Specification on Geographical Names</a> provides a detailed model for describing a 'named place', including methods for providing multiple names in multiple scripts. This is beyond what is necessary for the Core Location Vocabulary but, importantly, the concept of a geographic name used here is consistent.</p></br>\r\n\r\n<p>\r\nA geographic name is a proper noun applied to a spatial object. Taking the example used in the INSPIRE document (page 15), the following are all valid geographic names for the Greek capital:\r\n<ul>\r\n  <li>- \"A?n?a\"@gr-Grek (the Greek endonym written in the Greek script)</li>\r\n  <li>- \"Athína\"@gr-Latn (the standard Romanisation of the endonym)</li>\r\n  <li>- \"Athens\"@en (the English language exonym)</li>\r\n</ul>\r\nINSPIRE has a detailed (XML-based) method of providing metadata about a geographic name and in XML-data sets that may be the most appropriate method to follow. When using the Core Location Vocabulary in data sets that are not focussed on environmental/geographical\r\ndata (the use case for INSPIRE), the Code datatype or a simple language identifier may be used to provide such metadata.\r\n</p></br>\r\n\r\n<p>\r\nThe country codes defined in <a href=\"https://www.iso.org/iso-3166-country-codes.html\">ISO 3166</a> may be used as geographic names and these are generally preferred over either the long form or short form of a country's name (as they are less error prone). The Publications Office of the European Union recommends the use of ISO 3166-1 codes for countries in all cases except two:\r\n<ul>\r\n  <li>- use 'UK' in preference to the ISO 3166 code GB for the United Kingdom;</li>\r\n  <li>- use 'EL' in preference to the ISO 3166 code GR for Greece.</li>\r\nWhere a country has changed its name or no longer exists (such as Czechoslovakia, Yugoslavia etc.) use the ISO 3166-3 code.\r\n</p>\r"
+      },
+      "ap-label-en": {
+        "en": "geographic name"
+      },
+      "definition": {
+        "en": "A geographic name is a proper noun applied to a spatial object."
+      },
+      "label": {
+        "en": "geographic name"
+      },
+      "extra": {
+        "EA-Name": "geographicName",
+        "EA-Guid": "{773B9A30-8874-4c47-9ECF-97324E0EC181}",
+        "EA-Package": "dct",
+        "EA-Type": "attribute",
+        "EA-Domain": "Location",
+        "EA-Domain-Guid": "{C893D9C5-F21F-401b-A896-22D5EB56D6A7}",
+        "EA-Range": "Text",
+        "RangeData": {
+          "EA-Name": "Text",
+          "EA-GUID": "{01DDF84E-BA04-467c-B657-9A8877C293F9}",
+          "EA-Package": "Core Vocabulary",
+          "uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+        },
+        "label": {
+          "en": "geographic name"
+        },
+        "definition": {
+          "en": "A geographic name is a proper noun applied to a spatial object."
+        },
+        "usage": {
+          "en": "<p>The <a href=\"https://inspire.ec.europa.eu/Themes/132/2892\">INSPIRE Data Specification on Geographical Names</a> provides a detailed model for describing a 'named place', including methods for providing multiple names in multiple scripts. This is beyond what is necessary for the Core Location Vocabulary but, importantly, the concept of a geographic name used here is consistent.</p></br>\r\n\r\n<p>\r\nA geographic name is a proper noun applied to a spatial object. Taking the example used in the INSPIRE document (page 15), the following are all valid geographic names for the Greek capital:\r\n<ul>\r\n  <li>- \"A?n?a\"@gr-Grek (the Greek endonym written in the Greek script)</li>\r\n  <li>- \"Athína\"@gr-Latn (the standard Romanisation of the endonym)</li>\r\n  <li>- \"Athens\"@en (the English language exonym)</li>\r\n</ul>\r\nINSPIRE has a detailed (XML-based) method of providing metadata about a geographic name and in XML-data sets that may be the most appropriate method to follow. When using the Core Location Vocabulary in data sets that are not focussed on environmental/geographical\r\ndata (the use case for INSPIRE), the Code datatype or a simple language identifier may be used to provide such metadata.\r\n</p></br>\r\n\r\n<p>\r\nThe country codes defined in <a href=\"https://www.iso.org/iso-3166-country-codes.html\">ISO 3166</a> may be used as geographic names and these are generally preferred over either the long form or short form of a country's name (as they are less error prone). The Publications Office of the European Union recommends the use of ISO 3166-1 codes for countries in all cases except two:\r\n<ul>\r\n  <li>- use 'UK' in preference to the ISO 3166 code GB for the United Kingdom;</li>\r\n  <li>- use 'EL' in preference to the ISO 3166 code GR for Greece.</li>\r\nWhere a country has changed its name or no longer exists (such as Czechoslovakia, Yugoslavia etc.) use the ISO 3166-3 code.\r\n</p>\r"
+        },
+        "ap-label-en": {
+          "en": "geographic name"
+        },
+        "ap-definition-en": {
+          "en": "A geographic name is a proper noun applied to a spatial object."
+        },
+        "ap-usageNote-en": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://www.w3.org/ns/locn#geographicName",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "geographic name",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "A geographic name is a proper noun applied to a spatial object.",
+            "note": "null"
+          },
+          {
+            "key": "usageNote-en",
+            "value": "NOTE",
+            "note": "<p>The <a href=\"https://inspire.ec.europa.eu/Themes/132/2892\">INSPIRE Data Specification on Geographical Names</a> provides a detailed model for describing a 'named place', including methods for providing multiple names in multiple scripts. This is beyond what is necessary for the Core Location Vocabulary but, importantly, the concept of a geographic name used here is consistent.</p></br>\r\n\r\n<p>\r\nA geographic name is a proper noun applied to a spatial object. Taking the example used in the INSPIRE document (page 15), the following are all valid geographic names for the Greek capital:\r\n<ul>\r\n  <li>- \"A?n?a\"@gr-Grek (the Greek endonym written in the Greek script)</li>\r\n  <li>- \"Athína\"@gr-Latn (the standard Romanisation of the endonym)</li>\r\n  <li>- \"Athens\"@en (the English language exonym)</li>\r\n</ul>\r\nINSPIRE has a detailed (XML-based) method of providing metadata about a geographic name and in XML-data sets that may be the most appropriate method to follow. When using the Core Location Vocabulary in data sets that are not focussed on environmental/geographical\r\ndata (the use case for INSPIRE), the Code datatype or a simple language identifier may be used to provide such metadata.\r\n</p></br>\r\n\r\n<p>\r\nThe country codes defined in <a href=\"https://www.iso.org/iso-3166-country-codes.html\">ISO 3166</a> may be used as geographic names and these are generally preferred over either the long form or short form of a country's name (as they are less error prone). The Publications Office of the European Union recommends the use of ISO 3166-1 codes for countries in all cases except two:\r\n<ul>\r\n  <li>- use 'UK' in preference to the ISO 3166 code GB for the United Kingdom;</li>\r\n  <li>- use 'EL' in preference to the ISO 3166 code GR for Greece.</li>\r\nWhere a country has changed its name or no longer exists (such as Czechoslovakia, Yugoslavia etc.) use the ISO 3166-3 code.\r\n</p>\r"
+          }
+        ],
+        "Scope": "NOTHING"
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://purl.org/dc/terms/Location",
+          "EA-Name": "Location"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "Text",
+          "EA-GUID": "{01DDF84E-BA04-467c-B657-9A8877C293F9}",
+          "EA-Package": "Core Vocabulary",
+          "uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+        }
+      ],
+      "generalization": [],
+      "minCardinality": "1",
+      "maxCardinality": "1"
+    },
+    {
+      "@id": "http://www.w3.org/ns/locn#locatorDesignator",
+      "@type": "http://www.w3.org/2002/07/owl#DatatypeProperty",
+      "name": "locator designator",
+      "inpackage": "OTHER_PACKAGE",
+      "ap-definition-en": {
+        "en": "A number or a sequence of characters which allows a user or an application to interpret, parse and format the locator within the relevant scope. A locator may include more locator designators."
+      },
+      "usage": {
+        "en": "In simpler terms, this is the building number, apartment number, etc. For an address such as \"Flat 3, 17 Bridge Street\", the locator is \"flat 3, 17\"."
+      },
+      "ap-label-en": {
+        "en": "locator designator"
+      },
+      "definition": {
+        "en": "A number or a sequence of characters which allows a user or an application to interpret, parse and format the locator within the relevant scope. A locator may include more locator designators."
+      },
+      "label": {
+        "en": "locator designator"
+      },
+      "extra": {
+        "EA-Name": "locatorDesignator",
+        "EA-Guid": "{509BF1D0-4E76-4bee-B17F-AC883B236548}",
+        "EA-Package": "Core Location",
+        "EA-Type": "attribute",
+        "EA-Domain": "Address",
+        "EA-Domain-Guid": "{650BCC62-B5E6-4070-8DC6-A39F0953E191}",
+        "EA-Range": "String",
+        "RangeData": {
+          "EA-Name": "String",
+          "EA-Package": "",
+          "uri": "http://www.w3.org/2001/XMLSchema#string"
+        },
+        "label": {
+          "en": "locator designator"
+        },
+        "definition": {
+          "en": "A number or a sequence of characters which allows a user or an application to interpret, parse and format the locator within the relevant scope. A locator may include more locator designators."
+        },
+        "usage": {
+          "en": "In simpler terms, this is the building number, apartment number, etc. For an address such as \"Flat 3, 17 Bridge Street\", the locator is \"flat 3, 17\"."
+        },
+        "ap-label-en": {
+          "en": "locator designator"
+        },
+        "ap-definition-en": {
+          "en": "A number or a sequence of characters which allows a user or an application to interpret, parse and format the locator within the relevant scope. A locator may include more locator designators."
+        },
+        "ap-usageNote-en": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://www.w3.org/ns/locn#locatorDesignator",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "locator designator",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "A number or a sequence of characters which allows a user or an application to interpret, parse and format the locator within the relevant scope. A locator may include more locator designators.",
+            "note": "null"
+          },
+          {
+            "key": "usageNote-en",
+            "value": "NOTE",
+            "note": "In simpler terms, this is the building number, apartment number, etc. For an address such as \"Flat 3, 17 Bridge Street\", the locator is \"flat 3, 17\"."
+          }
+        ],
+        "Scope": "NOTHING"
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/locn#Address",
+          "EA-Name": "Address"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "String",
+          "EA-Package": "",
+          "uri": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "generalization": [],
+      "minCardinality": "1",
+      "maxCardinality": "1"
+    },
+    {
+      "@id": "http://www.w3.org/ns/locn#locatorName",
+      "@type": "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "name": "locator name",
+      "inpackage": "OTHER_PACKAGE",
+      "ap-definition-en": {
+        "en": "Proper noun(s) applied to the real world entity identified by the locator."
+      },
+      "usage": {
+        "en": "<p>\r\nThe locator name could be the name of the property or complex, of the building or part of the building, or it could be the name of a room inside a building.\r\n</p></br>\r\n<p>\r\nThe key difference between a locator and a locator name is that the latter is a proper name and is unlikely to include digits. For example, \"Shumann, Berlaymont\" is a meeting room within the European Commission headquarters for which locator name is more appropriate than locator.\r\n</p>"
+      },
+      "ap-label-en": {
+        "en": "locator name"
+      },
+      "definition": {
+        "en": "Proper noun(s) applied to the real world entity identified by the locator."
+      },
+      "label": {
+        "en": "locator name"
+      },
+      "extra": {
+        "EA-Name": "locatorName",
+        "EA-Guid": "{BD85C372-1378-4b22-9DA6-B4897A7F0106}",
+        "EA-Package": "Core Location",
+        "EA-Type": "attribute",
+        "EA-Domain": "Address",
+        "EA-Domain-Guid": "{650BCC62-B5E6-4070-8DC6-A39F0953E191}",
+        "EA-Range": "Text",
+        "RangeData": {
+          "EA-Name": "Text",
+          "EA-GUID": "{01DDF84E-BA04-467c-B657-9A8877C293F9}",
+          "EA-Package": "Core Vocabulary",
+          "uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+        },
+        "label": {
+          "en": "locator name"
+        },
+        "definition": {
+          "en": "Proper noun(s) applied to the real world entity identified by the locator."
+        },
+        "usage": {
+          "en": "<p>\r\nThe locator name could be the name of the property or complex, of the building or part of the building, or it could be the name of a room inside a building.\r\n</p></br>\r\n<p>\r\nThe key difference between a locator and a locator name is that the latter is a proper name and is unlikely to include digits. For example, \"Shumann, Berlaymont\" is a meeting room within the European Commission headquarters for which locator name is more appropriate than locator.\r\n</p>"
+        },
+        "ap-label-en": {
+          "en": "locator name"
+        },
+        "ap-definition-en": {
+          "en": "Proper noun(s) applied to the real world entity identified by the locator."
+        },
+        "ap-usageNote-en": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://www.w3.org/ns/locn#locatorName",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "locator name",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "NOTE",
+            "note": "Proper noun(s) applied to the real world entity identified by the locator."
+          },
+          {
+            "key": "usageNote-en",
+            "value": "NOTE",
+            "note": "<p>\r\nThe locator name could be the name of the property or complex, of the building or part of the building, or it could be the name of a room inside a building.\r\n</p></br>\r\n<p>\r\nThe key difference between a locator and a locator name is that the latter is a proper name and is unlikely to include digits. For example, \"Shumann, Berlaymont\" is a meeting room within the European Commission headquarters for which locator name is more appropriate than locator.\r\n</p>"
+          }
+        ],
+        "Scope": "NOTHING"
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/locn#Address",
+          "EA-Name": "Address"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "Text",
+          "EA-GUID": "{01DDF84E-BA04-467c-B657-9A8877C293F9}",
+          "EA-Package": "Core Vocabulary",
+          "uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+        }
+      ],
+      "generalization": [],
+      "minCardinality": "1",
+      "maxCardinality": "1"
+    },
+    {
+      "@id": "http://www.w3.org/ns/locn#poBox",
+      "@type": "http://www.w3.org/2002/07/owl#DatatypeProperty",
+      "name": "post office box",
+      "inpackage": "OTHER_PACKAGE",
+      "ap-definition-en": {
+        "en": "The Post Office Box number."
+      },
+      "usage": {
+        "en": "INSPIRE's name for this is \"postalDeliveryIdentifier\" for which it uses the locator designator property with a type attribute of that name. This vocabulary separates out the Post Office Box for greater independence of technology. An example post office box number is \"9383\"."
+      },
+      "ap-label-en": {
+        "en": "post office box"
+      },
+      "definition": {
+        "en": "The Post Office Box number."
+      },
+      "label": {
+        "en": "post office box"
+      },
+      "extra": {
+        "EA-Name": "poBox",
+        "EA-Guid": "{BD696942-96FF-49f8-9712-8C00CAC1493B}",
+        "EA-Package": "Core Location",
+        "EA-Type": "attribute",
+        "EA-Domain": "Address",
+        "EA-Domain-Guid": "{650BCC62-B5E6-4070-8DC6-A39F0953E191}",
+        "EA-Range": "String",
+        "RangeData": {
+          "EA-Name": "String",
+          "EA-Package": "",
+          "uri": "http://www.w3.org/2001/XMLSchema#string"
+        },
+        "label": {
+          "en": "post office box"
+        },
+        "definition": {
+          "en": "The Post Office Box number."
+        },
+        "usage": {
+          "en": "INSPIRE's name for this is \"postalDeliveryIdentifier\" for which it uses the locator designator property with a type attribute of that name. This vocabulary separates out the Post Office Box for greater independence of technology. An example post office box number is \"9383\"."
+        },
+        "ap-label-en": {
+          "en": "post office box"
+        },
+        "ap-definition-en": {
+          "en": "The Post Office Box number."
+        },
+        "ap-usageNote-en": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://www.w3.org/ns/locn#poBox",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "post office box",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "The Post Office Box number.",
+            "note": "null"
+          },
+          {
+            "key": "usageNote-en",
+            "value": "NOTE",
+            "note": "INSPIRE's name for this is \"postalDeliveryIdentifier\" for which it uses the locator designator property with a type attribute of that name. This vocabulary separates out the Post Office Box for greater independence of technology. An example post office box number is \"9383\"."
+          }
+        ],
+        "Scope": "NOTHING"
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/locn#Address",
+          "EA-Name": "Address"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "String",
+          "EA-Package": "",
+          "uri": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "generalization": [],
+      "minCardinality": "1",
+      "maxCardinality": "1"
+    },
+    {
+      "@id": "http://www.w3.org/ns/locn#postCode",
+      "@type": "http://www.w3.org/2002/07/owl#DatatypeProperty",
+      "name": "post code",
+      "inpackage": "OTHER_PACKAGE",
+      "ap-definition-en": {
+        "en": "The post/zip code of an address. (INSPIRE's definition is \"A code created and maintained for postal purposes to identify a subdivision of addresses and postal delivery points.\")"
+      },
+      "usage": {
+        "en": "Post codes are common elements in many countries' postal address systems. One of the many post codes of Paris is for example \"75000\"."
+      },
+      "ap-label-en": {
+        "en": "post code"
+      },
+      "definition": {
+        "en": "The post/zip code of an address. (INSPIRE's definition is \"A code created and maintained for postal purposes to identify a subdivision of addresses and postal delivery points.\")"
+      },
+      "label": {
+        "en": "post code"
+      },
+      "extra": {
+        "EA-Name": "postCode",
+        "EA-Guid": "{2EF6D767-8E3F-461c-AC37-772819BA21B6}",
+        "EA-Package": "Core Location",
+        "EA-Type": "attribute",
+        "EA-Domain": "Address",
+        "EA-Domain-Guid": "{650BCC62-B5E6-4070-8DC6-A39F0953E191}",
+        "EA-Range": "String",
+        "RangeData": {
+          "EA-Name": "String",
+          "EA-Package": "",
+          "uri": "http://www.w3.org/2001/XMLSchema#string"
+        },
+        "label": {
+          "en": "post code"
+        },
+        "definition": {
+          "en": "The post/zip code of an address. (INSPIRE's definition is \"A code created and maintained for postal purposes to identify a subdivision of addresses and postal delivery points.\")"
+        },
+        "usage": {
+          "en": "Post codes are common elements in many countries' postal address systems. One of the many post codes of Paris is for example \"75000\"."
+        },
+        "ap-label-en": {
+          "en": "post code"
+        },
+        "ap-definition-en": {
+          "en": "The post/zip code of an address. (INSPIRE's definition is \"A code created and maintained for postal purposes to identify a subdivision of addresses and postal delivery points.\")"
+        },
+        "ap-usageNote-en": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://www.w3.org/ns/locn#postCode",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "post code",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "NOTE",
+            "note": "The post/zip code of an address. (INSPIRE's definition is \"A code created and maintained for postal purposes to identify a subdivision of addresses and postal delivery points.\")"
+          },
+          {
+            "key": "usageNote-en",
+            "value": "Post codes are common elements in many countries' postal address systems. One of the many post codes of Paris is for example \"75000\".",
+            "note": "null"
+          }
+        ],
+        "Scope": "NOTHING"
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/locn#Address",
+          "EA-Name": "Address"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "String",
+          "EA-Package": "",
+          "uri": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "generalization": [],
+      "minCardinality": "1",
+      "maxCardinality": "1"
+    },
+    {
+      "@id": "http://www.w3.org/ns/locn#postName",
+      "@type": "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "name": "post name (city)",
+      "inpackage": "OTHER_PACKAGE",
+      "ap-definition-en": {
+        "en": "The key postal division of the address, usually the city. (INSPIRE's definition is \"One or more names created and maintained for postal purposes to identify a subdivision of addresses and postal delivery points.)\r For example, \"Paris\"."
+      },
+      "ap-label-en": {
+        "en": "post name (city)"
+      },
+      "definition": {
+        "en": "The key postal division of the address, usually the city. (INSPIRE's definition is \"One or more names created and maintained for postal purposes to identify a subdivision of addresses and postal delivery points.)\r For example, \"Paris\"."
+      },
+      "label": {
+        "en": "post name (city)"
+      },
+      "extra": {
+        "EA-Name": "postName",
+        "EA-Guid": "{F0699A53-4F4C-4e83-AF49-34E33744BF36}",
+        "EA-Package": "Core Location",
+        "EA-Type": "attribute",
+        "EA-Domain": "Address",
+        "EA-Domain-Guid": "{650BCC62-B5E6-4070-8DC6-A39F0953E191}",
+        "EA-Range": "Text",
+        "RangeData": {
+          "EA-Name": "Text",
+          "EA-GUID": "{01DDF84E-BA04-467c-B657-9A8877C293F9}",
+          "EA-Package": "Core Vocabulary",
+          "uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+        },
+        "label": {
+          "en": "post name (city)"
+        },
+        "definition": {
+          "en": "The key postal division of the address, usually the city. (INSPIRE's definition is \"One or more names created and maintained for postal purposes to identify a subdivision of addresses and postal delivery points.)\r For example, \"Paris\"."
+        },
+        "usage": "",
+        "ap-label-en": {
+          "en": "post name (city)"
+        },
+        "ap-definition-en": {
+          "en": "The key postal division of the address, usually the city. (INSPIRE's definition is \"One or more names created and maintained for postal purposes to identify a subdivision of addresses and postal delivery points.)\r For example, \"Paris\"."
+        },
+        "ap-usageNote-en": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://www.w3.org/ns/locn#postName",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "post name (city)",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "NOTE",
+            "note": "The key postal division of the address, usually the city. (INSPIRE's definition is \"One or more names created and maintained for postal purposes to identify a subdivision of addresses and postal delivery points.)\r For example, \"Paris\"."
+          }
+        ],
+        "Scope": "NOTHING"
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/locn#Address",
+          "EA-Name": "Address"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "Text",
+          "EA-GUID": "{01DDF84E-BA04-467c-B657-9A8877C293F9}",
+          "EA-Package": "Core Vocabulary",
+          "uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+        }
+      ],
+      "generalization": [],
+      "minCardinality": "1",
+      "maxCardinality": "1"
+    },
+    {
+      "@id": "http://www.w3.org/ns/locn#thoroughfare",
+      "@type": "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "name": "thoroughfare",
+      "inpackage": "OTHER_PACKAGE",
+      "ap-definition-en": {
+        "en": "An address component that represents the name or names of a passage or way through from one location to another. A thoroughfare is not necessarily a road, it might be a waterway or some other feature."
+      },
+      "usage": {
+        "en": "For example, \"Avenue des Champs-Élysées\"."
+      },
+      "ap-label-en": {
+        "en": "thoroughfare"
+      },
+      "definition": {
+        "en": "An address component that represents the name or names of a passage or way through from one location to another. A thoroughfare is not necessarily a road, it might be a waterway or some other feature."
+      },
+      "label": {
+        "en": "thoroughfare"
+      },
+      "extra": {
+        "EA-Name": "thoroughfare",
+        "EA-Guid": "{2D384BE4-CFED-4f52-B1EC-3C84511ACCC6}",
+        "EA-Package": "Core Location",
+        "EA-Type": "attribute",
+        "EA-Domain": "Address",
+        "EA-Domain-Guid": "{650BCC62-B5E6-4070-8DC6-A39F0953E191}",
+        "EA-Range": "Text",
+        "RangeData": {
+          "EA-Name": "Text",
+          "EA-GUID": "{01DDF84E-BA04-467c-B657-9A8877C293F9}",
+          "EA-Package": "Core Vocabulary",
+          "uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+        },
+        "label": {
+          "en": "thoroughfare"
+        },
+        "definition": {
+          "en": "An address component that represents the name or names of a passage or way through from one location to another. A thoroughfare is not necessarily a road, it might be a waterway or some other feature."
+        },
+        "usage": {
+          "en": "For example, \"Avenue des Champs-Élysées\"."
+        },
+        "ap-label-en": {
+          "en": "thoroughfare"
+        },
+        "ap-definition-en": {
+          "en": "An address component that represents the name or names of a passage or way through from one location to another. A thoroughfare is not necessarily a road, it might be a waterway or some other feature."
+        },
+        "ap-usageNote-en": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://www.w3.org/ns/locn#thoroughfare",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "thoroughfare",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "An address component that represents the name or names of a passage or way through from one location to another. A thoroughfare is not necessarily a road, it might be a waterway or some other feature.",
+            "note": "null"
+          },
+          {
+            "key": "usageNote-en",
+            "value": "For example, \"Avenue des Champs-Élysées\".",
+            "note": "null"
+          }
+        ],
+        "Scope": "NOTHING"
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/locn#Address",
+          "EA-Name": "Address"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "Text",
+          "EA-GUID": "{01DDF84E-BA04-467c-B657-9A8877C293F9}",
+          "EA-Package": "Core Vocabulary",
+          "uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+        }
+      ],
+      "generalization": [],
+      "minCardinality": "1",
+      "maxCardinality": "1"
+    },
+    {
+      "@id": "http://www.w3.org/ns/person#birthName",
+      "@type": "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "name": "birth name",
+      "inpackage": "OTHER_PACKAGE",
+      "ap-definition-en": {
+        "en": "Full name of the Person given upon their birth."
+      },
+      "usage": {
+        "en": "All data associated with an individual are subject to change. Names can change for a variety of reasons, either formally or informally, and new information may come to light that means that a correction or clarification can be made to an existing record. Birth names tend to be persistent however and for this reason they are recorded by some public sector information systems. There is no granularity for birth name - the full name should be recorded in a single field."
+      },
+      "ap-label-en": {
+        "en": "birth name"
+      },
+      "definition": {
+        "en": "Full name of the Person given upon their birth."
+      },
+      "label": {
+        "en": "birth name"
+      },
+      "extra": {
+        "EA-Name": "birthName",
+        "EA-Guid": "{3FC64146-99E6-4c46-82E2-B89FFB2B6E36}",
+        "EA-Package": "Core Person",
+        "EA-Type": "attribute",
+        "EA-Domain": "Person",
+        "EA-Domain-Guid": "{A0ECD6E2-3D19-4928-8FAC-33C504817515}",
+        "EA-Range": "Text",
+        "RangeData": {
+          "EA-Name": "Text",
+          "EA-GUID": "{01DDF84E-BA04-467c-B657-9A8877C293F9}",
+          "EA-Package": "Core Vocabulary",
+          "uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+        },
+        "label": {
+          "en": "birth name"
+        },
+        "definition": {
+          "en": "Full name of the Person given upon their birth."
+        },
+        "usage": {
+          "en": "All data associated with an individual are subject to change. Names can change for a variety of reasons, either formally or informally, and new information may come to light that means that a correction or clarification can be made to an existing record. Birth names tend to be persistent however and for this reason they are recorded by some public sector information systems. There is no granularity for birth name - the full name should be recorded in a single field."
+        },
+        "ap-label-en": {
+          "en": "birth name"
+        },
+        "ap-definition-en": {
+          "en": "Full name of the Person given upon their birth."
+        },
+        "ap-usageNote-en": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://www.w3.org/ns/person#birthName",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "birth name",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "Full name of the Person given upon their birth.",
+            "note": "null"
+          },
+          {
+            "key": "usageNote-en",
+            "value": "NOTE",
+            "note": "All data associated with an individual are subject to change. Names can change for a variety of reasons, either formally or informally, and new information may come to light that means that a correction or clarification can be made to an existing record. Birth names tend to be persistent however and for this reason they are recorded by some public sector information systems. There is no granularity for birth name - the full name should be recorded in a single field."
+          }
+        ],
+        "Scope": "TRANSLATIONS_ONLY"
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/person#Person",
+          "EA-Name": "Person"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "Text",
+          "EA-GUID": "{01DDF84E-BA04-467c-B657-9A8877C293F9}",
+          "EA-Package": "Core Vocabulary",
+          "uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+        }
+      ],
+      "generalization": [],
+      "minCardinality": "1",
+      "maxCardinality": "1"
+    },
+    {
+      "@id": "http://www.w3.org/ns/person#countryOfBirth",
+      "@type": "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "name": "place of death",
+      "inpackage": "ACTIVE_PACKAGE",
+      "ap-definition-en": {
+        "en": "The Location where a Person died."
+      },
+      "usage": {
+        "en": "NOTE"
+      },
+      "ap-label-en": {
+        "en": "place of death"
+      },
+      "definition": {
+        "en": "The Location where a Person died."
+      },
+      "label": {
+        "en": "place of death"
+      },
+      "extra": {
+        "EA-Name": "placeOfDeath",
+        "EA-Guid": "{008F68C7-562B-40b6-AEC0-459002778845}",
+        "derived": "false",
+        "EA-Package": "",
+        "EA-Type": "connector",
+        "EA-Domain": "Person",
+        "EA-Domain-Guid": "{A0ECD6E2-3D19-4928-8FAC-33C504817515}",
+        "EA-Range": "Location",
+        "RangeData": {
+          "EA-Name": "Location",
+          "EA-GUID": "{C893D9C5-F21F-401b-A896-22D5EB56D6A7}",
+          "EA-Package": "dct",
+          "uri": "http://purl.org/dc/terms/Location"
+        },
+        "sourceRole": "null",
+        "destRole": "placeOfDeath",
+        "label": {
+          "en": "place of death"
+        },
+        "definition": {
+          "en": "The Location where a Person died."
+        },
+        "usage": {
+          "en": "NOTE"
+        },
+        "ap-label-en": {
+          "en": "place of death"
+        },
+        "ap-definition-en": {
+          "en": "The Location where a Person died."
+        },
+        "ap-usageNote-en": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "usageNote-en",
+            "value": "NOTE",
+            "note": "NOTE$ea_notes=When geographic identifiers are used, the associated country of death property is unnecessary. When geographic names are used, however, it is recommended to also provide the country of death property as there might be some disambiguity, e.g. Paris in France or Paris in Texas, USA."
+          },
+          {
+            "key": "package",
+            "value": "NOTE",
+            "note": "Core Person"
+          },
+          {
+            "key": "uri",
+            "value": "NOTE",
+            "note": "NOTE$ea_notes=http://www.w3.org/ns/person#countryOfBirth"
+          },
+          {
+            "key": "label-en",
+            "value": "NOTE",
+            "note": "place of death"
+          },
+          {
+            "key": "usageNote-en",
+            "value": "NOTE",
+            "note": "NOTE"
+          },
+          {
+            "key": "definition-en",
+            "value": "NOTE",
+            "note": "The Location where a Person died."
+          }
+        ],
+        "DestRoleTags": [
+          {
+            "key": "usageNote-en",
+            "value": "NOTE",
+            "note": "NOTE$ea_notes=When geographic identifiers are used, the associated country of death property is unnecessary. When geographic names are used, however, it is recommended to also provide the country of death property as there might be some disambiguity, e.g. Paris in France or Paris in Texas, USA."
+          },
+          {
+            "key": "package",
+            "value": "NOTE",
+            "note": "Core Person"
+          },
+          {
+            "key": "uri",
+            "value": "NOTE",
+            "note": "NOTE$ea_notes=http://www.w3.org/ns/person#countryOfBirth"
+          },
+          {
+            "key": "label-en",
+            "value": "NOTE",
+            "note": "place of death"
+          },
+          {
+            "key": "usageNote-en",
+            "value": "NOTE",
+            "note": "NOTE"
+          },
+          {
+            "key": "definition-en",
+            "value": "NOTE",
+            "note": "The Location where a Person died."
+          }
+        ],
+        "Scope": "TRANSLATIONS_ONLY"
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/person#Person",
+          "EA-Name": "Person"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "Location",
+          "EA-GUID": "{C893D9C5-F21F-401b-A896-22D5EB56D6A7}",
+          "EA-Package": "dct",
+          "uri": "http://purl.org/dc/terms/Location"
+        }
+      ],
+      "generalization": []
+    },
+    {
+      "@id": "http://www.w3.org/ns/person#countryOfBirth",
+      "@type": "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "name": "residency",
+      "inpackage": "ACTIVE_PACKAGE",
+      "ap-definition-en": {
+        "en": "Residency typically provides an individual with a subset of the rights of a citizen."
+      },
+      "usage": {
+        "en": "\nA Person has one, multiple or even no residency status. Multiple residencies are recorded as multiple instances of the residency relationship."
+      },
+      "ap-label-en": {
+        "en": "residency"
+      },
+      "definition": {
+        "en": "Residency typically provides an individual with a subset of the rights of a citizen."
+      },
+      "label": {
+        "en": "residency"
+      },
+      "extra": {
+        "EA-Name": "residency",
+        "EA-Guid": "{C4D475F6-818A-4a41-9AAB-80257138150F}",
+        "derived": "false",
+        "EA-Package": "",
+        "EA-Type": "connector",
+        "EA-Domain": "Person",
+        "EA-Domain-Guid": "{A0ECD6E2-3D19-4928-8FAC-33C504817515}",
+        "EA-Range": "Jurisdiction",
+        "RangeData": {
+          "EA-Name": "Jurisdiction",
+          "EA-GUID": "{1F35C0ED-487E-44cf-B155-FAA631266668}",
+          "EA-Package": "dct",
+          "uri": "http://purl.org/dc/terms/Jurisdiction"
+        },
+        "sourceRole": "null",
+        "destRole": "residency",
+        "label": {
+          "en": "residency"
+        },
+        "definition": {
+          "en": "Residency typically provides an individual with a subset of the rights of a citizen."
+        },
+        "usage": {
+          "en": "\nA Person has one, multiple or even no residency status. Multiple residencies are recorded as multiple instances of the residency relationship."
+        },
+        "ap-label-en": {
+          "en": "residency"
+        },
+        "ap-definition-en": {
+          "en": "Residency typically provides an individual with a subset of the rights of a citizen."
+        },
+        "ap-usageNote-en": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "definition-en",
+            "value": "NOTE",
+            "note": "Residency typically provides an individual with a subset of the rights of a citizen."
+          },
+          {
+            "key": "package",
+            "value": "NOTE",
+            "note": "Core Person"
+          },
+          {
+            "key": "label-en",
+            "value": "NOTE",
+            "note": "residency"
+          },
+          {
+            "key": "uri",
+            "value": "NOTE",
+            "note": "NOTE$ea_notes=http://www.w3.org/ns/person#countryOfBirth"
+          },
+          {
+            "key": "usageNote-en",
+            "value": "NOTE",
+            "note": "NOTE$ea_notes=\nA Person has one, multiple or even no residency status. Multiple residencies are recorded as multiple instances of the residency relationship."
+          }
+        ],
+        "DestRoleTags": [
+          {
+            "key": "definition-en",
+            "value": "NOTE",
+            "note": "Residency typically provides an individual with a subset of the rights of a citizen."
+          },
+          {
+            "key": "package",
+            "value": "NOTE",
+            "note": "Core Person"
+          },
+          {
+            "key": "label-en",
+            "value": "NOTE",
+            "note": "residency"
+          },
+          {
+            "key": "uri",
+            "value": "NOTE",
+            "note": "NOTE$ea_notes=http://www.w3.org/ns/person#countryOfBirth"
+          },
+          {
+            "key": "usageNote-en",
+            "value": "NOTE",
+            "note": "NOTE$ea_notes=\nA Person has one, multiple or even no residency status. Multiple residencies are recorded as multiple instances of the residency relationship."
+          }
+        ],
+        "Scope": "TRANSLATIONS_ONLY"
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/person#Person",
+          "EA-Name": "Person"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "Jurisdiction",
+          "EA-GUID": "{1F35C0ED-487E-44cf-B155-FAA631266668}",
+          "EA-Package": "dct",
+          "uri": "http://purl.org/dc/terms/Jurisdiction"
+        }
+      ],
+      "generalization": []
+    },
+    {
+      "@id": "http://www.w3.org/ns/person#countryOfBirth",
+      "@type": "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "name": "country of birth",
+      "inpackage": "ACTIVE_PACKAGE",
+      "ap-definition-en": {
+        "en": "The country in which a Person was born."
+      },
+      "usage": {
+        "en": "When geographic identifiers are used, the country of birth property is unnecessary if the place of birth property is used. When geographic names are used, however, it is recommended to also provide the country of birth property as there might be some disambiguity, e.g. Paris in France or Paris in Texas, USA."
+      },
+      "ap-label-en": {
+        "en": "country of birth"
+      },
+      "definition": {
+        "en": "The country in which a Person was born."
+      },
+      "label": {
+        "en": "country of birth"
+      },
+      "extra": {
+        "EA-Name": "countryOfBirth",
+        "EA-Guid": "{433608C6-124D-4e06-9D37-A1D69C594FC3}",
+        "derived": "false",
+        "EA-Package": "",
+        "EA-Type": "connector",
+        "EA-Domain": "Person",
+        "EA-Domain-Guid": "{A0ECD6E2-3D19-4928-8FAC-33C504817515}",
+        "EA-Range": "Location",
+        "RangeData": {
+          "EA-Name": "Location",
+          "EA-GUID": "{C893D9C5-F21F-401b-A896-22D5EB56D6A7}",
+          "EA-Package": "dct",
+          "uri": "http://purl.org/dc/terms/Location"
+        },
+        "sourceRole": "null",
+        "destRole": "countryOfBirth",
+        "label": {
+          "en": "country of birth"
+        },
+        "definition": {
+          "en": "The country in which a Person was born."
+        },
+        "usage": {
+          "en": "When geographic identifiers are used, the country of birth property is unnecessary if the place of birth property is used. When geographic names are used, however, it is recommended to also provide the country of birth property as there might be some disambiguity, e.g. Paris in France or Paris in Texas, USA."
+        },
+        "ap-label-en": {
+          "en": "country of birth"
+        },
+        "ap-definition-en": {
+          "en": "The country in which a Person was born."
+        },
+        "ap-usageNote-en": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "NOTE",
+            "note": "NOTE$ea_notes=http://www.w3.org/ns/person#countryOfBirth"
+          },
+          {
+            "key": "package",
+            "value": "NOTE",
+            "note": "Core Person"
+          },
+          {
+            "key": "definition-en",
+            "value": "NOTE",
+            "note": "The country in which a Person was born."
+          },
+          {
+            "key": "label-en",
+            "value": "NOTE",
+            "note": "country of birth"
+          },
+          {
+            "key": "usageNote-en",
+            "value": "NOTE",
+            "note": "NOTE$ea_notes=When geographic identifiers are used, the country of birth property is unnecessary if the place of birth property is used. When geographic names are used, however, it is recommended to also provide the country of birth property as there might be some disambiguity, e.g. Paris in France or Paris in Texas, USA."
+          }
+        ],
+        "DestRoleTags": [
+          {
+            "key": "uri",
+            "value": "NOTE",
+            "note": "NOTE$ea_notes=http://www.w3.org/ns/person#countryOfBirth"
+          },
+          {
+            "key": "package",
+            "value": "NOTE",
+            "note": "Core Person"
+          },
+          {
+            "key": "definition-en",
+            "value": "NOTE",
+            "note": "The country in which a Person was born."
+          },
+          {
+            "key": "label-en",
+            "value": "NOTE",
+            "note": "country of birth"
+          },
+          {
+            "key": "usageNote-en",
+            "value": "NOTE",
+            "note": "NOTE$ea_notes=When geographic identifiers are used, the country of birth property is unnecessary if the place of birth property is used. When geographic names are used, however, it is recommended to also provide the country of birth property as there might be some disambiguity, e.g. Paris in France or Paris in Texas, USA."
+          }
+        ],
+        "Scope": "TRANSLATIONS_ONLY"
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/person#Person",
+          "EA-Name": "Person"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "Location",
+          "EA-GUID": "{C893D9C5-F21F-401b-A896-22D5EB56D6A7}",
+          "EA-Package": "dct",
+          "uri": "http://purl.org/dc/terms/Location"
+        }
+      ],
+      "generalization": []
+    },
+    {
+      "@id": "http://www.w3.org/ns/person#countryOfDeath",
+      "@type": "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "name": "country of death",
+      "inpackage": "ACTIVE_PACKAGE",
+      "ap-definition-en": {
+        "en": "The country in which a Person died."
+      },
+      "usage": {
+        "en": "When geographic identifiers are used, the country of death property is unnecessary if the place of death property is used. When geographic names are used, however, it is recommended to also provide the country of death property as there might be some disambiguity, e.g. Paris in France or Paris in Texas, USA."
+      },
+      "ap-label-en": {
+        "en": "country of death"
+      },
+      "definition": {
+        "en": "The country in which a Person died."
+      },
+      "label": {
+        "en": "country of death"
+      },
+      "extra": {
+        "EA-Name": "countryOfDeath",
+        "EA-Guid": "{A8C11F84-AF16-4262-995F-7FE7DAA36431}",
+        "derived": "false",
+        "EA-Package": "",
+        "EA-Type": "connector",
+        "EA-Domain": "Person",
+        "EA-Domain-Guid": "{A0ECD6E2-3D19-4928-8FAC-33C504817515}",
+        "EA-Range": "Location",
+        "RangeData": {
+          "EA-Name": "Location",
+          "EA-GUID": "{C893D9C5-F21F-401b-A896-22D5EB56D6A7}",
+          "EA-Package": "dct",
+          "uri": "http://purl.org/dc/terms/Location"
+        },
+        "sourceRole": "null",
+        "destRole": "countryOfDeath",
+        "label": {
+          "en": "country of death"
+        },
+        "definition": {
+          "en": "The country in which a Person died."
+        },
+        "usage": {
+          "en": "When geographic identifiers are used, the country of death property is unnecessary if the place of death property is used. When geographic names are used, however, it is recommended to also provide the country of death property as there might be some disambiguity, e.g. Paris in France or Paris in Texas, USA."
+        },
+        "ap-label-en": {
+          "en": "country of death"
+        },
+        "ap-definition-en": {
+          "en": "The country in which a Person died."
+        },
+        "ap-usageNote-en": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "usageNote-en",
+            "value": "NOTE",
+            "note": "NOTE$ea_notes=When geographic identifiers are used, the country of death property is unnecessary if the place of death property is used. When geographic names are used, however, it is recommended to also provide the country of death property as there might be some disambiguity, e.g. Paris in France or Paris in Texas, USA."
+          },
+          {
+            "key": "label-en",
+            "value": "NOTE",
+            "note": "country of death"
+          },
+          {
+            "key": "package",
+            "value": "NOTE",
+            "note": "Core Person"
+          },
+          {
+            "key": "definition-en",
+            "value": "NOTE",
+            "note": "The country in which a Person died."
+          },
+          {
+            "key": "uri",
+            "value": "NOTE",
+            "note": "NOTE$ea_notes=http://www.w3.org/ns/person#countryOfDeath"
+          }
+        ],
+        "DestRoleTags": [
+          {
+            "key": "usageNote-en",
+            "value": "NOTE",
+            "note": "NOTE$ea_notes=When geographic identifiers are used, the country of death property is unnecessary if the place of death property is used. When geographic names are used, however, it is recommended to also provide the country of death property as there might be some disambiguity, e.g. Paris in France or Paris in Texas, USA."
+          },
+          {
+            "key": "label-en",
+            "value": "NOTE",
+            "note": "country of death"
+          },
+          {
+            "key": "package",
+            "value": "NOTE",
+            "note": "Core Person"
+          },
+          {
+            "key": "definition-en",
+            "value": "NOTE",
+            "note": "The country in which a Person died."
+          },
+          {
+            "key": "uri",
+            "value": "NOTE",
+            "note": "NOTE$ea_notes=http://www.w3.org/ns/person#countryOfDeath"
+          }
+        ],
+        "Scope": "TRANSLATIONS_ONLY"
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/person#Person",
+          "EA-Name": "Person"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "Location",
+          "EA-GUID": "{C893D9C5-F21F-401b-A896-22D5EB56D6A7}",
+          "EA-Package": "dct",
+          "uri": "http://purl.org/dc/terms/Location"
+        }
+      ],
+      "generalization": []
+    },
+    {
+      "@id": "http://www.w3.org/ns/person#patronymicName",
+      "@type": "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "name": "patronymic name",
+      "inpackage": "OTHER_PACKAGE",
+      "ap-definition-en": {
+        "en": "Name based on the given name of the Person's father."
+      },
+      "usage": {
+        "en": "Patronymic names are important in some countries. Iceland does not have a concept of 'family name' in the way that many other European countries do, for example. Erik Magnusson and Erika Magnusdottir are siblings, both offspring of Magnus, irrespective of his patronymic name.\nIn Bulgaria and Russia, patronymic names are in everyday usage, for example, the \"Sergeyevich\" in \"Mikhail Sergeyevich Gorbachev\".\nNote that patronymic names refer to a father's given name, not the family name inherited from the mother and father as is the case in countries such as Spain and Portugal. Again referring to the example of Miguel de Cervantes Saavedra's, the patronymic name element would be unused."
+      },
+      "ap-label-en": {
+        "en": "patronymic name"
+      },
+      "definition": {
+        "en": "Name based on the given name of the Person's father."
+      },
+      "label": {
+        "en": "patronymic name"
+      },
+      "extra": {
+        "EA-Name": "patronymicName",
+        "EA-Guid": "{88587974-F8D9-41e9-B7E3-DC06E31F18CE}",
+        "EA-Package": "Core Person",
+        "EA-Type": "attribute",
+        "EA-Domain": "Person",
+        "EA-Domain-Guid": "{A0ECD6E2-3D19-4928-8FAC-33C504817515}",
+        "EA-Range": "Text",
+        "RangeData": {
+          "EA-Name": "Text",
+          "EA-GUID": "{01DDF84E-BA04-467c-B657-9A8877C293F9}",
+          "EA-Package": "Core Vocabulary",
+          "uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+        },
+        "label": {
+          "en": "patronymic name"
+        },
+        "definition": {
+          "en": "Name based on the given name of the Person's father."
+        },
+        "usage": {
+          "en": "Patronymic names are important in some countries. Iceland does not have a concept of 'family name' in the way that many other European countries do, for example. Erik Magnusson and Erika Magnusdottir are siblings, both offspring of Magnus, irrespective of his patronymic name.\nIn Bulgaria and Russia, patronymic names are in everyday usage, for example, the \"Sergeyevich\" in \"Mikhail Sergeyevich Gorbachev\".\nNote that patronymic names refer to a father's given name, not the family name inherited from the mother and father as is the case in countries such as Spain and Portugal. Again referring to the example of Miguel de Cervantes Saavedra's, the patronymic name element would be unused."
+        },
+        "ap-label-en": {
+          "en": "patronymic name"
+        },
+        "ap-definition-en": {
+          "en": "Name based on the given name of the Person's father."
+        },
+        "ap-usageNote-en": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://www.w3.org/ns/person#patronymicName",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "Name based on the given name of the Person's father.",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "patronymic name",
+            "note": "null"
+          },
+          {
+            "key": "usageNote-en",
+            "value": "NOTE",
+            "note": "Patronymic names are important in some countries. Iceland does not have a concept of 'family name' in the way that many other European countries do, for example. Erik Magnusson and Erika Magnusdottir are siblings, both offspring of Magnus, irrespective of his patronymic name.\nIn Bulgaria and Russia, patronymic names are in everyday usage, for example, the \"Sergeyevich\" in \"Mikhail Sergeyevich Gorbachev\".\nNote that patronymic names refer to a father's given name, not the family name inherited from the mother and father as is the case in countries such as Spain and Portugal. Again referring to the example of Miguel de Cervantes Saavedra's, the patronymic name element would be unused."
+          }
+        ],
+        "Scope": "TRANSLATIONS_ONLY"
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/person#Person",
+          "EA-Name": "Person"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "Text",
+          "EA-GUID": "{01DDF84E-BA04-467c-B657-9A8877C293F9}",
+          "EA-Package": "Core Vocabulary",
+          "uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+        }
+      ],
+      "generalization": [],
+      "minCardinality": "1",
+      "maxCardinality": "1"
+    },
+    {
+      "@id": "http://xmlns.com/foaf/0.1/familyName",
+      "@type": "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "name": "family name (surname)",
+      "inpackage": "OTHER_PACKAGE",
+      "ap-definition-en": {
+        "en": "A family name is usually shared by members of a family."
+      },
+      "usage": {
+        "en": "This attribute also carries prefixes or suffixes which are part of the family name, e.g. \"de Boer\", \"van de Putte\", \"von und zu Orlow\". Multiple family names, such as are commonly found in Hispanic countries, are recorded in the single family name property so that, for example, Miguel de Cervantes Saavedra's family name would be recorded as \"de Cervantes Saavedra\"."
+      },
+      "ap-label-en": {
+        "en": "family name (surname)"
+      },
+      "definition": {
+        "en": "A family name is usually shared by members of a family."
+      },
+      "label": {
+        "en": "family name (surname)"
+      },
+      "extra": {
+        "EA-Name": "familyName",
+        "EA-Guid": "{A7C32827-DBF1-44fa-86CC-F45B7DAA6746}",
+        "EA-Package": "Core Person",
+        "EA-Type": "attribute",
+        "EA-Domain": "Person",
+        "EA-Domain-Guid": "{A0ECD6E2-3D19-4928-8FAC-33C504817515}",
+        "EA-Range": "Text",
+        "RangeData": {
+          "EA-Name": "Text",
+          "EA-GUID": "{01DDF84E-BA04-467c-B657-9A8877C293F9}",
+          "EA-Package": "Core Vocabulary",
+          "uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+        },
+        "label": {
+          "en": "family name (surname)"
+        },
+        "definition": {
+          "en": "A family name is usually shared by members of a family."
+        },
+        "usage": {
+          "en": "This attribute also carries prefixes or suffixes which are part of the family name, e.g. \"de Boer\", \"van de Putte\", \"von und zu Orlow\". Multiple family names, such as are commonly found in Hispanic countries, are recorded in the single family name property so that, for example, Miguel de Cervantes Saavedra's family name would be recorded as \"de Cervantes Saavedra\"."
+        },
+        "ap-label-en": {
+          "en": "family name (surname)"
+        },
+        "ap-definition-en": {
+          "en": "A family name is usually shared by members of a family."
+        },
+        "ap-usageNote-en": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://xmlns.com/foaf/0.1/familyName",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "A family name is usually shared by members of a family.",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "family name (surname)",
+            "note": "null"
+          },
+          {
+            "key": "usageNote-en",
+            "value": "NOTE",
+            "note": "This attribute also carries prefixes or suffixes which are part of the family name, e.g. \"de Boer\", \"van de Putte\", \"von und zu Orlow\". Multiple family names, such as are commonly found in Hispanic countries, are recorded in the single family name property so that, for example, Miguel de Cervantes Saavedra's family name would be recorded as \"de Cervantes Saavedra\"."
+          }
+        ],
+        "Scope": "TRANSLATIONS_ONLY"
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/person#Person",
+          "EA-Name": "Person"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "Text",
+          "EA-GUID": "{01DDF84E-BA04-467c-B657-9A8877C293F9}",
+          "EA-Package": "Core Vocabulary",
+          "uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+        }
+      ],
+      "generalization": [],
+      "minCardinality": "1",
+      "maxCardinality": "1"
+    },
+    {
+      "@id": "http://xmlns.com/foaf/0.1/givenName",
+      "@type": "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "name": "given name (forename)",
+      "inpackage": "OTHER_PACKAGE",
+      "ap-definition-en": {
+        "en": "A given name, or multiple given names, are the denominator(s) that identify an individual within a family."
+      },
+      "usage": {
+        "en": "These are given to a person by his or her parents at birth or may be legally recognised as 'given names' through a formal process. All given names are ordered in one property so that, for example, the given name for Johann Sebastian Bach is \"Johann Sebastian\"."
+      },
+      "ap-label-en": {
+        "en": "given name (forename)"
+      },
+      "definition": {
+        "en": "A given name, or multiple given names, are the denominator(s) that identify an individual within a family."
+      },
+      "label": {
+        "en": "given name (forename)"
+      },
+      "extra": {
+        "EA-Name": "givenName",
+        "EA-Guid": "{B1835408-1E96-4393-8D60-9B77399F3A77}",
+        "EA-Package": "Core Person",
+        "EA-Type": "attribute",
+        "EA-Domain": "Person",
+        "EA-Domain-Guid": "{A0ECD6E2-3D19-4928-8FAC-33C504817515}",
+        "EA-Range": "Text",
+        "RangeData": {
+          "EA-Name": "Text",
+          "EA-GUID": "{01DDF84E-BA04-467c-B657-9A8877C293F9}",
+          "EA-Package": "Core Vocabulary",
+          "uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+        },
+        "label": {
+          "en": "given name (forename)"
+        },
+        "definition": {
+          "en": "A given name, or multiple given names, are the denominator(s) that identify an individual within a family."
+        },
+        "usage": {
+          "en": "These are given to a person by his or her parents at birth or may be legally recognised as 'given names' through a formal process. All given names are ordered in one property so that, for example, the given name for Johann Sebastian Bach is \"Johann Sebastian\"."
+        },
+        "ap-label-en": {
+          "en": "given name (forename)"
+        },
+        "ap-definition-en": {
+          "en": "A given name, or multiple given names, are the denominator(s) that identify an individual within a family."
+        },
+        "ap-usageNote-en": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://xmlns.com/foaf/0.1/givenName",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "given name (forename)",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "A given name, or multiple given names, are the denominator(s) that identify an individual within a family.",
+            "note": "null"
+          },
+          {
+            "key": "usageNote-en",
+            "value": "NOTE",
+            "note": "These are given to a person by his or her parents at birth or may be legally recognised as 'given names' through a formal process. All given names are ordered in one property so that, for example, the given name for Johann Sebastian Bach is \"Johann Sebastian\"."
+          }
+        ],
+        "Scope": "TRANSLATIONS_ONLY"
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/person#Person",
+          "EA-Name": "Person"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "Text",
+          "EA-GUID": "{01DDF84E-BA04-467c-B657-9A8877C293F9}",
+          "EA-Package": "Core Vocabulary",
+          "uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+        }
+      ],
+      "generalization": [],
+      "minCardinality": "1",
+      "maxCardinality": "1"
+    },
+    {
+      "@id": "http://xmlns.com/foaf/0.1/name",
+      "@type": "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "name": "full name",
+      "inpackage": "OTHER_PACKAGE",
+      "ap-definition-en": {
+        "en": "The full name contains the complete name of a person as one string."
+      },
+      "usage": {
+        "en": "<p>In addition to the content of given name, family name and, in some systems, patronymic name, this can carry additional parts of a person's name such as titles, middle names or suffixes like \"the third\" or names which are neither a given nor a family name.\nThe full name is the most reliable label for an individual and as such its use is strongly encouraged, irrespective of whether that name is broken down using the more granular elements.\r\n</p></br>\r\n<p>\r\nIt is anticipated that some systems will only provide or process the full name of a person. Where an individual has more than one full legal name (a relatively rare but not unknown phenomenon), the full name property can be used more than once. In this case, however, the granular name elements should not be used since the intention is that these provide a breakdown of the full name and it will not be clear of which full name this is true. \nNote that the vocabulary provides an alternative name property. This allows name(s) to be recorded that have no legal status but that nevertheless are the names by which an individual is generally known.\r\n</p></br>\r\n<p>\r\n\nA name usually sticks with a person for a long time period. In some European countries a name may only be changed according to certain laws and life events, e.g. marriage. The name denominates a natural person even if he/she changes their address. Documents like birth certificate or diploma usually don't carry an address but always the name. Thus the name is one of the core attributes. However it is not sufficient to identify a person since there are combinations of very common names like Smith in the UK, Meier in Germany, or Li in China.\r\n</p>"
+      },
+      "ap-label-en": {
+        "en": "full name"
+      },
+      "definition": {
+        "en": "The full name contains the complete name of a person as one string."
+      },
+      "label": {
+        "en": "full name"
+      },
+      "extra": {
+        "EA-Name": "fullName",
+        "EA-Guid": "{5F497151-9F47-4ed9-9949-80D79100C084}",
+        "EA-Package": "Core Person",
+        "EA-Type": "attribute",
+        "EA-Domain": "Person",
+        "EA-Domain-Guid": "{A0ECD6E2-3D19-4928-8FAC-33C504817515}",
+        "EA-Range": "Text",
+        "RangeData": {
+          "EA-Name": "Text",
+          "EA-GUID": "{01DDF84E-BA04-467c-B657-9A8877C293F9}",
+          "EA-Package": "Core Vocabulary",
+          "uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+        },
+        "label": {
+          "en": "full name"
+        },
+        "definition": {
+          "en": "The full name contains the complete name of a person as one string."
+        },
+        "usage": {
+          "en": "<p>In addition to the content of given name, family name and, in some systems, patronymic name, this can carry additional parts of a person's name such as titles, middle names or suffixes like \"the third\" or names which are neither a given nor a family name.\nThe full name is the most reliable label for an individual and as such its use is strongly encouraged, irrespective of whether that name is broken down using the more granular elements.\r\n</p></br>\r\n<p>\r\nIt is anticipated that some systems will only provide or process the full name of a person. Where an individual has more than one full legal name (a relatively rare but not unknown phenomenon), the full name property can be used more than once. In this case, however, the granular name elements should not be used since the intention is that these provide a breakdown of the full name and it will not be clear of which full name this is true. \nNote that the vocabulary provides an alternative name property. This allows name(s) to be recorded that have no legal status but that nevertheless are the names by which an individual is generally known.\r\n</p></br>\r\n<p>\r\n\nA name usually sticks with a person for a long time period. In some European countries a name may only be changed according to certain laws and life events, e.g. marriage. The name denominates a natural person even if he/she changes their address. Documents like birth certificate or diploma usually don't carry an address but always the name. Thus the name is one of the core attributes. However it is not sufficient to identify a person since there are combinations of very common names like Smith in the UK, Meier in Germany, or Li in China.\r\n</p>"
+        },
+        "ap-label-en": {
+          "en": "full name"
+        },
+        "ap-definition-en": {
+          "en": "The full name contains the complete name of a person as one string."
+        },
+        "ap-usageNote-en": "",
+        "ap-codelist": "",
+        "RawTags": [
+          {
+            "key": "uri",
+            "value": "http://xmlns.com/foaf/0.1/name",
+            "note": "null"
+          },
+          {
+            "key": "definition-en",
+            "value": "The full name contains the complete name of a person as one string.",
+            "note": "null"
+          },
+          {
+            "key": "label-en",
+            "value": "full name",
+            "note": "null"
+          },
+          {
+            "key": "usageNote-en",
+            "value": "NOTE",
+            "note": "<p>In addition to the content of given name, family name and, in some systems, patronymic name, this can carry additional parts of a person's name such as titles, middle names or suffixes like \"the third\" or names which are neither a given nor a family name.\nThe full name is the most reliable label for an individual and as such its use is strongly encouraged, irrespective of whether that name is broken down using the more granular elements.\r\n</p></br>\r\n<p>\r\nIt is anticipated that some systems will only provide or process the full name of a person. Where an individual has more than one full legal name (a relatively rare but not unknown phenomenon), the full name property can be used more than once. In this case, however, the granular name elements should not be used since the intention is that these provide a breakdown of the full name and it will not be clear of which full name this is true. \nNote that the vocabulary provides an alternative name property. This allows name(s) to be recorded that have no legal status but that nevertheless are the names by which an individual is generally known.\r\n</p></br>\r\n<p>\r\n\nA name usually sticks with a person for a long time period. In some European countries a name may only be changed according to certain laws and life events, e.g. marriage. The name denominates a natural person even if he/she changes their address. Documents like birth certificate or diploma usually don't carry an address but always the name. Thus the name is one of the core attributes. However it is not sufficient to identify a person since there are combinations of very common names like Smith in the UK, Meier in Germany, or Li in China.\r\n</p>"
+          }
+        ],
+        "Scope": "TRANSLATIONS_ONLY"
+      },
+      "codelist": [],
+      "domain": [
+        {
+          "uri": "http://www.w3.org/ns/person#Person",
+          "EA-Name": "Person"
+        }
+      ],
+      "range": [
+        {
+          "EA-Name": "Text",
+          "EA-GUID": "{01DDF84E-BA04-467c-B657-9A8877C293F9}",
+          "EA-Package": "Core Vocabulary",
+          "uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+        }
+      ],
+      "generalization": [],
+      "minCardinality": "1",
+      "maxCardinality": "1"
+    }
+  ],
+  "name": "core-person-ap",
+  "type": "ap",
+  "eap": "CoreVocabularies.EAP",
+  "diagram": "Core_Person",
+  "template": "core-person-ap_en.j2",
+  "title": "Core Person Vocabulary",
+  "publication-state": "Working Draft",
+  "publication-date": "2021-04-01",
+  "contributors-file": "stakeholders.csv",
+  "contributors-column": "CoreVoc",
+  "site": "site-skeleton/core-person",
+  "repourl": "https://github.com/SEMICeu/Core-Person-Vocabulary/tree/master/releases/2.00",
+  "versionurl": "https://semiceu.github.io/Core-Person-Vocabulary/releases/2.00",
+  "feedbackurl": "https://github.com/SEMICeu/Core-Person-Vocabulary/issues",
+  "standaardregisterurl": "Core-Person-Vocabulary",
+  "translation": [
+    {
+      "language": "en",
+      "template": "core-person-ap_en.j2",
+      "title": "Core Person Vocabulary",
+      "translationjson": "core-person-ap_en.json",
+      "mergefile": "core-person-ap_en_merged.jsonld"
+    },
+    {
+      "language": "de",
+      "template": "core-person-ap_de.j2",
+      "title": "TODO Core Person Vocabulary",
+      "translationjson": "core-person-ap_de.json",
+      "mergefile": "core-person-ap_de_merged.jsonld"
+    },
+    {
+      "language": "nl",
+      "template": "core-person-ap_nl.j2",
+      "title": "TODO Core Persoon Vocabularium",
+      "translationjson": "core-person-ap_nl.json",
+      "mergefile": "core-person-ap_nl_merged.jsonld"
+    }
+  ],
+  "config": "config/config-ap.json",
+  "dummy": "dimi-23",
+  "urlref": "/doc/core-vocabulary/core-person",
+  "repository": "https://github.com/bertvannuffelen/semiceuthema",
+  "branchtag": "master",
+  "filename": "config/core-person.json",
+  "navigation": {},
+  "documentcommit": "38ce8dd0f6dcf258d55140c00c9d6717e62ea71a",
+  "toolchaincommit": "7e62cdd7b3d098e423e953ac7a3412c9fd9d5071",
+  "hostname": "https://semiceu.github.io"
+}
