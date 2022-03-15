@@ -43,6 +43,7 @@ function render_xsd_from_json_ld_file (filename, output_filename, language) {
         const grouped = group_properties_per_class(obj)
         const entitymap = entity_map(obj)
         const groupedxsd = make_classes_xsd(grouped, entitymap, language)
+// const ggroupedxsdserialize = groupedxsd.end({ prettyPrint: true, wellFormed: true });
         const ggroupedxsdserialize = groupedxsd.end({ prettyPrint: true });
 	      console.log(ggroupedxsdserialize)
 
@@ -181,6 +182,11 @@ const toCamelCase = str =>
 const capitalizeFirst = (s) => {
   if (typeof s !== 'string') return ''
   return s.charAt(0).toUpperCase() + s.slice(1)
+}
+
+const removeSpecialChars = (s) => {
+  if (typeof s !== 'string') return ''
+  return s.replace(/[^a-zA-Z0-9]/g, '');
 }
 
 // auxiliary function to convert to camelcase with dealing special cases
@@ -410,7 +416,7 @@ function make_classes_xsd(grouped, entitymap, language) {
 
   let xsd = new Map()
   let complexType = new Map()
-  let complexTypes= []
+  let complexTypes= addDefaultComplexTypes()
   let xmlelement = new Map()
   let xmlelements = []
   const xsdDoc = new Map()
@@ -422,21 +428,24 @@ function make_classes_xsd(grouped, entitymap, language) {
     complexType = {}
     xsdelement = {}
     complexType['@xmlns:cv'] = options.basenamespace
+    let classname = ''
     if (entitymap.get(kkey)) {
-      let classname = capitalizeFirst(map_identifier(entitymap.get(kkey), language))
+      classname = capitalizeFirst(removeSpecialChars(map_identifier(entitymap.get(kkey), language)))
       complexType['@name'] = classname + 'Type'
       xmlelement={
 	      '@xmlns:cv': options.basenamespace,
 	      '@name' : classname,
 	      '@type' : classname + 'Type'
       }
+
+
     } else { console.log('WARNING: xsd shape for unknown class: ', kkey) }
     props = []
     sorted = kvalue.sort(function (a, b) { if (a.extra['EA-Name'] < b.extra['EA-Name']) { return -1 }; if (a.extra['EA-Name'] > b.extra['EA-Name']) { return 1 }; return 0 })
     Object.entries(sorted).forEach(
       ([pkey, value]) => {
 	prop={}
-	let propname =map_identifier(value, language)
+	let propname = removeSpecialChars(map_identifier(value, language))
         prop['@name'] = propname 
         if (value.range.length > 1) {
           console.log('Error: range has more than one value for property ', pkey)
@@ -444,26 +453,47 @@ function make_classes_xsd(grouped, entitymap, language) {
           if (value.range.length === 1) {
             if (value.range[0].uri === 'http://www.w3.org/1999/02/22-rdf-syntax-ns#langString') {
 		    prop['@type'] = 'xs:string'
+	    } else if (value.range[0].uri === 'http://www.w3.org/2000/01/rdf-schema#Literal') {
+		    prop['@type'] = 'xs:string'
 	    } else if (value['@type'] === 'http://www.w3.org/2002/07/owl#DatatypeProperty') {
-              prop['@type'] = value.range[0].uri
+		let localrange = value.range[0].uri
+		let localrange0 = localrange.replace(/^http:\/\/www.w3.org\/2001\/XMLSchema#/,"xs:")
+              	prop['@type'] = localrange0
+	    } else if (value.range[0].uri === 'http://www.w3.org/2004/02/skos/core#Concept') {
+              	prop['@type'] = 'ConceptType'
             } else {
-		    console.log(value.range[0])
+		console.log(value.range[0])
 		let propRangeName = value.range[0]['EA-Name'] 
     		if (entitymap.get(propRangeName)) { 
-      			let rangename = capitalizeFirst(map_identifier(entitymap.get(propRangeName), language))
-      			prop['@ref'] = rangename
-    			} else { console.log('Warning: range is unknown class: ', propRangeName) }
+      		     let rangename = capitalizeFirst(map_identifier(entitymap.get(propRangeName), language))
+      		     prop['@ref'] = rangename
+    		} else { console.log('Warning: range is unknown class: ', propRangeName) }
             }
           }
         };
+	  console.log(prop)
 
         if ((value.maxCardinality && value.maxCardinality !== '*') && (value.maxCardinality && value.maxCardinality !== 'n'))
 	      { prop['@maxOccurs'] = value.maxCardinality } else { prop['@maxOccurs'] = 'unbounded' }
         if (value.minCardinality && value.minCardinality !== '0') { prop['@minOccurs'] = value.minCardinality } else { prop['@minOccurs'] = '0' }
+
+	prop['xs:annotation'] = {
+		"xs:documentation" :{
+			'@xml:lang' : options.language,
+			'#' : value.definition[options.language]
+		}
+	}
+	      /*
+        <xs:annotation>
+            <xs:documentation xml:lang="en">Indicates the validity period of the Evidence.</xs:documentation>
+        </xs:annotation>
+	*/
+
         props.push(prop)
       })
 
     complexType['xs:sequence'] = {'xs:element' : props }
+    if (entitymap.get(kkey)) { complexType['xs:attribute'] = addEntityRef(classname) }
     complexTypes.push(complexType)
     xmlelements.push(xmlelement)
   })
@@ -488,6 +518,79 @@ function make_classes_xsd(grouped, entitymap, language) {
 
   return target
 }
+
+/* Example 
+ * <xs:attribute name="periodOfTimeRef" type="xsd:IDREFS">
+ *       <xs:annotation>
+ *           <xs:documentation xml:lang="en">Reference to PeriodOfTime ID.</xsd:documentation>
+ *       </xs:annotation>
+ *   </xs:attribute>
+ **/
+function addEntityRef(Entity) {
+
+	let entityRef = {
+			    '@name' : Entity+'Ref',
+			    '@type' : 'xs:IDREF',
+		            'xs:annotation' : {
+			    'xs:documentation' :{
+				'@xml:lang' : options.language,
+				'#' : 'Reference to ' + Entity + ' ID'
+				}}
+			    }
+
+	return entityRef
+}
+
+/*
+ *    <xs:complexType name="ConceptType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="country" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="langstring">
+     <xs:simpleContent>
+	  <xs:extension base="xs:string">
+		  <xs:attribute name="lang" type="xs:language"/>
+	  </xs:extension>
+     </xs:simpleContent>
+  </xs:complexType>
+  */
+
+function addDefaultComplexTypes () {
+	
+	let default0 = {
+		'@name' : 'langstring',
+                 'xs:simpleContent' : {
+			'xs:extension' : {
+				'@base' : 'xs:string',
+		      'xs:attribute' : {
+			    '@name' : 'lang',
+			    '@type' : 'xs:language'
+		    	}
+			}}
+		}
+	let default1 = {
+		'@name' : 'ConceptType',
+                 'xs:simpleContent' : {
+			'xs:extension' : {
+				'@base' : 'xs:token',
+		      'xs:attribute' : [{
+			    '@name' : 'ref',
+			    '@type' : 'xs:IDREF'
+		    	}, {
+			    '@name' : 'conceptSchemeRef',
+			    '@type' : 'xs:IDREF'
+            }
+            ]
+			}}
+		}
+
+	return [default0,default1]
+}
+
 
 function get_prop (value, language) {
   const name = get_tagged_value(value.label, language)
