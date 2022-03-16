@@ -43,7 +43,10 @@ function render_xsd_from_json_ld_file (filename, output_filename, language) {
         const grouped = group_properties_per_class(obj)
         const entitymap = entity_map(obj)
         const groupedxsd = make_classes_xsd(grouped, entitymap, language)
-// const ggroupedxsdserialize = groupedxsd.end({ prettyPrint: true, wellFormed: true });
+ // const ggroupedxsdserialize = groupedxsd.end({ prettyPrint: true, wellFormed: true });
+	      // well-formed testing results in errors that are not understandable
+	      // usefull to while developing, but useless in the practice
+	      // unless the exact location of the error can be printed
         const ggroupedxsdserialize = groupedxsd.end({ prettyPrint: true });
 	      console.log(ggroupedxsdserialize)
 
