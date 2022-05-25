@@ -5,8 +5,8 @@ run:
 	docker run --rm -it --name clst -v $(CURDIR):/data cls bash
 
 publish:
-	docker build -f Dockerfile.circleci -t informatievlaanderen/oslo-specification-generator:multilingual-dev .
-	docker push informatievlaanderen/oslo-specification-generator:multilingual-dev
+	docker build -f Dockerfile.circleci -t informatievlaanderen/oslo-specification-generator:multilingual-dev-0.3 .
+	docker push informatievlaanderen/oslo-specification-generator:multilingual-dev-0.3
 
 
 style:

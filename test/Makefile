@@ -124,3 +124,4 @@ XMLDIR=${TESTDIR}/xml-generator
 xml: 
 	node /app/xsd-generator.js -d -l label -i ${XMLDIR}/1.input.jsonld -o ${XMLDIR}/1.output.xsd -m en -b https://data.europa.eu/m8g/xml/
 	node /app/xsd-generator.js -d -l label -i ${XMLDIR}/2.input.jsonld -o ${XMLDIR}/2.output.xsd -m en -b https://data.europa.eu/m8g/xml/
+	node /app/xsd-generator.js -d -l label -i ${XMLDIR}/3.input.jsonld -o ${XMLDIR}/3.output.xsd -m en -b https://data.europa.eu/m8g/xml/

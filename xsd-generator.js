@@ -469,7 +469,7 @@ function make_classes_xsd(grouped, entitymap, language) {
 		let propRangeName = value.range[0]['EA-Name'] 
     		if (entitymap.get(propRangeName)) { 
       		     let rangename = capitalizeFirst(map_identifier(entitymap.get(propRangeName), language))
-      		     prop['@ref'] = rangename
+      		     prop['@ref'] = rangename + 'Type'
     		} else { console.log('Warning: range is unknown class: ', propRangeName) }
             }
           }
@@ -516,6 +516,12 @@ function make_classes_xsd(grouped, entitymap, language) {
           '@attributeFormDefault' : 'unqualified',
           '@xmlns:cv' : options.basenamespace,
 	  'xs:element' : xmlelements, 
+	  'xs:simpleType': [
+		  {'@name': 'Literal',
+		   'xs:restriction' : {
+			   '@base' : 'xs:string'
+		   }}
+	          ],
 	  'xs:complexType' : complexTypes}}
 )
 
