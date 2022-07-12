@@ -74,7 +74,7 @@ async function parse_ontology_from_json_ld_file_voc (json_ld_file, hostname, lan
   for (const i in expanded) {
     const vocabularium = expanded[i]
     const nunjucks_json = {
-      metadata: make_nj_metadata(ld, hostname),
+      metadata: make_nj_metadata(ld, hostname, language),
       classes: nj_classes,
       properties: nj_properties,
       contributors: nj_authors.concat(nj_editors).concat(nj_contributors),
@@ -123,7 +123,7 @@ async function parse_ontology_from_json_ld_file_ap (json_ld_file, hostname, forc
   for (const i in expanded) {
     const vocabularium = expanded[i]
     const nunjucks_json = {
-      metadata: make_nj_metadata(ld, hostname),
+      metadata: make_nj_metadata(ld, hostname, language),
       classes: nj_classes,
       properties: extract_properties_from_expanded_json(vocabularium),
       contributors: nj_authors.concat(nj_editors).concat(nj_contributors),
@@ -169,7 +169,7 @@ async function parse_ontology_from_json_ld_file_all (json_ld_file, hostname, for
   for (const i in expanded) {
     const vocabularium = expanded[i]
     const nunjucks_json = {
-      metadata: make_nj_metadata(ld, hostname),
+      metadata: make_nj_metadata(ld, hostname, language),
       classes: nj_classes,
       properties: extract_properties_from_expanded_json(vocabularium),
       contributors: nj_authors.concat(nj_editors).concat(nj_contributors),
@@ -218,7 +218,7 @@ async function parse_ontology_from_json_ld_file_oj (json_ld_file, hostname, forc
   for (const i in expanded) {
     const vocabularium = expanded[i]
     const nunjucks_json = {
-      metadata: make_nj_metadata(ld, hostname),
+      metadata: make_nj_metadata(ld, hostname, language),
       classes: nj_classes,
       properties: extract_properties_from_expanded_json(vocabularium),
       contributors: nj_authors.concat(nj_editors).concat(nj_contributors),
@@ -253,7 +253,7 @@ async function parse_json_ld_file_to_exampletemplates (json_ld_file, hostname, l
   // console.log(JSON.stringify(nj_classes) );
 
   const classes_json = {
-    metadata: make_nj_metadata(ld, hostname),
+    metadata: make_nj_metadata(ld, hostname, language),
     classes: nj_classes,
     datatypes: nj_datatypes,
     parents: []
@@ -1011,9 +1011,7 @@ function make_nj_person (element, type) {
 //
 // @param expanded the root class as it is being read by jsonld
 
-// the values in this config will be always Dutch
-// translation (EN, FR, ...) are collected from other sources
-function make_nj_metadata (json, hostname) {
+function make_nj_metadata (json, hostname, language) {
   let hn = json.hostname
   if (hn == null) {
     hn = (hostname != null) ? hostname : 'https://data.vlaanderen.be'
@@ -1071,9 +1069,23 @@ function make_nj_metadata (json, hostname) {
     documentconfig = json.documentconfig
   }
 
+  let titel = ""
+  if (json.translation) {
+	for (i in json.translation ) {
+	     if (json.translation[i].language === language) {
+		 titel = json.translation[i].title
+	     }
+	}
+	if (titel === "") {
+		titel = json.title
+	} 
+  }
+  else  {
+	  titel = json.title
+  }
 
   const meta = {
-    title: json.title,
+    title: titel,
     uri: json['@id'],
     issued: json['publication-date'],
     baseURI: json.baseURI,

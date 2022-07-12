@@ -12400,7 +12400,7 @@
   "eap": "OSLO-AirAndWater-Core-AP.EAP",
   "diagram": "Air&Water-Core",
   "template": "mijn-applicatieprofiel-ap.j2",
-  "title": "OSLO Air & Water - Core",
+  "title": "OSLO Air & Water - Core OLD",
   "publication-state": "https://data.vlaanderen.be/id/concept/StandaardStatus/OntwerpStandaard",
   "publication-date": "2021-04-16",
   "contributors-file": "stakeholders.csv",
@@ -12412,14 +12412,14 @@
     {
       "language": "en",
       "template": "airandwaterCore-ap_en.j2",
-      "title": "OSLO Air & Water - Core",
+      "title": "OSLO Air & Water - Core EN",
       "translationjson": "airandwaterCore-ap_en.json",
       "mergefile": "airandwaterCore-ap_en_merged.jsonld"
     },
     {
       "language": "nl",
       "template": "airandwaterCore-ap_nl.j2",
-      "title": "OSLO Air & Water - Core",
+      "title": "OSLO Air & Water - Core NL",
       "translationjson": "airandwaterCore-ap_nl.json",
       "mergefile": "airandwaterCore-ap_nl_merged.jsonld"
     }
