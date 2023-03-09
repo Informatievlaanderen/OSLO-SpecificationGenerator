@@ -1,4 +1,4 @@
-FROM circleci/node:14.16.1-buster
+FROM cimg/node:14.21
 
 #RUN useradd -m circleci
 USER circleci

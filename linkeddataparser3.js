@@ -560,7 +560,7 @@ function make_nj_class (element, grouped, aux, language) {
   const scoped_class_uri = dependencies.reduce(function (acc, elem) {
     if (elem.package === element.extra['EA-Package']) {
       // a dependency has been defined for this class
-      acc = elem.packageurl + '#' + element.extra['EA-Name']
+      acc = elem.packageurl + '#' + get_language_attribute(element, 'label', language)
     }
     return acc
   },
@@ -586,6 +586,7 @@ function make_nj_class (element, grouped, aux, language) {
   []
   )
   nj_class.parents = scoped_parents
+  nj_class.rawTags = get_rawtags(element.extra['RawTags'])
 
   const gindex = element.extra['EA-Name']
 
@@ -674,7 +675,8 @@ function make_nj_class (element, grouped, aux, language) {
         range: range,
         scopedrange: scoped_range,
         cardinality: card,
-        codelist_uri: codelisturi
+        codelist_uri: codelisturi,
+	rawTags: get_rawtags(value.extra['RawTags'])
       }
       props.push(prop)
     })
@@ -729,6 +731,41 @@ function get_sort (element, language) {
   }
   return sort
 }
+
+
+// rawtags are entities of the form { key, value, note }
+//
+function get_rawtags(tags) {
+	return convertTagsToObject(tags) ;
+}
+
+const convertTagsToObject = (array) => {
+  var initialValue = new Object();
+  return array.reduce((obj, item) => {
+      if ( item["note"] !== undefined && item["note"] != null && item["note"] != "" ) {
+       return { ...obj,  ...{[item["key"]] :  item["value"]} }
+      } else {
+       return { ...obj,  ...{[item["key"]] :  item["note"]} }
+         }
+
+  }, initialValue);
+};
+
+
+
+const convertArrayToObject = (array, key) => {
+  const initialValue = {};
+  return array.reduce((obj, item) => {
+    return {
+      ...obj,
+      [item[key]]: item,
+    };
+  }, initialValue);
+};
+
+
+
+
 
 function make_nj_ext_class_voc (element, language) {
   const nj_class = {
