@@ -262,95 +262,95 @@ function make_shacl_individual (grouped, entitymap, language) {
             prop = { ...prop0 } // use the spread operator to construct a variant of the constraint
             prop['@id'] = classshapeuri + '/' + SHA1(prop0name + 'range')
             prop['vl:message'] = {}
-	    prop['vl:rule'] = ''
+            prop['vl:rule'] = ''
             if (value['@type'] === 'http://www.w3.org/2002/07/owl#DatatypeProperty') {
-		    // Only types that represent RDF Literals are allowed
-	      const literaltype = value.range[0].uri
-	      let datatypeconstraint = false
-	      if (literaltype.startsWith('http://www.w3.org/2001/XMLSchema#')) {
-		      datatypeconstraint = true
-	      } else {
-	      if (literaltype.startsWith('http://www.w3.org/1999/02/22-rdf-syntax-ns#langString')) {
-		      datatypeconstraint = true
-	      } else {
-	      if (literaltype.startsWith('http://www.w3.org/1999/02/22-rdf-syntax-ns#HTML')) {
-		      datatypeconstraint = true
-	      } else {
-	      if (literaltype.startsWith('http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral')) {
-		      datatypeconstraint = true
-	      }
+              // Only types that represent RDF Literals are allowed
+              const literaltype = value.range[0].uri
+              let datatypeconstraint = false
+              if (literaltype.startsWith('http://www.w3.org/2001/XMLSchema#')) {
+                datatypeconstraint = true
+              } else {
+                if (literaltype.startsWith('http://www.w3.org/1999/02/22-rdf-syntax-ns#langString')) {
+                  datatypeconstraint = true
+                } else {
+                  if (literaltype.startsWith('http://www.w3.org/1999/02/22-rdf-syntax-ns#HTML')) {
+                    datatypeconstraint = true
+                  } else {
+                    if (literaltype.startsWith('http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral')) {
+                      datatypeconstraint = true
+                    }
                   }
                 }
               }
 
-	      if (datatypeconstraint) {
+              if (datatypeconstraint) {
                 prop['sh:datatype'] = value.range[0].uri
-	      if (options.addConstraintMessage) {
-		      if (options.language === 'nl') {
-              		prop['vl:message'].nl = 'De range van ' + prop['sh:name'][language] + ' moet van het type <' + prop['sh:datatype'] + '> zijn.'
-		      } else {
-              		prop['vl:message'].en = 'The range of ' + prop['sh:name'][language] + ' must be of type <' + prop['sh:datatype'] + '>.'
-		      }
-	      }
+                if (options.addConstraintMessage) {
+                  if (options.language === 'nl') {
+                    prop['vl:message'].nl = 'De range van ' + prop['sh:name'][language] + ' moet van het type <' + prop['sh:datatype'] + '> zijn.'
+                  } else {
+                    prop['vl:message'].en = 'The range of ' + prop['sh:name'][language] + ' must be of type <' + prop['sh:datatype'] + '>.'
+                  }
+                }
                 props.push(prop)
-	      }
+              }
             } else {
               prop['sh:class'] = value.range[0].uri
-	      if (options.addConstraintMessage) {
-		      if (options.language === 'nl') {
+              if (options.addConstraintMessage) {
+                if (options.language === 'nl') {
                   prop['vl:message'].nl = 'De range van ' + prop['sh:name'][language] + ' moet van het type <' + prop['sh:class'] + '> zijn.'
-		      } else {
+                } else {
                   prop['vl:message'].en = 'The range of ' + prop['sh:name'][language] + ' must be of type <' + prop['sh:class'] + '>.'
-		      }
-	      }
+                }
+              }
               props.push(prop)
             }
 
-	    if (options.constraints.includes('uniqueLanguages')) {
-		    if (value.range[0].uri === 'http://www.w3.org/1999/02/22-rdf-syntax-ns#langString') {
-			    console.log('add uniqueLanguage constraint')
-            		prop = { ...prop0 } // use the spread operator to construct a variant of the constraint
-            		prop['@id'] = classshapeuri + '/' + SHA1(prop0name + 'uniqueLanguage')
+            if (options.constraints.includes('uniqueLanguages')) {
+              if (value.range[0].uri === 'http://www.w3.org/1999/02/22-rdf-syntax-ns#langString') {
+                console.log('add uniqueLanguage constraint')
+                prop = { ...prop0 } // use the spread operator to construct a variant of the constraint
+                prop['@id'] = classshapeuri + '/' + SHA1(prop0name + 'uniqueLanguage')
                 prop['sh:uniqueLang'] = 'true'
-            		prop['vl:message'] = {}
-	      if (options.addConstraintMessage) {
-		      if (options.language === 'nl') {
+                prop['vl:message'] = {}
+                if (options.addConstraintMessage) {
+                  if (options.language === 'nl') {
                     prop['vl:message'].nl = 'Slechts 1 waarde voor elke taal toegelaten voor ' + prop['sh:name'][language]
-		      } else {
+                  } else {
                     prop['vl:message'].en = 'Only 1 value for each language is allowed for ' + prop['sh:name'][language]
-		      }
+                  }
                 }
-	    		prop['vl:rule'] = ''
-            		props.push(prop)
-		    }
-	    }
-	    if (options.constraints.includes('nodekind')) {
+                prop['vl:rule'] = ''
+                props.push(prop)
+              }
+            }
+            if (options.constraints.includes('nodekind')) {
               console.log('add nodeKind constraint')
-            		prop = { ...prop0 } // use the spread operator to construct a variant of the constraint
-            		prop['@id'] = classshapeuri + '/' + SHA1(prop0name + 'nodekind')
-            		prop['vl:message'] = {}
-	    		prop['vl:rule'] = ''
-            	    if (value['@type'] === 'http://www.w3.org/2002/07/owl#DatatypeProperty') {
+              prop = { ...prop0 } // use the spread operator to construct a variant of the constraint
+              prop['@id'] = classshapeuri + '/' + SHA1(prop0name + 'nodekind')
+              prop['vl:message'] = {}
+              prop['vl:rule'] = ''
+              if (value['@type'] === 'http://www.w3.org/2002/07/owl#DatatypeProperty') {
                 prop['sh:nodeKind'] = 'sh:Literal'
-	      		if (options.addConstraintMessage) {
-		            if (options.language === 'nl') {
+                if (options.addConstraintMessage) {
+                  if (options.language === 'nl') {
                     prop['vl:message'].nl = 'De verwachte waarde voor ' + prop['sh:name'][language] + ' is een Literal'
-		            } else {
+                  } else {
                     prop['vl:message'].en = 'The expected value for ' + prop['sh:name'][language] + ' is a Literal'
-		          }
+                  }
                 }
-		    } else {
+              } else {
                 prop['sh:nodeKind'] = 'sh:BlankNodeOrIRI'
-	                if (options.addConstraintMessage) {
-		            if (options.language === 'nl') {
+                if (options.addConstraintMessage) {
+                  if (options.language === 'nl') {
                     prop['vl:message'].nl = 'De verwachte waarde voor ' + prop['sh:name'][language] + ' is een rdfs:Resource (URI of blank node)'
-		            } else {
+                  } else {
                     prop['vl:message'].en = 'The expected value for ' + prop['sh:name'][language] + ' is a rdfs:Resource (URI or blank node)'
-		           }
+                  }
                 }
-		    }
-            		props.push(prop)
-	    }
+              }
+              props.push(prop)
+            }
           }
         };
 
@@ -359,14 +359,14 @@ function make_shacl_individual (grouped, entitymap, language) {
           prop['@id'] = classshapeuri + '/' + SHA1(prop0name + 'maxCount')
           prop['sh:maxCount'] = value.maxCardinality
           prop['vl:message'] = {}
-	      if (options.addConstraintMessage) {
-		      if (options.language === 'nl') {
+          if (options.addConstraintMessage) {
+            if (options.language === 'nl') {
               prop['vl:message'].nl = 'Maximaal ' + prop['sh:maxCount'] + ' waarden toegelaten voor ' + prop['sh:name'][language]
-		      } else {
+            } else {
               prop['vl:message'].en = 'Maximally ' + prop['sh:maxCount'] + ' values allowed for ' + prop['sh:name'][language]
-		      }
+            }
           }
-	  prop['vl:rule'] = ''
+          prop['vl:rule'] = ''
           props.push(prop)
         }
         if (value.minCardinality && value.minCardinality !== '0') {
@@ -374,14 +374,14 @@ function make_shacl_individual (grouped, entitymap, language) {
           prop['@id'] = classshapeuri + '/' + SHA1(prop0name + 'minCount')
           prop['sh:minCount'] = value.minCardinality
           prop['vl:message'] = {}
-	      if (options.addConstraintMessage) {
-		      if (options.language === 'nl') {
+          if (options.addConstraintMessage) {
+            if (options.language === 'nl') {
               prop['vl:message'].nl = 'Minimaal ' + prop['sh:minCount'] + ' waarden verwacht voor ' + prop['sh:name'][language]
-		      } else {
+            } else {
               prop['vl:message'].en = 'Minimally ' + prop['sh:minCount'] + ' values are expected for ' + prop['sh:name'][language]
-		      }
+            }
           }
-	  prop['vl:rule'] = ''
+          prop['vl:rule'] = ''
           props.push(prop)
         }
         if (value['ap-codelist']) {
@@ -402,15 +402,15 @@ function make_shacl_individual (grouped, entitymap, language) {
           prop['sh:nodeKind'] = 'sh:IRI'
           prop['sh:severity'] = 'sh:Warning'
           prop['vl:message'] = {}
-	      if (options.addConstraintMessage) {
-		      if (options.language === 'nl') {
+          if (options.addConstraintMessage) {
+            if (options.language === 'nl') {
               prop['vl:message'].nl = 'Enkel waarden uit codelijst <' + value['ap-codelist'] + '> verwacht voor ' + prop['sh:name'][language]
-		      } else {
+            } else {
               prop['vl:message'].en = 'Only values from the codelist <' + value['ap-codelist'] + '> are expected for ' + prop['sh:name'][language]
-		      }
+            }
           }
           prop['sh:node'] = noderestriction
-	  prop['vl:rule'] = ''
+          prop['vl:rule'] = ''
           props.push(prop)
         } // requires the same codelist reasoning as for the html
       })
@@ -569,7 +569,7 @@ function get_prop (value, language) {
   if (name == null && definition == null) {
     return {
       'sh:path': value['@id'],
-	    'sh:description': ''
+      'sh:description': ''
     }
   } else if (name == null && definition != null) {
     return {
