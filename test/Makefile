@@ -3,7 +3,7 @@ TESTDIR=/data/test
 shacl:
 	node /app/shacl-generator2.js -i /data/test/shacl-generator/1.input.jsonld -o /data/test/shacl-generator/1.output.jsonld.0 -l en -m grouped
 	jq . /data/test/shacl-generator/1.output.jsonld.0 > /data/test/shacl-generator/1.output.jsonld
-	node /app/shacl-generator2.js -i /data/test/shacl-generator/1.input.jsonld -o /data/test/shacl-generator/2.output.jsonld.0 -l en -m individual
+	node /app/shacl-generator2.js -i /data/test/shacl-generator/1.input.jsonld -o /data/test/shacl-generator/2.output.jsonld.0 -l nl -m individual
 	jq . /data/test/shacl-generator/2.output.jsonld.0 > /data/test/shacl-generator/2.output.jsonld
 	# test for not generating a constraint in case maxCardinality has the value "n" 
 	node /app/shacl-generator2.js -i /data/test/shacl-generator/3.input.jsonld -o /data/test/shacl-generator/3.output.jsonld.0 -l nl -m individual -d https://data.vlaanderen.be/shacl/DCAT-AP-VL
@@ -12,12 +12,14 @@ shacl:
 	jq -S . /data/test/shacl-generator/4.output.jsonld.0 > /data/test/shacl-generator/4.output.jsonld
 	node /app/shacl-generator2.js -i /data/test/shacl-generator/3.input.jsonld -o /data/test/shacl-generator/5.output.jsonld.0 -l nl -m individual -d https://data.vlaanderen.be/shacl/DCAT-AP-VL -c 'uniqueLanguages' -p https://data.vlaanderen.be/doc/applicatieprofiel/DCAT-AP-VL/ontwerpstandaard/2021-06-27
 	jq -S . /data/test/shacl-generator/5.output.jsonld.0 > /data/test/shacl-generator/5.output.jsonld
-	node /app/shacl-generator2.js -i /data/test/shacl-generator/3.input.jsonld -o /data/test/shacl-generator/6.output.jsonld.0 -l nl -m individual -d https://data.vlaanderen.be/shacl/DCAT-AP-VL -c 'uniqueLanguages' -c 'nodekind'  -p https://data.vlaanderen.be/doc/applicatieprofiel/DCAT-AP-VL/ontwerpstandaard/2021-06-27
+	node /app/shacl-generator2.js -i /data/test/shacl-generator/3.input.jsonld -o /data/test/shacl-generator/6.output.jsonld.0 -l nl -m individual -d https://data.vlaanderen.be/shacl/DCAT-AP-VL -c 'uniqueLanguages' -c 'nodekind'  -p https://data.vlaanderen.be/doc/applicatieprofiel/DCAT-AP-VL/erkendestandaard/2022-04-21
 	jq -S . /data/test/shacl-generator/6.output.jsonld.0 > /data/test/shacl-generator/6.output.jsonld
-	node /app/shacl-generator2.js -i /data/test/shacl-generator/7.input.jsonld -o /data/test/shacl-generator/7.output.jsonld.0 -l nl -m individual -d https://data.vlaanderen.be/shacl/metadata_dcat -c 'uniqueLanguages' -c 'nodekind'  -p https://data.vlaanderen.be/doc/applicatieprofiel/metadata-dcat/erkendestandaard/2021-04-22
+	node /app/shacl-generator2.js -i /data/test/shacl-generator/3.input.jsonld -o /data/test/shacl-generator/7.output.jsonld.0 -l nl -m individual -d https://data.vlaanderen.be/shacl/DCAT-AP-VL -c 'uniqueLanguages' -c 'nodekind'  -p https://data.vlaanderen.be/doc/applicatieprofiel/DCAT-AP-VL/erkendestandaard/2022-04-21 -a -b
 	jq -S . /data/test/shacl-generator/7.output.jsonld.0 > /data/test/shacl-generator/7.output.jsonld
-	node /app/shacl-generator2.js -i /data/test/shacl-generator/8.input.jsonld -o /data/test/shacl-generator/8.output.jsonld.0 -l nl -m individual -d https://data.vlaanderen.be/shacl/GEODCAT-AP-VL -c 'uniqueLanguages' -c 'nodekind'  -p https://data.vlaanderen.be/doc/applicatieprofiel/GEODCAT-AP-VL/erkendestandaard/2022-01-23
+	node /app/shacl-generator2.js -i /data/test/shacl-generator/8.input.jsonld -o /data/test/shacl-generator/8.output.jsonld.0 -l nl -m individual -d https://data.vlaanderen.be/shacl/metadata_dcat -c 'uniqueLanguages' -c 'nodekind'  -p https://data.vlaanderen.be/doc/applicatieprofiel/metadata-dcat/erkendestandaard/2021-04-22
 	jq -S . /data/test/shacl-generator/8.output.jsonld.0 > /data/test/shacl-generator/8.output.jsonld
+	node /app/shacl-generator2.js -i /data/test/shacl-generator/9.input.jsonld -o /data/test/shacl-generator/9.output.jsonld.0 -l en -m individual -d https://data.vlaanderen.be/shacl/GEODCAT-AP-VL -c 'uniqueLanguages' -c 'nodekind'  -p https://data.vlaanderen.be/doc/applicatieprofiel/GEODCAT-AP-VL/erkendestandaard/2022-01-23 -a 
+	jq -S . /data/test/shacl-generator/9.output.jsonld.0 > /data/test/shacl-generator/9.output.jsonld
 
 
 context: 
