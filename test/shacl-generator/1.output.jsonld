@@ -2,7 +2,7 @@
   "@context": {
     "sh": "http://www.w3.org/ns/shacl#",
     "qb": "http://purl.org/linked-data/cube#",
-    "vl": "https://data.vlaanderen.be/ns/shacl#",
+    "vl": "https://purl.eu/ns/shacl#",
     "sh:class": {
       "@type": "@id"
     },
