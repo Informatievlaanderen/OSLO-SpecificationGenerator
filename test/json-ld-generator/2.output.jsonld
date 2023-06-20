@@ -33,8 +33,7 @@
     "MeasurementRange": "http://www.w3.org/ns/ssn/systems/MeasurementRange",
     "Metadata": "http://def.isotc211.org/iso19115/2006/MetadataEntitySetInformation#MD_Metadata",
     "Metadata.description": {
-      "@id": "http://purl.org/dc/elements/1.1/description",
-      "@type": ""
+      "@id": "http://purl.org/dc/elements/1.1/description"
     },
     "NamedValue": "https://def.isotc211.org/iso19156/2011/Observation#NamedValue",
     "Observation": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation",
@@ -157,12 +156,10 @@
       "@type": "@id"
     },
     "contributor": {
-      "@id": "http://purl.org/dc/elements/1.1/contributor",
-      "@type": ""
+      "@id": "http://purl.org/dc/elements/1.1/contributor"
     },
     "creator": {
-      "@id": "http://purl.org/dc/elements/1.1/creator",
-      "@type": ""
+      "@id": "http://purl.org/dc/elements/1.1/creator"
     },
     "deviceClass": {
       "@id": "http://fixme.com#deviceClass",
@@ -186,8 +183,7 @@
       "@type": "@id"
     },
     "gml": {
-      "@id": "http://www.opengis.net/ont/geosparql#asGML",
-      "@type": "http://www.w3.org/2000/01/rdf-schema#Literal"
+      "@id": "http://www.opengis.net/ont/geosparql#asGML"
     },
     "hasFeatureOfInterest": {
       "@id": "http://www.w3.org/ns/sosa/hasFeatureOfInterest",
@@ -213,8 +209,7 @@
       "@type": "@id"
     },
     "hasSimpleResult": {
-      "@id": "http://www.w3.org/ns/sosa/hasSimpleResult",
-      "@type": "http://www.w3.org/2000/01/rdf-schema#Literal"
+      "@id": "http://www.w3.org/ns/sosa/hasSimpleResult"
     },
     "hasSurvivalProperty": {
       "@id": "http://www.w3.org/ns/ssn/systems/hasSurvivalProperty",
@@ -244,8 +239,7 @@
       "@type": "@id"
     },
     "identifier": {
-      "@id": "http://purl.org/dc/elements/1.1/identifier",
-      "@type": ""
+      "@id": "http://purl.org/dc/elements/1.1/identifier"
     },
     "image": {
       "@id": "https://schema.org/image",
@@ -341,8 +335,7 @@
       "@type": "@id"
     },
     "publisher": {
-      "@id": "http://purl.org/dc/elements/1.1/publisher",
-      "@type": ""
+      "@id": "http://purl.org/dc/elements/1.1/publisher"
     },
     "refPointOfInterest": {
       "@id": "https://smart-data-models.github.io/data-models/terms.jsonld#/definitions/refPointOfInterest",
@@ -368,8 +361,7 @@
       "@type": "@id"
     },
     "rights": {
-      "@id": "http://purl.org/dc/elements/1.1/rights",
-      "@type": ""
+      "@id": "http://purl.org/dc/elements/1.1/rights"
     },
     "sampledFeature": {
       "@container": "@set",
@@ -394,8 +386,7 @@
       "@type": "http://www.w3.org/2001/XMLSchema#anyURI"
     },
     "subject": {
-      "@id": "http://purl.org/dc/elements/1.1/subject",
-      "@type": ""
+      "@id": "http://purl.org/dc/elements/1.1/subject"
     },
     "supportedProtocol": {
       "@container": "@set",
@@ -412,8 +403,7 @@
       "@type": "@id"
     },
     "title": {
-      "@id": "http://purl.org/dc/elements/1.1/title",
-      "@type": ""
+      "@id": "http://purl.org/dc/elements/1.1/title"
     },
     "type": {
       "@container": "@set",
@@ -425,8 +415,7 @@
       "@type": "@id"
     },
     "wkt": {
-      "@id": "http://www.opengis.net/ont/geosparql#asWKT",
-      "@type": "http://www.w3.org/2000/01/rdf-schema#Literal"
+      "@id": "http://www.opengis.net/ont/geosparql#asWKT"
     }
   }
 }

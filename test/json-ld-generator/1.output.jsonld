@@ -76,12 +76,10 @@
     "GenericName": "http://def.isotc211.org/iso19103/2005/Names#GenericName",
     "Geometry": "http://www.w3.org/ns/locn#Geometry",
     "Geometry.gml": {
-      "@id": "http://www.opengis.net/ont/geosparql#asGML",
-      "@type": "http://www.w3.org/2000/01/rdf-schema#Literal"
+      "@id": "http://www.opengis.net/ont/geosparql#asGML"
     },
     "Geometry.wkt": {
-      "@id": "http://www.opengis.net/ont/geosparql#asWKT",
-      "@type": "http://www.w3.org/2000/01/rdf-schema#Literal"
+      "@id": "http://www.opengis.net/ont/geosparql#asWKT"
     },
     "GeometryObservation": "https://def.isotc211.org/iso19156/2011/Observation#GeometryObservation",
     "Image": "http://fixme.com#Image",
@@ -92,36 +90,28 @@
     "MeasurementRange": "http://www.w3.org/ns/ssn/systems/MeasurementRange",
     "Metadata": "http://def.isotc211.org/iso19115/2006/MetadataEntitySetInformation#MD_Metadata",
     "Metadata.contributor": {
-      "@id": "http://purl.org/dc/elements/1.1/contributor",
-      "@type": ""
+      "@id": "http://purl.org/dc/elements/1.1/contributor"
     },
     "Metadata.creator": {
-      "@id": "http://purl.org/dc/elements/1.1/creator",
-      "@type": ""
+      "@id": "http://purl.org/dc/elements/1.1/creator"
     },
     "Metadata.description": {
-      "@id": "http://purl.org/dc/elements/1.1/description",
-      "@type": ""
+      "@id": "http://purl.org/dc/elements/1.1/description"
     },
     "Metadata.identifier": {
-      "@id": "http://purl.org/dc/elements/1.1/identifier",
-      "@type": ""
+      "@id": "http://purl.org/dc/elements/1.1/identifier"
     },
     "Metadata.publisher": {
-      "@id": "http://purl.org/dc/elements/1.1/publisher",
-      "@type": ""
+      "@id": "http://purl.org/dc/elements/1.1/publisher"
     },
     "Metadata.rights": {
-      "@id": "http://purl.org/dc/elements/1.1/rights",
-      "@type": ""
+      "@id": "http://purl.org/dc/elements/1.1/rights"
     },
     "Metadata.subject": {
-      "@id": "http://purl.org/dc/elements/1.1/subject",
-      "@type": ""
+      "@id": "http://purl.org/dc/elements/1.1/subject"
     },
     "Metadata.title": {
-      "@id": "http://purl.org/dc/elements/1.1/title",
-      "@type": ""
+      "@id": "http://purl.org/dc/elements/1.1/title"
     },
     "NamedValue": "https://def.isotc211.org/iso19156/2011/Observation#NamedValue",
     "Observation": "http://def.isotc211.org/iso19156/2011/Observation#OM_Observation",
@@ -130,8 +120,7 @@
       "@type": "@id"
     },
     "Observation.hasSimpleResult": {
-      "@id": "http://www.w3.org/ns/sosa/hasSimpleResult",
-      "@type": "http://www.w3.org/2000/01/rdf-schema#Literal"
+      "@id": "http://www.w3.org/ns/sosa/hasSimpleResult"
     },
     "Observation.hasUltimateFeatureOfInterest": {
       "@container": "@set",
