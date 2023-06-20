@@ -130,6 +130,7 @@ function pick_general_attributes (currobject, newobject, language) {
   newobject['@id'] = currobject['@id']
   newobject['@type'] = currobject['@type']
   newobject = set_value(newobject, currobject, 'name', language)
+  newobject = set_value(newobject, currobject, 'label', language)
   newobject = set_value(newobject, currobject, 'definition', language)
   newobject = set_value(newobject, currobject, 'usage', language)
   return newobject

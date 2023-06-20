@@ -31,6 +31,10 @@ context:
 	jq -S . /data/test/json-ld-generator/3.output.jsonld.0 > /data/test/json-ld-generator/3.output.jsonld
 	node /app/json-ld-generator2.js -l uml -i /data/test/json-ld-generator/1.input.jsonld -o /data/test/json-ld-generator/4.output.jsonld.0 -m en
 	jq -S . /data/test/json-ld-generator/4.output.jsonld.0 > /data/test/json-ld-generator/4.output.jsonld
+	node /app/json-ld-generator2.js -l label -i /data/test/json-ld-generator/5.input.jsonld -o /data/test/json-ld-generator/5.output.jsonld.0 -m en -c
+	jq -S . /data/test/json-ld-generator/5.output.jsonld.0 > /data/test/json-ld-generator/5.output.jsonld
+	node /app/json-ld-generator2.js -d -l label -i /data/test/json-ld-generator/5.input.jsonld -o /data/test/json-ld-generator/6.output.jsonld.0 -m en -c
+	jq -S . /data/test/json-ld-generator/6.output.jsonld.0 > /data/test/json-ld-generator/6.output.jsonld
 
 vocabulary:
 	node /app/render-voc.js -i ${TESTDIR}/render-voc/1.input.jsonld -o ${TESTDIR}/render-voc/1.output.jsonld.0 -l en
@@ -124,6 +128,6 @@ rubyvoc:
 
 XMLDIR=${TESTDIR}/xml-generator
 xml: 
-	node /app/xsd-generator.js -d -l label -i ${XMLDIR}/1.input.jsonld -o ${XMLDIR}/1.output.xsd -m en -b https://data.europa.eu/m8g/xml/
-	node /app/xsd-generator.js -d -l label -i ${XMLDIR}/2.input.jsonld -o ${XMLDIR}/2.output.xsd -m en -b https://data.europa.eu/m8g/xml/
-	node /app/xsd-generator.js -d -l label -i ${XMLDIR}/3.input.jsonld -o ${XMLDIR}/3.output.xsd -m en -b https://data.europa.eu/m8g/xml/
+	node /app/new-xsd-generator.js -d -l label -i ${XMLDIR}/1.input.jsonld -o ${XMLDIR}/1.output.xsd -m en -b https://data.europa.eu/m8g/xml/
+	node /app/new-xsd-generator.js -d -l label -i ${XMLDIR}/2.input.jsonld -o ${XMLDIR}/2.output.xsd -m en -b https://data.europa.eu/m8g/xml/
+	node /app/new-xsd-generator.js -d -l label -i ${XMLDIR}/3.input.jsonld -o ${XMLDIR}/3.output.xsd -m en -b https://data.europa.eu/m8g/xml/

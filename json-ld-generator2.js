@@ -12,6 +12,7 @@ program
   .option('-m, --language <languagecode>', 'the language for the context (the languagecode)')
   .option('-d, --forceDomain', 'force the domain all the terms, instead only for those that are necessary. Default false')
   .option('-l, --useLabels <label>', 'the terms used are { label = the labels in camelCase, uml = the names from the UML},', /^(label|uml)$/i)
+  .option('-c, --scopedcontext', 'use scoped contexts instead of prefixing by class. Default false')
 
 program.on('--help', function () {
   console.log('')
@@ -19,11 +20,14 @@ program.on('--help', function () {
   console.log('  $ json-ld-generator2 --help')
   console.log('  $ json-ld-generator2 -i <input> -o <output> -m <language>')
   console.log('  $ json-ld-generator2 -i <input> -o <output> -l <useLabels> -m <language>')
+  console.log('  $ json-ld-generator2 -i <input> -o <output> -l <useLabels> -m <language> --forceDomain')
+  console.log('  $ json-ld-generator2 -i <input> -o <output> -l <useLabels> -m <language> --forceDomain --scopedcontext')
 })
 
 program.parse(process.argv)
 const options = program.opts()
 const forceDomain = !!options.forceDomain
+const scopedcontext = !!options.scopedcontext
 
 render_context_from_json_ld_file(options.input, options.output, options.language)
 console.log('done')
@@ -42,7 +46,15 @@ function render_context_from_json_ld_file (filename, output_filename, language) 
         console.log(duplicates)
         console.log('they will be disambiguated')
         const eanamesclasses = get_EAname(obj.classes.concat(obj.externals), language)
-        const context = make_context(classes(obj, language), properties(eanamesclasses, duplicates, obj, language), externals(obj, language), externalproperties(eanamesclasses, duplicates, obj, language))
+	let context = {};
+	if (scopedcontext) { 
+	   console.log('create scoped contexts')
+	   let scopedclassesMap = scopedclasses(obj, language)
+	   scopedclassesMap = scopedproperties(scopedclassesMap, eanamesclasses, duplicates, obj, language)
+           context = make_scopedcontext(scopedclassesMap)
+	} else {
+           context = make_context(classes(obj, language), properties(eanamesclasses, duplicates, obj, language), externals(obj, language), externalproperties(eanamesclasses, duplicates, obj, language))
+	}
 
         console.log('start writing')
 
@@ -63,7 +75,7 @@ function render_context_from_json_ld_file (filename, output_filename, language) 
 function identify_duplicates (properties, language) {
   let acc = new Map()
   acc = properties.reduce(function (accumulator, currentValue, currentIndex, array) {
-    return urireducer(accumulator, currentValue, currentIndex, array, 'nl')
+    return urireducer(accumulator, currentValue, currentIndex, array, language)
   }, acc)
 
   // search for duplicates
@@ -167,7 +179,6 @@ const accContext = (accumulator, currentValue) =>
   accumulator.addEach(currentValue)
 
 function make_context (classes, properties, externals, externalproperties) {
-  console.log('make context')
 
   const context = new Map()
   let contextbody = new Map()
@@ -181,6 +192,10 @@ function make_context (classes, properties, externals, externalproperties) {
 
   return context
 }
+
+
+
+
 
 /* TODO: handle classhierarchy grouping
    it should be possible to based on a class-hierarchy to create
@@ -221,12 +236,16 @@ function map_properties (eanamesclasses, duplicates, prop, language) {
     range_uri = range.uri
   };
   let atType = ''
-  if (prop['@type'] === 'http://www.w3.org/2002/07/owl#ObjectProperty') {
-    atType = '@id'
+  if ( range_uri === 'http://www.w3.org/2000/01/rdf-schema#Literal' ) {
+//    atType = "http://www.w3.org/2001/XMLSchema#string"	 // we could force it to xsd:string which is correct according to RDF
+    atType = ''	                                                 // but we will not set it, and leave the interpretation to the JSON-LD user.
   } else {
-    // assume a literal
-    atType = range_uri
-  };
+    if (prop['@type'] === 'http://www.w3.org/2002/07/owl#ObjectProperty') {
+      atType = '@id'
+    } else {
+      // assume a literal
+      atType = range_uri
+  }};
 
   identifier = map_identifier(prop, language)
   let propc = {}
@@ -246,16 +265,30 @@ function map_properties (eanamesclasses, duplicates, prop, language) {
   };
 
   if (prop.maxCardinality !== '0' & prop.maxCardinality !== '1') {
+	  if (atType !== '') {
     propc = {
       '@id': prop['@id'],
       '@type': atType,
       '@container': '@set' // support @language case
     }
+	  } else {
+    propc = {
+      '@id': prop['@id'],
+      '@container': '@set' // support @language case
+    }
+	  }
   } else {
+	  if (atType !== '') {
     propc = {
       '@id': prop['@id'],
       '@type': atType
     }
+	  } else {
+    propc = {
+      '@id': prop['@id']
+    }
+	  }
+
   };
   // add to the map, only if it is not yet present
   if (mapping.has(key)) {
@@ -299,4 +332,191 @@ function externalproperties (eanamesclasses, duplicates, json, language) {
   externalmapping = externs.map(x => map_properties(eanamesclasses, duplicates, x, language))
 
   return externalmapping
+}
+
+
+/*************************************************************************************
+ * scoped context created 
+ */
+
+function make_scopedcontext (classes) {
+  const context = new Map()
+
+  context.set('@context', classes.toObject())
+
+  return context
+}
+
+// create a map to a map.
+function map_scopedclass (c, language) {
+  const mapping = new Map()
+  const EAmapping = new Map() // add extra layer becauce Domains are only known by their EA Name
+  const properties = new Map()
+  const identifier = map_identifier(c, language)
+  //EAmapping.set(c.extra['EA-name'], mapping.set(capitalizeFirst(identifier), { '@id': c['@id'], '@context': properties } ))
+  mapping.set(capitalizeFirst(identifier), { '@id': c['@id'], '@context': properties } )
+  return mapping
+};
+
+function scopedclasses (json, language) {
+  const classes = json.classes.concat(json.externals)
+  let classmapping = new Map()
+  classmapping = classes.map(x => map_scopedclass(x, language))
+  classmapping = classmapping.reduce(accContext,new Map())
+  return classmapping
+}
+
+
+
+function scopedproperties (scopedclasses, eanamesclasses, duplicates, json, language) {
+	
+  const properties = json.properties.concat(json.externalproperties)
+
+	// collect all information
+  scopedclasses = properties.reduce(function (accumulator, currentValue, currentIndex, array) {
+    return map_scopedproperties(accumulator, eanamesclasses, duplicates, currentValue, language)
+  }, scopedclasses)
+
+	// make it json-ld friendly
+  scopedclasses = scopedclasses.reduce(function(accumulator, currentValue, currentIndex, array) {
+	  return reduce_properties(accumulator,currentValue, currentIndex)
+  }, new Map())
+
+
+  return scopedclasses 
+}
+
+
+function reduce_properties(accumulator, scopedClass, currentIndex) {
+	let scopedproperties = scopedClass['@context']
+
+	if ( scopedproperties.length  < 1 ) {
+		// simplify empty class
+		accumulator.set(currentIndex, scopedClass['@id'])
+	} else {
+		scopedClass['@context'] = scopedproperties.toObject()
+		accumulator.set(currentIndex, scopedClass)
+	}
+
+	return accumulator
+}
+
+
+
+function map_scopedproperties (accumulator, eanamesclasses, duplicates, prop, language) {
+  // find the scoped class in the accumulator
+  const domain = prop.extra['EA-Domain'] // better work via domain[0].['EA-Name']
+  let accumulatorDomain = ''
+  let accumulatorScopedContext = {}
+  let mapping = new Map()
+
+  if (domain === '') {
+      console.log('ERROR: no domain found to disambiguate ' + prop.name )
+      console.log('this property will be ignored')
+      return accumulator
+      
+   } else {
+      accumulatorDomain = capitalizeFirst(eanamesclasses.get(domain))
+   }
+
+  if (accumulator.has(accumulatorDomain)) {
+     accumulatorScopedContext = accumulator.get(accumulatorDomain)
+     mapping = accumulatorScopedContext['@context']
+  } else {
+      console.log('ERROR: no domain found to disambiguate ' + prop.name )
+      console.log('this property will be ignored')
+      return accumulator
+  };
+  
+
+   // map the property
+  let range
+  let range_uri = ''
+  let identifier = ''
+
+  if (prop.range.length === 0) {
+    console.log('warning: no range for ' + prop.name)
+  } else {
+    if (prop.range.length > 1) {
+      console.log('warning: more than one type for ' + prop.name + ' : ' + prop.range)
+      range = prop.range[0]
+      range_uri = range.uri
+    } else {
+      range = prop.range[0]
+    };
+    range_uri = range.uri
+  };
+  let atType = ''
+  if ( range_uri === 'http://www.w3.org/2000/01/rdf-schema#Literal' ) {
+//    atType = "http://www.w3.org/2001/XMLSchema#string"	 // we could force it to xsd:string which is correct according to RDF
+    atType = ''	                                                 // but we will not set it, and leave the interpretation to the JSON-LD user.
+  } else {
+    if (prop['@type'] === 'http://www.w3.org/2002/07/owl#ObjectProperty') {
+      atType = '@id'
+    } else {
+      // assume a literal
+      atType = range_uri
+  }};
+
+
+	// assume that scoped contexts disambiguated properties
+	// forceDomain may still be applied.
+  identifier = map_identifier(prop, language)
+  let propc = {}
+  let key = ''
+  if (forceDomain) {
+    // duplicate
+    const domain = prop.extra['EA-Domain']
+    if (domain === '') {
+      console.log('ERROR: no domain found to disambiguate ' + identifier)
+      console.log('An overwrite will happen')
+    } else {
+      key = capitalizeFirst(eanamesclasses.get(domain)) + '.' + identifier
+    }
+  } else {
+    // no duplicate
+    key = identifier
+  };
+
+	
+
+  if (prop.maxCardinality !== '0' & prop.maxCardinality !== '1') {
+	  if (atType !== '') {
+    propc = {
+      '@id': prop['@id'],
+      '@type': atType,
+      '@container': '@set' // support @language case
+    }
+	  } else {
+    propc = {
+      '@id': prop['@id'],
+      '@container': '@set' // support @language case
+    }
+	  }
+  } else {
+	  if (atType !== '') {
+    propc = {
+      '@id': prop['@id'],
+      '@type': atType
+    }
+	  } else {
+    propc = {
+      '@id': prop['@id']
+    }
+	  }
+
+  };
+
+  // add to the map, only if it is not yet present
+  if (mapping.has(key)) {
+    console.log('warning: duplicate key ' + key + ' value ' + mapping[key])
+  } else {
+    mapping.set(key, propc)
+  };
+
+  accumulatorScopedContext['@context'] = mapping
+  accumulator.set(accumulatorDomain, accumulatorScopedContext)
+
+  return accumulator
+
 }

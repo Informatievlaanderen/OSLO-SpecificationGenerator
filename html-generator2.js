@@ -16,6 +16,7 @@ program
   .option('-r, --documentpath <path>', 'the document path on which the html is published')
   .option('-x, --debug <path>', 'the intermediate json which will be used by the templaterenderer')
   .option('-m, --mainlanguage <languagecode>', 'the language to display(a languagecode string)')
+  .option('-u, --uridomain <uridomain>', 'the domain of the URIs that should be excluded from this vocabulary')
   .option('-i, --input <path>', 'input file that is merged from the jsonld and its appropriate translation json (a jsonld file)')
   .option('-o, --output <path>', 'output file (the html file)')
   .option('-e, --tempdir [directory]', 'the directory for intermediate processing')

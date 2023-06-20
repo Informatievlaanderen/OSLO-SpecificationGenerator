@@ -742,11 +742,14 @@ function get_rawtags(tags) {
 const convertTagsToObject = (array) => {
   var initialValue = new Object();
   return array.reduce((obj, item) => {
+      if ( item["value"] === "NOTE" ) {
+       return { ...obj,  ...{[item["key"]] :  item["note"]} }
+      } else {
       if ( item["note"] !== undefined && item["note"] != null && item["note"] != "" ) {
        return { ...obj,  ...{[item["key"]] :  item["value"]} }
       } else {
        return { ...obj,  ...{[item["key"]] :  item["note"]} }
-         }
+         }}
 
   }, initialValue);
 };
