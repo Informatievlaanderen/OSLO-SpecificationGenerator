@@ -11,7 +11,7 @@ publish:
 
 style:
 	cd /app
-	./node_modules/.bin/eslint *.js
+	./node_modules/.bin/eslint --fix *.js 
 
 
 ruby-build:

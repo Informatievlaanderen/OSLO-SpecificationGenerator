@@ -31,38 +31,34 @@ function transform_json_ld_file_to_translatable_json (filename, primeLanguage, g
       function (input) {
         console.log('start processing')
 
-	let myJson = {}
+        let myJson = {}
 
-	if (options.translation === null ) {
-             myJson = get_shortened_json(input, primeLanguage, goalLanguage)
-		jsonfile.writeFile(outputfile, myJson)
-		  .then(res => {
-		    console.log('Write complete')
-		    console.log('the file was saved to: ' + outputfile)
-		  })
-		  .catch(error => { console.error(error); process.exitCode = 1 })
-	} else {
+        if (options.translation === null) {
+          myJson = get_shortened_json(input, primeLanguage, goalLanguage)
+          jsonfile.writeFile(outputfile, myJson)
+        .then(res => {
+          console.log('Write complete')
+          console.log('the file was saved to: ' + outputfile)
+        })
+        .catch(error => { console.error(error); process.exitCode = 1 })
+        } else {
+          console.log('create new translation file with existing translations included')
 
-		console.log('create new translation file with existing translations included')
+        jsonfile.readFile(options.translation)
+          .then(
+            function (translationJson) {
+                const merged = translationlib.mergefiles(input, translationJson, primeLanguage, goalLanguage)
+                   myJson = get_shortened_json(merged, primeLanguage, goalLanguage)
 
-  		jsonfile.readFile(options.translation)
-    		.then(
-      		function (translationJson) {
-
-			let merged = translationlib.mergefiles(input, translationJson, primeLanguage, goalLanguage) 
-             		myJson = get_shortened_json(merged, primeLanguage, goalLanguage)
-
-		jsonfile.writeFile(outputfile, myJson)
-		  .then(res => {
-		    console.log('Write complete')
-		    console.log('the file was saved to: ' + outputfile)
-		  })
-		  .catch(error => { console.error(error); process.exitCode = 1 })
-
-		})
-		.catch(error => { console.error(error); process.exitCode = 1 })
-	}
-
+                jsonfile.writeFile(outputfile, myJson)
+        .then(res => {
+          console.log('Write complete')
+          console.log('the file was saved to: ' + outputfile)
+        })
+        .catch(error => { console.error(error); process.exitCode = 1 })
+              })
+            .catch(error => { console.error(error); process.exitCode = 1 })
+        }
       }
     )
     .catch(error => { console.error(error); process.exitCode = 1 })
@@ -92,7 +88,7 @@ function get_shortened_json (input, primeLanguage, goalLanguage) {
     console.log('WARNING The entered language values are the same!')
   }
 
-  json['@id']   = input['@id']
+  json['@id'] = input['@id']
   json.generatedAtTime = input.generatedAtTime
   json.classes = classArray
   json.attributes = propertyArray
@@ -101,22 +97,20 @@ function get_shortened_json (input, primeLanguage, goalLanguage) {
   return json
 }
 
-
 function create_shortened_object (object, prime, goal) {
   // use this approach to ensure the order of the attributes in the json in the same order as the source
   let shortObject = {}
-  shortObject['@id']   = object['@id']
-  shortObject.assignedURI   = object.assignedURI
+  shortObject['@id'] = object['@id']
+  shortObject.assignedURI = object.assignedURI
   shortObject = get_attribute(shortObject, object, 'vocLabel', prime, goal)
   shortObject = get_attribute(shortObject, object, 'apLabel', prime, goal)
   shortObject = get_attribute(shortObject, object, 'vocDefinition', prime, goal)
   shortObject = get_attribute(shortObject, object, 'apDefinition', prime, goal)
   shortObject = get_attribute(shortObject, object, 'vocUsageNote', prime, goal)
   shortObject = get_attribute(shortObject, object, 'apUsageNote', prime, goal)
-  
+
   return shortObject
 }
-
 
 function get_attribute_old (shortObject, originalObject, attribute, prime, goal) {
   if (!(originalObject[attribute] === undefined)) {
@@ -131,19 +125,18 @@ function get_attribute_old (shortObject, originalObject, attribute, prime, goal)
 
 // add a dummy value if the goal translation not already exists
 function get_attribute (shortObject, originalObject, attribute, prime, goal) {
-
-  let original = originalObject[attribute]
-  if (!(original === undefined))  {
-    let originalgoal = translationlib.get_language_value(original, goal)
-    if ( originalgoal === null ) {
-	    // if goal language already has a value keep it
-    let other = {}
-    other["@language"] = goal,
-    other["@value"] = 'Enter your translation here'
-    original.push(other)
-    shortObject[attribute] = original
+  const original = originalObject[attribute]
+  if (!(original === undefined)) {
+    const originalgoal = translationlib.get_language_value(original, goal)
+    if (originalgoal === null) {
+       // if goal language already has a value keep it
+      const other = {}
+      other['@language'] = goal
+      other['@value'] = 'Enter your translation here'
+      original.push(other)
+      shortObject[attribute] = original
     } else {
-	    shortObject[attribute] = original
+       shortObject[attribute] = original
     }
   }
   return shortObject
