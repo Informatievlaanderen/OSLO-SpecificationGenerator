@@ -1,7 +1,6 @@
 const jsonfile = require('jsonfile')
 const program = require('commander')
-const Map = require('collections/map')
-const Set = require('collections/set')
+const translationlib = require('./translation-json-lib')
 
 program
   .version('2.0.0')
@@ -42,7 +41,7 @@ function render_updated_file_from_json_ld_file (inputfilename, primeLanguage, go
             function (translation) {
               console.log('start processing')
 
-              const output = mergefiles(input, translation, primeLanguage, goalLanguage)
+              const output = translationlib.mergefiles(input, translation, primeLanguage, goalLanguage)
 
               jsonfile.writeFile(outputfilename, output)
                 .then(res => {

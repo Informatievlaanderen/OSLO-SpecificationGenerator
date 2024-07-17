@@ -134,9 +134,7 @@ function get_attribute (shortObject, originalObject, attribute, prime, goal) {
 
   let original = originalObject[attribute]
   if (!(original === undefined))  {
-	  console.log(original)
     let originalgoal = translationlib.get_language_value(original, goal)
-	  console.log(originalgoal)
     if ( originalgoal === null ) {
 	    // if goal language already has a value keep it
     let other = {}
