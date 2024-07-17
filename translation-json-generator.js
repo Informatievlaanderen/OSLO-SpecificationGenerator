@@ -1,10 +1,12 @@
 const jsonfile = require('jsonfile')
 const program = require('commander')
+const translationlib = require('./translation-json-lib')
 
 program
   .version('2.0.0')
   .usage('node translation-json-generator.js creates a translatable json based on a jsonld and a chosen prime and goallanguage')
   .option('-i, --input <path>', 'input file (a jsonld file)')
+  .option('-t, --translation <path>', 'a corresponding translation file (a json file)')
   .option('-o, --output <path>', 'output file (a json file)')
   .option('-m, --primeLanguage <language>', 'prime language to translate to a different one (a string)')
   .option('-g, --goalLanguage <language>', 'goal language to translate into (a string)')
@@ -23,22 +25,44 @@ transform_json_ld_file_to_translatable_json(options.input, options.primeLanguage
 console.log('done')
 
 function transform_json_ld_file_to_translatable_json (filename, primeLanguage, goalLanguage, outputfile) {
-  console.log('Prime Language: ' + primeLanguage)
-  console.log('Goal Language: ' + goalLanguage)
   console.log('start reading')
   jsonfile.readFile(filename)
     .then(
-      function (obj) {
+      function (input) {
         console.log('start processing')
 
-        const myJson = get_shortened_json(obj, primeLanguage, goalLanguage)
+	let myJson = {}
 
-        jsonfile.writeFile(outputfile, myJson)
-          .then(res => {
-            console.log('Write complete')
-            console.log('the file was saved to: ' + outputfile)
-          })
-          .catch(error => { console.error(error); process.exitCode = 1 })
+	if (options.translation === null ) {
+             myJson = get_shortened_json(input, primeLanguage, goalLanguage)
+		jsonfile.writeFile(outputfile, myJson)
+		  .then(res => {
+		    console.log('Write complete')
+		    console.log('the file was saved to: ' + outputfile)
+		  })
+		  .catch(error => { console.error(error); process.exitCode = 1 })
+	} else {
+
+		console.log('create new translation file with existing translations included')
+
+  		jsonfile.readFile(options.translation)
+    		.then(
+      		function (translationJson) {
+
+			let merged = translationlib.mergefiles(input, translationJson, primeLanguage, goalLanguage) 
+             		myJson = get_shortened_json(merged, primeLanguage, goalLanguage)
+
+		jsonfile.writeFile(outputfile, myJson)
+		  .then(res => {
+		    console.log('Write complete')
+		    console.log('the file was saved to: ' + outputfile)
+		  })
+		  .catch(error => { console.error(error); process.exitCode = 1 })
+
+		})
+		.catch(error => { console.error(error); process.exitCode = 1 })
+	}
+
       }
     )
     .catch(error => { console.error(error); process.exitCode = 1 })
@@ -79,6 +103,7 @@ function get_shortened_json (input, primeLanguage, goalLanguage) {
 
 
 function create_shortened_object (object, prime, goal) {
+  // use this approach to ensure the order of the attributes in the json in the same order as the source
   let shortObject = {}
   shortObject['@id']   = object['@id']
   shortObject.assignedURI   = object.assignedURI
@@ -104,15 +129,24 @@ function get_attribute_old (shortObject, originalObject, attribute, prime, goal)
   return shortObject
 }
 
-// assume that prime is the only value
+// add a dummy value if the goal translation not already exists
 function get_attribute (shortObject, originalObject, attribute, prime, goal) {
+
   let original = originalObject[attribute]
-  if (!(original === undefined)) {
+  if (!(original === undefined))  {
+	  console.log(original)
+    let originalgoal = translationlib.get_language_value(original, goal)
+	  console.log(originalgoal)
+    if ( originalgoal === null ) {
+	    // if goal language already has a value keep it
     let other = {}
     other["@language"] = goal,
     other["@value"] = 'Enter your translation here'
     original.push(other)
     shortObject[attribute] = original
+    } else {
+	    shortObject[attribute] = original
+    }
   }
   return shortObject
 }
