@@ -77,31 +77,11 @@ function get_shortened_json (input, primeLanguage, goalLanguage) {
   return json
 }
 
-// checks mandatory values: label, definintion, usage & adds the Ea-Guid
-function create_shortened_object_one_language (classObject, language) {
-  let shortClass = {}
-  shortClass['EA-Guid'] = classObject.extra['EA-Guid']
-  shortClass = set_name(shortClass, classObject, language, language)
-  shortClass = get_one_langue_value(shortClass, classObject, 'label', language)
-  shortClass = get_one_langue_value(shortClass, classObject, 'definition', language)
-  shortClass = get_one_langue_value(shortClass, classObject, 'usage', language)
-
-  return shortClass
-}
-
-function get_one_langue_value (shortClass, classObject, attribute, language) {
-  if (!(classObject[attribute] === undefined)) {
-    shortClass[attribute] = classObject[attribute]
-    shortClass[attribute][language] = classObject[attribute][language]
-  }
-  return shortClass
-}
 
 function create_shortened_object (object, prime, goal) {
   let shortObject = {}
   shortObject['@id']   = object['@id']
   shortObject.assignedURI   = object.assignedURI
-//  shortObject.apLabel       = object.apLabel
   shortObject = get_attribute(shortObject, object, 'vocLabel', prime, goal)
   shortObject = get_attribute(shortObject, object, 'apLabel', prime, goal)
   shortObject = get_attribute(shortObject, object, 'vocDefinition', prime, goal)
@@ -109,19 +89,9 @@ function create_shortened_object (object, prime, goal) {
   shortObject = get_attribute(shortObject, object, 'vocUsageNote', prime, goal)
   shortObject = get_attribute(shortObject, object, 'apUsageNote', prime, goal)
   
-//  shortObject = get_attribute(shortObject, object, 'definition', prime, goal)
-//  shortObject = get_attribute(shortObject, object, 'usage', prime, goal)
   return shortObject
 }
 
-function set_name (shortObject, originalObject, prime, goal) {
-  if (!(originalObject.name === undefined)) {
-    shortObject.name = originalObject.name
-  } else {
-    shortObject.name = ''
-  }
-  return shortObject
-}
 
 function get_attribute_old (shortObject, originalObject, attribute, prime, goal) {
   if (!(originalObject[attribute] === undefined)) {

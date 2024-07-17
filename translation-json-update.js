@@ -1,53 +1,50 @@
 const jsonfile = require('jsonfile')
 const program = require('commander')
-
-// The attributes to translate
-const translationAttributes = ['definition', 'label', 'usage']
+const Map = require('collections/map')
+const Set = require('collections/set')
 
 program
-  .version('1.0.0')
-  .usage('node translation-json-update.js updates an existing translatable json based on a jsonld and a chosen prime and goallanguage')
-  .option('-i, --input <path>', 'translation input file to update (a json file)')
-  .option('-f, --updatedFile <path>', 'the general jsonld file of the corresponding specification (a jsonld file)')
-  .option('-o, --output <path>', 'output file (a json file)')
-  .option('-m, --primeLanguage <language>', 'prime language to translate to a different one (a string)')
-  .option('-g, --goalLanguage <language>', 'goal language to translate into (a string)')
+  .version('2.0.0')
+  .usage('node translation-json-update.js merges the input file with the file containing the translations for the chosen prime and goal language')
+  .option('-i, --input <path>', 'base file which content will be extended with the translations (oslo internal format) ')
+  .option('-f, --translationFile <path>', 'the translations for the input')
+  .option('-o, --output <path>', 'the merged file obtained by combining the input file with the translations (oslo internal format)')
+  .option('-m, --primeLanguage <language>', 'prime language in which the input is provided (a string)')
+  .option('-g, --goalLanguage <language>', 'goal language corresponding the translations (a string)')
+  .option('-u, --no-update', 'update the translations values with indications of change (per default true)')
 
 program.on('--help', function () {
   console.log('')
+  console.log('It is expected that the translation file contains the same prime language as the input file')
   console.log('Examples:')
   console.log('  $ translation-json-update --help')
-  console.log('  $ translation-json-update -i <input> -f <updatedFile> -m <primeLanguage> -g <goalLanguage> -o <output>')
+  console.log('  $ translation-json-update -i <input> -f <translations> -m <primeLanguage> -g <goalLanguage> -o <output>')
 })
 
 program.parse(process.argv)
 const options = program.opts()
 
-render_updated_file_from_json_ld_file(options.input, options.primeLanguage, options.goalLanguage, options.updatedFile, options.output)
+render_updated_file_from_json_ld_file(options.input, options.primeLanguage, options.goalLanguage, options.translationFile, options.output)
 
 console.log('done')
 
 /* ---- end of the program --- */
 
-function render_updated_file_from_json_ld_file (filename, primeLanguage, goalLanguage, updatedFile, outputfilename) {
-  console.log('Prime Language: ' + primeLanguage)
-  console.log('Goal Language: ' + goalLanguage)
-  console.log('filename: ' + filename)
-  console.log('updated file: ' + updatedFile)
+function render_updated_file_from_json_ld_file (inputfilename, primeLanguage, goalLanguage, translationFilename, outputfilename) {
   console.log('start reading')
 
   // read out both files to compare
-  jsonfile.readFile(filename)
+  jsonfile.readFile(inputfilename)
     .then(
-      function (original) {
-        jsonfile.readFile(updatedFile)
+      function (input) {
+        jsonfile.readFile(translationFilename)
           .then(
-            function (updated) {
+            function (translation) {
               console.log('start processing')
 
-              const myJson = compare_files(original, updated, primeLanguage, goalLanguage)
+              const output = mergefiles(input, translation, primeLanguage, goalLanguage)
 
-              jsonfile.writeFile(outputfilename, myJson)
+              jsonfile.writeFile(outputfilename, output)
                 .then(res => {
                   console.log('Write complete; The original file was updated to: ' + outputfilename)
                 })
@@ -60,31 +57,156 @@ function render_updated_file_from_json_ld_file (filename, primeLanguage, goalLan
     .catch(error => { console.error(error); process.exitCode = 1 })
 }
 
-function compare_files (translatedJson, updatedJson, primeLanguage, goalLanguage) {
-  let json = {}
-  const classArray = checkArray('classes', translatedJson, updatedJson, primeLanguage, goalLanguage)
-  const propertyArray = checkArray('properties', translatedJson, updatedJson, primeLanguage, goalLanguage)
-  const externalArray = checkArray('externals', translatedJson, updatedJson, primeLanguage, goalLanguage)
-  const externalPropertyArray = checkArray('externalproperties', translatedJson, updatedJson, primeLanguage, goalLanguage)
+function mergefiles (input, translation, primeLanguage, goalLanguage) {
+  let mergeArrays = ['classes', 'attributes', 'referencedEntities', 'datatypes']
 
-  json = set_base_URI(json, translatedJson)
-  json.classes = classArray
-  json.properties = propertyArray
-  json.externals = externalArray
-  json.externalproperties = externalPropertyArray
+  const output = mergeArrays.reduce(function (acc, elem) {
+//	  console.log(elem)
+    mergeJsonArray(acc, elem, input, translation, primeLanguage, goalLanguage)
+    return acc
+  }, input)
 
-  return json
+  return output
 }
 
-function set_base_URI (json, translatedJson) {
-  if (!(translatedJson.baseURI === undefined)) {
-    json.baseURI = translatedJson.baseURI
+
+
+function mergeJsonArray(accOutput, array, input, translation, primeLanguage, goalLanguage) {
+  //console.log('Checking Array' + array)
+
+  let iArray = input[array]
+  const oArray = iArray.reduce(function (acc, elem) {
+
+    acc.push(mergeElement(elem, translation[array], primeLanguage, goalLanguage))
+    return acc
+  }, [])
+  accOutput[array]=oArray
+
+  return accOutput
+}
+
+
+function mergeElement(element, translationArray, primeLanguage, goalLanguage) {
+
+	// need to make use of emptyElement otherwise subsequent test is always false
+  let oElement = {}
+  let emptyElement = {}
+  oElement = translationArray.reduce(function (acc, elem) {
+	  if ( elem['@id'] === element['@id'] ) {
+		acc = mergeIdentifiedElements(elem, element, primeLanguage, goalLanguage)  
+	  } 
+		return acc
+  }, emptyElement)
+  if ( oElement == emptyElement ) {
+	  console.log('new term introduced, no translation found')
+	  oElement = mergeIdentifiedElements(element, element, primeLanguage, goalLanguage)  
   }
-  return json
+
+  return oElement
 }
+
+//
+// merge a translated element together with the original input
+//
+// This requires also checking if the orignal attribute has the same prime language value
+// If not the case then the translation must be updated with an additional indication "UPDATED"
+//
+function mergeIdentifiedElements(translation, input, primeLanguage, goalLanguage) {
+
+	let translationAttributes =['vocLabel', 'apLabel', 'vocDefinition', 'apDefinition', 'vocUsageNote', 'apUsageNote']
+
+	let output = translationAttributes.reduce(function (acc, elem) {
+		acc = set_attribute_translation(acc, translation, elem, primeLanguage, goalLanguage) 
+		return acc
+	}, input)
+
+	return output
+
+}
+
+function set_attribute_translation (input, translation, attribute, prime, goal) {
+  let originalA = input[attribute]
+  let translationA = translation[attribute]
+
+  if (originalA === undefined) {
+	  originalA = []
+  }
+  if (translationA === undefined) {
+	  translationA = []
+  }
+ 
+  // check coherency prime language
+  let originalAprime = get_language_value(originalA, prime)
+  let translationAprime = get_language_value(translationA, prime)
+
+  let other = {}
+  let translationAgoal = get_language_value(translationA, goal)
+
+  if (originalAprime === null ) {
+	  // prime value does not exists
+
+	  if (translationAprime !== null) {
+		  // a translation is provided for a non existing prime language
+             other["@language"] = goal
+	     if ( options.update ) {
+                  other["@value"] = 'TODO TRANSLATION PROVIDED BUT NO ORIGINAL VALUE:' + get_language_value(translationA, goal)
+	     } else {
+                  other["@value"] = get_language_value(translationA, goal)
+		  other.changes = true
+	     }
+		 
+             originalA.push(other)
+             input[attribute] = originalA
+	  } 
+
+  } else if (originalAprime !== translationAprime) {
+      // prime value in input has changed !
+
+    if (translationAgoal === null) {
+	    // no translation is provided
+	    translationAgoal = 'NO TRANSLATION PROVIDED'
+    }
+
+    other["@language"] = goal
+    if (options.update) {
+        other["@value"] = 'TODO UPDATED:' + get_language_value(translationA, goal)
+     } else {
+        other["@value"] = get_language_value(translationA, goal)
+       other.changes = true
+    }
+    originalA.push(other)
+    input[attribute] = originalA
+  } else {
+      // prime language values are the same
+    if (translationAgoal === null) {
+	    // no translation is provided
+	    translationAgoal = 'TODO NO TRANSLATION PROVIDED'
+    }
+    other["@language"] = goal,
+    other["@value"] = translationAgoal
+    originalA.push(other)
+    input[attribute] = originalA
+  }
+
+  return  input
+}
+
+function get_language_value(languageArray, language) {
+    for (let i = 0; i < languageArray.length; i++) {
+	    if (languageArray[i]['@language'] === language) {
+		    return languageArray[i]['@value']
+	    }
+    }
+    return null
+}
+
+
+function make_new_translation(element, goalLanguage) {
+	return element
+}
+
 
 function checkArray (type, translationjson, jsonld, primelanguage, goallanguage) {
-  console.log('Checking ' + type)
   const array = []
 
   if (jsonld[type] !== undefined) {
@@ -102,81 +224,3 @@ function checkArray (type, translationjson, jsonld, primelanguage, goallanguage)
   return array
 }
 
-/*
-Iterate over the list of attributes given at the start and create an updated object to go with it
-*/
-function createUpdatedObject (translationobject, jsonldobject, primelanguage, goallanguage) {
-  let updatedObject = {}
-  updatedObject.name = jsonldobject.name
-  updatedObject['EA-Guid'] = jsonldobject.extra['EA-Guid']
-  for (const key of translationAttributes) {
-    if (primelanguage !== goallanguage) {
-      updatedObject = createAttributeForDifferentLanguages(translationobject, jsonldobject, primelanguage, goallanguage, key, updatedObject)
-    } else {
-      createAttributeForSameLanguage(translationobject, jsonldobject, primelanguage, key, updatedObject)
-    }
-  }
-  return updatedObject
-}
-
-/*
-This function is called when the prime and goallanguage are the same. When that is the case, the updatedjson will simply get all
-values as they are from the jsonld. If they have been changed since the original translation json was created, they will be tagged
-as '[UPDATED]'.
-*/
-function createAttributeForSameLanguage (translationobject, jsonldobject, primelanguage, key, updatedObject) {
-  if (jsonldobject[key] !== undefined && jsonldobject[key][primelanguage] !== undefined) {
-    updatedObject[key] = {}
-    if (jsonldobject[key] !== undefined &&
-      jsonldobject[key][primelanguage] !== undefined) {
-      if (translationobject[key] !== undefined &&
-        translationobject[key][primelanguage] !== undefined) {
-        console.log('trans ' + translationobject[key][primelanguage])
-        console.log('jsonld ' + jsonldobject[key][primelanguage])
-        if (translationobject[key][primelanguage] !== jsonldobject[key][primelanguage]) {
-          if (!translationobject[key][primelanguage].includes('[UPDATED]')) {
-            updatedObject[key][primelanguage] = '[UPDATED] ' + jsonldobject[key][primelanguage]
-            return updatedObject
-          }
-        }
-      }
-    }
-    updatedObject[key][primelanguage] = jsonldobject[key][primelanguage]
-  }
-  return updatedObject
-}
-
-/*
-If two different languages are given, this method will compare the jsonld and json input based on a defined attribute.
-If that attribute is not present in the jsonld, it won't be in the updated translation json. If it is, there first is determined
-if the attribute was already translated. If so, it will get the additional tag '[UPDATED]' when the attribute's value for the prime
-language has been changed. If not the translation is simply kept. If there is no translation present, the goallanguage will have
-the value 'Enter your translation here'.
-*/
-function createAttributeForDifferentLanguages (translationobject, jsonldobject, primelanguage, goallanguage, key, updatedObject) {
-  if (jsonldobject[key] !== undefined && jsonldobject[key][primelanguage] !== undefined) {
-    updatedObject[key] = {}
-    updatedObject[key][primelanguage] = jsonldobject[key][primelanguage]
-    if (translationobject[key] !== undefined && translationobject[key][goallanguage] !== undefined) {
-      if (translationobject[key][primelanguage] !== jsonldobject[key][primelanguage] &&
-        !translationobject[key][goallanguage].includes('[UPDATED]') &&
-        translationobject[key][goallanguage] !== 'Enter your translation here') {
-        updatedObject[key][goallanguage] = '[UPDATED] ' + translationobject[key][goallanguage]
-      } else {
-        updatedObject[key][goallanguage] = translationobject[key][goallanguage]
-      }
-    } else {
-      updatedObject[key][goallanguage] = 'Enter your translation here'
-    }
-  }
-  return updatedObject
-}
-
-function get_matching_object (type, inputClass, translationJson) {
-  for (let i = 0; i < translationJson[type].length; i++) {
-    if (translationJson[type][i]['EA-Guid'] === inputClass.extra['EA-Guid']) {
-      return translationJson[type][i]
-    }
-  }
-  return null
-}
