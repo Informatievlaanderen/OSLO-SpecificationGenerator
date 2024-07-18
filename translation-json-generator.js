@@ -33,7 +33,7 @@ function transform_json_ld_file_to_translatable_json (filename, primeLanguage, g
 
         let myJson = {}
 
-        if (options.translation === null) {
+        if (options.translation === undefined || options.translation === null || options.translation === '' ) {
           myJson = get_shortened_json(input, primeLanguage, goalLanguage)
           jsonfile.writeFile(outputfile, myJson)
         .then(res => {

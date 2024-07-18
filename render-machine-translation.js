@@ -2,11 +2,12 @@ const jsonfile = require('jsonfile')
 const axios = require('axios').default
 const { v4: uuidv4 } = require('uuid')
 const program = require('commander')
+const translationlib = require('./translation-json-lib')
 
 const endpoint = 'https://api.cognitive.microsofttranslator.com'
 
 program
-  .version('1.0.0')
+  .version('2.0.0')
   .usage('node render-machine-translation.js creates a translation of a jsonld file based on existing values')
   .option('-i, --input <path>', 'input file to validate (a jsonld file)')
   .option('-g, --goalLanguage <languagecode>', 'the language that shall be translated to (a languagecode)')
@@ -16,6 +17,8 @@ program
   .option('-l, --location <geographic area>', 'your area/location/region (a region of the world)')
 
 program.on('--help', function () {
+  console.log('')
+  console.log('This script will overwrite the existing values with those from the machine')
   console.log('')
   console.log('Examples:')
   console.log('  $ render-machine-translation --help')
@@ -34,10 +37,6 @@ console.log('done')
 /* ---- end of the program --- */
 //
 function translateFile (filename, mainlanguage, goallanguage, outputfilename) {
-  console.log('Input: ' + filename)
-  console.log('Main Language: ' + mainlanguage)
-  console.log('Goal Language: ' + goallanguage)
-  console.log('Output: ' + outputfilename)
   console.log('start reading')
 
   jsonfile.readFile(filename)
