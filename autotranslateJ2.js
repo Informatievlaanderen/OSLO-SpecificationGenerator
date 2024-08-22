@@ -5,6 +5,7 @@ const endpoint = 'https://api.cognitive.microsofttranslator.com/'
 const regexpBlockBegin = /{%\s*block\s*\w*\s*%\s*}\n*/g
 const regexpBlockEnd = /\n*{%\s*endblock\s*%\s*}\n*/g
 const regexFilename = /{%\s*extends\s*"([^"']+)"\s*%}/g
+const possibleLanguages = ['de', 'en', 'fr', 'nl']
 
 // parse the command line arguments
 program
@@ -39,8 +40,10 @@ translateFile(options)
 
 // main function to translate the j2 file
 function translateFile (options) {
-  const j2Text = readJ2(options.input)
-  extractFilename(j2Text)
+  let j2Text = readJ2(options.input)
+  const originalFilename = extractFilename(j2Text)
+  const newFilename = convertFilename(originalFilename, options)
+  j2Text = replaceFilename(j2Text, originalFilename, newFilename)
   processJ2Text(j2Text, options).then((translatedJ2Text) => {
     writeJ2(options.output, translatedJ2Text)
   })
@@ -55,7 +58,29 @@ function extractFilename (j2Text) {
     return null
   }
   const filename = filenames[0][1]
-  console.log('filename:', filename)
+  return filename
+}
+
+function replaceFilename (j2Text, originalFilename, newFilename) {
+  const newJ2Text = j2Text.replace(originalFilename, newFilename)
+  return newJ2Text
+}
+
+function convertFilename (filename, options) {
+  // Convert eg ap2.j2 to ap2_en.j2
+  const parts = filename.split('.')
+  const lang = options.goalLanguage
+  let newFilename = ''
+  // Check if filename already contains language code (possibleLanguages)
+  if (possibleLanguages.some((el) => filename.includes(el))) {
+    // Replace the language code with the new language code
+    newFilename = filename.replace(/(de|en|fr|nl)/, lang)
+  } else {
+    // Add the language code to the filename
+    newFilename = parts[0] + '_' + lang + '.' + parts[1]
+  }
+  console.log('new filename: ' + newFilename)
+  return newFilename
 }
 
 function readJ2 (filename) {
