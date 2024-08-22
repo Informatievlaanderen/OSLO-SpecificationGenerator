@@ -10,7 +10,7 @@ const possibleLanguages = ['de', 'en', 'fr', 'nl']
 // parse the command line arguments
 program
   .usage(
-    'node autotranslate.js creates a translation of a jsonld file based on existing values'
+    'node autotranslateJ2.js creates a translation of a j2 file based on existing values'
   )
   .requiredOption('-i, --input <path>', 'input file to translate (a jsonld file)')
   .requiredOption(
