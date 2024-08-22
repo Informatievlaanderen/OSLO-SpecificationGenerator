@@ -29,7 +29,7 @@ program
   .on('--help', function () {
     console.log('Examples:')
     console.log(
-      '  $ node autotranslate.js -i <input> -g <languagecode> -m <languagecode> -o <output> -s <key-string> -l <location>'
+      '  $ node autotranslateJ2.js -i <input> -g <languagecode> -m <languagecode> -o <output> -s <key-string> -l <location>'
     )
   })
 
