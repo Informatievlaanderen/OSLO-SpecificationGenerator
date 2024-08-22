@@ -8,24 +8,24 @@ program
   .usage(
     'node autotranslate.js creates a translation of a jsonld file based on existing values'
   )
-  .option('-i, --input <path>', 'input file to translate (a jsonld file)')
-  .option(
+  .requiredOption('-i, --input <path>', 'input file to translate (a jsonld file)')
+  .requiredOption(
     '-g, --goalLanguage <languagecode>',
     'the language that shall be translated to (a languagecode)'
   )
-  .option(
+  .requiredOption(
     '-m, --mainLanguage <languagecode>',
     'the language that shall be translated from (a languagecode)'
   )
-  .option('-o, --output <path>', 'translated output file (a jsonld file)')
-  .option(
+  .requiredOption('-o, --output <path>', 'translated output file (a jsonld file)')
+  .requiredOption(
     '-s, --subscriptionKey <key-string>',
     'Subscription key for Azure AI Translator (a String)'
   )
   .on('--help', function () {
     console.log('Examples:')
     console.log(
-      '  $ node autotranslate.js -i <input> -g <languagecode> -m <languagecode> -o <output> -s <key-string> -l <location>'
+      '  $ node autotranslate.js -i <input> -g <languagecode> -m <languagecode> -o <output> -s <key-string>'
     )
   })
 
@@ -149,6 +149,7 @@ async function translateText (text, options) {
     .catch((error) => {
       console.error('An error occured while translating text')
       console.error('error', error)
+      return 'Enter your translation here'
     }
     )
   return translatedText
