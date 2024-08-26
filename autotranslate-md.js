@@ -8,7 +8,7 @@ program
   .usage(
     'node autotranslate-md.js creates a translation of a markdown file and saves it in the correct directory'
   )
-  .requiredOption('-i, --input <path>', 'input file to translate (a jsonld file)')
+  .requiredOption('-i, --input <path>', 'input file to translate (a md file)')
   .requiredOption(
     '-g, --goalLanguages <languagecode>',
     'the languages that shall be translated to (a languagecode) separated by a comma'
