@@ -6,14 +6,13 @@ const regexpBlockEnd = /\n*{%\s*endblock\s*%\s*}\n*/g
 const regexpKey = /{%\s*block\s([^"']+)\s*%\s*}\n*/g
 
 program.usage(
-  'node convert-j2-to-md.js converts a j2 file to a markdown file'
+  'node convert-j2-to-md.js converts a j2 file to markdown files'
 )
   .requiredOption('-i, --input <path>', 'input file to convert (a j2 file)')
-  .requiredOption('-o, --output <path>', 'output file (a markdown file)')
   .on('--help', function () {
     console.log('Examples:')
     console.log(
-      '  $ node convert-j2-to-md.js -i <input> -o <output>'
+      '  $ node convert-j2-to-md.js -i <input>'
     )
   })
 
@@ -25,8 +24,7 @@ convertJ2ToMd(options)
 // main function to convert the j2 file
 function convertJ2ToMd (options) {
   const j2Text = readJ2(options.input)
-  const mdText = convertJ2TextToMd(j2Text)
-  writeMd(options.output, mdText)
+  convertJ2TextToMd(j2Text)
 }
 
 function readJ2 (filename) {
@@ -59,15 +57,13 @@ function convertJ2TextToMd (j2Text) {
     process.exitCode = 1
     return null
   }
-  let mdText = '---\n'
   for (let i = 0; i < blockBegins.length; i++) {
     // get the content of the block
     const blockBegin = blockBegins[i]
     const blockEnd = blockEnds[i]
     const blockContent = j2Text.slice(blockBegin.index + blockBegin[0].length, blockEnd.index)
-    mdText += `${blockKeys[i]}: '\n`
-    mdText += blockContent + "\n'\n"
+    // write block content to md file with key as filename
+    const key = blockKeys[i]
+    writeMd('./' + key + '.md', blockContent)
   }
-  mdText += '---\n'
-  return mdText
 }
