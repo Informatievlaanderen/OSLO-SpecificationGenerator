@@ -72,9 +72,9 @@ function convertFilename (filename, options) {
   const lang = options.goalLanguage
   let newFilename = ''
   // Check if filename already contains language code (possibleLanguages)
-  if (possibleLanguages.some((el) => filename.includes(el))) {
+  if (possibleLanguages.some((el) => filename.includes('_' + el))) {
     // Replace the language code with the new language code
-    newFilename = filename.replace(/(de|en|fr|nl)/, lang)
+    newFilename = filename.replace(/(_de|_en|_fr|_nl)/, '_' + lang)
   } else {
     // Add the language code to the filename
     newFilename = parts[0] + '_' + lang + '.' + parts[1]
