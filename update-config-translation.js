@@ -8,6 +8,7 @@ program
     'node update-config-translation.js updates the config file with the translation of the values'
   )
   .requiredOption('-i, --input <path>', 'input file to translate (a jsonld file)')
+  .requiredOption('-o, --output <path>', 'output file')
   .requiredOption(
     '-g, --goalLanguage <languagecode>',
     'the language that shall be translated to (a languagecode)'
@@ -36,7 +37,7 @@ function updateConfigTranslation (options) {
   console.log('start adding translation block to config file')
   const jsonObject = readJson(options.input)
   addTranslationBlock(jsonObject, options).then((updatedJsonObject) => {
-    writeJson(options.input, [updatedJsonObject])
+    writeJson(options.output, [updatedJsonObject])
   })
 }
 
