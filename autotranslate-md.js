@@ -24,7 +24,7 @@ program
   .on('--help', function () {
     console.log('Examples:')
     console.log(
-      '  $ node autotranslate-md.js -i <input> -g <languagecodes separated by comma> -m <languagecode> -s <key-string> -l <location>'
+      '  $ node autotranslate-md.js -i <input> -g <languagecodes separated by comma> -m <languagecode> -s <key-string>'
     )
   })
 
