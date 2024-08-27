@@ -2,6 +2,7 @@ const { program } = require('commander')
 const fs = require('node:fs')
 
 const endpoint = 'https://api.cognitive.microsofttranslator.com/'
+const maxRetries = 5
 
 // parse the command line arguments
 program
@@ -31,8 +32,13 @@ program
 
 program.parse(process.argv)
 const options = program.opts()
-
+var counterCalls = 0
+// start timer
+console.time('translation ')
 translateFile(options)
+// stop timer
+console.timeEnd('translation ')
+console.log('Number of calls: ' + counterCalls)
 
 // main function to translate the json file
 function translateFile (options) {
@@ -83,30 +89,28 @@ async function translateObject (object, options) {
   await Promise.all(object.map(async (item) => {
     await Promise.all([
       'vocLabel',
-      'apLabel',
       'vocDefinition',
-      'apDefinition',
-      'apUsageNote',
       'vocUsageNote'
     ].map(async (field) => {
+      let translatedText = ''
       if (Array.isArray(item[field])) {
-        const originalObject = getLanguageValue(
+        var originalObjectVoc = getLanguageValue(
           item[field],
           options.mainLanguage
         )
-        // Translate the text
-        if (originalObject !== null) {
-          const toBeTranslatedObject = getLanguageValue(
+        // Translate the text for Voc
+        if (originalObjectVoc !== null) {
+          const toBeTranslatedObjectVoc = getLanguageValue(
             item[field],
             options.goalLanguage
           )
           // Check if a translation is needed
           if (
-            toBeTranslatedObject !== null &&
-            toBeTranslatedObject === 'Enter your translation here'
+            toBeTranslatedObjectVoc !== null &&
+            toBeTranslatedObjectVoc === 'Enter your translation here'
           ) {
-            const translatedText = await translateText(
-              originalObject,
+            translatedText = await translateWithFallback(
+              originalObjectVoc,
               options
             )
             // add translated object
@@ -123,13 +127,75 @@ async function translateObject (object, options) {
           }
         }
       }
-    }))
+      // Translate the text for Ap
+      const fieldAp = field.replace('voc', 'ap')
+      if (Array.isArray(item[fieldAp])) {
+        const originalObjectAp = getLanguageValue(
+          item[fieldAp],
+          options.mainLanguage
+        )
+        if (originalObjectAp !== null) {
+          const toBeTranslatedObjectAp = getLanguageValue(
+            item[fieldAp],
+            options.goalLanguage
+          )
+          // Check if a translation is needed
+          if (
+            toBeTranslatedObjectAp !== null &&
+              toBeTranslatedObjectAp === 'Enter your translation here'
+          ) {
+            // check if we cannot reuse the translation from the Voc
+            if (originalObjectVoc === null || translatedText === '' || originalObjectAp !== originalObjectVoc) {
+              translatedText = await translateWithFallback(
+                originalObjectAp,
+                options
+              )
+            }
+            // add translated object
+            const machinetranslated =
+                options.goalLanguage + '-t-' + options.mainLanguage
+            item[fieldAp].push({
+              '@language': machinetranslated,
+              '@value': translatedText
+            })
+            // remove original object
+            item[fieldAp] = item[fieldAp].filter(
+              (value) => value['@language'] !== options.goalLanguage
+            )
+          }
+        }
+      }
+    }
+    ))
   }))
 
   return object
 }
 
+async function translateWithFallback (text, options) {
+  let translatedText = ''
+  let retries = 0
+  let waitingTime = 1000
+  while (retries < maxRetries) {
+    translatedText = await translateText(text, options)
+    if (translatedText !== 'Enter your translation here') {
+      return translatedText
+    }
+    retries += 1
+    // wait for a while before trying again
+    await delay(waitingTime)
+    console.log('Retry translation')
+    waitingTime *= 2
+  }
+  return translatedText
+}
+
+function delay (time) {
+  return new Promise(resolve => setTimeout(resolve, time))
+}
+
 async function translateText (text, options) {
+  counterCalls += 1
   const translatedText = await fetch(
     endpoint + '/translate?api-version=3.0&to=' + options.goalLanguage + '&from=' + options.mainLanguage,
     {
@@ -144,6 +210,12 @@ async function translateText (text, options) {
   )
     .then((response) => response.json())
     .then((data) => {
+      // Check if there is an error thrown by Azure Translator
+      if (data.error !== undefined) {
+        console.error('An error occured while translating text, thrown by Azure Translator')
+        console.error('error', data.error.message)
+        return 'Enter your translation here'
+      }
       return data[0].translations[0].text
     })
     .catch((error) => {
