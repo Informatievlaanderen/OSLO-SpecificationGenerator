@@ -2,6 +2,7 @@ const { program } = require('commander')
 const fs = require('node:fs')
 
 const endpoint = 'https://api.cognitive.microsofttranslator.com/'
+const possibleLanguages = ['de', 'en', 'fr', 'nl']
 
 program
   .usage(
@@ -45,35 +46,55 @@ async function translateJson (jsonObject, options) {
   // Loop over json object and translate certain values
   for (const key in jsonObject) {
     if (typeof jsonObject[key] === 'string' && key !== 'descriptionFileName') {
-      const translatedJsonObject = {}
-      translatedJsonObject[options.mainLanguage] = jsonObject[key]
-      // for all goal languages
-      for (const goalLanguage of options.goalLanguage.split(',')) {
-        translatedJsonObject[goalLanguage] = await translateText(jsonObject[key], options.mainLanguage, goalLanguage, options.subscriptionKey)
-      }
-      jsonObject[key] = translatedJsonObject
+      // Case 1: No translation has been done yet for strings
+      jsonObject[key] = await translateAllLanguages(jsonObject[key], options)
+    } else if (typeof jsonObject[key] === 'object' && possibleLanguages.some((language) => language in jsonObject[key])) {
+      // Case 2: Translates the same values as case 1 but now there is already a translation
+      jsonObject[key] = await translateMissingLanguages(jsonObject[key], options)
     } else if (Array.isArray(jsonObject[key])) {
+      // Case 3: Translates all elements in an array
       for (const element of jsonObject[key]) {
-        const translatedJsonObject = {}
-        translatedJsonObject[options.mainLanguage] = element.name
-        // for all goal languages
-        for (const goalLanguage of options.goalLanguage.split(',')) {
-          translatedJsonObject[goalLanguage] = await translateText(element.name, options.mainLanguage, goalLanguage, options.subscriptionKey)
-        }
-        element.name = translatedJsonObject
+        element.name = await checkAndTranslate(element.name, options)
       }
-    }
-    if (typeof jsonObject[key] === 'object' && 'name' in jsonObject[key]) {
-      const translatedJsonObject = {}
-      translatedJsonObject[options.mainLanguage] = jsonObject[key].name
-      // for all goal languages
-      for (const goalLanguage of options.goalLanguage.split(',')) {
-        translatedJsonObject[goalLanguage] = await translateText(jsonObject[key].name, options.mainLanguage, goalLanguage, options.subscriptionKey)
-      }
-      jsonObject[key].name = translatedJsonObject
+    } else if (typeof jsonObject[key] === 'object' && 'name' in jsonObject[key]) {
+      // Case 4: Translates the name of an object
+      jsonObject[key].name = await checkAndTranslate(jsonObject[key].name, options)
     }
   }
   return jsonObject
+}
+
+// Function to check if a translation has been done already and if not, translate it
+async function checkAndTranslate (object, options) {
+  let translatedJsonObject = {}
+  if (typeof object === 'string') {
+    translatedJsonObject = await translateAllLanguages(object, options)
+  } else if (typeof object === 'object' && possibleLanguages.some((language) => language in object)) {
+    translatedJsonObject = await translateMissingLanguages(object, options)
+  }
+  return translatedJsonObject
+}
+
+// Function to translate all languages (used when no translation has been done yet)
+async function translateAllLanguages (object, options) {
+  const translatedJsonObject = {}
+  translatedJsonObject[options.mainLanguage] = object
+  for (const goalLanguage of options.goalLanguage.split(',')) {
+    translatedJsonObject[goalLanguage] = await translateText(object, options.mainLanguage, goalLanguage, options.subscriptionKey)
+  }
+  return translatedJsonObject
+}
+
+// Function to translate missing languages (used when a translation has been done already)
+async function translateMissingLanguages (object, options) {
+  let translatedJsonObject = {}
+  translatedJsonObject = object
+  for (const language of options.goalLanguage.split(',')) {
+    if (!(language in object)) {
+      translatedJsonObject[language] = await translateText(object[options.mainLanguage], options.mainLanguage, language, options.subscriptionKey)
+    }
+  }
+  return translatedJsonObject
 }
 
 async function translateText (text, mainLanguage, goalLanguage, subscriptionKey) {
