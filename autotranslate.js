@@ -197,7 +197,7 @@ function delay (time) {
 async function translateText (text, options) {
   counterCalls += 1
   const translatedText = await fetch(
-    endpoint + '/translate?api-version=3.0&to=' + options.goalLanguage + '&from=' + options.mainLanguage,
+    endpoint + '/translate?api-version=3.0&to=' + options.goalLanguage + '&from=' + options.mainLanguage + '&textType=html',
     {
       method: 'POST',
       headers: {
