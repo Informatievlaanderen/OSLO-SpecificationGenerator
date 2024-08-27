@@ -88,6 +88,11 @@ async function translateText (text, options) {
   )
     .then((response) => response.json())
     .then((data) => {
+      if (data.error !== undefined) {
+        console.error('An error occured while translating text, thrown by Azure Translator')
+        console.error('error', data.error.message)
+        return 'Enter your translation here'
+      }
       return data[0].translations[0].text
     })
     .catch((error) => {
