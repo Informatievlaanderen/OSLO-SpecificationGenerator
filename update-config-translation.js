@@ -54,6 +54,7 @@ async function addTranslationBlock (jsonObject, options) {
     mainLanguageTranslation.title = jsonObject.title
     mainLanguageTranslation.translationjson = jsonObject.name + '_' + options.mainLanguage + '.json'
     mainLanguageTranslation.mergefile = 'merge_' + jsonObject.name + '_' + options.mainLanguage + '.jsonld'
+    mainLanguageTranslation.autotranslate = false
     jsonObject.translation.push(mainLanguageTranslation)
   }
   // Check if translation for goal language exists
@@ -66,6 +67,7 @@ async function addTranslationBlock (jsonObject, options) {
     goalLanguageTranslation.title = await translateTitle(mainLanguageTranslation.title, options)
     goalLanguageTranslation.translationjson = updateValue(mainLanguageTranslation.translationjson, options)
     goalLanguageTranslation.mergefile = updateValue(mainLanguageTranslation.mergefile, options)
+    goalLanguageTranslation.autotranslate = true
     jsonObject.translation.push(goalLanguageTranslation)
   }
   return jsonObject
