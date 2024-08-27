@@ -45,7 +45,7 @@ async function translateJson (jsonObject, options) {
   console.log('start translating')
   // Loop over json object and translate certain values
   for (const key in jsonObject) {
-    if (typeof jsonObject[key] === 'string' && key !== 'descriptionFileName') {
+    if (typeof jsonObject[key] === 'string' && key !== 'descriptionFileName' && key !== 'repository' && !(key.toLowerCase().includes('date'))) {
       // Case 1: No translation has been done yet for strings
       jsonObject[key] = await translateAllLanguages(jsonObject[key], options)
     } else if (typeof jsonObject[key] === 'object' && possibleLanguages.some((language) => language in jsonObject[key])) {
@@ -112,6 +112,11 @@ async function translateText (text, mainLanguage, goalLanguage, subscriptionKey)
   )
     .then((response) => response.json())
     .then((data) => {
+      if (data.error !== undefined) {
+        console.error('An error occured while translating text, thrown by Azure Translator')
+        console.error('error', data.error.message)
+        return 'Enter your translation here'
+      }
       return data[0].translations[0].text
     })
     .catch((error) => {
