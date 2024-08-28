@@ -13,7 +13,7 @@ function mergefiles (input, translation, primeLanguage, goalLanguage) {
 }
 
 function mergeJsonArray (accOutput, array, input, translation, primeLanguage, goalLanguage) {
-  console.log('Checking Array' + array)
+  //console.log('Checking Array' + array)
 
   const iArray = input[array]
   const oArray = iArray.reduce(function (acc, elem) {
@@ -26,7 +26,7 @@ function mergeJsonArray (accOutput, array, input, translation, primeLanguage, go
 }
 
 function mergeElement (element, translationArray, primeLanguage, goalLanguage) {
-  console.log(element.assignedURI)
+  //console.log(element.assignedURI)
 
   // need to make use of emptyElement otherwise subsequent test is always false
   let oElement = {}
@@ -38,6 +38,7 @@ function mergeElement (element, translationArray, primeLanguage, goalLanguage) {
     return acc
   }, emptyElement)
   if (oElement === emptyElement) {
+     console.log(element.assignedURI)
      console.log('new term introduced, no translation found')
      oElement = mergeIdentifiedElements(element, element, primeLanguage, goalLanguage)
   }
