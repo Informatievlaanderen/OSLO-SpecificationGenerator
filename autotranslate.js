@@ -93,8 +93,9 @@ async function translateObject (object, options) {
       'vocUsageNote'
     ].map(async (field) => {
       let translatedText = ''
+      let originalObjectVoc = null
       if (Array.isArray(item[field])) {
-        var originalObjectVoc = getLanguageValue(
+        originalObjectVoc = getLanguageValue(
           item[field],
           options.mainLanguage
         )
