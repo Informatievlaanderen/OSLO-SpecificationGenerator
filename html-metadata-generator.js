@@ -196,6 +196,12 @@ function make_nj_metadata (json, hostname, language) {
 
   let usednamespaces = getNamespaces(json)
 
+  let translationObj = json.translation.find(translation => translation.language === language)
+  let autotranslate = false
+  if(translationObj !== undefined) {
+    autotranslate = translationObj.autotranslate
+  }
+
   const meta = {
     title: titel,
     uri: json['@id'],
@@ -216,7 +222,8 @@ function make_nj_metadata (json, hostname, language) {
     dependencies: json.dependencies,
     usesVocs: [],
     usesAPs: [],
-    namespaces : usednamespaces
+    namespaces: usednamespaces,
+    autotranslate: autotranslate
   }
   return meta
 };
