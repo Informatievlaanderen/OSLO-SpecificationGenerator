@@ -23,7 +23,7 @@ program.parse(process.argv)
 const options = program.opts()
 
 transform_json_ld_file_to_translatable_json(options.input, options.primeLanguage, options.goalLanguage, options.output, options.prefix)
-console.log('done')
+console.log(options.prefix + 'done')
 
 function transform_json_ld_file_to_translatable_json (filename, primeLanguage, goalLanguage, outputfile, prefix) {
   console.log(prefix + 'start reading')

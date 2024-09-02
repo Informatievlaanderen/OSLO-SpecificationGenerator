@@ -23,7 +23,7 @@ program
     '-s, --subscriptionKey <key-string>',
     'Subscription key for Azure AI Translator (a String)'
   )
-  .requiredOption('-p', '--prefix <prefix>', 'prefix for the logging')
+  .requiredOption('-p, --prefix <prefix>', 'prefix for the logging')
   .on('--help', function () {
     console.log('Examples:')
     console.log(

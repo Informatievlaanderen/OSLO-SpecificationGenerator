@@ -28,7 +28,7 @@ const options = program.opts()
 
 render_metadata(options.input, options.output, options.mainlanguage, options.prefix)
 
-console.log('done')
+console.log(options.prefix + 'done')
 
 function render_metadata (input_filename, output_filename, language, prefix) {
   console.log(prefix + 'start reading')

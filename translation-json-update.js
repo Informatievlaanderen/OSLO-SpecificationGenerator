@@ -26,7 +26,7 @@ const options = program.opts()
 
 render_updated_file_from_json_ld_file(options.input, options.primeLanguage, options.goalLanguage, options.translationFile, options.output, options.prefix)
 
-console.log('done')
+console.log(options.prefix + 'done')
 
 /* ---- end of the program --- */
 
