@@ -24,13 +24,20 @@ function mergeOverviewreport (previousFilename, currentFilename, outputFilename)
   console.log('start reading')
   const dataPrev = readMdAndConvertToJSON(previousFilename)
   const dataCur = readMdAndConvertToJSON(currentFilename)
-  // If no previous data is found, just write the current data to the output file
+  // If no previous data is found, just write the current file to the output file
   if (dataPrev === undefined || dataPrev.data.length === 0) {
-    fs.writeFileSync(outputFilename, dataCur.legend + '\n' + dataCur.data)
+    fs.writeFileSync(outputFilename, convertToMd(dataCur.data, dataCur.legend))
     console.log('The file has been saved to ' + outputFilename)
     return
   }
   const previous = dataPrev.data
+  const legendPrev = dataPrev.legend
+  // If no current data is found, just write the previous data to the output file
+  if (dataCur === undefined || dataCur.data.length === 0) {
+    fs.writeFileSync(outputFilename, convertToMd(previous, legendPrev))
+    console.log('The file has been saved to ' + outputFilename)
+    return
+  }
   const legendCur = dataCur.legend
   const current = dataCur.data
   const merged = mergeFiles(previous, current)
@@ -61,8 +68,7 @@ function readMdAndConvertToJSON (filename) {
     })
     return { data, legend }
   } catch (err) {
-    console.error('error', err)
-    process.exitCode = 1
+    console.log('Error reading file: ' + filename)
     return undefined
   }
 }
