@@ -22,7 +22,7 @@ program
   .option('-u, --uridomain <uridomain>', 'the domain of the URIs that should be excluded from this vocabulary')
   .option('-i, --input <path>', 'input file')
   .option('-o, --output <path>', 'output file (the metadat file)')
-  .option('-p', '--prefix <prefix>', 'prefix for the logging')
+  .option('-p, --prefix <prefix>', 'prefix for the logging')
 
 program.on('--help', function () {
   console.log('')
@@ -74,22 +74,30 @@ function getNamespaces (data, prefix) {
   let datatypes = data.datatypes
   let referencedEntities = data.referencedEntities
 
+  if (!(classes === undefined) && classes !== null ) {
   namespaces = classes.reduce(function (acc, elem) {
 	  acc = pushNamespace(elem.assignedURI, acc)
 	  return acc
   }, namespaces)
+  }
+  if (!(attributes === undefined) && attributes !== null ) {
   namespaces = attributes.reduce(function (acc, elem) {
 	  acc = pushNamespace(elem.assignedURI, acc)
 	  return acc
   }, namespaces)
+  }
+  if (!(datatypes === undefined) && datatypes !== null ) {
   namespaces = datatypes.reduce(function (acc, elem) {
 	  acc = pushNamespace(elem.assignedURI, acc)
 	  return acc
   }, namespaces)
+  }
+  if (!(referencedEntities === undefined) && referencedEntities !== null ) {
   namespaces = referencedEntities.reduce(function (acc, elem) {
 	  acc = pushNamespace(elem.assignedURI, acc)
 	  return acc
   }, namespaces)
+  }
 
   console.log(prefix + 'Finished')
   return namespaces
