@@ -18,7 +18,8 @@ program
   .usage('node html-metadata-generator.js extracts metadata for the html pages in  a chosen language')
   .option('-h, --hostname <hostname>', 'the public hostname/domain on which the html is published. The hostname in the input file takes precedence.')
   .option('-r, --documentpath <path>', 'the document path on which the html is published')
-  .option('-m, --mainlanguage <languagecode>', 'the language to display(a languagecode string)')
+  .option('-m, --mainlanguage <languagecode>', 'the language to display (a languagecode string)')
+  .option('-g, --primarylanguage <languagecode>', 'the primary language of the publication environment (a languagecode string)')
   .option('-u, --uridomain <uridomain>', 'the domain of the URIs that should be excluded from this vocabulary')
   .option('-i, --input <path>', 'input file')
   .option('-o, --output <path>', 'output file (the metadat file)')
@@ -219,11 +220,6 @@ function make_nj_metadata (json, hostname, language, prefix) {
     autotranslate = translationObj.autotranslate
   }
 
-  let primeLanguage = languageNames.nl.nl
-  if(autotranslate) {
-    let primeLangCode = json.translation.find(translation => translation.autotranslate === false).language
-    primeLanguage = languageNames[primeLangCode][language]
-  }
 
   const meta = {
     title: titel,
@@ -247,7 +243,7 @@ function make_nj_metadata (json, hostname, language, prefix) {
     usesAPs: [],
     namespaces: usednamespaces,
     autotranslate: autotranslate,
-    primaryLanguage: primeLanguage
+    primaryLanguage: options.primelanguage
   }
   return meta
 };
