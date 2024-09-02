@@ -5,6 +5,14 @@ const ldParser = require('./linkeddataparser3')
 
 const program = require('commander')
 
+// Mapping language codes to language names (per language)
+const languageNames = {
+  en: { en: 'English', nl: 'Engels', fr: 'Anglais', de: 'Englisch' },
+  nl: { en: 'Dutch', nl: 'Nederlands', fr: 'Néerlandais', de: 'Niederländisch' },
+  fr: { en: 'French', nl: 'Frans', fr: 'Français', de: 'Französisch' },
+  de: { en: 'German', nl: 'Duits', fr: 'Allemand', de: 'Deutsch' }
+}
+
 program
   .version('1.0.0')
   .usage('node html-metadata-generator.js extracts metadata for the html pages in  a chosen language')
@@ -203,6 +211,12 @@ function make_nj_metadata (json, hostname, language, prefix) {
     autotranslate = translationObj.autotranslate
   }
 
+  let primeLanguage = languageNames.nl.nl
+  if(autotranslate) {
+    let primeLangCode = json.translation.find(translation => translation.autotranslate === false).language
+    primeLanguage = languageNames[primeLangCode][language]
+  }
+
   const meta = {
     title: titel,
     uri: json['@id'],
@@ -224,7 +238,8 @@ function make_nj_metadata (json, hostname, language, prefix) {
     usesVocs: [],
     usesAPs: [],
     namespaces: usednamespaces,
-    autotranslate: autotranslate
+    autotranslate: autotranslate,
+    primaryLanguage: primeLanguage
   }
   return meta
 };
