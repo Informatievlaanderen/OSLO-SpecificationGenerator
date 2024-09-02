@@ -23,6 +23,7 @@ program
     '-s, --subscriptionKey <key-string>',
     'Subscription key for Azure AI Translator (a String)'
   )
+  .requiredOption('-p', '--prefix <prefix>', 'prefix for the logging')
   .on('--help', function () {
     console.log('Examples:')
     console.log(
@@ -33,24 +34,20 @@ program
 program.parse(process.argv)
 const options = program.opts()
 var counterCalls = 0
-// start timer
-console.time('translation ')
 translateFile(options)
-// stop timer
-console.timeEnd('translation ')
-console.log('Number of calls: ' + counterCalls)
+console.log(options.prefix + 'Number of calls: ' + counterCalls)
 
 // main function to translate the json file
 function translateFile (options) {
-  console.log('start translating')
-  const jsonObject = readJson(options.input)
+  console.log(options.prefix + 'start translating')
+  const jsonObject = readJson(options.input, options.prefix)
   translateJson(jsonObject, options).then((translatedJsonObject) => {
-    writeJson(options.output, translatedJsonObject)
+    writeJson(options.output, options.prefix, translatedJsonObject)
   })
 }
 
-function readJson (filename) {
-  console.log('start reading file ' + filename)
+function readJson (filename, prefix) {
+  console.log(prefix + 'start reading file ' + filename)
   try {
     const jsonFile = fs.readFileSync(filename, 'utf-8')
     const jsonObject = JSON.parse(jsonFile)
@@ -61,8 +58,8 @@ function readJson (filename) {
   }
 }
 
-function writeJson (filename, jsonObject) {
-  console.log('start writing file ' + filename)
+function writeJson (filename, prefix, jsonObject) {
+  console.log(prefix + 'start writing file ' + filename)
   try {
     fs.writeFileSync(filename, JSON.stringify(jsonObject, null, 2))
   } catch (err) {
@@ -72,7 +69,7 @@ function writeJson (filename, jsonObject) {
 }
 
 async function translateJson (jsonObject, options) {
-  console.log('start translating json')
+  console.log(options.prefix + 'start translating json')
   // Translate the json object
   jsonObject.classes = await translateObject(jsonObject.classes, options)
   jsonObject.attributes = await translateObject(jsonObject.attributes, options)
@@ -176,7 +173,7 @@ async function translateObject (object, options) {
 async function translateWithFallback (text, options) {
   let translatedText = ''
   let retries = 0
-  let waitingTime = 1000
+  let waitingTime = 5000
   while (retries < maxRetries) {
     translatedText = await translateText(text, options)
     if (translatedText !== 'Enter your translation here') {
@@ -185,7 +182,7 @@ async function translateWithFallback (text, options) {
     retries += 1
     // wait for a while before trying again
     await delay(waitingTime)
-    console.log('Retry translation')
+    console.log(options.prefix + 'Retry translation')
     waitingTime *= 2
   }
   return translatedText

@@ -11,6 +11,7 @@ program
   .option('-m, --primeLanguage <language>', 'prime language in which the input is provided (a string)')
   .option('-g, --goalLanguage <language>', 'goal language corresponding the translations (a string)')
   .option('-u, --no-update', 'update the translations values with indications of change (per default true)')
+  .option('-p, --prefix <prefix>', 'prefix for the logging')
 
 program.on('--help', function () {
   console.log('')
@@ -23,14 +24,14 @@ program.on('--help', function () {
 program.parse(process.argv)
 const options = program.opts()
 
-render_updated_file_from_json_ld_file(options.input, options.primeLanguage, options.goalLanguage, options.translationFile, options.output)
+render_updated_file_from_json_ld_file(options.input, options.primeLanguage, options.goalLanguage, options.translationFile, options.output, options.prefix)
 
 console.log('done')
 
 /* ---- end of the program --- */
 
-function render_updated_file_from_json_ld_file (inputfilename, primeLanguage, goalLanguage, translationFilename, outputfilename) {
-  console.log('start reading')
+function render_updated_file_from_json_ld_file (inputfilename, primeLanguage, goalLanguage, translationFilename, outputfilename, prefix) {
+  console.log(prefix + 'start reading')
 
   // read out both files to compare
   jsonfile.readFile(inputfilename)
@@ -39,13 +40,13 @@ function render_updated_file_from_json_ld_file (inputfilename, primeLanguage, go
         jsonfile.readFile(translationFilename)
           .then(
             function (translation) {
-              console.log('start processing')
+              console.log(prefix + 'start processing')
 
               const output = translationlib.mergefiles(input, translation, primeLanguage, goalLanguage)
 
               jsonfile.writeFile(outputfilename, output)
                 .then(res => {
-                  console.log('Write complete; The original file was updated to: ' + outputfilename)
+                  console.log(prefix + 'Write complete; The original file was updated to: ' + outputfilename)
                 })
                 .catch(error => { console.error(error); process.exitCode = 1 })
             }
@@ -55,4 +56,3 @@ function render_updated_file_from_json_ld_file (inputfilename, primeLanguage, go
     )
     .catch(error => { console.error(error); process.exitCode = 1 })
 }
-

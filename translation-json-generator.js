@@ -10,6 +10,7 @@ program
   .option('-o, --output <path>', 'output file (a json file)')
   .option('-m, --primeLanguage <language>', 'prime language to translate to a different one (a string)')
   .option('-g, --goalLanguage <language>', 'goal language to translate into (a string)')
+  .option('-p, --prefix <prefix>', 'prefix for the logging')
 
 program.on('--help', function () {
   console.log('')
@@ -21,15 +22,15 @@ program.on('--help', function () {
 program.parse(process.argv)
 const options = program.opts()
 
-transform_json_ld_file_to_translatable_json(options.input, options.primeLanguage, options.goalLanguage, options.output)
+transform_json_ld_file_to_translatable_json(options.input, options.primeLanguage, options.goalLanguage, options.output, options.prefix)
 console.log('done')
 
-function transform_json_ld_file_to_translatable_json (filename, primeLanguage, goalLanguage, outputfile) {
-  console.log('start reading')
+function transform_json_ld_file_to_translatable_json (filename, primeLanguage, goalLanguage, outputfile, prefix) {
+  console.log(prefix + 'start reading')
   jsonfile.readFile(filename)
     .then(
       function (input) {
-        console.log('start processing')
+        console.log(prefix + 'start processing')
 
         let myJson = {}
 
@@ -37,12 +38,12 @@ function transform_json_ld_file_to_translatable_json (filename, primeLanguage, g
           myJson = get_shortened_json(input, primeLanguage, goalLanguage)
           jsonfile.writeFile(outputfile, myJson)
         .then(res => {
-          console.log('Write complete')
-          console.log('the file was saved to: ' + outputfile)
+          console.log(prefix + 'Write complete')
+          console.log(prefix + 'the file was saved to: ' + outputfile)
         })
         .catch(error => { console.error(error); process.exitCode = 1 })
         } else {
-          console.log('create new translation file with existing translations included')
+          console.log(prefix + 'create new translation file with existing translations included')
 
         jsonfile.readFile(options.translation)
           .then(
@@ -52,8 +53,8 @@ function transform_json_ld_file_to_translatable_json (filename, primeLanguage, g
 
                 jsonfile.writeFile(outputfile, myJson)
         .then(res => {
-          console.log('Write complete')
-          console.log('the file was saved to: ' + outputfile)
+          console.log(prefix + 'Write complete')
+          console.log(prefix + 'the file was saved to: ' + outputfile)
         })
         .catch(error => { console.error(error); process.exitCode = 1 })
               })

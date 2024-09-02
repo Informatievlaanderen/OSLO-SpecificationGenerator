@@ -14,6 +14,7 @@ program
   .option('-u, --uridomain <uridomain>', 'the domain of the URIs that should be excluded from this vocabulary')
   .option('-i, --input <path>', 'input file')
   .option('-o, --output <path>', 'output file (the metadat file)')
+  .option('-p', '--prefix <prefix>', 'prefix for the logging')
 
 program.on('--help', function () {
   console.log('')
@@ -25,27 +26,27 @@ program.on('--help', function () {
 program.parse(process.argv)
 const options = program.opts()
 
-render_metadata(options.input, options.output, options.mainlanguage)
+render_metadata(options.input, options.output, options.mainlanguage, options.prefix)
 
 console.log('done')
 
-function render_metadata (input_filename, output_filename, language) {
-  console.log('start reading')
+function render_metadata (input_filename, output_filename, language, prefix) {
+  console.log(prefix + 'start reading')
   jsonfile.readFile(input_filename)
     .then(
       function (input) {
-        console.log('start processing')
+        console.log(prefix + 'start processing')
         const hostname = options.hostname
-	let output = make_nj_metadata(input, hostname, language)
+	let output = make_nj_metadata(input, hostname, language, prefix)
 
-        console.log('start writing')
+        console.log(prefix + 'start writing')
             jsonfile.writeFile(output_filename, output, function (err) {
               if (err) {
                 process.exitCode = 1
                 console.error(err)
                 throw err
               }
-              console.log('The file has been saved to ' + output_filename)
+              console.log(prefix + 'The file has been saved to ' + output_filename)
             })
 
       })
@@ -56,8 +57,8 @@ function render_metadata (input_filename, output_filename, language) {
 
 
 
-function getNamespaces (data) {
-  console.log('Checking Namespaces')
+function getNamespaces (data, prefix) {
+  console.log(prefix + 'Checking Namespaces')
   let namespaces = []
 
   let classes = data.classes
@@ -82,7 +83,7 @@ function getNamespaces (data) {
 	  return acc
   }, namespaces)
 
-  console.log('Finished')
+  console.log(prefix + 'Finished')
   return namespaces
 }
 
@@ -121,7 +122,7 @@ function push (namespaces, value) {
 //
 // @param expanded the root class as it is being read by jsonld
 
-function make_nj_metadata (json, hostname, language) {
+function make_nj_metadata (json, hostname, language, prefix) {
   let hn = json.hostname
   if (hn == null) {
     hn = (hostname != null) ? hostname : 'https://data.vlaanderen.be'
@@ -194,7 +195,7 @@ function make_nj_metadata (json, hostname, language) {
 	  titel = json.title
   }
 
-  let usednamespaces = getNamespaces(json)
+  let usednamespaces = getNamespaces(json, prefix)
 
   let translationObj = json.translation.find(translation => translation.language === language)
   let autotranslate = false
