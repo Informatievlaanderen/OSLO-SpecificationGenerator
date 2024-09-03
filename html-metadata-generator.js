@@ -220,6 +220,10 @@ function make_nj_metadata (json, hostname, language, prefix) {
     autotranslate = translationObj.autotranslate
   }
 
+  let primaryLanguage = options.primarylanguage
+  if (primaryLanguage !== undefined && languageNames[primaryLanguage] !== undefined) { 
+    primaryLanguage = languageNames[primaryLanguage][language]
+  }
 
   const meta = {
     title: titel,
