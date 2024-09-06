@@ -9,6 +9,7 @@ program
     'node autotranslate-config.js creates a translation of a config file'
   )
   .requiredOption('-i, --input <path>', 'input file to translate (a json file)')
+  .requiredOption('-o, --output <path>', 'output file to write the translated config to (a json file)')
   .requiredOption(
     '-g, --goalLanguage <languagecodes separated by a comma>',
     'the languages that shall be translated to (a languagecode)'
@@ -37,7 +38,7 @@ function updateConfig (options) {
   console.log('start updating config file')
   const jsonObject = readJson(options.input)
   translateJson(jsonObject, options).then((translatedJsonObject) => {
-    writeJson(options.input, translatedJsonObject)
+    writeJson(options.output, translatedJsonObject)
   })
 }
 
