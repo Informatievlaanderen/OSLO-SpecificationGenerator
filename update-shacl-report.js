@@ -1,7 +1,7 @@
 const { program } = require('commander')
 const fs = require('node:fs')
 
-const regexUrn = /urn:[^\s]+/g
+const regexUrn = /urn:[^\s"]+/g
 
 program
   .usage('node update-shacl-report.js adds links to the shacl report')
