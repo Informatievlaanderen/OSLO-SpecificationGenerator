@@ -39,7 +39,7 @@ function translateFile (options) {
   const filename = inputParts[inputParts.length - 1]
   let directory = inputParts.slice(0, -1).join('/')
   // Get correct base directory
-  if (possibleLanguages.some((language) => directory.includes('/' + language))) {
+  if (possibleLanguages.some((language) => directory.includes('/' + language + '/'))) {
     // Go up one directory
     console.log('Going up one directory')
     directory = directory.split('/')
