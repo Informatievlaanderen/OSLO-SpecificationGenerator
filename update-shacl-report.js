@@ -1,7 +1,7 @@
 const { program } = require('commander')
 const fs = require('node:fs')
 
-const regexUrn = /urn:[^\"]+/g
+const regexUrn = /urn:[^\s]+/g
 
 program
   .usage('node update-shacl-report.js adds links to the shacl report')
@@ -52,7 +52,9 @@ function updateReport (data, allFile, link) {
   for (const urn of urns) {
     const lineNumber = findLine(allFile, urn)
     // add link to shacl report
-    data = data.replaceAll(urn, '[' + urn + '](' + link + '#L' + lineNumber + ')')
+    if (lineNumber !== 0) {
+      data = data.replaceAll(urn, '[' + urn + '](' + link + '#L' + lineNumber + ')')
+    }
   }
   return data
 }
