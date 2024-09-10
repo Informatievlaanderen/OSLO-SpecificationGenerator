@@ -104,8 +104,8 @@ async function translateObject (object, options) {
           )
           // Check if a translation is needed
           if (
-            toBeTranslatedObjectVoc !== null &&
-            toBeTranslatedObjectVoc === 'Enter your translation here'
+            toBeTranslatedObjectVoc !== null && (
+              toBeTranslatedObjectVoc === 'Enter your translation here' || toBeTranslatedObjectVoc === 'TODO NO TRANSLATION PROVIDED')
           ) {
             translatedText = await translateWithFallback(
               originalObjectVoc,
@@ -139,8 +139,8 @@ async function translateObject (object, options) {
           )
           // Check if a translation is needed
           if (
-            toBeTranslatedObjectAp !== null &&
-              toBeTranslatedObjectAp === 'Enter your translation here'
+            toBeTranslatedObjectAp !== null && (
+              toBeTranslatedObjectAp === 'Enter your translation here' || toBeTranslatedObjectAp === 'TODO NO TRANSLATION PROVIDED')
           ) {
             // check if we cannot reuse the translation from the Voc
             if (originalObjectVoc === null || translatedText === '' || originalObjectAp !== originalObjectVoc) {
