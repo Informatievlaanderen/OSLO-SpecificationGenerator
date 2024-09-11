@@ -4,6 +4,7 @@ const nunjucks = require('nunjucks')
 const ldParser = require('./linkeddataparser3')
 
 const program = require('commander')
+const newLineMd = '  '
 
 // Mapping language codes to language names (per language)
 const languageNames = {
@@ -37,25 +38,25 @@ const options = program.opts()
 
 render_metadata(options.input, options.output, options.mainlanguage, options.prefix)
 
-console.log(options.prefix + 'done')
+console.log(options.prefix + 'done' + newLineMd)
 
 function render_metadata (input_filename, output_filename, language, prefix) {
-  console.log(prefix + 'start reading')
+  console.log(prefix + 'start reading' + newLineMd)
   jsonfile.readFile(input_filename)
     .then(
       function (input) {
-        console.log(prefix + 'start processing')
+        console.log(prefix + 'start processing' + newLineMd)
         const hostname = options.hostname
 	let output = make_nj_metadata(input, hostname, language, prefix)
 
-        console.log(prefix + 'start writing')
+        console.log(prefix + 'start writing' + newLineMd)
             jsonfile.writeFile(output_filename, output, function (err) {
               if (err) {
                 process.exitCode = 1
                 console.error(err)
                 throw err
               }
-              console.log(prefix + 'The file has been saved to ' + output_filename)
+              console.log(prefix + 'The file has been saved to ' + output_filename + newLineMd)
             })
 
       })
@@ -67,7 +68,7 @@ function render_metadata (input_filename, output_filename, language, prefix) {
 
 
 function getNamespaces (data, prefix) {
-  console.log(prefix + 'Checking Namespaces')
+  console.log(prefix + 'Checking Namespaces' + newLineMd)
   let namespaces = []
 
   let classes = data.classes
@@ -100,7 +101,7 @@ function getNamespaces (data, prefix) {
   }, namespaces)
   }
 
-  console.log(prefix + 'Finished')
+  console.log(prefix + 'Finished' + newLineMd)
   return namespaces
 }
 
@@ -147,7 +148,7 @@ function make_nj_metadata (json, hostname, language, prefix) {
   if (json.navigation) {
     json.navigation.self = hn + json.urlref
   } else {
-    console.log('Warning: no navigation defined for this rendering')
+    console.log('Warning: no navigation defined for this rendering' + newLineMd)
     json.navigation = {
       self: hn + json.urlref
     }
@@ -247,7 +248,7 @@ function make_nj_metadata (json, hostname, language, prefix) {
     usesAPs: [],
     namespaces: usednamespaces,
     autotranslate: autotranslate,
-    primaryLanguage: options.primarylanguage
+    primaryLanguage: primaryLanguage
   }
   return meta
 };

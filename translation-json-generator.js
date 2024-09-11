@@ -1,6 +1,7 @@
 const jsonfile = require('jsonfile')
 const program = require('commander')
 const translationlib = require('./translation-json-lib')
+const newLineMd = '  '
 
 program
   .version('2.0.0')
@@ -23,14 +24,14 @@ program.parse(process.argv)
 const options = program.opts()
 
 transform_json_ld_file_to_translatable_json(options.input, options.primeLanguage, options.goalLanguage, options.output, options.prefix)
-console.log(options.prefix + 'done')
+console.log(options.prefix + 'done' + newLineMd)
 
 function transform_json_ld_file_to_translatable_json (filename, primeLanguage, goalLanguage, outputfile, prefix) {
-  console.log(prefix + 'start reading')
+  console.log(prefix + 'start reading' + newLineMd)
   jsonfile.readFile(filename)
     .then(
       function (input) {
-        console.log(prefix + 'start processing')
+        console.log(prefix + 'start processing' + newLineMd)
 
         let myJson = {}
 
@@ -38,12 +39,12 @@ function transform_json_ld_file_to_translatable_json (filename, primeLanguage, g
           myJson = get_shortened_json(input, primeLanguage, goalLanguage)
           jsonfile.writeFile(outputfile, myJson)
         .then(res => {
-          console.log(prefix + 'Write complete')
-          console.log(prefix + 'the file was saved to: ' + outputfile)
+          console.log(prefix + 'Write complete' + newLineMd)
+          console.log(prefix + 'the file was saved to: ' + outputfile + newLineMd)
         })
         .catch(error => { console.error(error); process.exitCode = 1 })
         } else {
-          console.log(prefix + 'create new translation file with existing translations included')
+          console.log(prefix + 'create new translation file with existing translations included' + newLineMd)
 
         jsonfile.readFile(options.translation)
           .then(
@@ -53,8 +54,8 @@ function transform_json_ld_file_to_translatable_json (filename, primeLanguage, g
 
                 jsonfile.writeFile(outputfile, myJson)
         .then(res => {
-          console.log(prefix + 'Write complete')
-          console.log(prefix + 'the file was saved to: ' + outputfile)
+          console.log(prefix + 'Write complete' + newLineMd)
+          console.log(prefix + 'the file was saved to: ' + outputfile + newLineMd)
         })
         .catch(error => { console.error(error); process.exitCode = 1 })
               })
@@ -86,7 +87,7 @@ function get_shortened_json (input, primeLanguage, goalLanguage) {
       referencedEntitiesArray[i] = create_shortened_object(input.referencedEntities[i], primeLanguage, goalLanguage)
     }
   } else {
-    console.log('WARNING The entered language values are the same!')
+    console.log('WARNING The entered language values are the same!' + newLineMd)
   }
 
   json['@id'] = input['@id']

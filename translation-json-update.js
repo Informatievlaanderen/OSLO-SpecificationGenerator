@@ -1,6 +1,7 @@
 const jsonfile = require('jsonfile')
 const program = require('commander')
 const translationlib = require('./translation-json-lib')
+const newLineMd = '  '
 
 program
   .version('2.0.0')
@@ -26,12 +27,12 @@ const options = program.opts()
 
 render_updated_file_from_json_ld_file(options.input, options.primeLanguage, options.goalLanguage, options.translationFile, options.output, options.prefix)
 
-console.log(options.prefix + 'done')
+console.log(options.prefix + 'done' + newLineMd)
 
 /* ---- end of the program --- */
 
 function render_updated_file_from_json_ld_file (inputfilename, primeLanguage, goalLanguage, translationFilename, outputfilename, prefix) {
-  console.log(prefix + 'start reading')
+  console.log(prefix + 'start reading' + newLineMd)
 
   // read out both files to compare
   jsonfile.readFile(inputfilename)
@@ -40,13 +41,13 @@ function render_updated_file_from_json_ld_file (inputfilename, primeLanguage, go
         jsonfile.readFile(translationFilename)
           .then(
             function (translation) {
-              console.log(prefix + 'start processing')
+              console.log(prefix + 'start processing' + newLineMd)
 
               const output = translationlib.mergefiles(input, translation, primeLanguage, goalLanguage)
 
               jsonfile.writeFile(outputfilename, output)
                 .then(res => {
-                  console.log(prefix + 'Write complete; The original file was updated to: ' + outputfilename)
+                  console.log(prefix + 'Write complete; The original file was updated to: ' + outputfilename + newLineMd)
                 })
                 .catch(error => { console.error(error); process.exitCode = 1 })
             }
