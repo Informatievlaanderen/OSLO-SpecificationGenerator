@@ -138,5 +138,16 @@ function get_language_value (languageArray, language) {
   return null
 }
 
+// if the input does not contain the base attributes update the input with empty list
+function empty_object(input) {
+  let output = input;
 
-module.exports = { mergefiles, get_language_value }
+  if ((output.classes === undefined) || (output.classes === null)) { output.classes = [] }
+  if ((output.attributes === undefined) || (output.attributes === null)) { output.attributes = [] }
+  if ((output.datatypes === undefined) || (output.datatypes === null)) { output.datatypes = [] }
+  if ((output.referencedEntities === undefined) || (output.referencedEntities === null)) { output.referencedEntities = [] }
+	
+	return output ;
+}
+
+module.exports = { mergefiles, get_language_value, empty_object }

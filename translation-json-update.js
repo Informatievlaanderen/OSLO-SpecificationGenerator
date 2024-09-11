@@ -42,7 +42,7 @@ function render_updated_file_from_json_ld_file (inputfilename, primeLanguage, go
             function (translation) {
               console.log(prefix + 'start processing')
 
-              const output = translationlib.mergefiles(input, translation, primeLanguage, goalLanguage)
+              const output = translationlib.mergefiles(translationlib.empty_object(input), translation, primeLanguage, goalLanguage)
 
               jsonfile.writeFile(outputfilename, output)
                 .then(res => {
