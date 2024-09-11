@@ -3,6 +3,7 @@ const fs = require('node:fs')
 
 const endpoint = 'https://api.cognitive.microsofttranslator.com/'
 const maxRetries = 5
+const newLineMd = '  '
 
 // parse the command line arguments
 program
@@ -35,11 +36,11 @@ program.parse(process.argv)
 const options = program.opts()
 var counterCalls = 0
 translateFile(options)
-console.log(options.prefix + 'Number of calls: ' + counterCalls)
+console.log(options.prefix + 'Number of calls: ' + counterCalls + newLineMd)
 
 // main function to translate the json file
 function translateFile (options) {
-  console.log(options.prefix + 'start translating')
+  console.log(options.prefix + 'start translating' + newLineMd)
   const jsonObject = readJson(options.input, options.prefix)
   translateJson(jsonObject, options).then((translatedJsonObject) => {
     writeJson(options.output, options.prefix, translatedJsonObject)
@@ -47,7 +48,7 @@ function translateFile (options) {
 }
 
 function readJson (filename, prefix) {
-  console.log(prefix + 'start reading file ' + filename)
+  console.log(prefix + 'start reading file ' + filename + newLineMd)
   try {
     const jsonFile = fs.readFileSync(filename, 'utf-8')
     const jsonObject = JSON.parse(jsonFile)
@@ -59,7 +60,7 @@ function readJson (filename, prefix) {
 }
 
 function writeJson (filename, prefix, jsonObject) {
-  console.log(prefix + 'start writing file ' + filename)
+  console.log(prefix + 'start writing file ' + filename + newLineMd)
   try {
     fs.writeFileSync(filename, JSON.stringify(jsonObject, null, 2))
   } catch (err) {
@@ -69,7 +70,7 @@ function writeJson (filename, prefix, jsonObject) {
 }
 
 async function translateJson (jsonObject, options) {
-  console.log(options.prefix + 'start translating json')
+  console.log(options.prefix + 'start translating json' + newLineMd)
   // Translate the json object
   jsonObject.classes = await translateObject(jsonObject.classes, options)
   jsonObject.attributes = await translateObject(jsonObject.attributes, options)
@@ -182,7 +183,7 @@ async function translateWithFallback (text, options) {
     retries += 1
     // wait for a while before trying again
     await delay(waitingTime)
-    console.log(options.prefix + 'Retry translation')
+    console.log(options.prefix + 'Retry translation' + newLineMd)
     waitingTime *= 2
   }
   return translatedText
@@ -210,15 +211,15 @@ async function translateText (text, options) {
     .then((data) => {
       // Check if there is an error thrown by Azure Translator
       if (data.error !== undefined) {
-        console.error('An error occured while translating text, thrown by Azure Translator')
-        console.error('error', data.error.message)
+        console.error('An error occured while translating text, thrown by Azure Translator' + newLineMd)
+        console.error('error', data.error.message + newLineMd)
         return 'Enter your translation here'
       }
       return data[0].translations[0].text
     })
     .catch((error) => {
-      console.error('An error occured while translating text')
-      console.error('error', error)
+      console.error('An error occured while translating text' + newLineMd)
+      console.error('error', error + newLineMd)
       return 'Enter your translation here'
     }
     )
