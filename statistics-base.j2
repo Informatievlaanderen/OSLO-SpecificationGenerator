@@ -1,7 +1,5 @@
 const fs = require('fs')
 const jsonfile = require('jsonfile')
-const nunjucks = require('nunjucks')
-const ldParser = require('./linkeddataparser3')
 const Set = require('collections/set')
 const Map = require('collections/map')
 
@@ -221,7 +219,19 @@ function make_statistics (json, stakeholders, hostname, prefix) {
   organisations = map_organisations(stakeholders.editors, organisations) 
   organisations = map_organisations(stakeholders.authors, organisations) 
 
-  organisations = count_org_participants(organisations)
+  count_organisations = count_org_participants(organisations)
+
+  let calc_values = {
+    authors: stakeholders.authors,
+    editors: stakeholders.editors,
+    contributors: stakeholders.contributors,
+    participants: participants,
+    classes: count_classes(json),
+    properties: count_properties(json),
+    externalclasses: count_extclasses(json),
+    externalproperties: count_extproperties(json),
+    organisations: organisations,
+  }
 
   const statistics = {
     title: titel,
@@ -239,14 +249,16 @@ function make_statistics (json, stakeholders, hostname, prefix) {
     editors: stakeholders.editors.length,
     contributors: stakeholders.contributors.length,
     participants: participants.length,
-    classes: count_classes(json),
-    properties: count_properties(json),
-    externalclasses: count_extclasses(json),
-    externalproperties: count_extproperties(json),
+    classes: count_classes(json).length,
+    properties: count_properties(json).length,
+    externalclasses: count_extclasses(json).length,
+    externalproperties: count_extproperties(json).length,
     totalterms: count_terms(json),
     totalorganisations: organisations.length,
-    organisations: organisations,
-    specifications: []
+    organisations: count_organisations,
+    specifications: [],
+
+    values : calc_values
 
     
 
@@ -258,11 +270,21 @@ function make_statistics (json, stakeholders, hostname, prefix) {
 
 const scope_external = "https://data.vlaanderen.be/id/concept/scope/External"
 
+function map_terms(terms) {
+   let result = terms.map(function(values, key) { 
+      let v = {}
+      v.assignedURI = values.assignedURI
+      v.label = values.apLabel ? values.apLabel : values.vocLabel ? values.vocLabel : values.diagramLabel
+      return v
+   })
+   return result
+}
+
 function count_classes(input) {
    let internalc = input.classes.filter((c) => c.scope != scope_external );
    let internald = input.datatypes.filter((c) => c.scope != scope_external );
    let internale = input.referencedEntities.filter((c) => c.scope != scope_external );
-   return internalc.length + internald.length + internale.length
+   return map_terms(internalc.concat(internald).concat(internale))
 }
 
 
@@ -270,19 +292,19 @@ function count_extclasses(input) {
    let externalc = input.classes.filter((c) => c.scope === scope_external );
    let externald = input.datatypes.filter((c) => c.scope === scope_external );
    let externale = input.referencedEntities.filter((c) => c.scope === scope_external );
-   return externalc.length + externald.length + externale.length
+   return map_terms(externalc.concat(externald).concat(externale))
 }
 
 
 function count_properties(input) {
    let propc = input.attributes.filter((c) => c.scope != scope_external );
-   return propc.length
+   return map_terms(propc)
 }
 
 
 function count_extproperties(input) {
    let propc = input.attributes.filter((c) => c.scope === scope_external );
-   return propc.length
+   return map_terms(propc)
 }
 
 
