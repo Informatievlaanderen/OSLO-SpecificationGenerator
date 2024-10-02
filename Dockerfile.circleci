@@ -10,3 +10,6 @@ ADD . /app
 #RUN sudo npm set unsafe-perm true
 RUN sudo npm install
 RUN sudo npm install eslint
+
+#RUN sudo npm install --global @oslo-flanders/ea-converter
+

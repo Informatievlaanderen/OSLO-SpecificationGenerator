@@ -2,6 +2,9 @@ const fs = require('fs')
 const jsonfile = require('jsonfile')
 const nunjucks = require('nunjucks')
 const ldParser = require('./linkeddataparser3')
+const Set = require('collections/set')
+const Map = require('collections/map')
+
 
 const program = require('commander')
 const newLineMd = '  '
@@ -19,45 +22,48 @@ program
   .usage('node html-metadata-generator.js extracts metadata for the html pages in  a chosen language')
   .option('-h, --hostname <hostname>', 'the public hostname/domain on which the html is published. The hostname in the input file takes precedence.')
   .option('-r, --documentpath <path>', 'the document path on which the html is published')
-  .option('-m, --mainlanguage <languagecode>', 'the language to display (a languagecode string)')
-  .option('-g, --primarylanguage <languagecode>', 'the primary language of the publication environment (a languagecode string)')
   .option('-u, --uridomain <uridomain>', 'the domain of the URIs that should be excluded from this vocabulary')
   .option('-i, --input <path>', 'input file')
-  .option('-o, --output <path>', 'output file (the metadata file)')
+  .option('-s, --stakeholders <path>', 'input stakeholders file')
+  .option('-o, --output <path>', 'output file (the statistics file)')
   .option('-p, --prefix <prefix>', 'prefix for the logging')
 
 program.on('--help', function () {
   console.log('')
   console.log('Examples:')
-  console.log('  $ html-metadata-generator --help')
-  console.log('  $ html-metadata-generator -m <mainlanguage> -i <input> -o <output>')
+  console.log('  $ statistics-base --help')
+  console.log('  $ statistics-base -i <input> -o <output>')
 })
 
 program.parse(process.argv)
 const options = program.opts()
 
-render_metadata(options.input, options.output, options.mainlanguage, options.prefix)
+render_statistics(options.input, options.stakeholders, options.output, options.prefix)
 
 console.log(options.prefix + 'done' + newLineMd)
 
-function render_metadata (input_filename, output_filename, language, prefix) {
+function render_statistics (input_filename, stakeholders_filename, output_filename, prefix) {
   console.log(prefix + 'start reading' + newLineMd)
   jsonfile.readFile(input_filename)
     .then(
       function (input) {
-        console.log(prefix + 'start processing' + newLineMd)
-        const hostname = options.hostname
-	let output = make_nj_metadata(input, hostname, language, prefix)
+  	jsonfile.readFile(stakeholders_filename)
+    	.then( function (stakeholders) {
+		console.log(prefix + 'start processing' + newLineMd)
+		const hostname = options.hostname
+		let output = make_statistics(input, stakeholders, hostname, prefix)
 
-        console.log(prefix + 'start writing' + newLineMd)
-            jsonfile.writeFile(output_filename, output, function (err) {
-              if (err) {
-                process.exitCode = 1
-                console.error(err)
-                throw err
-              }
-              console.log(prefix + 'The file has been saved to ' + output_filename + newLineMd)
-            })
+		console.log(prefix + 'start writing' + newLineMd)
+		    jsonfile.writeFile(output_filename, output, function (err) {
+		      if (err) {
+			process.exitCode = 1
+			console.error(err)
+			throw err
+		      }
+		      console.log(prefix + 'The file has been saved to ' + output_filename + newLineMd)
+		    })
+      	})
+    	.catch(error => { console.error(error); process.exitCode = 1 })
 
       })
     .catch(error => { console.error(error); process.exitCode = 1 })
@@ -140,7 +146,7 @@ function push (namespaces, value) {
 //
 // @param expanded the root class as it is being read by jsonld
 
-function make_nj_metadata (json, hostname, language, prefix) {
+function make_statistics (json, stakeholders, hostname, prefix) {
   let hn = json.hostname
   if (hn == null) {
     hn = (hostname != null) ? hostname : 'https://data.vlaanderen.be'
@@ -185,70 +191,137 @@ function make_nj_metadata (json, hostname, language, prefix) {
     default:
       docstatuslabel = 'Onbekend'
   };
-  if (!json.license || json.license === '') {
-    // set default value
-    json.license = 'https://data.vlaanderen.be/id/licentie/modellicentie-gratis-hergebruik/v1.0'
-  }
 
-  let documentconfig = {}	
-  if (!json.documentconfig || json.documentconfig === '') {
-    // set default value
-    documentconfig = {}
-  } else {
-    documentconfig = json.documentconfig
-  }
-
-  let titel = ""
-  if (json.translation) {
-	for (i in json.translation ) {
-	     if (json.translation[i].language === language) {
-		 titel = json.translation[i].title
-	     }
-	}
-	if (titel === "") {
-		titel = json.title
-	} 
-  }
-  else  {
-	  titel = json.title
-  }
+  let titel = json.title
 
   let usednamespaces = getNamespaces(json, prefix)
 
-  let translationObj = json.translation.find(translation => translation.language === language)
-  let autotranslate = false
-  if(translationObj !== undefined) {
-    autotranslate = translationObj.autotranslate
-  }
+  stakeholders.contributors = reduce_stakeholders(stakeholders.contributors)
+  stakeholders.editors = reduce_stakeholders(stakeholders.editors)
+  stakeholders.authors = reduce_stakeholders(stakeholders.authors)
 
-  let primaryLanguage = options.primarylanguage
-  if (primaryLanguage !== undefined && languageNames[primaryLanguage] !== undefined) { 
-    primaryLanguage = languageNames[primaryLanguage][language]
-  }
 
-  const meta = {
+  let participants = []
+
+  participants = stakeholders.contributors.reduce(function (acc, elem) {
+     if (acc.has(elem)) { console.log(options.prefix + JSON.stringify(elem) ) } else {acc.add(elem) }
+     return acc
+  }, participants)
+  participants = stakeholders.editors.reduce(function (acc, elem) {
+     if (acc.has(elem)) { console.log(options.prefix + JSON.stringify(elem)) } else {acc.add(elem) }
+     return acc
+  }, participants)
+  participants = stakeholders.authors.reduce(function (acc, elem) {
+     if (acc.has(elem)) { console.log(options.prefix + JSON.stringify(elem)) } else {acc.add(elem) }
+     return acc
+  }, participants)
+
+  let organisations = new Map()
+  organisations = map_organisations(stakeholders.contributors, organisations) 
+  organisations = map_organisations(stakeholders.editors, organisations) 
+  organisations = map_organisations(stakeholders.authors, organisations) 
+
+  organisations = count_org_participants(organisations)
+
+  const statistics = {
     title: titel,
     uri: json['@id'],
     issued: json['publication-date'],
     baseURI: json.baseURI,
     baseURIabbrev: json.baseURIabbrev,
-    filename: json.name,
     navigation: json.navigation,
-    license: json.license,
     documenttype: json.type,
-    documentconfig: documentconfig,	  
     status: docstatus,
     statuslabel: docstatuslabel,
-    repositoryurl: json.repository + '/tree/' + json.documentcommit,
-    changelogurl: json.repository + '/blob/' + json.documentcommit + '/CHANGELOG',
-    feedbackurl: json.feedbackurl,
-    standaardregisterurl: json.standaardregisterurl,
-    dependencies: json.dependencies,
-    usesVocs: [],
-    usesAPs: [],
     namespaces: usednamespaces,
-    autotranslate: autotranslate,
-    primaryLanguage: primaryLanguage
+
+    authors: stakeholders.authors.length,
+    editors: stakeholders.editors.length,
+    contributors: stakeholders.contributors.length,
+    participants: participants.length,
+    classes: count_classes(json),
+    properties: count_properties(json),
+    externalclasses: count_extclasses(json),
+    externalproperties: count_extproperties(json),
+    totalterms: count_terms(json),
+    totalorganisations: organisations.length,
+    organisations: organisations,
+    specifications: []
+
+    
+
+
   }
-  return meta
+  return statistics
 };
+
+
+const scope_external = "https://data.vlaanderen.be/id/concept/scope/External"
+
+function count_classes(input) {
+   let internalc = input.classes.filter((c) => c.scope != scope_external );
+   let internald = input.datatypes.filter((c) => c.scope != scope_external );
+   let internale = input.referencedEntities.filter((c) => c.scope != scope_external );
+   return internalc.length + internald.length + internale.length
+}
+
+
+function count_extclasses(input) {
+   let externalc = input.classes.filter((c) => c.scope === scope_external );
+   let externald = input.datatypes.filter((c) => c.scope === scope_external );
+   let externale = input.referencedEntities.filter((c) => c.scope === scope_external );
+   return externalc.length + externald.length + externale.length
+}
+
+
+function count_properties(input) {
+   let propc = input.attributes.filter((c) => c.scope != scope_external );
+   return propc.length
+}
+
+
+function count_extproperties(input) {
+   let propc = input.attributes.filter((c) => c.scope === scope_external );
+   return propc.length
+}
+
+
+function count_terms(input) {
+   return input.classes.length + input.datatypes.length + input.referencedEntities.length + input.attributes.length
+}
+
+function reduce_stakeholders(stakeholders) {
+  let updatedstakeholders = stakeholders.reduce(function (acc, elem) {
+          let newelem = {}
+          newelem.name = elem.firstName + elem.lastName 
+          newelem.name = newelem.name.toLowerCase().replace(/\s+/g, '')
+          newelem.affiliation = elem.affiliation.affiliationName.toLowerCase().replace(/\s+/g, '')
+	  acc.push(newelem)
+	  return acc
+  }, [])
+  return updatedstakeholders  
+}
+
+function map_organisations(participants, organisations) {
+  let new_organisations = participants.reduce(function (acc, elem) {
+     if (acc.has(elem.affiliation)) { 
+          let v = acc.get(elem.affiliation)
+          if (v.has(elem)) { console.log(options.prefix + JSON.stringify(elem)) } else { v.add(elem) }
+          acc.set(elem.affiliation, v)
+        } else {
+         acc.set(elem.affiliation, [elem]) }
+     return acc
+  }, organisations)
+
+  return new_organisations
+
+}
+
+
+function count_org_participants(organisations) {
+  let counts = organisations.reduce(function(acc, value, key) {
+      acc.push({"affiliation": key, "participants" : value.length})
+      return acc
+     },  [])
+  return counts
+}
