@@ -230,7 +230,7 @@ function make_statistics (json, stakeholders, hostname, prefix) {
     properties: count_properties(json),
     externalclasses: count_extclasses(json),
     externalproperties: count_extproperties(json),
-    organisations: organisations,
+    organisations: org_to_json(organisations),
   }
 
   const statistics = {
@@ -337,6 +337,17 @@ function map_organisations(participants, organisations) {
 
   return new_organisations
 
+}
+
+function org_to_json(organisations) {
+  let json = organisations.reduce(function(acc, value, key) {
+		let v = {}
+		v.affiliation = key
+                v.names = value
+		acc.push(v)
+                return acc
+             }, [] )
+  return json
 }
 
 
