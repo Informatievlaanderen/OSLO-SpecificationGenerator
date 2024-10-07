@@ -215,7 +215,7 @@ function make_nj_metadata (json, hostname, language, prefix) {
 
   let usednamespaces = getNamespaces(json, prefix)
 
-  let translationObj = json.translation.find(translation => translation.language === language)
+  let translationObj = json.translation?.find(translation => translation.language === language)
   let autotranslate = false
   if(translationObj !== undefined) {
     autotranslate = translationObj.autotranslate
@@ -239,6 +239,7 @@ function make_nj_metadata (json, hostname, language, prefix) {
     documentconfig: documentconfig,	  
     status: docstatus,
     statuslabel: docstatuslabel,
+    documentroot: options.documentpath,
     repositoryurl: json.repository + '/tree/' + json.documentcommit,
     changelogurl: json.repository + '/blob/' + json.documentcommit + '/CHANGELOG',
     feedbackurl: json.feedbackurl,
