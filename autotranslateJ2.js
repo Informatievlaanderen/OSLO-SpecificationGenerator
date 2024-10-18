@@ -4,8 +4,7 @@ const fs = require('node:fs')
 const endpoint = 'https://api.cognitive.microsofttranslator.com/'
 const regexpBlockBegin = /{%\s*block\s*\w*\s*%\s*}\n*/g
 const regexpBlockEnd = /\n*{%\s*endblock\s*%\s*}\n*/g
-const regexFilename = /{%\s*extends\s*"([^"']+)"\s*%}/g
-const possibleLanguages = ['de', 'en', 'fr', 'nl']
+const regexFilename = /{%\s*extends\s*"([^"']+).j2"\s*%}/g
 
 // parse the command line arguments
 program
@@ -22,10 +21,11 @@ program
     'the language that shall be translated from (a languagecode)'
   )
   .requiredOption('-o, --output <path>', 'translated output file (a jsonld file)')
-  .requiredOption(
+  .option(
     '-s, --subscriptionKey <key-string>',
-    'Subscription key for Azure AI Translator (a String)'
+    'Subscription key for Azure AI Translator (a String). If absent the original text will be copied.'
   )
+  .option('-p, --prefix <prefix>', 'prefix for the logging')
   .on('--help', function () {
     console.log('Examples:')
     console.log(
@@ -41,47 +41,56 @@ translateFile(options)
 // main function to translate the j2 file
 function translateFile (options) {
   let j2Text = readJ2(options.input)
-  const originalFilename = extractFilename(j2Text)
-  const newFilename = convertFilename(originalFilename, options)
-  j2Text = replaceFilename(j2Text, originalFilename, newFilename)
+  j2Text = replaceFilenames(j2Text)
+//  const originalFilename = extractFilename(j2Text)
+//  const newFilename = convertFilename(originalFilename, options)
+//  j2Text = replaceFilename(j2Text, originalFilename, newFilename)
   processJ2Text(j2Text, options).then((translatedJ2Text) => {
     writeJ2(options.output, translatedJ2Text)
   })
 }
 
-function extractFilename (j2Text) {
-  console.log('start extracting filename')
+
+function replaceFilenames (j2Text) {
+  console.log(options.prefix + ' start converting filename in extend blocks')
   const filenames = [...j2Text.matchAll(regexFilename)]
   if (filenames === null || filenames === undefined || filenames.length === 0) {
-    console.error('No filename found in j2 file')
-    process.exitCode = 1
-    return null
-  }
-  const filename = filenames[0][1]
-  return filename
-}
+	  console.log(options.prefix + ' no filenames found to be adapted')
+  } else {
+    for (let f in filenames ) {
+	    console.log(options.prefix + filenames[f][1])
+	    let matchfilename = filenames[f][1]
+	    let mlfregex = "(.*)_" + options.mainLanguage
+	    if ( matchfilename.match(mlfregex) ) {
+		    let mf = matchfilename.match(mlfregex)
+		    console.log(options.prefix + ' filename contains prime language reference ' + mf[1])
+		    j2Text = j2Text.replace(matchfilename, mf[1] + "_" + options.goalLanguage)
+	    } else {
+	    let glfregex = ".*_" + options.goalLanguage
+	    if ( matchfilename.match(glfregex) ) {
+		    console.log(options.prefix + ' filename contains goal language reference')
+	    } else {
+		    // prime and goal language already treated
+		    let anylregex = "(.+)_[a-z]{2}$" 
 
-function replaceFilename (j2Text, originalFilename, newFilename) {
-  const newJ2Text = j2Text.replace(originalFilename, newFilename)
+		    if ( matchfilename.match(anylregex) ) {
+			    console.log(options.prefix + ' filename contains POSSIBLY a language reference')
+			    let mf = matchfilename.match(anylregex)
+			    j2Text = j2Text.replace(matchfilename, mf[1] + "_" + options.goalLanguage)
+		    } else {
+			    console.log(options.prefix + ' filename does not contains language reference')
+			    j2Text = j2Text.replace(matchfilename, matchfilename + "_" + options.goalLanguage)
+		    }
+	    }
+	    }
+	    
+    }
+  }
+  
+	newJ2Text = j2Text
   return newJ2Text
 }
 
-function convertFilename (filename, options) {
-  // Convert eg ap2.j2 to ap2_en.j2
-  const parts = filename.split('.')
-  const lang = options.goalLanguage
-  let newFilename = ''
-  // Check if filename already contains language code (possibleLanguages)
-  if (possibleLanguages.some((el) => filename.includes('_' + el))) {
-    // Replace the language code with the new language code
-    newFilename = filename.replace(/(_de|_en|_fr|_nl)/, '_' + lang)
-  } else {
-    // Add the language code to the filename
-    newFilename = parts[0] + '_' + lang + '.' + parts[1]
-  }
-  console.log('new filename: ' + newFilename)
-  return newFilename
-}
 
 function readJ2 (filename) {
   console.log('start reading file ' + filename)
@@ -122,10 +131,14 @@ async function processJ2Text (j2Text, options) {
     const blockContent = j2Text.slice(blockBegin.index + blockBegin[0].length, blockEnd.index)
     blockContents.push(blockContent)
   }
+  
   // translate the block contents
-  const translatedBlockContents = await Promise.all(blockContents.map(async (blockContent) => {
+  let translatedBlockContents = blockContents
+  if ( options.subscriptionKey !== undefined ) {
+   translatedBlockContents = await Promise.all(blockContents.map(async (blockContent) => {
     return await translateJ2Text(blockContent, options)
   }))
+  }
   // construct the translated j2 text
   let translatedJ2Text = ''
   let startIdx = 0

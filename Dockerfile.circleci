@@ -11,5 +11,6 @@ ADD . /app
 RUN sudo npm install
 RUN sudo npm install eslint
 
-#RUN sudo npm install --global @oslo-flanders/ea-converter
 
+#RUN sudo npm cache clean --force
+#RUN sudo npm install --global @oslo-flanders/ea-converter
