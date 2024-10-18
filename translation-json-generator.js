@@ -49,7 +49,7 @@ function transform_json_ld_file_to_translatable_json (filename, primeLanguage, g
         jsonfile.readFile(options.translation)
           .then(
             function (translationJson) {
-                const merged = translationlib.mergefiles(translationlib.empty_object(input), translationJson, primeLanguage, goalLanguage)
+                const merged = translationlib.mergefiles(options, translationlib.empty_object(input), translationJson, primeLanguage, goalLanguage)
                    myJson = get_shortened_json(merged, primeLanguage, goalLanguage)
 
                 jsonfile.writeFile(outputfile, myJson)

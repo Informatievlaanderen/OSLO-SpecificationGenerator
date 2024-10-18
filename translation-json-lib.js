@@ -1,23 +1,23 @@
 const Map = require('collections/map')
 const Set = require('collections/set')
 
-function mergefiles (input, translation, primeLanguage, goalLanguage) {
+function mergefiles (options, input, translation, primeLanguage, goalLanguage) {
   const mergeArrays = ['classes', 'attributes', 'referencedEntities', 'datatypes']
 
   const output = mergeArrays.reduce(function (acc, elem) {
-    mergeJsonArray(acc, elem, input, translation, primeLanguage, goalLanguage)
+    mergeJsonArray(options, acc, elem, input, translation, primeLanguage, goalLanguage)
     return acc
   }, input)
 
   return output
 }
 
-function mergeJsonArray (accOutput, array, input, translation, primeLanguage, goalLanguage) {
+function mergeJsonArray (options, accOutput, array, input, translation, primeLanguage, goalLanguage) {
   //console.log('Checking Array' + array)
 
   const iArray = input[array]
   const oArray = iArray.reduce(function (acc, elem) {
-    acc.push(mergeElement(elem, translation[array], primeLanguage, goalLanguage))
+    acc.push(mergeElement(options, elem, translation[array], primeLanguage, goalLanguage))
     return acc
   }, [])
   accOutput[array] = oArray
@@ -25,7 +25,7 @@ function mergeJsonArray (accOutput, array, input, translation, primeLanguage, go
   return accOutput
 }
 
-function mergeElement (element, translationArray, primeLanguage, goalLanguage) {
+function mergeElement (options, element, translationArray, primeLanguage, goalLanguage) {
   //console.log(element.assignedURI)
 
   // need to make use of emptyElement otherwise subsequent test is always false
@@ -33,14 +33,14 @@ function mergeElement (element, translationArray, primeLanguage, goalLanguage) {
   const emptyElement = {}
   oElement = translationArray.reduce(function (acc, elem) {
      if (elem['@id'] === element['@id']) {
-      acc = mergeIdentifiedElements(elem, element, primeLanguage, goalLanguage)
+      acc = mergeIdentifiedElements(options, elem, element, primeLanguage, goalLanguage)
      }
     return acc
   }, emptyElement)
   if (oElement === emptyElement) {
      console.log(element.assignedURI)
      console.log('new term introduced, no translation found')
-     oElement = mergeIdentifiedElements(element, element, primeLanguage, goalLanguage)
+     oElement = mergeIdentifiedElements(options, element, element, primeLanguage, goalLanguage)
   }
 
   return oElement
@@ -52,18 +52,18 @@ function mergeElement (element, translationArray, primeLanguage, goalLanguage) {
 // This requires also checking if the orignal attribute has the same prime language value
 // If not the case then the translation must be updated with an additional indication "UPDATED"
 //
-function mergeIdentifiedElements (translation, input, primeLanguage, goalLanguage) {
+function mergeIdentifiedElements (options, translation, input, primeLanguage, goalLanguage) {
   const translationAttributes = ['vocLabel', 'apLabel', 'vocDefinition', 'apDefinition', 'vocUsageNote', 'apUsageNote']
 
   const output = translationAttributes.reduce(function (acc, elem) {
-    acc = set_attribute_translation(acc, translation, elem, primeLanguage, goalLanguage)
+    acc = set_attribute_translation(options, acc, translation, elem, primeLanguage, goalLanguage)
     return acc
   }, input)
 
   return output
 }
 
-function set_attribute_translation (input, translation, attribute, prime, goal) {
+function set_attribute_translation (options, input, translation, attribute, prime, goal) {
   let originalA = input[attribute]
   let translationA = translation[attribute]
 
