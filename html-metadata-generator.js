@@ -249,7 +249,10 @@ function make_nj_metadata (json, hostname, language, prefix) {
     usesAPs: [],
     namespaces: usednamespaces,
     autotranslate: autotranslate,
-    primaryLanguage: primaryLanguage
+    primaryLanguage: primaryLanguage,
+    hostname: hostname,
+    uridomain: options.uridomain
+
   }
   return meta
 };
