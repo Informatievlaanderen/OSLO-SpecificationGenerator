@@ -17,7 +17,7 @@ const languageNames = {
 
 program
   .version('1.0.0')
-  .usage('node html-metadata-generator.js extracts metadata for the html pages in  a chosen language')
+  .usage('node statistics-base.js extracts calculates some statistics of a specification')
   .option('-h, --hostname <hostname>', 'the public hostname/domain on which the html is published. The hostname in the input file takes precedence.')
   .option('-r, --documentpath <path>', 'the document path on which the html is published')
   .option('-u, --uridomain <uridomain>', 'the domain of the URIs that should be excluded from this vocabulary')
