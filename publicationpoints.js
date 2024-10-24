@@ -9,6 +9,7 @@ program
   .version('1.0.0')
   .usage('node publicationpoints.js uses a publicationpoints file to create a navigation graph')
   .option('-i, --input <path>', 'input file')
+  .option('-r, --rootsonly', 'export only the list of roots')
   .option('-o, --output <path>', 'output file (the statistics file)')
   .option('-p, --prefix <prefix>', 'prefix for the logging')
 
@@ -36,6 +37,24 @@ function render_navigation (input_filename, output_filename, prefix) {
 		let output = make_navigation(input, prefix)
 
 		console.log(prefix + 'start writing')
+	        if (options.rootsonly) {
+	           let rootsonly = output.reduce(function(acc, elem) {
+			   if (elem.sameAs.urlref === undefined) {
+				   acc.push(elem.sameAs)
+			   } else {
+				   acc.push(elem.sameAs.urlref)
+			   }
+			   return acc
+		   }, [])
+		    jsonfile.writeFile(output_filename, rootsonly, function (err) {
+		      if (err) {
+			process.exitCode = 1
+			console.error(err)
+			throw err
+		      }
+		      console.log(prefix + 'The file has been saved to ' + output_filename )
+		    })
+		} else {
 		    jsonfile.writeFile(output_filename, output, function (err) {
 		      if (err) {
 			process.exitCode = 1
@@ -44,6 +63,7 @@ function render_navigation (input_filename, output_filename, prefix) {
 		      }
 		      console.log(prefix + 'The file has been saved to ' + output_filename )
 		    })
+		}
       })
     .catch(error => { console.error(error); process.exitCode = 1 })
 }
