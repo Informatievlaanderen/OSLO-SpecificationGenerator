@@ -215,6 +215,14 @@ function make_nj_metadata (json, hostname, language, prefix) {
 
   let usednamespaces = getNamespaces(json, prefix)
 
+  const pattern = new RegExp(uridomain)
+  let inDomainNamespaces = usednamespaces.reduce(function(acc, elem) {
+	  if (pattern.test(elem)) {
+		  acc.push(elem)
+	  }
+	  return acc
+  }, [])
+
   let translationObj = json.translation?.find(translation => translation.language === language)
   let autotranslate = false
   if(translationObj !== undefined) {
@@ -248,6 +256,7 @@ function make_nj_metadata (json, hostname, language, prefix) {
     usesVocs: [],
     usesAPs: [],
     namespaces: usednamespaces,
+    inDomainNamespaces: inDomainNamespaces,
     autotranslate: autotranslate,
     primaryLanguage: primaryLanguage,
     hostname: hostname,
