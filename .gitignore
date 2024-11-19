@@ -1,10 +1,6 @@
 **/node_modules
-
-**/lib/**/*.js
-**/test/**/*.js
-**/bin/**/*.js
-**/index.js
 .vscode
 lerna-debug.log
 .eslintcache
 **/data/**
+yarn.lock
