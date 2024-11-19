@@ -3,4 +3,4 @@
 lerna-debug.log
 .eslintcache
 **/data/**
-yarn.lock
+packages/**/yarn.lock
