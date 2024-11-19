@@ -1,7 +1,6 @@
 const fs = require('fs')
 const jsonfile = require('jsonfile')
 const nunjucks = require('nunjucks')
-const ldParser = require('./linkeddataparser3')
 
 const program = require('commander')
 const newLineMd = '  '

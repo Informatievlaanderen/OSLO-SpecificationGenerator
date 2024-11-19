@@ -51,6 +51,7 @@ function writeLinesLinks(data, filename) {
 function lines_links(allFile, alljson) {
   let urnlines = []
 
+	if ( alljson.packages !== undefined ) {
 	let pafter = findLine(allFile,'"packages": [')
 	let purns  = all_urn(alljson.packages)
 	urnlines = purns.reduce(function(acc, elem) {
@@ -58,7 +59,9 @@ function lines_links(allFile, alljson) {
 		acc.push(elem + " = " + line)
 		return acc
 	},urnlines)
+	}
 
+	if ( alljson.classes !== undefined ) {
 	let cafter = findLine(allFile,'"classes": [')
 	let curns = all_urn(alljson.classes)
 	urnlines = curns.reduce(function(acc, elem) {
@@ -66,7 +69,9 @@ function lines_links(allFile, alljson) {
 		acc.push(elem + " = " + line)
 		return acc
 	},urnlines)
+	}
 
+	if ( alljson.attributes !== undefined ) {
 	let aafter = findLine(allFile,'"attributes": [')
 	let aurns = all_urn(alljson.attributes)
 	urnlines = aurns.reduce(function(acc, elem) {
@@ -74,7 +79,9 @@ function lines_links(allFile, alljson) {
 		acc.push(elem + " = " + line)
 		return acc
 	},urnlines)
+        }
 
+	if ( alljson.referencedEntities !== undefined ) {
 	let rafter = findLine(allFile,'"referencedEntities": [')
 	let rurns = all_urn(alljson.referencedEntities)
 	urnlines = rurns.reduce(function(acc, elem) {
@@ -82,7 +89,9 @@ function lines_links(allFile, alljson) {
 		acc.push(elem + " = " + line)
 		return acc
 	},urnlines)
+	}
 
+	if ( alljson.datatypes !== undefined ) {
 	let dafter = findLine(allFile,'"datatypes": [')
 	let durns = all_urn(alljson.datatypes)
 	urnlines = durns.reduce(function(acc, elem) {
@@ -90,6 +99,7 @@ function lines_links(allFile, alljson) {
 		acc.push(elem + " = " + line)
 		return acc
 	},urnlines)
+	}
  
   return urnlines
 }
