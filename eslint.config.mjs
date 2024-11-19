@@ -1,12 +1,8 @@
-import eslintJs from '@eslint/js';
 import importPlugin from 'eslint-plugin-import';
 import unusedImportsPlugin from 'eslint-plugin-unused-imports';
 import globals from 'globals';
 
 export default [
-  // Use ESLint's default configuration
-  eslintJs.configs.recommended,
-
   {
     // Global settings
     files: ['**/*.js'],

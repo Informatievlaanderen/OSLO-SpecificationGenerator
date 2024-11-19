@@ -1,16 +1,13 @@
 {
+  "private": true,
   "name": "oslo-specification-generator",
-  "version": "1.0.0",
-  "description": "Contains various packages to generate the artefacts needed by the OSLO Toolchain",
+  "version": "0.0.0",
+  "description": "Contains various packages to control the CI/CD pipeline for the OSLO Toolchain",
   "author": {
     "name": "Digitaal Vlaanderen"
   },
-  "license": "MIT",
-  "keywords": [
-    "semantic",
-    "web",
-    "open",
-    "standards"
+  "workspaces": [
+    "packages/*"
   ],
   "homepage": "https://github.com/informatievlaanderen/OSLO-SpecificationGenerator#readme",
   "repository": {
@@ -19,15 +16,6 @@
   },
   "bugs": {
     "url": "https://github.com/informatievlaanderen/OSLO-SpecificationGenerator/issues"
-  },
-  "private": true,
-  "prettier": {
-    "semi": true,
-    "trailingComma": "all",
-    "singleQuote": true,
-    "printWidth": 110,
-    "arrowParens": "avoid",
-    "jsxSingleQuote": true
   },
   "scripts": {
     "build": "lerna run build",

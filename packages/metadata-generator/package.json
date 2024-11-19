@@ -5,12 +5,6 @@
   "license": "MIT",
   "author": "Kristof Vandenbroucke <kristof.vandenbrouck@gmail.com>",
   "type": "module",
-  "keywords": [
-    "OSLO",
-    "Toolchain",
-    "OSLO-toolchain",
-    "Semantic Web"
-  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Informatievlaanderen/OSLO-SpecificationGenerator.git"
