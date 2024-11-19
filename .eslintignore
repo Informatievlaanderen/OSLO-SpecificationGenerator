@@ -1,5 +1,0 @@
-node_modules/**
-coverage
-**/*.js
-**/*.d.ts
-packages/**/test/files/*

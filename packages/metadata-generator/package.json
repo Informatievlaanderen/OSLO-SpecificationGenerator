@@ -1,0 +1,26 @@
+{
+  "name": "@oslo-flanders/metadata-generator",
+  "version": "0.0.1-alpha.0",
+  "description": "A metedata genertion script specifically to be used by the OSLO-toolchain",
+  "license": "MIT",
+  "author": "Kristof Vandenbroucke <kristof.vandenbrouck@gmail.com>",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Informatievlaanderen/OSLO-SpecificationGenerator.git"
+  },
+  "homepage": "https://github.com/informatievlaanderen/OSLO-SpecificationGenerator/tree/main/packages/metadata-generator#readme",
+  "bugs": {
+    "url": "https://github.com/Informatievlaanderen/OSLO-SpecificationGenerator/issues"
+  },
+  "main": "lib/metadata-generator.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "files": [
+    "lib"
+  ],
+  "dependencies": {
+    "jsonfile": "^6.1.0"
+  }
+}
