@@ -1,6 +1,6 @@
 {
   "name": "@oslo-flanders/metadata-generator",
-  "version": "0.0.2-alpha.0",
+  "version": "0.0.9-alpha.0",
   "description": "A metedata genertion script specifically to be used by the OSLO-toolchain",
   "license": "MIT",
   "author": "Kristof Vandenbroucke <kristof.vandenbrouck@gmail.com>",
@@ -18,9 +18,14 @@
     "lib": "lib"
   },
   "files": [
-    "lib"
+    "lib/**/*.js"
   ],
+  "bin": {
+    "metadata-generator": "./lib/metadata-generator.js"
+  },
   "dependencies": {
+    "commander": "^12.1.0",
     "jsonfile": "^6.1.0"
-  }
+  },
+  "gitHead": "47fe0b1e1a0e18b89067d4435fe3ef31df621004"
 }

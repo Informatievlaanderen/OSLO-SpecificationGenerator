@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { Command } from 'commander';
 import jsonfile from 'jsonfile';
 
@@ -6,7 +8,12 @@ const newLineMd = '  ';
 // Mapping language codes to language names (per language)
 const languageNames = {
   en: { en: 'English', nl: 'Engels', fr: 'Anglais', de: 'Englisch' },
-  nl: { en: 'Dutch', nl: 'Nederlands', fr: 'Néerlandais', de: 'Niederländisch' },
+  nl: {
+    en: 'Dutch',
+    nl: 'Nederlands',
+    fr: 'Néerlandais',
+    de: 'Niederländisch',
+  },
   fr: { en: 'French', nl: 'Frans', fr: 'Français', de: 'Französisch' },
   de: { en: 'German', nl: 'Duits', fr: 'Allemand', de: 'Deutsch' },
 };
@@ -20,8 +27,14 @@ program
     '-h, --hostname <hostname>',
     'the public hostname/domain on which the html is published. The hostname in the input file takes precedence.',
   )
-  .option('-r, --documentpath <path>', 'the document path on which the html is published')
-  .option('-m, --mainlanguage <languagecode>', 'the language to display (a languagecode string)')
+  .option(
+    '-r, --documentpath <path>',
+    'the document path on which the html is published',
+  )
+  .option(
+    '-m, --mainlanguage <languagecode>',
+    'the language to display (a languagecode string)',
+  )
   .option(
     '-g, --primarylanguage <languagecode>',
     'the primary language of the publication environment (a languagecode string)',
@@ -44,11 +57,21 @@ program.on('--help', () => {
 program.parse(process.argv);
 const options = program.opts();
 
-render_metadata(options.input, options.output, options.mainlanguage, options.prefix);
+render_metadata(
+  options.input,
+  options.output,
+  options.mainlanguage,
+  options.prefix,
+);
 
 console.log(options.prefix + 'done' + newLineMd);
 
-async function render_metadata(input_filename, output_filename, language, prefix) {
+async function render_metadata(
+  input_filename,
+  output_filename,
+  language,
+  prefix,
+) {
   console.log(prefix + 'start reading' + newLineMd);
   try {
     const input = await jsonfile.readFile(input_filename);
@@ -75,16 +98,28 @@ function getNamespaces(data, prefix) {
   const referencedEntities = data.referencedEntities;
 
   if (classes) {
-    namespaces = classes.reduce((acc, elem) => pushNamespace(elem.assignedURI, acc), namespaces);
+    namespaces = classes.reduce(
+      (acc, elem) => pushNamespace(elem.assignedURI, acc),
+      namespaces,
+    );
   }
   if (attributes) {
-    namespaces = attributes.reduce((acc, elem) => pushNamespace(elem.assignedURI, acc), namespaces);
+    namespaces = attributes.reduce(
+      (acc, elem) => pushNamespace(elem.assignedURI, acc),
+      namespaces,
+    );
   }
   if (datatypes) {
-    namespaces = datatypes.reduce((acc, elem) => pushNamespace(elem.assignedURI, acc), namespaces);
+    namespaces = datatypes.reduce(
+      (acc, elem) => pushNamespace(elem.assignedURI, acc),
+      namespaces,
+    );
   }
   if (referencedEntities) {
-    namespaces = referencedEntities.reduce((acc, elem) => pushNamespace(elem.assignedURI, acc), namespaces);
+    namespaces = referencedEntities.reduce(
+      (acc, elem) => pushNamespace(elem.assignedURI, acc),
+      namespaces,
+    );
   }
 
   console.log(prefix + 'Finished' + newLineMd);
@@ -97,7 +132,10 @@ function pushNamespace(uri, namespaces) {
     const lastPart = uri.substring(lastIndex);
     if (!lastPart.includes('#') && uri.substring(0, lastIndex).length > 7) {
       namespaces = push(namespaces, uri.substring(0, lastIndex));
-    } else if (!lastPart.includes('#') && uri.substring(0, lastIndex).length <= 7) {
+    } else if (
+      !lastPart.includes('#') &&
+      uri.substring(0, lastIndex).length <= 7
+    ) {
       namespaces = push(namespaces, uri);
     } else {
       const lastHash = uri.lastIndexOf('#');
@@ -160,7 +198,8 @@ function make_nj_metadata(json, hostname, language, prefix) {
       docstatuslabel = 'Onbekend';
   }
   if (!json.license) {
-    json.license = 'https://data.vlaanderen.be/id/licentie/modellicentie-gratis-hergebruik/v1.0';
+    json.license =
+      'https://data.vlaanderen.be/id/licentie/modellicentie-gratis-hergebruik/v1.0';
   }
 
   let documentconfig = {};
@@ -195,7 +234,7 @@ function make_nj_metadata(json, hostname, language, prefix) {
     }, []);
   }
 
-  const translationObj = json.translation?.find(translation => translation.language === language);
+  const translationObj = json.translation?.find((translation) => translation.language === language);
   const autotranslate = translationObj?.autotranslate || false;
 
   let primaryLanguage = options.primarylanguage;
@@ -218,7 +257,8 @@ function make_nj_metadata(json, hostname, language, prefix) {
     statuslabel: docstatuslabel,
     documentroot: options.documentpath,
     repositoryurl: json.repository + '/tree/' + json.documentcommit,
-    changelogurl: json.repository + '/blob/' + json.documentcommit + '/CHANGELOG',
+    changelogurl:
+      json.repository + '/blob/' + json.documentcommit + '/CHANGELOG',
     feedbackurl: json.feedbackurl,
     standaardregisterurl: json.standaardregisterurl,
     dependencies: json.dependencies,
