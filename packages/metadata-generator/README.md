@@ -21,14 +21,14 @@ npm install -g @oslo-flanders/metadata-generator
 The service is executed from the CLI and expects the following parameters:
 | Parameter | Description | Required | Possible values |
 | --------- | --------- | ----------- | --------------- |
-| `--hostname` | The public hostname/domain on which the HTML is published. The hostname in the input file takes precedence. | No ||
-| `--documentpath` | The document path on which the HTML is published | No ||
-| `--mainlanguage` | The language to display (a language code string) | No ||
-| `--primarylanguage` | The primary language of the publication environment (a language code string) | No ||
-| `--uridomain` | The domain of the URIs that should be excluded from this vocabulary | No ||
-| `--input` | Input file | :heavy_check_mark: ||
-| `--output` | Output file (the metadata file) | :heavy_check_mark: ||
-| `--prefix` | Prefix for the logging | No ||
+| `--hostname`, `-h` | The public hostname/domain on which the HTML is published. The hostname in the input file takes precedence. | :heavy_check_mark: ||
+| `--documentpath`, `-r` | The document path on which the HTML is published | :heavy_check_mark: ||
+| `--mainlanguage`, `-m` | The language to display (a language code string) | :heavy_check_mark: ||
+| `--primarylanguage`, `-g` | The primary language of the publication environment (a language code string) | :heavy_check_mark: ||
+| `--uridomain`, `-u` | The domain of the URIs that should be excluded from this vocabulary | :heavy_check_mark: ||
+| `--input`, `-i` | Input file | :heavy_check_mark: ||
+| `--output`, `-o` | Output file (the metadata file) | :heavy_check_mark: ||
+| `--prefix`, `-p` | Prefix for the logging | No ||
 
 ## Usage
 
