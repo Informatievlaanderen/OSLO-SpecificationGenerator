@@ -1,6 +1,6 @@
 {
   "name": "@oslo-flanders/metadata-generator",
-  "version": "0.0.9-alpha.0",
+  "version": "0.0.10-alpha.0",
   "description": "A metedata genertion script specifically to be used by the OSLO-toolchain",
   "license": "MIT",
   "author": "Kristof Vandenbroucke <kristof.vandenbrouck@gmail.com>",
