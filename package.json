@@ -18,8 +18,6 @@
     "url": "https://github.com/informatievlaanderen/OSLO-SpecificationGenerator/issues"
   },
   "scripts": {
-    "build": "lerna run build",
-    "build:changed": "lerna run build --since HEAD",
     "clean": "rm -rf ./node_modules && rm -rf ./packages/*/node_modules",
     "eslint": "eslint .",
     "eslint:cache": "eslint . --cache",
