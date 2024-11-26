@@ -40,6 +40,13 @@ To publish a new version of a package, you can use the following command:
 lerna publish
 ```
 
+Or if you want to publish a new version of a specific package:
+
+```bash
+cd packages/<package-name>
+npm publish --access public
+```
+
 ## Copyright
 
 This code is copyrighted by [Digitaal Vlaanderen](https://www.vlaanderen.be/digitaal-vlaanderen) and released under the [MIT license](./LICENSE)
