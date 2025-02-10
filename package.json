@@ -36,7 +36,7 @@
     "lint": "./node_modules/.bin/eslint .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Bert Van Nuffelen <bert.van.nuffelen@tenforce.com>",
+  "author": "Bert Van Nuffelen <bert.vannuffelen@vlaanderen.be>",
   "repository": "/specgenerator-js",
   "license": "Apache-2.0"
 }
