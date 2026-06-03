@@ -1,12 +1,15 @@
 build:
 	docker build -f Dockerfile.circleci -t cls .
 
+build-linux:
+	docker build --platform=linux/amd64 -f Dockerfile.circleci -t cls .
+
 run: 
 	docker run --network host --rm -it --name clst -v $(CURDIR):/data cls bash
 
 publish:
-	docker build -f Dockerfile.circleci -t informatievlaanderen/oslo-specification-generator:multilingual-dev4.0.1 .
-	docker push informatievlaanderen/oslo-specification-generator:multilingual-dev4.0.1
+	docker build -f Dockerfile.circleci -t terraformtestcontainerregistry.azurecr.io/oslo2/oslo-specification-generator:multilingual-dev4.0.2 .
+	docker push terraformtestcontainerregistry.azurecr.io/oslo2/oslo-specification-generator:multilingual-dev4.0.2
 
 
 style:
