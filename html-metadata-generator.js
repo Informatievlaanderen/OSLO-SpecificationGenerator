@@ -289,8 +289,7 @@ function make_nj_metadata(json, hostname, language, prefix) {
   }
 
   let availableLanguages = [];
-  const availableLanguagesValue =
-    options.availablelanguages ?? options.availableLanguages;
+  const availableLanguagesValue = options.availableLanguages;
 
   if (availableLanguagesValue !== undefined) {
     availableLanguages = String(availableLanguagesValue)
@@ -334,7 +333,6 @@ function make_nj_metadata(json, hostname, language, prefix) {
     inDomainNamespaces: inDomainNamespaces,
     autotranslate: autotranslate,
     primaryLanguage: primaryLanguage,
-    availablelanguages: availableLanguages,
     hostname: hostname,
     uridomain: options.uridomain,
   };
