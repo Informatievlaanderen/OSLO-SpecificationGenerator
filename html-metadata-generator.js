@@ -19,7 +19,7 @@ const languageNames = {
 };
 
 program
-  .version("1.0.0")
+  .version("1.1.0")
   .usage(
     "node html-metadata-generator.js extracts metadata for the html pages in  a chosen language",
   )
@@ -38,6 +38,10 @@ program
   .option(
     "-g, --primarylanguage <languagecode>",
     "the primary language of the publication environment (a languagecode string)",
+  )
+  .option(
+    "-l, --availablelanguages <languagecodes>",
+    "comma-separated list of available languages for which this metadata can be reused",
   )
   .option(
     "-u, --uridomain <uridomain>",
@@ -212,6 +216,15 @@ function make_nj_metadata(json, hostname, language, prefix) {
     case "https://data.vlaanderen.be/id/concept/StandaardStatus/KandidaatStandaard":
       docstatuslabel = "Kandidaat Standaard";
       break;
+    case "https://data.vlaanderen.be/id/concept/StandaardStatus/VervangenStandaard":
+      docstatuslabel = "Vervangen Standaard";
+      break;
+    case "https://data.vlaanderen.be/id/concept/StandaardStatus/VerouderdeStandaard":
+      docstatuslabel = "Verouderde Standaard";
+      break;
+    case "https://data.vlaanderen.be/id/concept/StandaardStatus/ZonderStatus":
+      docstatuslabel = "Zonder Status";
+      break;
     case "https://data.vlaanderen.be/id/concept/StandaardStatus/NotaWerkgroep":
       docstatuslabel = "Nota Werkgroep";
       break;
@@ -275,6 +288,25 @@ function make_nj_metadata(json, hostname, language, prefix) {
     primaryLanguage = languageNames[primaryLanguage][language];
   }
 
+  let availableLanguages = [];
+  const availableLanguagesValue =
+    options.availablelanguages ?? options.availableLanguages;
+
+  if (availableLanguagesValue !== undefined) {
+    availableLanguages = String(availableLanguagesValue)
+      .split(",")
+      .map((value) => value.trim())
+      .filter((value) => value !== "");
+  } else if (json.translation && Array.isArray(json.translation)) {
+    availableLanguages = json.translation
+      .map((translation) => translation.language)
+      .filter((translationLanguage) => translationLanguage !== undefined);
+  }
+
+  if (availableLanguages.length === 0 && language !== undefined) {
+    availableLanguages = [language];
+  }
+
   const meta = {
     title: titel,
     uri: json["@id"],
@@ -302,6 +334,7 @@ function make_nj_metadata(json, hostname, language, prefix) {
     inDomainNamespaces: inDomainNamespaces,
     autotranslate: autotranslate,
     primaryLanguage: primaryLanguage,
+    availablelanguages: availableLanguages,
     hostname: hostname,
     uridomain: options.uridomain,
   };
